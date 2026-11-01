@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#8a6410">
-<title>Portal Asesmen — PT Merdeka Gold Resources Tbk</title>
+<meta name="theme-color" content="#523214">
+<title>Portal Asesmen L&amp;D — PT Merdeka Gold Resources Tbk</title>
+<link rel="icon" type="image/png" href="./Logo-MGR-Long-default.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..600,0..1,0&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f4f0;--sf:#ffffff;--sf2:#eeece6;--ink:#181612;--mut:#666055;--ln:#ddd8ce;--p:#7c5a10;--p2:#9a7218;--pt:#ffffff;--pf:#f4ecda;--ok:#186a3b;--okb:#e3f3ea;--er:#a62319;--erb:#fbe7e5;--wa:#8a5000;--wab:#fdf0d5;--sh:0 1px 2px rgba(24,22,18,.05)}
-@media(prefers-color-scheme:dark){:root{--bg:#12110e;--sf:#1b1915;--sf2:#25221c;--ink:#f0ece1;--mut:#a39b8b;--ln:#332e25;--p:#d4a94e;--p2:#b88d32;--pt:#18140a;--pf:#302714;--ok:#58c987;--okb:#132b1e;--er:#f58f86;--erb:#361816;--wa:#ebb349;--wab:#33250a;--sh:0 1px 2px #0008}}
+:root{--bg:#f6f3ec;--sf:#ffffff;--sf2:#efeae0;--ink:#23160a;--mut:#6b5b49;--ln:#dfd6c5;--p:#92701d;--p2:#785b15;--gold:#bd9a56;--leaf:#d6ad60;--br:#523214;--pt:#ffffff;--pf:#f6edd8;--ok:#186a3b;--okb:#e3f3ea;--er:#a62319;--erb:#fbe7e5;--wa:#8a5000;--wab:#fdf0d5;--sh:0 1px 3px rgba(82,50,20,.06)}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html{font-size:16px}
 body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);height:100dvh;display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top);-webkit-font-smoothing:antialiased}
@@ -19,17 +19,23 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 input,select{font:inherit;color:inherit}
 .lbl{display:block;font-size:12px;font-weight:600;color:var(--mut);margin-bottom:4px}
-header{flex:none;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--sf);border-bottom:1px solid var(--ln)}
-.logo{width:32px;height:32px;border-radius:6px;background:var(--p);color:var(--pt);display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:.02em}
-.brand{flex:1;min-width:0;line-height:1.25}.brand b{font-size:13.5px;font-weight:700;display:block}.brand small{font-size:11px;color:var(--mut)}
+header{flex:none;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--sf);border-bottom:2px solid var(--gold)}
+.logo-img{height:30px;width:auto;max-width:155px;object-fit:contain;display:block;flex:none}
+.h-div{width:1px;height:24px;background:var(--ln);flex:none}
+.login-brand{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--ln)}
+.login-logo{height:44px;width:auto;max-width:230px;object-fit:contain;display:block}
+.cert-logo{height:38px;width:auto;max-width:200px;object-fit:contain;display:block;margin:0 auto 10px}
+.brand{flex:1;min-width:0;line-height:1.25}.brand b{font-size:13px;font-weight:700;color:var(--br);display:block}.brand small{font-size:11px;color:var(--mut)}
 .pill{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);font-size:12px;font-weight:600;max-width:160px}
 .pill span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--wa);flex:none}.dot.ok{background:var(--ok)}.dot.er{background:var(--er)}
 main{flex:1;min-height:0;overflow-y:auto;padding:16px 16px calc(80px + env(safe-area-inset-bottom));max-width:860px;width:100%;margin:0 auto}
 .view{display:none;flex-direction:column;gap:12px}.view.on{display:flex}
 .card{background:var(--sf);border:1px solid var(--ln);border-radius:8px;padding:16px;box-shadow:var(--sh)}
-.hero{background:#1c1914;color:#f5f2eb;border:1px solid #302b22}
-.hero .mut{color:#a89f8d}
+.hero{background:linear-gradient(135deg,#fffdfa 0%,#f7efe0 60%,#f1e2c5 100%);color:var(--ink);border:1px solid #d8c398;border-top:3px solid var(--p);box-shadow:0 4px 14px rgba(146,112,29,.1)}
+.hero h1{color:var(--br);font-size:18.5px;font-weight:800}
+.hero .mut{color:#6d5841;font-weight:500}
+.hero-co{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--p);letter-spacing:.02em;margin-bottom:2px}
 h1{font-size:18px;font-weight:700;line-height:1.3;letter-spacing:-.01em}h2{font-size:13.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
 .card h2{text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink)}
 .mut{color:var(--mut);font-size:13px}.sm{font-size:12px}
@@ -42,11 +48,11 @@ h1{font-size:18px;font-weight:700;line-height:1.3;letter-spacing:-.01em}h2{font-
 .chip.ok{background:var(--okb);color:var(--ok)}.chip.er{background:var(--erb);color:var(--er)}.chip.wa{background:var(--wab);color:var(--wa)}.chip.gy{background:rgba(120,116,108,.16);color:var(--mut)}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .kpi{background:var(--sf2);border:1px solid var(--ln);border-radius:6px;padding:10px 8px;text-align:left}
-.hero .kpi{background:#26221b;border-color:#383227}.kpi b{display:block;font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}.kpi small{font-size:11px;color:var(--mut)}.hero .kpi small{color:#a89f8d}
+.hero .kpi{background:rgba(255,255,255,.88);border:1px solid #decb9f;box-shadow:0 1px 3px rgba(82,50,20,.05)}.kpi b{display:block;font-size:17.5px;font-weight:800;color:var(--br);font-variant-numeric:tabular-nums}.kpi small{font-size:11px;font-weight:600;color:var(--mut)}.hero .kpi small{color:#755f46}
 .item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:8px;background:var(--sf);border:1px solid var(--ln)}
 .item.dim{background:rgba(128,124,116,.12);border-color:rgba(128,124,116,.25);opacity:.62}
 .item.act{border-color:var(--p)}
-.ava{width:44px;height:44px;border-radius:6px;background:#2c271e;border:1px solid #3d362a;color:#e0c37e;display:grid;place-items:center;flex:none;overflow:hidden}
+.ava{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,var(--p) 0%,var(--gold) 100%);border:1px solid #7c5d14;color:#ffffff;box-shadow:0 2px 6px rgba(146,112,29,.22);display:grid;place-items:center;flex:none;overflow:hidden}
 .inp{width:100%;height:42px;border-radius:6px;border:1px solid var(--ln);background:var(--sf);padding:0 12px;font-size:14.5px;outline:0}.inp:focus{border-color:var(--p)}
 .sdd{position:relative;width:100%}.sdd .inp{padding-right:38px}
 .sdd-b{position:absolute;right:4px;top:4px;width:34px;height:34px;border-radius:4px;display:grid;place-items:center;color:var(--mut)}.sdd-b:hover{background:var(--sf2);color:var(--ink)}
@@ -89,11 +95,11 @@ ul.rules b{color:var(--ink)}
 </style>
 </head>
 <body class="nonav">
-<header><div class="logo">M</div><div class="brand"><b>Portal Asesmen L&amp;D</b><small>PT Merdeka Gold Resources Tbk</small></div>
+<header><img class="logo-img" src="./Logo-MGR-Long-default.png" alt="Merdeka Gold Resources"><span class="h-div"></span><div class="brand"><b class="ell">Portal Asesmen L&amp;D</b><small class="ell">Learning &amp; Development</small></div>
 <button class="pill" data-a="sync" aria-label="Sinkronisasi"><span class="dot" id="sd"></span><span id="un">Masuk</span></button></header>
 
 <main id="main">
-<section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:5vh auto 0"><div><div class="row" style="margin-bottom:12px"><div class="logo">M</div><div class="brand"><b>PT Merdeka Gold Resources Tbk</b><small>Learning &amp; Development Assessment</small></div></div><h1>Masuk Portal Asesmen</h1><p class="mut sm" style="margin-top:2px">Masukkan NIK, ID Karyawan, atau nama Anda.</p></div>
+<section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div><div class="login-brand"><img class="login-logo" src="./Logo-MGR-Long-default.png" alt="PT Merdeka Gold Resources Tbk"><span class="chip">LEARNING &amp; DEVELOPMENT PORTAL</span></div><h1>Masuk Portal Asesmen</h1><p class="mut sm" style="margin-top:2px">Masukkan NIK, ID Karyawan, atau nama Anda.</p></div>
 <form id="lf" style="margin-top:14px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" autocomplete="off" autocapitalize="characters" placeholder="Masukkan NIK, ID Karyawan, atau Nama" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg">Belum Terdaftar? Masuk sebagai Peserta Baru</button></form>
 <div id="lreg" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);flex-direction:column;gap:10px">
   <div><h2>Data Peserta Baru</h2><p class="mut sm" style="margin-top:2px">Lengkapi data berikut untuk masuk ke Beranda dan mengikuti asesmen.</p></div>
@@ -459,7 +465,7 @@ function rHome(){
     };
   }).sort((a,b)=>a.d-b.d);
   const rs=S.ex?`<div class="card" style="border-color:var(--p);background:var(--pf)"><div class="row sp"><div class="g"><b>Ujian sedang berlangsung</b><p class="mut sm ell">${e(S.ex.ses.Nama_Modul)} • sisa waktu ${fmt(left())}</p></div><button class="btn p s" data-a="go" data-v="exam">Lanjutkan</button></div></div>`:'';
-  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><p class="mut sm">${e(co||'Peserta Asesmen')}</p><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,co,em.Departemen||'-'].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:14px">${kp([p.done.length+'/'+p.m.length,'Selesai'],[p.pct+'%','Kompetensi'],[p.avg,'Rata-rata'],[p.cert,'Sertifikat'])}</div></div>${rs}
+  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta Asesmen')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:14px">${kp([p.done.length+'/'+p.m.length,'Selesai'],[p.pct+'%','Kompetensi'],[p.avg,'Rata-rata'],[p.cert,'Sertifikat'])}</div></div>${rs}
   <div class="row sp" style="margin-top:4px"><h2>Jadwal Asesmen (H-2 s/d H+3)</h2><button class="btn s" data-a="go" data-v="modules">Semua Modul (${S.modul.length})</button></div>
   ${items.length?items.map(x=>`<div class="item ${x.dim?'dim':'act'}"><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:4px"><span class="chip ${x.stCl}">${e(x.stLb)}</span><span class="chip ${x.dayCl}">${e(x.dayLb)}</span>${x.dn?`<span class="chip ok">Selesai</span>`:''}<span class="mut sm">${e(x.id)}</span></div><b class="ell" style="display:block;font-size:14px">${e(x.title)}</b><span class="mut sm" style="display:block;margin-top:2px">${e(x.sub)}</span></div><button class="btn ${!x.dim&&!x.dn?'p':''} s" data-a="pin" data-v="${e(x.id)}">${x.dn?'Ulang':'Mulai'}</button></div>`).join(''):`<div class="card mut sm">Tidak ada asesmen terjadwal dalam rentang H-2 s/d H+3.</div>`}
   <div class="card"><h2>Prosedur Pelaksanaan</h2><ul class="rules" style="margin-top:8px"><li>Pilih modul atau sesi ujian lalu masukkan <b>Kode PIN</b> dari Trainer sesi.</li><li>Periksa rincian durasi dan nilai kelulusan pada halaman briefing sebelum memulai.</li><li>Jawaban tersimpan otomatis di perangkat; kirim jawaban sebelum batas waktu berakhir.</li></ul></div>
@@ -678,14 +684,14 @@ function showResult(r,ses){
 /* ---------- profile ---------- */
 function rProfile(){
   const p=pd(),em=S.emp,co=empCo(em),m=p.m.filter(x=>S.mf==='all'||(S.mf==='done')===(up(x.Status)==='DONE'));
-  $('#v-profile').innerHTML=`<div class="card"><div class="row"><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(em.Status_Level||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:6px">${e(em.Nama_Lengkap)}</h1><p class="mut sm">${e([key(em),co,em.Departemen||'-',em.Jabatan||'-'].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length,'Selesai'],[p.pct+'%','Kompetensi'],[p.avg,'Rata-rata'],[p.cert,'Sertifikat'])}</div></div>
+  $('#v-profile').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(em.Status_Level||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:4px">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([key(em),em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length,'Selesai'],[p.pct+'%','Kompetensi'],[p.avg,'Rata-rata'],[p.cert,'Sertifikat'])}</div></div>
   <div class="tabs"><button class="${S.pt==='mat'?'on':''}" data-a="pt" data-v="mat">Matriks Kompetensi</button><button class="${S.pt==='his'?'on':''}" data-a="pt" data-v="his">Riwayat Asesmen</button></div>
   ${S.pt==='mat'?`<div class="tabs">${[['all','Semua'],['done','Selesai'],['no','Belum Selesai']].map(([k,l])=>`<button class="${S.mf===k?'on':''}" data-a="mf" data-v="${k}">${l}</button>`).join('')}</div>`+m.map(x=>{const d=up(x.Status)==='DONE',td=hasToday(x.ID_Modul);return`<div class="item"><div class="g"><span class="chip ${d?'ok':'wa'}">${d?'DONE':'NOT YET'}</span> <span class="mut sm">${e(x.Kode_Kompetensi||x.ID_Modul)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(x.Nama_Kompetensi)}</b>${d?`<span class="mut sm">Skor ${e(x.Skor||'-')} • ${e(x.Tgl_Selesai||'-')}</span>`:''}</div>${d?`<button class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}">Sertifikat</button>`:td?`<button class="btn p s" data-a="pin" data-v="${e(x.ID_Modul)}">Mulai</button>`:''}</div>`}).join('')||'<p class="mut sm">Tidak ada data.</p>'
   :S.his.slice().reverse().map(h=>{const ok=up(h.Status_Lulus)==='LULUS';return`<div class="item"><div class="g"><span class="chip ${ok?'ok':'er'}">${e(h.Status_Lulus)}</span> <span class="mut sm">${e(String(h.Timestamp_Submit).split(' ')[0])} • PIN ${e(h.Kode_PIN)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(h.Nama_Modul_Sertifikat||h.ID_Modul)}</b><span class="mut sm">Skor ${e(h.Skor_Akhir)}</span></div>${ok?`<button class="btn s" data-a="cert" data-v="${e(h.No_Sertifikat)}|${e(h.Nama_Modul_Sertifikat)}|${e(h.Skor_Akhir)}|${e(String(h.Timestamp_Submit).split(' ')[0])}">Sertifikat</button>`:''}</div>`}).join('')||'<p class="mut sm">Belum ada riwayat asesmen.</p>'}`;
 }
 function cert(v){
   const [no,mod,sc,dt]=v.split('|'),em=S.emp,co=empCo(em);
-  $('#ce').innerHTML=`<span class="chip">${mi('workspace_premium')} E-SERTIFIKAT KOMPETENSI</span><p class="mut sm" style="margin-top:10px;letter-spacing:.12em">${e(up(co||'PT MERDEKA GOLD RESOURCES TBK'))}</p><p class="mut" style="margin-top:14px">Diberikan kepada</p><h1 style="font-size:24px">${e(em.Nama_Lengkap)}</h1><p class="mut sm">${e([key(em),co,em.Departemen||''].filter(Boolean).join(' • '))}</p><div class="card" style="margin:14px 0;background:var(--pf)"><b style="color:var(--p)">${e(mod)}</b><p class="sm mut">Skor ${e(sc)} • ${e(dt)}</p></div><p class="sm" style="font-family:monospace">${e(no)}</p>`;
+  $('#ce').innerHTML=`<img class="cert-logo" src="./Logo-MGR-Long-default.png" alt="Merdeka Gold Resources"><div><span class="chip">${mi('workspace_premium')} E-SERTIFIKAT KOMPETENSI</span></div><p class="mut sm" style="margin-top:8px;letter-spacing:.1em">${e(up(co||'PT MERDEKA GOLD RESOURCES TBK'))}</p><p class="mut" style="margin-top:12px">Diberikan kepada</p><h1 style="font-size:24px;color:var(--br)">${e(em.Nama_Lengkap)}</h1><p class="mut sm">${e([key(em),co,em.Departemen||''].filter(Boolean).join(' • '))}</p><div class="card" style="margin:14px 0;background:var(--pf);border-color:var(--gold)"><b style="color:var(--p)">${e(mod)}</b><p class="sm mut">Skor ${e(sc)} • ${e(dt)}</p></div><p class="sm" style="font-family:monospace">${e(no)}</p>`;
   $('#o-cert').classList.add('on');
 }
 
