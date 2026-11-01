@@ -148,15 +148,15 @@ ul.rules b{color:var(--ink)}
 
 <main id="main">
 <section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div class="login-brand"><img class="login-logo" data-logo alt="PT Merdeka Gold Resources Tbk"></div><h1>Masuk Portal Asesmen</h1>
-<form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" autocomplete="off" autocapitalize="characters" placeholder="NIK, ID Karyawan, atau Nama" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg">Peserta Baru (Belum Terdaftar)</button></form>
+<form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="NIK, ID Karyawan, atau Nama" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg">Peserta Baru (Belum Terdaftar)</button></form>
 <div id="lreg" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);flex-direction:column;gap:10px">
   <h2>Data Peserta Baru</h2>
-  <div><label class="lbl" for="rg-id">ID Karyawan / NIK</label><input class="inp" id="rg-id" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK"></div>
-  <div><label class="lbl" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" autocomplete="off" placeholder="Nama lengkap"></div>
-  <div><label class="lbl" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
+  <div><label class="lbl" for="rg-id">ID Karyawan / NIK</label><input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK"></div>
+  <div><label class="lbl" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap"></div>
+  <div><label class="lbl" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
   <div class="row m-col" style="gap:10px;align-items:flex-start">
-    <div class="g" style="width:100%"><label class="lbl" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
-    <div class="g" style="width:100%"><label class="lbl" for="rg-jb">Jabatan</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" autocomplete="off" placeholder="Pilih / cari Jabatan…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
+    <div class="g" style="width:100%"><label class="lbl" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
+    <div class="g" style="width:100%"><label class="lbl" for="rg-jb">Jabatan</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Jabatan…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
   </div>
   <div class="err" id="re-reg"></div>
   <button type="button" class="btn p w" id="rb" data-a="reg">Daftar &amp; Masuk</button>
@@ -195,6 +195,8 @@ document.querySelectorAll('[data-logo]').forEach(el=>el.src=LOGO_URI);
 const CFG={URL:"https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec",PIN:"Jadwal_PIN",SOAL:"Bank_Soal",TRAINER:"List_Trainer",HASIL:"Hasil_Asesmen",NEW_REG:"New_Register",COMPANY:"Company",DEPT:"Departement",JABATAN:"Jabatan",SIM:"Jenis_Simulator",HASIL_SIM:"Hasil_Simulator"};
 const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
+const stripKunci=a=>(a||[]).map(q=>{const c={...q};delete c.Kunci;return c});
 const key=o=>String(o?.NIK||o?.ID_Karyawan||o?.Username||'').trim(),up=s=>String(s||'').trim().toUpperCase();
 const empCo=o=>String(o?.Nama_Company||o?.Company||o?.Perusahaan||o?.Nama_Perusahaan||'').trim();
 const empDp=o=>String(o?.Departement||o?.Departemen||o?.Nama_Departement||o?.Nama_Departemen||'').trim();
@@ -259,7 +261,7 @@ async function flushPending(){
 addEventListener('DOMContentLoaded',async()=>{
   document.fonts.ready.then(()=>document.body.classList.add('fr'));
   try{S.ex=JSON.parse(localStorage.getItem('mgr_exam')||'null')}catch{}
-  try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:c.bank||[],trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim)})}}catch{}
+  try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:stripKunci(c.bank),trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim)})}}catch{}
   const n=localStorage.getItem('mgr_nik');
   if(n&&!S.emp)S.emp={ID_Karyawan:n,Nama_Lengkap:n,Departemen:'Memuat data…'};
   if(S.emp){$('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];go('home')}else go('login');
@@ -326,9 +328,6 @@ async function boot(forceMaster){
     }
     saveCache(true);sync('ok');
     if(['home','sim','modules','profile','login'].includes(S.v))go(S.emp?(S.v==='login'?'home':S.v):'login');
-    if(!S.bank.length||needMaster){
-      g({action:'read_sheet',sheet:CFG.SOAL}).then(b=>{if(b&&b.status==='success'&&Array.isArray(b.data)){S.bank=b.data;saveCache(true)}}).catch(()=>{});
-    }
   }catch{sync('er');if(!S.modul.length)toast('Gagal terhubung ke server. Periksa koneksi.')}
 }
 function getCustomEmp(n){try{const c=JSON.parse(localStorage.getItem('mgr_custom_emp')||'null');return c&&up(key(c))===up(n)?c:null}catch{return null}}
@@ -384,7 +383,7 @@ function openReg(q){
 }
 async function regEmp(){
   $('#re-reg')?.classList.remove('on');$('#le')?.classList.remove('on');
-  const id=($('#rg-id')?.value||'').trim().toUpperCase(),nm=($('#rg-nm')?.value||'').trim(),co=($('#rg-co')?.value||'').trim(),dp=($('#rg-dp')?.value||'').trim(),jb=($('#rg-jb')?.value||'').trim();
+  const id=cleanInp($('#rg-id')?.value,50).toUpperCase(),nm=cleanInp($('#rg-nm')?.value,100),co=cleanInp($('#rg-co')?.value,100),dp=cleanInp($('#rg-dp')?.value,100),jb=cleanInp($('#rg-jb')?.value,100);
   if(!id){showErr('#re-reg','ID Karyawan / NIK wajib diisi.');$('#rg-id')?.focus();return}
   if(!nm){showErr('#re-reg','Nama Lengkap wajib diisi.');$('#rg-nm')?.focus();return}
   if(!co){showErr('#re-reg','Silakan pilih atau isi Nama Company terlebih dahulu.');$('#rg-co')?.focus();return}
@@ -402,7 +401,7 @@ async function regEmp(){
   po(regBody).then(r=>{if(r&&r.status==='success')localStorage.removeItem('mgr_pending_reg')}).catch(()=>{});
   await Promise.all([syncCustomHis(id),syncSimHis(id)]);
   saveCache();
-  if(b){b.disabled=false;b.textContent='Daftar & Masuk Beranda'}
+  if(b){b.disabled=false;b.textContent='Daftar & Masuk'}
   go('home');
 }
 async function login(q,silent){
@@ -530,7 +529,7 @@ function rSim(){
   <div class="card">
     <label class="lbl" for="sim-jn">Jenis Simulator</label>
     <div class="sdd" data-sdd="sim-jn">
-      <input class="inp" id="sim-jn" value="${e(curVal)}" autocomplete="off" placeholder="Pilih / cari Jenis Simulator…">
+      <input class="inp" id="sim-jn" maxlength="100" value="${e(curVal)}" autocomplete="off" placeholder="Pilih / cari Jenis Simulator…">
       <button type="button" class="sdd-b" data-a="sdd" data-v="sim-jn" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button>
       <div class="sdd-m" id="dd-sim-jn"></div>
     </div>
@@ -545,7 +544,7 @@ function rSim(){
 }
 async function subSim(){
   $('#se-sim')?.classList.remove('on');
-  const em=S.emp||{},id=key(em),nm=(em.Nama_Lengkap||id).trim(),jn=($('#sim-jn')?.value||'').trim();
+  const em=S.emp||{},id=cleanInp(key(em),50),nm=cleanInp(em.Nama_Lengkap||id,100),jn=cleanInp($('#sim-jn')?.value,100);
   if(!id||!nm){showErr('#se-sim','Data karyawan tidak ditemukan. Silakan masuk ulang.');return}
   if(!jn){showErr('#se-sim','Silakan pilih Jenis Simulator terlebih dahulu.');$('#sim-jn')?.focus();return}
   const b=$('#bt-sim');if(b){b.disabled=true;b.textContent='Menyimpan ke Hasil_Simulator…'}
@@ -575,7 +574,7 @@ async function subSim(){
 function rModules(){
   const lv=['ALL',...new Set(S.modul.map(m=>m.Tingkat).filter(Boolean))],q=up($('#ms')?.value||'');
   const list=S.modul.filter(m=>(S.lv==='ALL'||m.Tingkat===S.lv)&&(!q||up(m.Nama_Modul+m.ID_Modul).includes(q)));
-  $('#v-modules').innerHTML=`<h1>Katalog Modul</h1><input class="inp" id="ms" placeholder="Cari nama atau kode modul…" value="${e($('#ms')?.value||'')}" oninput="rModules();$('#ms').focus();$('#ms').setSelectionRange(99,99)">
+  $('#v-modules').innerHTML=`<h1>Katalog Modul</h1><input class="inp" id="ms" maxlength="80" placeholder="Cari nama atau kode modul…" value="${e($('#ms')?.value||'')}" oninput="rModules();$('#ms').focus();$('#ms').setSelectionRange(99,99)">
   <div class="tabs">${lv.map(l=>`<button class="${S.lv===l?'on':''}" data-a="lv" data-v="${e(l)}">${l==='ALL'?'Semua':e(l)}</button>`).join('')}</div>
   ${list.map(m=>{const d=isDone(m.ID_Modul),td=hasToday(m.ID_Modul);return`<div class="item"><div class="g"><div class="row" style="gap:6px;margin-bottom:3px"><span class="chip ${d?'ok':''}">${d?'DONE':e(m.Tingkat||'Umum')}</span><span class="mut sm">${e(m.Durasi_Default||'-')} mnt • ${e(m.Jml_Soal_Default||'-')} soal • Lulus ${e(m.Passing_Grade||75)}</span></div><b style="display:block;font-size:14px;line-height:1.35">${e(m.Nama_Modul)}</b></div>${td?`<button class="btn ${d?'':'p'} s" data-a="pin" data-v="${e(m.ID_Modul)}">${d?'Ulang':'Mulai'}</button>`:''}</div>`}).join('')||'<p class="mut sm">Tidak ada modul yang sesuai kriteria.</p>'}`;
 }
@@ -587,7 +586,7 @@ function openPin(id){
   $('#o-pin').classList.add('on');setTimeout(()=>$('#pi').focus(),150);
 }
 async function verify(){
-  const pin=up($('#pi').value),b=$('#pb');if(!pin)return showErr('#pe','Kode PIN wajib diisi.');
+  const pin=cleanInp($('#pi').value,16).toUpperCase(),b=$('#pb');if(!pin)return showErr('#pe','Kode PIN wajib diisi.');
   b.disabled=true;b.textContent='Memeriksa…';$('#pe').classList.remove('on');
   try{
     let list=S.sesi,found=list.find(x=>up(x.Kode_PIN)===pin);
@@ -614,7 +613,7 @@ function brief(){
   <div style="margin-top:12px">${kp([s.Durasi_Menit||m.Durasi_Default||'-','Menit'],[s.Jml_Soal||m.Jml_Soal_Default||'-','Soal'],[m.Passing_Grade||'-','Lulus'],[up(s.Acak_Soal)==='YA'?'Acak':'Urut','Urutan'])}</div></div>
   <div class="card"><h2>Data Pelaksanaan Training</h2>
   <label class="lbl" for="bt-tr" style="margin-top:8px">Nama Trainer</label>
-  <div class="sdd" data-sdd="bt-tr"><input class="inp" id="bt-tr" value="${e(s.Trainer||'')}" autocomplete="off" placeholder="Pilih / cari Trainer…"><button type="button" class="sdd-b" data-a="sdd" data-v="bt-tr" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button><div class="sdd-m" id="dd-bt-tr"></div></div>
+  <div class="sdd" data-sdd="bt-tr"><input class="inp" id="bt-tr" maxlength="100" value="${e(s.Trainer||'')}" autocomplete="off" placeholder="Pilih / cari Trainer…"><button type="button" class="sdd-b" data-a="sdd" data-v="bt-tr" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button><div class="sdd-m" id="dd-bt-tr"></div></div>
   <div class="row m-col" style="align-items:flex-start;gap:10px;margin-top:8px">
     <div class="g" style="width:100%"><label class="lbl" for="bt-jm">Jam Mulai</label><select class="inp" id="bt-jm"><option value="">Pilih jam…</option>${tOpt}</select></div>
     <div class="g" style="width:100%"><label class="lbl" for="bt-js">Jam Selesai</label><select class="inp" id="bt-js"><option value="">Pilih jam…</option>${tOpt}</select></div>
@@ -631,7 +630,7 @@ function brief(){
 }
 async function start(){
   const b=$('#bs');$('#be').classList.remove('on');
-  const tr=($('#bt-tr')?.value||'').trim(),jm=($('#bt-jm')?.value||'').trim(),js=($('#bt-js')?.value||'').trim();
+  const tr=cleanInp($('#bt-tr')?.value,100),jm=cleanInp($('#bt-jm')?.value,10),js=cleanInp($('#bt-js')?.value,10);
   if(!tr){showErr('#be','Silakan pilih Nama Trainer terlebih dahulu.');$('#bt-tr')?.focus();return}
   if(!jm){showErr('#be','Silakan pilih Jam Mulai Training terlebih dahulu.');$('#bt-jm')?.focus();return}
   if(!js){showErr('#be','Silakan pilih Jam Berakhir Training terlebih dahulu.');$('#bt-js')?.focus();return}
@@ -639,16 +638,23 @@ async function start(){
   b.disabled=true;b.textContent='Memuat soal…';
   try{
     const ses=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(ses.ID_Modul))||{};
-    let all=S.bank;
-    if(!all||!all.length){
-      const rs=await g({action:'read_sheet',sheet:CFG.SOAL});
-      if(rs.status!=='success'||!Array.isArray(rs.data))throw new Error('Gagal memuat soal dari '+CFG.SOAL+'.');
-      all=S.bank=rs.data;saveCache();
+    let qs=[];
+    const gq=await g({action:'get_questions',pin:S.pend.pin,id_modul:ses.ID_Modul}).catch(()=>null);
+    if(gq&&gq.status==='success'&&Array.isArray(gq.questions)&&gq.questions.length){
+      qs=stripKunci(gq.questions).map((q,i)=>({...q,No_Tampil:i+1}));
+    }else{
+      let all=S.bank.filter(q=>up(q.ID_Modul)===up(ses.ID_Modul));
+      if(!all.length){
+        const rs=await g({action:'read_sheet',sheet:CFG.SOAL});
+        if(rs.status!=='success'||!Array.isArray(rs.data))throw new Error('Gagal memuat soal dari '+CFG.SOAL+'.');
+        S.bank=stripKunci(rs.data);saveCache();
+        all=S.bank.filter(q=>up(q.ID_Modul)===up(ses.ID_Modul));
+      }
+      let list=all.slice();
+      if(up(ses.Acak_Soal)==='YA'){for(let i=list.length-1;i>0;i--){const k=Math.floor(Math.random()*(i+1));[list[i],list[k]]=[list[k],list[i]]}}
+      const lim=parseInt(ses.Jml_Soal||m.Jml_Soal_Default,10);if(lim>0)list=list.slice(0,lim);
+      qs=stripKunci(list).map((q,i)=>({...q,No_Tampil:i+1}));
     }
-    let list=all.filter(q=>up(q.ID_Modul)===up(ses.ID_Modul));
-    if(up(ses.Acak_Soal)==='YA'){for(let i=list.length-1;i>0;i--){const k=Math.floor(Math.random()*(i+1));[list[i],list[k]]=[list[k],list[i]]}}
-    const lim=parseInt(ses.Jml_Soal||m.Jml_Soal_Default,10);if(lim>0)list=list.slice(0,lim);
-    const qs=list.map((q,i)=>{const c={...q};delete c.Kunci;c.No_Tampil=i+1;return c});
     if(!qs.length)throw new Error('Belum ada soal untuk modul '+ses.ID_Modul+' di Sheet '+CFG.SOAL+'.');
     const dur=parseFloat(ses.Durasi_Menit||m.Durasi_Default)||30;
     const uid='#MGR-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000);
@@ -694,7 +700,7 @@ async function submit(){
   if(b){b.disabled=true;b.textContent='Mengirim…'}
   $('#re')?.classList.remove('on');
   const tr=x.tr||{};
-  const payload={action:'submit_exam',id_ujian:x.uid||'',kode_pin:x.pin,id_karyawan:x.nik,nama_karyawan:S.emp.Nama_Lengkap,company:empCo(S.emp),nama_company:empCo(S.emp),departemen:S.emp.Departemen||'',jabatan:S.emp.Jabatan||'',id_modul:x.ses.ID_Modul,nama_trainer:tr.nama||'',jam_mulai_training:tr.mulai||'',jam_berakhir_training:tr.selesai||'',sisa_waktu:fmt(left()),jawaban:x.ans};
+  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(S.emp.Departemen||'',100),jabatan:cleanInp(S.emp.Jabatan||'',100),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans};
   try{
     const j=await po(payload,3);
     if(j.status!=='success')throw new Error(j.message);
@@ -754,7 +760,7 @@ document.addEventListener('click',ev=>{
 });
 document.addEventListener('focusin',ev=>{const s=ev.target.closest('.sdd');if(s&&ev.target.tagName==='INPUT')renderSdd(s.dataset.sdd,'')});
 document.addEventListener('input',ev=>{const s=ev.target.closest('.sdd');if(s&&ev.target.tagName==='INPUT')renderSdd(s.dataset.sdd,ev.target.value.trim())});
-$('#lf').addEventListener('submit',async ev=>{ev.preventDefault();$('#le').classList.remove('on');const b=$('#lb');b.disabled=true;if(await login($('#li').value.trim()))go('home');b.disabled=false});
+$('#lf').addEventListener('submit',async ev=>{ev.preventDefault();$('#le').classList.remove('on');const b=$('#lb');b.disabled=true;if(await login(cleanInp($('#li').value,80)))go('home');b.disabled=false});
 $('#li').addEventListener('input',rLogin);
 $('#pi').addEventListener('keydown',ev=>ev.key==='Enter'&&verify());
 document.addEventListener('keydown',ev=>{if(S.v!=='exam'||!S.ex||/INPUT/.test(ev.target.tagName))return;const k=ev.key.toUpperCase();if('ABCD'.includes(k)&&k.length===1)ans(k);if(ev.key==='ArrowRight')A.next();if(ev.key==='ArrowLeft'&&S.ex.i)A.prev()});
