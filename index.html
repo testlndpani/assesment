@@ -29,6 +29,10 @@ header{flex:none;display:flex;align-items:center;gap:12px;padding:10px 16px;back
 .pill{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);font-size:12px;font-weight:600;max-width:160px}
 .pill span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--wa);flex:none}.dot.ok{background:var(--ok)}.dot.er{background:var(--er)}
+.lang-switch{display:inline-flex;align-items:center;background:var(--sf2);border:1px solid var(--ln);border-radius:6px;padding:2px;gap:2px;flex:none}
+.l-btn{height:25px;padding:0 7px;border-radius:4px;font-size:11px;font-weight:700;color:var(--mut);line-height:25px;cursor:pointer;transition:all .15s}
+.l-btn:hover{color:var(--ink)}
+.l-btn.on{background:var(--p);color:var(--pt);box-shadow:0 1px 2px rgba(82,50,20,.14)}
 main{flex:1;min-height:0;overflow-y:auto;padding:16px 16px calc(80px + env(safe-area-inset-bottom));max-width:860px;width:100%;margin:0 auto}
 .view{display:none;flex-direction:column;gap:12px}.view.on{display:flex}
 .card{background:var(--sf);border:1px solid var(--ln);border-radius:8px;padding:16px;box-shadow:var(--sh)}
@@ -72,7 +76,7 @@ nav .on{color:var(--p);background:var(--pf);border-top-color:var(--p);font-weigh
 nav .nb{position:absolute;top:4px;right:calc(50% - 22px);min-width:16px;height:15px;padding:0 4px;border-radius:4px;background:var(--sf2);border:1px solid var(--ln);color:var(--ink);font-size:10px;font-weight:700;line-height:13px;text-align:center}
 nav .nb.wa{background:var(--wab);border-color:var(--wa);color:var(--wa)}
 nav .nb.er{background:var(--er);border-color:var(--er);color:#fff}
-body.nonav footer,body.nonav header{display:none}body.nonav main{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+body.nonav footer{display:none}body.nonav main{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
 .xbar{position:sticky;top:-16px;z-index:5;margin:-16px -16px 0;padding:10px 16px;background:var(--sf);border-bottom:1px solid var(--ln)}
 .bar{height:4px;border-radius:2px;background:var(--sf2);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--p);transition:width .25s}
 .tm{font-weight:700;font-size:13px;font-variant-numeric:tabular-nums;padding:4px 10px;border-radius:5px;background:var(--sf2);border:1px solid var(--ln);display:flex;gap:5px;align-items:center}.tm.wa{background:var(--wab);color:var(--wa);border-color:var(--wa)}.tm.er{background:var(--erb);color:var(--er);border-color:var(--er);animation:bl 1s infinite}
@@ -103,11 +107,12 @@ ul.rules b{color:var(--ink)}
 @media(max-width:600px){
   body{font-size:13px}
   .mi{font-size:17px}.ic-ex{width:17px;height:17px}
-  header{padding:8px 12px;gap:8px}
-  .logo-img{height:24px;max-width:118px}
-  .h-div{height:20px}
-  .brand b{font-size:11.5px}.brand small{font-size:9.5px}
-  .pill{padding:4px 8px;font-size:11px;max-width:112px;gap:5px}
+  header{padding:8px 10px;gap:6px;justify-content:space-between}
+  .logo-img{height:22px;max-width:96px}
+  .h-div{display:none}
+  .brand{display:none}
+  .pill{padding:4px 7px;font-size:10.5px;max-width:86px;gap:4px}
+  .lang-switch{padding:1.5px;gap:1.5px}.l-btn{height:22px;padding:0 5px;font-size:10px;line-height:22px}
   main{padding:11px 11px calc(68px + env(safe-area-inset-bottom))}
   .view{gap:9px}
   .card{padding:12px;border-radius:7px}
@@ -156,26 +161,27 @@ ul.rules b{color:var(--ink)}
 </style>
 </head>
 <body class="nonav">
-<header><img class="logo-img" data-logo alt="Merdeka Gold Resources"><span class="h-div"></span><div class="brand"><b class="ell">Portal Asesmen L&amp;D</b></div>
+<header><img class="logo-img" data-logo alt="Merdeka Gold Resources"><span class="h-div"></span><div class="brand"><b class="ell" id="hdr-brand">Portal Asesmen L&amp;D</b></div>
+<div class="lang-switch" id="hdr-lang"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div>
 <button class="pill" data-a="sync" aria-label="Sinkronisasi"><span class="dot" id="sd"></span><span id="un">Masuk</span></button></header>
 
 <main id="main">
-<section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div class="login-brand"><img class="login-logo" data-logo alt="PT Merdeka Gold Resources Tbk"></div><h1>Masuk Portal Asesmen</h1>
+<section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div class="login-brand" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><img class="login-logo" data-logo alt="PT Merdeka Gold Resources Tbk"><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div></div><h1 id="lg-h1">Masuk Portal Asesmen</h1>
 <form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="NIK, ID Karyawan, atau Nama" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg"><span class="mi" style="font-size:18px;color:var(--p)">person_add</span> Peserta Baru (NIK Belum Terdaftar)</button></form>
 <div id="lreg" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);flex-direction:column;gap:10px">
   <div class="row sp" style="align-items:flex-start">
     <div>
-      <h2 style="color:var(--br);display:flex;align-items:center;gap:6px"><span class="mi" style="color:var(--p);font-size:18px">person_add</span> Pendaftaran Peserta Baru</h2>
-      <p class="mut sm" style="margin-top:2px">Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.</p>
+      <h2 id="reg-h2" style="color:var(--br);display:flex;align-items:center;gap:6px"><span class="mi" style="color:var(--p);font-size:18px">person_add</span> Pendaftaran Peserta Baru</h2>
+      <p class="mut sm" id="reg-sub" style="margin-top:2px">Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.</p>
     </div>
-    <button type="button" class="btn s" data-a="closeReg" title="Batal pendaftaran" style="padding:0 8px;font-size:11px;color:var(--mut)"><span class="mi" style="font-size:15px">close</span> Batal</button>
+    <button type="button" class="btn s" id="reg-close" data-a="closeReg" title="Batal pendaftaran" style="padding:0 8px;font-size:11px;color:var(--mut)"><span class="mi" style="font-size:15px">close</span> Batal</button>
   </div>
-  <div><label class="lbl" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 5px">Terisi Otomatis</span></label><input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK" required></div>
-  <div><label class="lbl" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap peserta" required></div>
-  <div><label class="lbl" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
+  <div><label class="lbl" id="lbl-rg-id" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 5px">Terisi Otomatis</span></label><input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK" required></div>
+  <div><label class="lbl" id="lbl-rg-nm" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap peserta" required></div>
+  <div><label class="lbl" id="lbl-rg-co" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
   <div class="row m-col" style="gap:10px;align-items:flex-start">
-    <div class="g" style="width:100%"><label class="lbl" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
-    <div class="g" style="width:100%"><label class="lbl" for="rg-jb">Jabatan</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Jabatan…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
+    <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-dp" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
+    <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-jb" for="rg-jb">Jabatan</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Jabatan…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
   </div>
   <div class="err" id="re-reg"></div>
   <button type="button" class="btn p w" id="rb" data-a="reg"><span class="mi">how_to_reg</span> Simpan &amp; Masuk ke Portal</button>
@@ -201,11 +207,11 @@ ul.rules b{color:var(--ink)}
   <button data-a="go" data-v="riwayat"><span class="mi">workspace_premium</span><span>Riwayat</span><i class="nb" id="nb-his" hidden>0</i></button>
 </nav></footer>
 
-<div class="ov" id="o-pin"><div class="sheet"><div class="row sp"><div class="g"><h2 id="pt">Masukkan Kode PIN</h2><p class="mut sm" id="ps"></p></div><button class="btn s" data-a="close" data-v="o-pin"><span class="mi">close</span></button></div>
+<div class="ov" id="o-pin"><div class="sheet"><div class="row sp"><div class="g"><h2 id="pt">Masukkan Kode PIN</h2><p class="mut sm" id="ps"></p></div><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div><button class="btn s" data-a="close" data-v="o-pin"><span class="mi">close</span></button></div>
 <input class="inp" id="pi" maxlength="16" autocapitalize="characters" autocomplete="off" placeholder="KODE PIN" style="text-align:center;font-size:20px;letter-spacing:.2em;font-weight:800;text-transform:uppercase"><div class="err" id="pe"></div>
 <button class="btn p w" id="pb" data-a="verify">Verifikasi PIN <span class="mi">arrow_forward</span></button></div></div>
 <div class="ov" id="o-map"><div class="sheet"><div class="row sp"><h2>Peta Soal</h2><button class="btn s" data-a="close" data-v="o-map"><span class="mi">close</span></button></div><div class="row sm mut" style="gap:14px"><span>■ Terjawab</span><span>▢ Belum</span><span>⚑ Ragu</span></div><div class="map" id="mp"></div></div></div>
-<div class="ov" id="o-cert"><div class="sheet"><div class="card cert" id="ce"></div><div class="row"><button class="btn g" data-a="close" data-v="o-cert">Tutup</button><button class="btn p g" onclick="print()"><span class="mi">print</span>Cetak</button></div></div></div>
+<div class="ov" id="o-cert"><div class="sheet"><div class="row sp"><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div><button class="btn s" data-a="close" data-v="o-cert"><span class="mi">close</span></button></div><div class="card cert" id="ce"></div><div class="row"><button class="btn g" data-a="close" data-v="o-cert">Tutup</button><button class="btn p g" onclick="print()"><span class="mi">print</span>Cetak</button></div></div></div>
 <div class="toast" id="ts"></div>
 
 <script>
@@ -213,6 +219,90 @@ const LOGO_URI="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAABwCAYAAABRlA
 document.querySelectorAll('[data-logo]').forEach(el=>el.src=LOGO_URI);
 const CFG={URL:"https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec",PIN:"Jadwal_PIN",SOAL:"Bank_Soal",TRAINER:"List_Trainer",HASIL:"Hasil_Asesmen",NEW_REG:"New_Register",COMPANY:"Company",DEPT:"Departement",JABATAN:"Jabatan",SIM:"Jenis_Simulator",HASIL_SIM:"Hasil_Simulator",FEEDBACK:"Training_Feedback"};
 const FB_LABELS=['','Sangat Buruk','Kurang','Cukup','Baik','Sangat Baik'];
+const FB_LABELS_I18N={
+  id:['','Sangat Buruk','Kurang','Cukup','Baik','Sangat Baik'],
+  en:['','Very Poor','Poor','Fair','Good','Excellent'],
+  zh:['','极差','较差','一般','良好','优秀']
+};
+const fbLabel=n=>FB_LABELS_I18N[S.lang||'id']?.[n]||FB_LABELS[n]||'';
+const FB_QS_I18N={
+  en:[
+    ['Training Relevance','Did the training meet your expectations?'],
+    ['Material Quality','Training materials and content were of high quality'],
+    ['Learning Method','Used diverse teaching methods supporting content and objectivity'],
+    ['Training Facilities','Adequate time for each session and sufficient facilities'],
+    ['Training Benefit','This training will help participants improve performance'],
+    ['Material Mastery','Trainer effectively organized training activities and demonstrations'],
+    ['Trainer Communication','Trainer communicated clearly and was well prepared'],
+    ['Trainer Competency','Trainer demonstrated strong understanding of the subject'],
+    ['Participant Engagement','Trainer encouraged participants to actively engage in sessions'],
+    ['Trainer Responsiveness','Trainer responded adequately to questions and ensured understanding']
+  ],
+  zh:[
+    ['培训相关性','本次培训是否符合您的预期要求？'],
+    ['教材课件质量','培训信息和学习课件质量上乘、内容充实'],
+    ['教学方法','运用多种教学手段与素材支持培训内容及客观性'],
+    ['培训设施环境','每场次时间充裕，培训设施及环境完备'],
+    ['培训实际效用','本次培训切实有助于学员提升日常工作绩效'],
+    ['授课内容把控','讲师妥善组织安排各项培训活动及实操演练'],
+    ['讲师沟通表达','讲师表达通俗清晰，课前准备细致周到'],
+    ['讲师专业素养','讲师展现了扎实的专业知识与深入的理论掌握'],
+    ['学员互动参与','讲师积极鼓励学员在每个环节主动沟通与交流'],
+    ['讲师答疑响应','讲师耐心解答疑问、澄清问题并确保学员透彻理解']
+  ]
+};
+const I18N={
+  id:{
+    portal_title:"Portal Asesmen L&D",masuk:"Masuk",nav_home:"Beranda",nav_modules:"Modul",nav_sim:"Simulator",nav_profile:"Profil",nav_mat:"Matriks",nav_his:"Riwayat",
+    login_h1:"Masuk Portal Asesmen",login_ph:"NIK, ID Karyawan, atau Nama",login_btn:"Masuk",login_unreg:"Peserta Baru (NIK Belum Terdaftar)",
+    reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Jabatan",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",
+    kpi_done:"Selesai",kpi_comp:"Kompetensi",kpi_avg:"Rata-rata",kpi_cert:"Sertifikat",active_exam:"Ujian Aktif",continue_btn:"Lanjutkan",sched_running:"Sedang Berjalan",sched_done:"Sudah Berjalan",sched_upcoming:"Akan Berjalan",today:"Hari Ini",
+    mod_all:"Semua",mod_title:"Katalog Modul",min:"mnt",qs_cnt:"soal",pass_std:"Lulus",pin_btn:"Masukkan PIN",start_btn:"Mulai",passed:"LULUS",not_passed:"BELUM LULUS",
+    brief_title:"Data Pelaksanaan Training",trainer:"Nama Trainer",time_start:"Jam Mulai",time_end:"Jam Selesai",btn_start_exam:"Mulai Ujian",hint:"Petunjuk",doubt:"Ragu",prev:"Sebelumnya",next:"Lanjut",review:"Tinjau",review_title:"Tinjau Jawaban",time_left:"Sisa Waktu",answered:"Terjawab",unanswered:"Kosong",score:"Skor",progress:"Progres",all_answered:"Semua soal terjawab.",unanswered_warn:"soal belum dijawab",doubt_warn:"soal ditandai ragu",tap_number_tip:"Ketuk nomor untuk kembali ke soal.",to_feedback_btn:"Lanjut Isi Training Feedback",back_to_exam:"Kembali ke Soal",
+    fb_title:"TRAINING FEEDBACK",fb_desc:"Skala ★ 1 Sangat Buruk — ★ 5 Sangat Baik",star_1:"Sangat Buruk",star_2:"Kurang",star_3:"Cukup",star_4:"Baik",star_5:"Sangat Baik",fb_e1_q:"1. Apa yang masih kurang / perlu ditingkatkan dari pelatihan ini?",fb_e2_q:"2. Apa yang sudah bagus dari pelatihan ini?",fb_submit:"Kirim Feedback & Jawaban Ujian",
+    result_pass:"Memenuhi Standar Kelulusan",result_fail:"Belum Mencapai Batas Kelulusan",final_score:"Skor Akhir",view_cert:"Lihat E-Sertifikat",retest:"Ujian Ulang (Masukkan PIN)",back_home:"Kembali ke Beranda",history_matrix:"Riwayat & Matriks",
+    sim_title:"Simulator Operasional",sim_sub:"Input dan monitoring hasil praktik simulator alat berat / operasional.",sim_type:"Jenis Simulator",sim_mat_lbl:"Materi Simulator",sim_time_lbl:"Waktu / Durasi Simulator",sim_mat_oth_ph:"Tuliskan materi pelatihan simulator...",sim_time_ph:"Pilih durasi atau ketik waktu (mis. 45 Menit)",sim_score:"Nilai / Skor Simulator (0–100)",sim_btn:"Catat Absensi Simulator",sim_history:"Riwayat Simulator",sim_recorded:"Tercatat",mat_title:"Matriks Kompetensi",his_title:"Riwayat Asesmen",pin_modal_title:"Masukkan Kode PIN",pin_verify:"Verifikasi PIN"
+  },
+  en:{
+    portal_title:"L&D Assessment Portal",masuk:"Sign In",nav_home:"Home",nav_modules:"Modules",nav_sim:"Simulator",nav_profile:"Profile",nav_mat:"Matrix",nav_his:"History",
+    login_h1:"Assessment Portal Sign In",login_ph:"NIK, Employee ID, or Name",login_btn:"Sign In",login_unreg:"New Participant (Unregistered NIK)",
+    reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",
+    kpi_done:"Completed",kpi_comp:"Competency",kpi_avg:"Average",kpi_cert:"Certificates",active_exam:"Active Exam",continue_btn:"Continue",sched_running:"In Progress",sched_done:"Finished",sched_upcoming:"Upcoming",today:"Today",
+    mod_all:"All",mod_title:"Modules Catalog",min:"mins",qs_cnt:"questions",pass_std:"Pass",pin_btn:"Enter PIN",start_btn:"Start",passed:"PASSED",not_passed:"NOT PASSED",
+    brief_title:"Training Session Data",trainer:"Trainer Name",time_start:"Start Time",time_end:"End Time",btn_start_exam:"Start Exam",hint:"Hint",doubt:"Doubt",prev:"Previous",next:"Next",review:"Review",review_title:"Review Answers",time_left:"Time Remaining",answered:"Answered",unanswered:"Empty",score:"Score",progress:"Progress",all_answered:"All questions answered.",unanswered_warn:"questions unanswered",doubt_warn:"questions marked doubt",tap_number_tip:"Tap question number to return to it.",to_feedback_btn:"Proceed to Training Feedback",back_to_exam:"Back to Questions",
+    fb_title:"TRAINING FEEDBACK",fb_desc:"Scale ★ 1 Very Poor — ★ 5 Excellent",star_1:"Very Poor",star_2:"Poor",star_3:"Fair",star_4:"Good",star_5:"Excellent",fb_e1_q:"1. What needs improvement in this training?",fb_e2_q:"2. What was good about this training?",fb_submit:"Submit Feedback & Exam Answers",
+    result_pass:"Met Passing Standard",result_fail:"Below Passing Standard",final_score:"Final Score",view_cert:"View E-Certificate",retest:"Retake Exam (Enter PIN)",back_home:"Back to Home",history_matrix:"History & Matrix",
+    sim_title:"Operational Simulator",sim_sub:"Record and monitor operational / simulator practice results.",sim_type:"Simulator Type",sim_mat_lbl:"Simulator Topic / Objective",sim_time_lbl:"Simulator Duration / Time",sim_mat_oth_ph:"Specify simulator training topic...",sim_time_ph:"Select duration or type time (e.g. 45 Mins)",sim_score:"Simulator Score (0–100)",sim_btn:"Record Simulator Session",sim_history:"Simulator History",sim_recorded:"Recorded",mat_title:"Competency Matrix",his_title:"Assessment History",pin_modal_title:"Enter PIN Code",pin_verify:"Verify PIN"
+  },
+  zh:{
+    portal_title:"L&D 评估门户",masuk:"登录",nav_home:"主页",nav_modules:"课程模块",nav_sim:"模拟器",nav_profile:"个人资料",nav_mat:"胜任矩阵",nav_his:"历史记录",
+    login_h1:"登录评估门户",login_ph:"工号、员工ID或姓名",login_btn:"登录",login_unreg:"新学员（未注册工号）",
+    reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称",reg_auto:"自动填入",reg_btn:"保存并进入系统",
+    kpi_done:"已完成",kpi_comp:"胜任达标",kpi_avg:"平均分",kpi_cert:"获得证书",active_exam:"进行中的考试",continue_btn:"继续答题",sched_running:"进行中",sched_done:"已结束",sched_upcoming:"即将开始",today:"今天",
+    mod_all:"全部",mod_title:"评估模块目录",min:"分钟",qs_cnt:"题",pass_std:"及格线",pin_btn:"输入PIN码",start_btn:"开始",passed:"合格",not_passed:"未合格",
+    brief_title:"培训实施信息",trainer:"讲师姓名",time_start:"开始时间",time_end:"结束时间",btn_start_exam:"开始答题",hint:"提示",doubt:"标记存疑",prev:"上一题",next:"下一题",review:"检查",review_title:"检查答卷",time_left:"剩余时间",answered:"已答",unanswered:"未答",score:"得分",progress:"答题进度",all_answered:"所有题目均已完成答题。",unanswered_warn:"道题目未作答",doubt_warn:"道题目标记存疑",tap_number_tip:"轻触题号可直接跳转返回该题。",to_feedback_btn:"前往填写培训评估反馈",back_to_exam:"返回题目界面",
+    fb_title:"培训评估反馈",fb_desc:"评分标准：★ 1 极差 — ★ 5 优秀",star_1:"极差",star_2:"较差",star_3:"一般",star_4:"良好",star_5:"优秀",fb_e1_q:"1. 本次培训有哪些不足或需要进一步改善之处？",fb_e2_q:"2. 本次培训有哪些优秀表现值得肯定与保持？",fb_submit:"提交答卷与培训反馈",
+    result_pass:"达到评估合格标准",result_fail:"未达评估合格标准",final_score:"最终考核得分",view_cert:"查看电子结业证书",retest:"重新考试（输入PIN码）",back_home:"返回主页",history_matrix:"历史记录与矩阵",
+    sim_title:"运营实操模拟器",sim_sub:"录入与跟踪重型设备/实操模拟器评估数据。",sim_type:"模拟器机型",sim_mat_lbl:"模拟实操培训课题",sim_time_lbl:"模拟操作时长/时间",sim_mat_oth_ph:"请输入具体实操培训课题...",sim_time_ph:"选择上方时长或输入时间（例：45分钟）",sim_score:"模拟器考核得分 (0–100)",sim_btn:"提交模拟考核记录",sim_history:"模拟考核记录",sim_recorded:"已记录",mat_title:"胜任力矩阵",his_title:"评估考核历史",pin_modal_title:"请输入考核PIN码",pin_verify:"验证PIN码"
+  }
+};
+const t=(k,fallback='')=>{const l=S?.lang||'id';return I18N[l]?.[k]??I18N['id']?.[k]??fallback??k};
+const qText=(q,f)=>{if(!q)return'';const l=(S?.lang||'id').toUpperCase();if(l!=='ID'){const v=q[f+'_'+l];if(v!==undefined&&v!==null&&String(v).trim()!=='')return String(v).trim()}return q[f]||''};
+const mText=(m,f)=>{if(!m)return'';const l=(S?.lang||'id').toUpperCase();if(l!=='ID'){const v=m[f+'_'+l];if(v!==undefined&&v!==null&&String(v).trim()!=='')return String(v).trim()}return m[f]||''};
+function setLang(lang){
+  if(!['id','en','zh'].includes(lang))lang='id';
+  S.lang=lang;try{localStorage.setItem('mgr_lang',lang)}catch{}
+  document.querySelectorAll('.lang-switch .l-btn').forEach(b=>{b.classList.toggle('on',b.dataset.v===lang)});
+  if($('#hdr-brand'))$('#hdr-brand').textContent=t('portal_title');
+  if(!S.emp&&$('#un'))$('#un').textContent=t('masuk');
+  go(S.v);
+  if($('#o-pin')?.classList.contains('on')){
+    const m=S.modul.find(x=>up(x.ID_Modul)===up(S.pend?.id))||S.sesi.find(x=>up(x.ID_Modul)===up(S.pend?.id))||S.mat.find(x=>up(x.ID_Modul)===up(S.pend?.id));
+    if($('#pt'))$('#pt').textContent=m?(mText(m,'Nama_Modul')||m.Nama_Kompetensi):t('pin_modal_title');
+    if($('#pb'))$('#pb').innerHTML=`${t('pin_verify')} <span class="mi">arrow_forward</span>`;
+  }
+  if($('#o-cert')?.classList.contains('on')&&S.lastCert)cert(S.lastCert);
+}
 const FB_QS=[
   ['q1','Kesesuaian Pelatihan','Apakah pelatihan sesuai dengan yang diharapkan?','Kesesuaian_Pelatihan'],
   ['q2','Kualitas Materi','Informasi dan materi pelatihan berkualitas tinggi','Kualitas_Materi'],
@@ -225,7 +315,23 @@ const FB_QS=[
   ['q9','Keterlibatan Peserta','Pelatih mendorong peserta untuk terlibat aktif dalam setiap sesi pelatihan','Keterlibatan_Peserta'],
   ['q10','Responsivitas Pelatih','Pelatih memberikan respons yang memadai kepada peserta (menjawab pertanyaan, mengklarifikasi masalah, dan memastikan pemahaman)','Responsivitas_Pelatih']
 ];
-const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false};
+const MATERI_SIM_OPTS=[
+  {id:'Refresh Pasca Cuti',label_id:'1. Refresh Pasca Cuti',label_en:'1. Post-Leave Refresh',label_zh:'1. 休假后复训',icon:'flight_land'},
+  {id:'Skill Up',label_id:'2. Skill Up',label_en:'2. Skill Up',label_zh:'2. 技能提升',icon:'trending_up'},
+  {id:'Test New Hire',label_id:'3. Test New Hire',label_en:'3. Test New Hire',label_zh:'3. 新员工考核',icon:'badge'},
+  {id:'Refresh Pasca Insident',label_id:'4. Refresh Pasca Insident',label_en:'4. Post-Incident Refresh',label_zh:'4. 事故后复训',icon:'warning'},
+  {id:'Fresh Operator',label_id:'5. Fresh Operator',label_en:'5. Fresh Operator',label_zh:'5. 新手操作员',icon:'school'},
+  {id:'Lainnya',label_id:'6. Lainnya',label_en:'6. Other',label_zh:'6. 其他',icon:'more_horiz'}
+];
+const DURASI_SIM_OPTS=[
+  {val:'15 Menit',id:'15 Menit',en:'15 Mins',zh:'15分钟'},
+  {val:'30 Menit',id:'30 Menit',en:'30 Mins',zh:'30分钟'},
+  {val:'45 Menit',id:'45 Menit',en:'45 Mins',zh:'45分钟'},
+  {val:'60 Menit',id:'60 Menit (1 Jam)',en:'60 Mins (1 Hr)',zh:'60分钟 (1小时)'},
+  {val:'90 Menit',id:'90 Menit (1.5 Jam)',en:'90 Mins (1.5 Hr)',zh:'90分钟 (1.5小时)'},
+  {val:'120 Menit',id:'120 Menit (2 Jam)',en:'120 Mins (2 Hr)',zh:'120分钟 (2小时)'}
+];
+const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
 const stripKunci=a=>(a||[]).map(q=>{const c={...q};delete c.Kunci;return c});
@@ -234,6 +340,8 @@ const empCo=o=>String(o?.Nama_Company||o?.Company||o?.Perusahaan||o?.Nama_Perusa
 const empDp=o=>String(o?.Departement||o?.Departemen||o?.Nama_Departement||o?.Nama_Departemen||'').trim();
 const empJb=o=>String(o?.Jabatan||o?.Nama_Jabatan||o?.Posisi||'').trim();
 const empSim=o=>String(o?.Jenis_Simulator||o?.Nama_Simulator||o?.Simulator||'').trim();
+const empSimMat=o=>String(o?.Materi_Simulator||o?.Materi||o?.materi_simulator||o?.materi||'').trim();
+const empSimTime=o=>String(o?.Waktu_Simulator||o?.Durasi_Menit||o?.Waktu||o?.waktu_simulator||o?.durasi||o?.waktu||'').trim();
 const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 const nowTs=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`};
 const mi=n=>`<span class="mi">${e(n)}</span>`;
@@ -292,11 +400,14 @@ async function flushPending(){
 /* ---------- boot ---------- */
 addEventListener('DOMContentLoaded',async()=>{
   document.fonts.ready.then(()=>document.body.classList.add('fr'));
+  const curLang=S.lang||'id';
+  document.querySelectorAll('.lang-switch .l-btn').forEach(b=>{b.classList.toggle('on',b.dataset.v===curLang)});
+  if($('#hdr-brand'))$('#hdr-brand').textContent=t('portal_title');
   try{S.ex=JSON.parse(localStorage.getItem('mgr_exam')||'null')}catch{}
   try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:stripKunci(c.bank),trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim)})}}catch{}
   const n=localStorage.getItem('mgr_nik');
   if(n&&!S.emp)S.emp={ID_Karyawan:n,Nama_Lengkap:n,Departemen:'Memuat data…'};
-  if(S.emp){$('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];go('home')}else go('login');
+  if(S.emp){$('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];go('home')}else{if($('#un'))$('#un').textContent=t('masuk');go('login')}
   await boot();
 });
 addEventListener('online',()=>{flushPending()});
@@ -332,7 +443,7 @@ async function boot(forceMaster){
 
     const pinRows=d._pins||(d.sesi||d.sesi_aktif||[]);
     S.sesi=pinRows.filter(s=>up(s.Status)!=='NONAKTIF');
-    S.sesi.forEach(s=>{if(s.ID_Modul&&!S.modul.some(m=>up(m.ID_Modul)===up(s.ID_Modul)))S.modul.unshift({ID_Modul:s.ID_Modul,Label_Modul:s.ID_Modul,Nama_Modul:s.Nama_Modul||s.ID_Modul,Tingkat:'-',Badge_Kategori:'-',Ikon_UI:'assignment',Durasi_Default:s.Durasi_Menit||'',Jml_Soal_Default:s.Jml_Soal||'',Passing_Grade:'',Penyelenggara:s.Trainer||''})});
+    S.sesi.forEach(s=>{if(s.ID_Modul&&!S.modul.some(m=>up(m.ID_Modul)===up(s.ID_Modul)))S.modul.unshift({ID_Modul:s.ID_Modul,Label_Modul:s.ID_Modul,Nama_Modul:s.Nama_Modul||s.ID_Modul,Nama_Modul_EN:s.Nama_Modul_EN||'',Nama_Modul_ZH:s.Nama_Modul_ZH||'',Tingkat:'-',Badge_Kategori:'-',Ikon_UI:'assignment',Durasi_Default:s.Durasi_Menit||'',Jml_Soal_Default:s.Jml_Soal||'',Passing_Grade:'',Penyelenggara:s.Trainer||''})});
     S.kar=d.karyawan||[];
     const nrRows=d.new_register||d._nr||[];
     nrRows.forEach(r=>{if(key(r)&&!S.kar.some(k=>up(key(k))===up(key(r))))S.kar.push({...r,Status_Level:r.Status_Level||'New Register'})});
@@ -368,7 +479,7 @@ function mergeSimHis(id,serverRows=[]){
   const mineLoc=loc.filter(r=>up(r.ID_Karyawan)===up(id));
   const all=[...(serverRows||[]).filter(r=>up(r.ID_Karyawan||r.NIK)===up(id)),...mineLoc];
   const seen=new Set();
-  return all.filter(r=>{const k=up(`${r.Timestamp_Submit}|${r.ID_Karyawan}|${empSim(r)}`);return k&&!seen.has(k)&&seen.add(k)});
+  return all.filter(r=>{const k=up(`${r.Timestamp_Submit}|${r.ID_Karyawan}|${empSim(r)}|${empSimMat(r)}`);return k&&!seen.has(k)&&seen.add(k)});
 }
 async function syncSimHis(id){
   try{
@@ -519,10 +630,13 @@ function updNav(v){
   const bm=$('#nb-mat'),bh=$('#nb-his');
   if(bm){bm.textContent=todoCnt;bm.hidden=todoCnt<=0}
   if(bh){bh.textContent=p.cert;bh.hidden=p.cert<=0}
+  const navLbls={home:'nav_home',modules:'nav_modules',sim:'nav_sim',profile:'nav_profile',matriks:'nav_mat',riwayat:'nav_his'};
   document.querySelectorAll('nav button').forEach(b=>{
     const bv=b.dataset.v;
     const on=bv===v||(v==='profile'&&((S.pt==='mat'&&bv==='matriks')||(S.pt==='his'&&bv==='riwayat')));
     b.classList.toggle('on',on);
+    const span=b.querySelector('span:not(.mi)');
+    if(span&&navLbls[bv])span.textContent=t(navLbls[bv]);
   });
 }
 function go(v){
@@ -534,13 +648,26 @@ function go(v){
   const focus=['exam','review','feedback','brief','result'].includes(v);
   document.body.classList.toggle('nonav',v==='login'||focus);
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
-  ({login:rLogin,home:rHome,sim:rSim,modules:rModules,brief:()=>{},exam:rExam,review:rReview,feedback:rFeedback,result:()=>{},profile:rProfile}[v]||(()=>{}))();
+  ({login:rLogin,home:rHome,sim:rSim,modules:rModules,brief:()=>{if(S.pend?.ses)brief()},exam:rExam,review:rReview,feedback:rFeedback,result:()=>{if(S.lastRes)showResult(S.lastRes.r,S.lastRes.ses)},profile:rProfile}[v]||(()=>{}))();
   updNav(v);
   $('#main').scrollTop=0;S.v=v;
 }
 
 /* ---------- login ---------- */
 function rLogin(){
+  if($('#lg-h1'))$('#lg-h1').textContent=t('login_h1');
+  if($('#li'))$('#li').placeholder=t('login_ph');
+  if($('#lb'))$('#lb').textContent=t('login_btn');
+  if($('#bt-oreg'))$('#bt-oreg').innerHTML=`<span class="mi" style="font-size:18px;color:var(--p)">person_add</span> ${t('login_unreg')}`;
+  if($('#reg-h2'))$('#reg-h2').innerHTML=`<span class="mi" style="color:var(--p);font-size:18px">person_add</span> ${t('reg_title')}`;
+  if($('#reg-sub'))$('#reg-sub').textContent=t('reg_sub');
+  if($('#reg-close'))$('#reg-close').innerHTML=`<span class="mi" style="font-size:15px">close</span> ${t('reg_cancel')}`;
+  if($('#lbl-rg-id'))$('#lbl-rg-id').innerHTML=`${t('reg_id')} <span class="chip ok" id="rg-id-tag" style="${$('#rg-id-tag')?.style.display==='inline-flex'?'display:inline-flex':'display:none'};margin-left:4px;font-size:10px;padding:1px 5px">${t('reg_auto')}</span>`;
+  if($('#lbl-rg-nm'))$('#lbl-rg-nm').textContent=t('reg_name');
+  if($('#lbl-rg-co'))$('#lbl-rg-co').textContent=t('reg_comp');
+  if($('#lbl-rg-dp'))$('#lbl-rg-dp').textContent=t('reg_dept');
+  if($('#lbl-rg-jb'))$('#lbl-rg-jb').textContent=t('reg_pos');
+  if($('#rb'))$('#rb').innerHTML=`<span class="mi">how_to_reg</span> ${t('reg_btn')}`;
   const raw=($('#li')?.value||'').trim();
   const q=up(raw);
   if(q.length<2){$('#ls').innerHTML='';return}
@@ -548,7 +675,10 @@ function rLogin(){
   if(found.length){
     $('#ls').innerHTML=found.map(k=>`<button type="button" class="item" data-a="pick" data-v="${e(key(k))}"><div class="g"><b class="ell" style="display:block;font-size:14px">${e(k.Nama_Lengkap)}</b><span class="mut sm">${e([empCo(k),k.Departemen,k.Jabatan].filter(Boolean).join(' • '))}</span></div><span class="chip">${e(key(k))}</span></button>`).join('');
   }else if(raw.length>=3){
-    $('#ls').innerHTML=`<button type="button" class="item" data-a="openRegWith" data-v="${e(raw)}" style="background:var(--pf);border-color:var(--gold);text-align:left"><div class="row sp" style="width:100%;align-items:center;gap:8px"><div class="g"><div style="font-weight:700;font-size:12.5px;color:var(--br)"><span class="mi" style="font-size:16px;color:var(--p);vertical-align:-3px;margin-right:4px">person_add</span> NIK "${e(raw)}" belum terdaftar</div><span class="mut sm" style="font-size:11px">Ketuk untuk daftar akun baru dengan NIK ini</span></div><span class="btn p s" style="pointer-events:none;white-space:nowrap;padding:3px 8px;font-size:11px">Daftar <span class="mi" style="font-size:13px">arrow_forward</span></span></div></button>`;
+    const tipText=S.lang==='zh'?`工号 "${e(raw)}" 尚未注册` : S.lang==='en'?`ID "${e(raw)}" is not registered`: `NIK "${e(raw)}" belum terdaftar`;
+    const tipSub=S.lang==='zh'?`轻触此处以此工号注册新学员`: S.lang==='en'?`Tap here to register with this ID`: `Ketuk untuk daftar akun baru dengan NIK ini`;
+    const btnText=S.lang==='zh'?'注册': S.lang==='en'?'Register': 'Daftar';
+    $('#ls').innerHTML=`<button type="button" class="item" data-a="openRegWith" data-v="${e(raw)}" style="background:var(--pf);border-color:var(--gold);text-align:left"><div class="row sp" style="width:100%;align-items:center;gap:8px"><div class="g"><div style="font-weight:700;font-size:12.5px;color:var(--br)"><span class="mi" style="font-size:16px;color:var(--p);vertical-align:-3px;margin-right:4px">person_add</span> ${tipText}</div><span class="mut sm" style="font-size:11px">${tipSub}</span></div><span class="btn p s" style="pointer-events:none;white-space:nowrap;padding:3px 8px;font-size:11px">${btnText} <span class="mi" style="font-size:13px">arrow_forward</span></span></div></button>`;
   }else{
     $('#ls').innerHTML='';
   }
@@ -561,61 +691,172 @@ function rHome(){
   const items=nearSesi.map(s=>{
     const d=dayDiff(s.Tanggal),dn=isDone(s.ID_Modul),m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
     const isToday=d===0,isPast=d<0;
-    const stLb=isPast?'Sudah Berjalan':isToday?'Sedang Berjalan':'Akan Berjalan';
+    const stLb=isPast?t('sched_done'):isToday?t('sched_running'):t('sched_upcoming');
     const stCl=isToday?'ok':'gy';
-    const dayLb=isToday?'Hari Ini':isPast?'H'+d:'H+'+d;
+    const dayLb=isToday?t('today'):isPast?'H'+d:'H+'+d;
     const dayCl=isToday?'ok':'gy';
     return{
       id:s.ID_Modul,
-      title:s.Nama_Modul||m.Nama_Modul||s.ID_Modul,
+      title:mText(m,'Nama_Modul')||mText(s,'Nama_Modul')||s.ID_Modul,
       sub:[s.Tanggal,s.Jam_Mulai&&s.Jam_Selesai?`${s.Jam_Mulai}–${s.Jam_Selesai}`:'',s.Trainer].filter(Boolean).join(' • '),
       stLb,stCl,dayLb,dayCl,dim:!isToday,d,dn
     };
   }).sort((a,b)=>a.d-b.d);
-  const rs=S.ex?`<div class="card" style="border-color:var(--p);background:var(--pf)"><div class="row sp"><div class="g"><b>Ujian Aktif</b><p class="mut sm ell">${e(S.ex.ses.Nama_Modul)} • ${fmt(left())}</p></div><button class="btn p s" data-a="go" data-v="exam">Lanjutkan</button></div></div>`:'';
-  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta Asesmen')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length+'/'+p.m.length,'Selesai'],[p.pct+'%','Kompetensi'],[p.avg,'Rata-rata'],[p.cert,'Sertifikat'])}</div></div>${rs}
-  <div class="row sp" style="margin-top:2px"><h2>Jadwal Asesmen</h2><button class="btn s" data-a="go" data-v="modules">Semua Modul (${S.modul.length})</button></div>
-  ${items.length?items.map(x=>`<div class="item ${x.dim?'dim':'act'}"><div class="g"><div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:3px"><span class="chip ${x.stCl}">${e(x.stLb)}</span><span class="chip ${x.dayCl}">${e(x.dayLb)}</span>${x.dn?`<span class="chip ok">Selesai</span>`:''}</div><b class="ell" style="display:block;font-size:14px">${e(x.title)}</b><span class="mut sm" style="display:block;margin-top:2px">${e(x.sub)}</span></div>${!x.dim?`<button class="btn ${x.dn?'':'p'} s" data-a="pin" data-v="${e(x.id)}">${x.dn?'Ulang':'Mulai'}</button>`:''}</div>`).join(''):`<div class="card mut sm">Tidak ada jadwal asesmen saat ini.</div>`}
-  <button class="btn w" data-a="logout">Ganti Akun</button>`;
+  const rs=S.ex?`<div class="card" style="border-color:var(--p);background:var(--pf)"><div class="row sp"><div class="g"><b>${t('active_exam')}</b><p class="mut sm ell">${e(mText(S.ex.ses,'Nama_Modul'))} • ${fmt(left())}</p></div><button class="btn p s" data-a="go" data-v="exam">${t('continue_btn')}</button></div></div>`:'';
+  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta Asesmen')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length+'/'+p.m.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>${rs}
+  <div class="row sp" style="margin-top:2px"><h2>${S.lang==='zh'?'评估日程':S.lang==='en'?'Assessment Schedule':'Jadwal Asesmen'}</h2><button class="btn s" data-a="go" data-v="modules">${t('mod_all')} (${S.modul.length})</button></div>
+  ${items.length?items.map(x=>`<div class="item ${x.dim?'dim':'act'}"><div class="g"><div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:3px"><span class="chip ${x.stCl}">${e(x.stLb)}</span><span class="chip ${x.dayCl}">${e(x.dayLb)}</span>${x.dn?`<span class="chip ok">${t('passed')}</span>`:''}</div><b class="ell" style="display:block;font-size:14px">${e(x.title)}</b><span class="mut sm" style="display:block;margin-top:2px">${e(x.sub)}</span></div>${!x.dim?`<button class="btn ${x.dn?'':'p'} s" data-a="pin" data-v="${e(x.id)}">${x.dn?t('retest'):t('start_btn')}</button>`:''}</div>`).join(''):`<div class="card mut sm">${S.lang==='zh'?'暂无近期考核日程。':S.lang==='en'?'No assessment schedules at this time.':'Tidak ada jadwal asesmen saat ini.'}</div>`}
+  <button class="btn w" data-a="logout">${S.lang==='zh'?'切换账户':S.lang==='en'?'Switch Account':'Ganti Akun'}</button>`;
 }
 
 /* ---------- operation / simulator ---------- */
+function saveSimInputs(){
+  if($('#sim-jn'))S.simJn=$('#sim-jn').value;
+  if($('#sim-mat-other'))S.simMatOther=$('#sim-mat-other').value;
+  if($('#sim-time'))S.simTime=$('#sim-time').value;
+}
 function rSim(){
-  const em=S.emp||{},id=key(em),nm=em.Nama_Lengkap||id,curVal=$('#sim-jn')?.value||'';
+  saveSimInputs();
+  const em=S.emp||{},id=key(em),nm=em.Nama_Lengkap||id;
+  const curVal=S.simJn||'';
+  const curMat=S.simMat||'';
+  const curMatOther=S.simMatOther||'';
+  const curTime=S.simTime||'';
   const mySim=(S.hisSim||[]).filter(r=>up(r.ID_Karyawan||r.NIK)===up(id)).slice().reverse();
+  const curL=S.lang||'id';
   $('#v-sim').innerHTML=`<div class="card hero">
-    <div class="row"><div class="ava">${icoEx}</div><div class="g"><span class="hero-co">OPERATION</span><h1 class="ell">Absensi Simulator</h1><p class="mut sm ell">${e(id)} • ${e(nm)}</p></div></div>
+    <div class="row"><div class="ava">${icoEx}</div><div class="g"><span class="hero-co">OPERATION</span><h1 class="ell">${t('sim_title')}</h1><p class="mut sm ell">${e(id)} • ${e(nm)}</p></div></div>
   </div>
   <div class="card">
-    <label class="lbl" for="sim-jn">Jenis Simulator</label>
+    <label class="lbl" for="sim-jn">${t('sim_type')}</label>
     <div class="sdd" data-sdd="sim-jn">
-      <input class="inp" id="sim-jn" maxlength="100" value="${e(curVal)}" autocomplete="off" placeholder="Pilih / cari Jenis Simulator…">
+      <input class="inp" id="sim-jn" maxlength="100" value="${e(curVal)}" autocomplete="off" placeholder="${curL==='zh'?'选择/搜索模拟器机型…':curL==='en'?'Select / search simulator type…':'Pilih / cari Jenis Simulator…'}">
       <button type="button" class="sdd-b" data-a="sdd" data-v="sim-jn" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button>
       <div class="sdd-m" id="dd-sim-jn"></div>
     </div>
     ${S.sim.length?`<div class="row" style="gap:6px;flex-wrap:wrap;margin-top:8px">${S.sim.map(x=>`<button type="button" class="btn s ${up(curVal)===up(x.val)?'p':''}" data-a="sddPick" data-v="sim-jn|${e(x.val)}">${icoEx}<span>${e(x.val)}</span></button>`).join('')}</div>`:''}
-    <div class="err" id="se-sim" style="margin-top:10px"></div>
-    <button type="button" class="btn p w" id="bt-sim" data-a="subSim" style="margin-top:12px">${icoEx}<span>Simpan Absensi</span></button>
+
+    <label class="lbl" style="margin-top:16px">${t('sim_mat_lbl')}</label>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;margin-top:4px">
+      ${MATERI_SIM_OPTS.map(o=>{
+        const isAct=curMat===o.id;
+        const lbl=curL==='zh'?o.label_zh:curL==='en'?o.label_en:o.label_id;
+        return `<button type="button" class="btn s ${isAct?'p':''}" data-a="pickSimMat" data-v="${e(o.id)}" style="justify-content:flex-start;height:auto;padding:8px 10px;text-align:left;gap:6px">
+          <span class="mi" style="font-size:16px;flex:none">${e(o.icon)}</span>
+          <span style="font-size:12px;font-weight:600;white-space:normal;line-height:1.25">${e(lbl)}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <div id="sim-mat-other-wrap" style="margin-top:8px;display:${curMat==='Lainnya'?'block':'none'}">
+      <input class="inp" id="sim-mat-other" maxlength="100" value="${e(curMatOther)}" placeholder="${t('sim_mat_oth_ph')}">
+    </div>
+
+    <label class="lbl" for="sim-time" style="margin-top:16px">${t('sim_time_lbl')}</label>
+    <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px;margin-bottom:8px">
+      ${DURASI_SIM_OPTS.map(d=>{
+        const isAct=curTime===d.val||curTime===d[curL];
+        const lbl=curL==='zh'?d.zh:curL==='en'?d.en:d.id;
+        return `<button type="button" class="btn s ${isAct?'p':''}" data-a="pickSimTime" data-v="${e(d.val)}">
+          <span class="mi" style="font-size:15px">schedule</span>
+          <span>${e(lbl)}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <input class="inp" id="sim-time" maxlength="50" value="${e(curTime)}" placeholder="${t('sim_time_ph')}">
+
+    <div class="err" id="se-sim" style="margin-top:12px"></div>
+    <button type="button" class="btn p w" id="bt-sim" data-a="subSim" style="margin-top:14px">${icoEx}<span>${t('sim_btn')}</span></button>
   </div>
-  ${mySim.length?`<h2>Riwayat (${mySim.length})</h2>`+mySim.map(r=>`<div class="item"><div class="ava" style="width:34px;height:34px">${icoEx}</div><div class="g"><b style="display:block;font-size:14px">${e(empSim(r)||'-')}</b><span class="mut sm">${e(r.Timestamp_Submit||'-')}</span></div><span class="chip ok">Tercatat</span></div>`).join(''):''}`;
+  ${mySim.length?`<h2 style="margin-top:20px">${t('sim_history')} (${mySim.length})</h2>`+mySim.map(r=>{
+    const jn=empSim(r)||'-';
+    const mat=empSimMat(r);
+    const time=empSimTime(r);
+    return `<div class="item" style="align-items:flex-start">
+      <div class="ava" style="width:36px;height:36px;margin-top:2px">${icoEx}</div>
+      <div class="g">
+        <div class="row sp" style="align-items:baseline">
+          <b style="font-size:14.5px;color:var(--br)">${e(jn)}</b>
+          <span class="chip ok">${t('sim_recorded','Tercatat')}</span>
+        </div>
+        <div class="row" style="gap:5px;flex-wrap:wrap;margin:4px 0">
+          ${mat?`<span class="chip" style="background:var(--pf);color:var(--p);font-weight:600">${mi('assignment')} ${e(mat)}</span>`:''}
+          ${time?`<span class="chip wa" style="font-weight:600">${mi('schedule')} ${e(time)}</span>`:''}
+        </div>
+        <span class="mut sm">${e(r.Timestamp_Submit||'-')}</span>
+      </div>
+    </div>`;
+  }).join(''):''}`;
   if(!S.sim.length){
     g({action:'read_sheet',sheet:CFG.SIM}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.sim=cleanSim(r.data);saveCache();fillDl();if(S.v==='sim')rSim()}}).catch(()=>{});
   }
 }
 async function subSim(){
   $('#se-sim')?.classList.remove('on');
-  const em=S.emp||{},id=cleanInp(key(em),50),nm=cleanInp(em.Nama_Lengkap||id,100),jn=cleanInp($('#sim-jn')?.value,100);
-  if(!id||!nm){showErr('#se-sim','Data karyawan tidak ditemukan. Silakan masuk ulang.');return}
-  if(!jn){showErr('#se-sim','Silakan pilih Jenis Simulator terlebih dahulu.');$('#sim-jn')?.focus();return}
-  const b=$('#bt-sim');if(b){b.disabled=true;b.textContent='Menyimpan ke Hasil_Simulator…'}
+  saveSimInputs();
+  const em=S.emp||{},id=cleanInp(key(em),50),nm=cleanInp(em.Nama_Lengkap||id,100);
+  const jn=cleanInp(S.simJn||$('#sim-jn')?.value,100);
+  let mat=S.simMat||'';
+  if(mat==='Lainnya'){
+    const oth=cleanInp(S.simMatOther||$('#sim-mat-other')?.value,100);
+    mat=oth?`Lainnya: ${oth}`:'Lainnya';
+  }
+  const waktu=cleanInp(S.simTime||$('#sim-time')?.value,50);
+
+  if(!id||!nm){
+    showErr('#se-sim',S.lang==='zh'?'未找到员工信息，请重新登录。':S.lang==='en'?'Employee data not found. Please log in again.':'Data karyawan tidak ditemukan. Silakan masuk ulang.');
+    return;
+  }
+  if(!jn){
+    showErr('#se-sim',S.lang==='zh'?'请选择或输入模拟器机型。':S.lang==='en'?'Please select or enter simulator type.':'Silakan pilih Jenis Simulator terlebih dahulu.');
+    $('#sim-jn')?.focus();
+    return;
+  }
+  if(!mat){
+    showErr('#se-sim',S.lang==='zh'?'请选择模拟实操培训课题。':S.lang==='en'?'Please select simulator training topic.':'Silakan pilih Materi Simulator terlebih dahulu.');
+    return;
+  }
+  if(S.simMat==='Lainnya'&&!cleanInp(S.simMatOther||$('#sim-mat-other')?.value,100)){
+    showErr('#se-sim',S.lang==='zh'?'请填写“其他”具体培训内容说明。':S.lang==='en'?'Please specify other training topic.':'Silakan tuliskan keterangan untuk materi Lainnya.');
+    $('#sim-mat-other')?.focus();
+    return;
+  }
+  if(!waktu){
+    showErr('#se-sim',S.lang==='zh'?'请选择或输入模拟器实操时长。':S.lang==='en'?'Please select or enter simulator duration.':'Silakan pilih atau isi Waktu/Durasi Simulator.');
+    $('#sim-time')?.focus();
+    return;
+  }
+
+  const b=$('#bt-sim');
+  if(b){
+    b.disabled=true;
+    b.textContent=S.lang==='zh'?'正在保存至模拟器记录…':S.lang==='en'?'Saving to Hasil_Simulator…':'Menyimpan ke Hasil_Simulator…';
+  }
   const ts=nowTs();
-  const rec={Timestamp_Submit:ts,ID_Karyawan:id,Nama_Karyawan:nm,Jenis_Simulator:jn};
-  const body={action:'submit_simulator',sheet:CFG.HASIL_SIM,...rec,Nama_Simulator:jn};
+  const rec={
+    Timestamp_Submit:ts,
+    ID_Karyawan:id,
+    Nama_Karyawan:nm,
+    Jenis_Simulator:jn,
+    Materi_Simulator:mat,
+    Waktu_Simulator:waktu
+  };
+  const body={
+    action:'submit_simulator',
+    sheet:CFG.HASIL_SIM,
+    ...rec,
+    Nama_Simulator:jn,
+    Materi:mat,
+    Durasi_Menit:waktu
+  };
+
   try{
     let loc=[];try{loc=JSON.parse(localStorage.getItem('mgr_his_sim')||'[]')}catch{}
     loc.push(rec);localStorage.setItem('mgr_his_sim',JSON.stringify(loc));
   }catch{}
-  S.hisSim=mergeSimHis(id,S.hisSim);saveCache();
+
+  S.hisSim=mergeSimHis(id,S.hisSim);
+  saveCache();
+
   try{
     const res=await po(body,2);
     if(!res||res.status!=='success')throw 0;
@@ -625,24 +866,29 @@ async function subSim(){
       q.push(body);localStorage.setItem('mgr_pending_sim',JSON.stringify(q));
     }catch{}
   }
-  toast(`Absensi simulator "${jn}" berhasil dicatat.`);
+
+  toast(S.lang==='zh'?`模拟考核记录 "${jn}"（${mat} - ${waktu}）已成功登记。`:S.lang==='en'?`Simulator session "${jn}" (${mat} - ${waktu}) recorded successfully.`:`Absensi simulator "${jn}" (${mat} - ${waktu}) berhasil dicatat.`);
+  S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';
   if($('#sim-jn'))$('#sim-jn').value='';
+  if($('#sim-mat-other'))$('#sim-mat-other').value='';
+  if($('#sim-time'))$('#sim-time').value='';
   rSim();
 }
 
 /* ---------- modules ---------- */
 function rModules(){
   const lv=['ALL',...new Set(S.modul.map(m=>m.Tingkat).filter(Boolean))],q=up($('#ms')?.value||'');
-  const list=S.modul.filter(m=>(S.lv==='ALL'||m.Tingkat===S.lv)&&(!q||up(m.Nama_Modul+m.ID_Modul).includes(q)));
-  $('#v-modules').innerHTML=`<h1>Katalog Modul</h1><input class="inp" id="ms" maxlength="80" placeholder="Cari nama atau kode modul…" value="${e($('#ms')?.value||'')}" oninput="rModules();$('#ms').focus();$('#ms').setSelectionRange(99,99)">
-  <div class="tabs">${lv.map(l=>`<button class="${S.lv===l?'on':''}" data-a="lv" data-v="${e(l)}">${l==='ALL'?'Semua':e(l)}</button>`).join('')}</div>
-  ${list.map(m=>{const d=isDone(m.ID_Modul),td=hasToday(m.ID_Modul);return`<div class="item"><div class="g"><div class="row" style="gap:6px;margin-bottom:3px"><span class="chip ${d?'ok':''}">${d?'DONE':e(m.Tingkat||'Umum')}</span><span class="mut sm">${e(m.Durasi_Default||'-')} mnt • ${e(m.Jml_Soal_Default||'-')} soal • Lulus ${e(m.Passing_Grade||75)}</span></div><b style="display:block;font-size:14px;line-height:1.35">${e(m.Nama_Modul)}</b></div>${td?`<button class="btn ${d?'':'p'} s" data-a="pin" data-v="${e(m.ID_Modul)}">${d?'Ulang':'Mulai'}</button>`:''}</div>`}).join('')||'<p class="mut sm">Tidak ada modul yang sesuai kriteria.</p>'}`;
+  const list=S.modul.filter(m=>(S.lv==='ALL'||m.Tingkat===S.lv)&&(!q||up(mText(m,'Nama_Modul')+m.ID_Modul).includes(q)));
+  $('#v-modules').innerHTML=`<h1>${t('mod_title')}</h1><input class="inp" id="ms" maxlength="80" placeholder="${S.lang==='zh'?'搜索模块名称或编号…':S.lang==='en'?'Search module name or code…':'Cari nama atau kode modul…'}" value="${e($('#ms')?.value||'')}" oninput="rModules();$('#ms').focus();$('#ms').setSelectionRange(99,99)">
+  <div class="tabs">${lv.map(l=>`<button class="${S.lv===l?'on':''}" data-a="lv" data-v="${e(l)}">${l==='ALL'?t('mod_all'):e(l)}</button>`).join('')}</div>
+  ${list.map(m=>{const d=isDone(m.ID_Modul),td=hasToday(m.ID_Modul);return`<div class="item"><div class="g"><div class="row" style="gap:6px;margin-bottom:3px"><span class="chip ${d?'ok':''}">${d?t('passed'):e(m.Tingkat||'Umum')}</span><span class="mut sm">${e(m.Durasi_Default||'-')} ${t('min')} • ${e(m.Jml_Soal_Default||'-')} ${t('qs_cnt')} • ${t('pass_std')} ${e(m.Passing_Grade||75)}</span></div><b style="display:block;font-size:14px;line-height:1.35">${e(mText(m,'Nama_Modul'))}</b></div>${td?`<button class="btn ${d?'':'p'} s" data-a="pin" data-v="${e(m.ID_Modul)}">${d?t('retest'):t('start_btn')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${S.lang==='zh'?'未找到符合条件的课程模块。':S.lang==='en'?'No modules matching criteria.':'Tidak ada modul yang sesuai kriteria.'}</p>`}`;
 }
 
 /* ---------- PIN → briefing → exam ---------- */
 function openPin(id){
   const m=S.modul.find(x=>up(x.ID_Modul)===up(id))||S.sesi.find(x=>up(x.ID_Modul)===up(id))||S.mat.find(x=>up(x.ID_Modul)===up(id));S.pend={id:id||''};
-  $('#pt').textContent=m?(m.Nama_Modul||m.Nama_Kompetensi):'Masukkan Kode PIN';$('#ps').textContent=m?'Modul '+m.ID_Modul:'';$('#pi').value='';$('#pe').classList.remove('on');
+  $('#pt').textContent=m?(mText(m,'Nama_Modul')||m.Nama_Kompetensi):t('pin_modal_title');$('#ps').textContent=m?'Modul '+m.ID_Modul:'';$('#pi').value='';$('#pe').classList.remove('on');
+  if($('#pb'))$('#pb').innerHTML=`${t('pin_verify')} <span class="mi">arrow_forward</span>`;
   $('#o-pin').classList.add('on');setTimeout(()=>$('#pi').focus(),150);
 }
 async function verify(){
@@ -656,29 +902,29 @@ async function verify(){
     }
     if(!found)throw new Error(`Kode PIN "${pin}" tidak ditemukan.`);
     if(S.pend.id&&list.some(x=>up(x.ID_Modul)===up(S.pend.id))&&up(found.ID_Modul)!==up(S.pend.id)){
-      throw new Error(`Kode PIN "${pin}" terdaftar untuk modul ${found.Nama_Modul} (${found.ID_Modul}).`);
+      throw new Error(`Kode PIN "${pin}" terdaftar untuk modul ${mText(found,'Nama_Modul')} (${found.ID_Modul}).`);
     }
     if(['NONAKTIF','SELESAI'].includes(up(found.Status))){
       throw new Error(`Sesi untuk Kode PIN ini sudah tidak aktif (${found.Status}).`);
     }
     S.pend.pin=pin;S.pend.ses=found;$('#o-pin').classList.remove('on');brief();
   }catch(x){showErr('#pe',x.message||'Gagal memverifikasi PIN.')}
-  b.disabled=false;b.innerHTML='Verifikasi PIN '+mi('arrow_forward');
+  b.disabled=false;b.innerHTML=t('pin_verify')+' '+mi('arrow_forward');
 }
 const tSlots=[];for(let h=6;h<=22;h++){const hh=String(h).padStart(2,'0');tSlots.push(hh+':00');if(h<22)tSlots.push(hh+':30')}
 function brief(){
   const s=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
   const tOpt=tSlots.map(t=>`<option value="${t}">${t}</option>`).join('');
-  $('#v-brief').innerHTML=`<div class="card"><span class="chip ok">${mi('verified')} PIN Valid</span><h1 style="margin:6px 0 2px">${e(s.Nama_Modul||m.Nama_Modul)}</h1><p class="mut sm">${e([s.Batch_Sesi,m.Penyelenggara||s.Trainer].filter(Boolean).join(' • '))}</p>
-  <div style="margin-top:12px">${kp([s.Durasi_Menit||m.Durasi_Default||'-','Menit'],[s.Jml_Soal||m.Jml_Soal_Default||'-','Soal'],[m.Passing_Grade||'-','Lulus'],[up(s.Acak_Soal)==='YA'?'Acak':'Urut','Urutan'])}</div></div>
-  <div class="card"><h2>Data Pelaksanaan Training</h2>
-  <label class="lbl" for="bt-tr" style="margin-top:8px">Nama Trainer</label>
+  $('#v-brief').innerHTML=`<div class="card"><div class="row sp"><span class="chip ok">${mi('verified')} PIN Valid</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div><h1 style="margin:6px 0 2px">${e(mText(s,'Nama_Modul')||mText(m,'Nama_Modul'))}</h1><p class="mut sm">${e([s.Batch_Sesi,m.Penyelenggara||s.Trainer].filter(Boolean).join(' • '))}</p>
+  <div style="margin-top:12px">${kp([s.Durasi_Menit||m.Durasi_Default||'-',t('min')],[s.Jml_Soal||m.Jml_Soal_Default||'-',t('qs_cnt')],[m.Passing_Grade||'-',t('pass_std')],[up(s.Acak_Soal)==='YA'?'Acak':'Urut','Urutan'])}</div></div>
+  <div class="card"><h2>${t('brief_title')}</h2>
+  <label class="lbl" for="bt-tr" style="margin-top:8px">${t('trainer')}</label>
   <div class="sdd" data-sdd="bt-tr"><input class="inp" id="bt-tr" maxlength="100" value="${e(s.Trainer||'')}" autocomplete="off" placeholder="Pilih / cari Trainer…"><button type="button" class="sdd-b" data-a="sdd" data-v="bt-tr" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button><div class="sdd-m" id="dd-bt-tr"></div></div>
   <div class="row m-col" style="align-items:flex-start;gap:10px;margin-top:8px">
-    <div class="g" style="width:100%"><label class="lbl" for="bt-jm">Jam Mulai</label><select class="inp" id="bt-jm"><option value="">Pilih jam…</option>${tOpt}</select></div>
-    <div class="g" style="width:100%"><label class="lbl" for="bt-js">Jam Selesai</label><select class="inp" id="bt-js"><option value="">Pilih jam…</option>${tOpt}</select></div>
+    <div class="g" style="width:100%"><label class="lbl" for="bt-jm">${t('time_start')}</label><select class="inp" id="bt-jm"><option value="">Pilih jam…</option>${tOpt}</select></div>
+    <div class="g" style="width:100%"><label class="lbl" for="bt-js">${t('time_end')}</label><select class="inp" id="bt-js"><option value="">Pilih jam…</option>${tOpt}</select></div>
   </div></div>
-  <div class="err" id="be"></div><button class="btn p w" id="bs" data-a="start">Mulai Ujian ${mi('play_arrow')}</button><button class="btn w" data-a="go" data-v="home">Batal</button>`;
+  <div class="err" id="be"></div><button class="btn p w" id="bs" data-a="start">${t('btn_start_exam')} ${mi('play_arrow')}</button><button class="btn w" data-a="go" data-v="home">${t('reg_cancel')}</button>`;
   go('brief');
   if(!S.trainer.length){
     g({action:'read_sheet',sheet:CFG.TRAINER}).then(tr=>{
@@ -720,7 +966,7 @@ async function start(){
     const uid='#MGR-'+new Date().getFullYear()+'-'+Math.floor(1000+Math.random()*9000);
     S.ex={uid,nik:key(S.emp),pin:S.pend.pin,ses,tr:{nama:tr,mulai:jm,selesai:js},qs,i:0,ans:{},fl:{},fb:{e1:'',e2:''},tabs:0,end:Date.now()+dur*60000};
     save();tick.id=setInterval(tick,1000);go('exam');
-  }catch(x){showErr('#be',x.message);b.disabled=false;b.innerHTML='Mulai Ujian '+mi('play_arrow')}
+  }catch(x){showErr('#be',x.message);b.disabled=false;b.innerHTML=t('btn_start_exam')+' '+mi('play_arrow')}
 }
 const save=()=>{try{localStorage.setItem('mgr_exam',JSON.stringify(S.ex))}catch{}};
 function isFbDone(fb){
@@ -745,23 +991,43 @@ function rExam(){
   if(left()<=0){x.timeUp=true;save();go('feedback');return}
   if(!tick.id||!S.tk){S.tk=1;clearInterval(tick.id);tick.id=setInterval(tick,1000)}
   const q=x.qs[x.i],n=x.qs.length,a=Object.keys(x.ans).length,L=['A','B','C','D'];
-  const foto=okUrl(q.Foto_Kasus_URL);
-  $('#v-exam').innerHTML=`<div class="xbar"><div class="row"><span class="chip">${x.i+1} / ${n}</span><b class="g ell" style="font-size:13px">${e(x.ses.Nama_Modul)}</b><div class="tm" id="tm">${mi('timer')}<span>${fmt(left())}</span></div></div><div class="bar"><i style="width:${Math.round(a/n*100)}%"></i></div></div>
-  <div class="row" style="flex-wrap:wrap;gap:6px">${String(q.Tag_Topik||'').split(',').filter(t=>t.trim()).map(t=>`<span class="chip">${e(t.trim())}</span>`).join('')}<span class="g"></span><button class="btn s" data-a="hint">${mi('lightbulb')}</button><button class="btn s" data-a="tts">${mi('volume_up')}</button></div>
-  <p class="q">${e(q.Pertanyaan)}</p>
-  <div class="card" id="hint" style="display:none;background:var(--pf)"><b>Petunjuk:</b> ${e(q.Hint_Petunjuk||'Perhatikan prosedur keselamatan dan SOP.')}</div>
-  ${foto||q.Judul_Media_Kasus&&q.Judul_Media_Kasus!=='-'?`<div class="card" style="padding:0;overflow:hidden">${foto?`<img src="${e(q.Foto_Kasus_URL)}" style="width:100%;max-height:240px;object-fit:cover;display:block" alt="">`:''}<p class="sm" style="padding:10px 14px"><b>${e(q.Judul_Media_Kasus||'Studi Kasus')}</b> ${q.Label_Alert_Media&&q.Label_Alert_Media!=='-'?`<span class="chip wa">${e(q.Label_Alert_Media)}</span>`:''}</p></div>`:''}
-  <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${L.map(l=>q['Opsi_'+l]?`<button class="opt ${x.ans[q.ID_Soal]===l?'on':''}" role="radio" aria-checked="${x.ans[q.ID_Soal]===l}" data-a="ans" data-v="${l}"><b>${l}</b><span class="g">${e(q['Opsi_'+l])}</span></button>`:'').join('')}</div>
-  <div class="dock"><button class="btn" data-a="prev" ${x.i?'':'disabled'} aria-label="Sebelumnya">${mi('chevron_left')}</button><button class="btn ${x.fl[q.ID_Soal]?'':''}" style="${x.fl[q.ID_Soal]?'background:var(--wab);color:var(--wa)':''}" data-a="flag">${mi('flag')}Ragu</button><button class="btn" data-a="map">${mi('grid_view')}${a}/${n}</button><button class="btn p g" data-a="next">${x.i===n-1?'Tinjau':'Lanjut'} ${mi('chevron_right')}</button></div>`;
+  const foto=okUrl(q.Foto_Kasus_URL),vid=okUrl(q.Video_Kasus_URL);
+  $('#v-exam').innerHTML=`<div class="xbar"><div class="row"><span class="chip">${x.i+1} / ${n}</span><b class="g ell" style="font-size:13px">${e(mText(x.ses,'Nama_Modul'))}</b><div class="tm" id="tm">${mi('timer')}<span>${fmt(left())}</span></div></div><div class="bar"><i style="width:${Math.round(a/n*100)}%"></i></div></div>
+  <div class="row" style="flex-wrap:wrap;gap:6px;align-items:center">
+    ${String(q.Tag_Topik||'').split(',').filter(t=>t.trim()).map(t=>`<span class="chip">${e(t.trim())}</span>`).join('')}
+    <span class="g"></span>
+    <div class="lang-switch">
+      <button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button>
+      <button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button>
+      <button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button>
+    </div>
+    <button class="btn s" data-a="hint" title="${t('hint')}">${mi('lightbulb')}</button>
+    <button class="btn s" data-a="tts" title="Audio">${mi('volume_up')}</button>
+  </div>
+  <p class="q">${e(qText(q,'Pertanyaan'))}</p>
+  <div class="card" id="hint" style="display:none;background:var(--pf)"><b>${t('hint')}:</b> ${e(qText(q,'Hint_Petunjuk')||'Perhatikan prosedur keselamatan dan SOP.')}</div>
+  ${foto||vid||q.Judul_Media_Kasus&&q.Judul_Media_Kasus!=='-'||q.Info_Konteks_Kanan?`<div class="card" style="padding:0;overflow:hidden">
+    ${foto?`<img src="${e(q.Foto_Kasus_URL)}" style="width:100%;max-height:240px;object-fit:cover;display:block" alt="">`:''}
+    ${vid?`<video src="${e(q.Video_Kasus_URL)}" controls style="width:100%;max-height:240px;display:block;background:#000"></video>`:''}
+    ${(q.Judul_Media_Kasus&&q.Judul_Media_Kasus!=='-')||q.Info_Konteks_Kanan?`<div style="padding:10px 14px">
+      ${q.Judul_Media_Kasus&&q.Judul_Media_Kasus!=='-'?`<p class="sm" style="margin-bottom:4px"><b>${e(qText(q,'Judul_Media_Kasus')||'Studi Kasus')}</b> ${q.Label_Alert_Media&&q.Label_Alert_Media!=='-'?`<span class="chip wa">${e(q.Label_Alert_Media)}</span>`:''}</p>`:''}
+      ${q.Info_Konteks_Kanan?`<p class="sm mut" style="line-height:1.4">${e(q.Info_Konteks_Kanan)}</p>`:''}
+    </div>`:''}
+  </div>`:''}
+  <div role="radiogroup" style="display:flex;flex-direction:column;gap:10px">${L.map(l=>{
+    const optVal = qText(q,'Opsi_'+l) || q['Opsi_'+l];
+    return optVal ? `<button class="opt ${x.ans[q.ID_Soal]===l?'on':''}" role="radio" aria-checked="${x.ans[q.ID_Soal]===l}" data-a="ans" data-v="${l}"><b>${l}</b><span class="g">${e(optVal)}</span></button>` : '';
+  }).join('')}</div>
+  <div class="dock"><button class="btn" data-a="prev" ${x.i?'':'disabled'} aria-label="${t('prev')}">${mi('chevron_left')}</button><button class="btn" style="${x.fl[q.ID_Soal]?'background:var(--wab);color:var(--wa)':''}" data-a="flag">${mi('flag')}${t('doubt')}</button><button class="btn" data-a="map">${mi('grid_view')}${a}/${n}</button><button class="btn p g" data-a="next">${x.i===n-1?t('review'):t('next')} ${mi('chevron_right')}</button></div>`;
   $('#mp').innerHTML=x.qs.map((z,i)=>`<button class="${x.ans[z.ID_Soal]?'a':''} ${x.fl[z.ID_Soal]?'f':''} ${i===x.i?'c':''}" data-a="jump" data-v="${i}">${i+1}</button>`).join('');
 }
 function rReview(){
   const x=S.ex;if(!x)return;const n=x.qs.length,a=Object.keys(x.ans).length,fl=Object.values(x.fl).filter(Boolean).length,un=n-a;
-  $('#v-review').innerHTML=`<div class="card"><h1>Tinjau Jawaban</h1><p class="mut">Sisa waktu <b id="rt">${fmt(left())}</b></p><div style="margin-top:12px">${kp([a+'/'+n,'Terjawab'],[un,'Kosong'],[fl,'Ragu'],[Math.round(a/n*100)+'%','Progres'])}</div></div>
-  ${un||fl?`<div class="card" style="background:var(--wab);color:var(--wa)"><b>${mi('warning')} ${un?un+' soal belum dijawab':''}${un&&fl?' • ':''}${fl?fl+' soal ditandai ragu':''}</b><p class="sm">Ketuk nomor untuk kembali ke soal.</p></div>`:`<div class="card" style="background:var(--okb);color:var(--ok)"><b>${mi('check_circle')} Semua soal terjawab.</b></div>`}
+  $('#v-review').innerHTML=`<div class="card"><div class="row sp"><h1>${t('review_title')}</h1><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div><p class="mut" style="margin-top:2px">${t('time_left')} <b id="rt">${fmt(left())}</b></p><div style="margin-top:12px">${kp([a+'/'+n,t('answered')],[un,t('unanswered')],[fl,t('doubt')],[Math.round(a/n*100)+'%',t('progress')])}</div></div>
+  ${un||fl?`<div class="card" style="background:var(--wab);color:var(--wa)"><b>${mi('warning')} ${un?un+' '+t('unanswered_warn'):''}${un&&fl?' • ':''}${fl?fl+' '+t('doubt_warn'):''}</b><p class="sm">${t('tap_number_tip')}</p></div>`:`<div class="card" style="background:var(--okb);color:var(--ok)"><b>${mi('check_circle')} ${t('all_answered')}</b></div>`}
   <div class="card"><div class="map">${x.qs.map((z,i)=>`<button class="${x.ans[z.ID_Soal]?'a':''} ${x.fl[z.ID_Soal]?'f':''}" data-a="jump" data-v="${i}">${i+1}</button>`).join('')}</div></div>
-  <button class="btn p w" data-a="go" data-v="feedback">Lanjut Isi Training Feedback ${mi('arrow_forward')}</button>
-  ${!x.timeUp?`<button class="btn w" data-a="go" data-v="exam">${mi('arrow_back')} Kembali ke Soal</button>`:''}`;
+  <button class="btn p w" data-a="go" data-v="feedback">${t('to_feedback_btn')} ${mi('arrow_forward')}</button>
+  ${!x.timeUp?`<button class="btn w" data-a="go" data-v="exam">${mi('arrow_back')} ${t('back_to_exam')}</button>`:''}`;
 }
 function syncFbText(){
   if(!S.ex)return;
@@ -775,33 +1041,40 @@ function rFeedback(){
   x.fb=x.fb||{e1:'',e2:''};
   const fb=x.fb,tr=x.tr||{};
   const ratedCnt=FB_QS.filter(([k])=>fb[k]>=1&&fb[k]<=5).length+(cleanInp(fb.e1,500)?1:0)+(cleanInp(fb.e2,500)?1:0);
+  const curL=S.lang||'id';
+  const qsList=FB_QS.map(([k,idTitle,idDesc],idx)=>{
+    const trItem=FB_QS_I18N[curL]?.[idx];
+    const title=trItem?.[0]||idTitle;
+    const desc=trItem?.[1]||idDesc;
+    return [k,title,desc];
+  });
   $('#v-feedback').innerHTML=`<div class="card hero">
-    <div class="row sp"><span class="hero-co">${mi('rate_review')} TRAINING FEEDBACK</span><span class="chip ${ratedCnt===12?'ok':''}">${ratedCnt}/12 Terisi</span></div>
-    <h1 class="ell" style="margin-top:2px">${e(x.ses.Nama_Modul)}</h1>
-    <p class="mut sm ell">${e([tr.nama?'Trainer: '+tr.nama:'', 'Skala ★ 1 Sangat Buruk — ★ 5 Sangat Baik'].filter(Boolean).join(' • '))}</p>
+    <div class="row sp"><span class="hero-co">${mi('rate_review')} ${t('fb_title')}</span><div class="row" style="gap:6px"><span class="chip ${ratedCnt===12?'ok':''}">${ratedCnt}/12 ${curL==='zh'?'已填':curL==='en'?'Completed':'Terisi'}</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div></div>
+    <h1 class="ell" style="margin-top:2px">${e(mText(x.ses,'Nama_Modul'))}</h1>
+    <p class="mut sm ell">${e([tr.nama?`${t('trainer')}: `+tr.nama:'', t('fb_desc')].filter(Boolean).join(' • '))}</p>
   </div>
-  ${FB_QS.map(([k,title,desc],idx)=>{
+  ${qsList.map(([k,title,desc],idx)=>{
     const cur=parseInt(fb[k],10)||0;
     return`<div class="card" id="fb-box-${k}">
-      <div class="row sp" style="align-items:flex-start"><b style="font-size:13.5px">${idx+1}. ${e(title)}</b>${cur?`<span class="chip ok">★ ${cur} • ${FB_LABELS[cur]}</span>`:`<span class="chip wa">Wajib</span>`}</div>
+      <div class="row sp" style="align-items:flex-start"><b style="font-size:13.5px">${idx+1}. ${e(title)}</b>${cur?`<span class="chip ok">★ ${cur} • ${fbLabel(cur)}</span>`:`<span class="chip wa">${curL==='zh'?'必填':curL==='en'?'Required':'Wajib'}</span>`}</div>
       <p class="mut sm" style="margin-top:3px">${e(desc)}</p>
-      <div class="stars">${[1,2,3,4,5].map(n=>`<button type="button" class="st-b ${n===cur?'on':n<cur?'lit':''}" data-a="rateFb" data-v="${k}|${n}" aria-label="${n} bintang"><span class="st-i">★</span><span>${n}</span></button>`).join('')}</div>
+      <div class="stars">${[1,2,3,4,5].map(n=>`<button type="button" class="st-b ${n===cur?'on':n<cur?'lit':''}" data-a="rateFb" data-v="${k}|${n}" aria-label="${n} star"><span class="st-i">★</span><span>${n}</span></button>`).join('')}</div>
     </div>`;
   }).join('')}
   <div class="card" id="fb-box-essay" style="display:flex;flex-direction:column;gap:10px">
-    <h2>Ulasan Pelatihan (Essay)</h2>
+    <h2>${curL==='zh'?'培训评价 (问答题)':curL==='en'?'Training Review (Essay)':'Ulasan Pelatihan (Essay)'}</h2>
     <div>
-      <label class="lbl" for="fb-e1">1. Apa yang masih kurang / perlu ditingkatkan dari pelatihan ini?</label>
-      <textarea class="ta" id="fb-e1" maxlength="500" placeholder="Tuliskan masukan atau hal yang perlu ditingkatkan…">${e(fb.e1||'')}</textarea>
+      <label class="lbl" for="fb-e1">${t('fb_e1_q')}</label>
+      <textarea class="ta" id="fb-e1" maxlength="500" placeholder="${curL==='zh'?'请输入反馈与改进建议…':curL==='en'?'Enter feedback or areas for improvement…':'Tuliskan masukan atau hal yang perlu ditingkatkan…'}">${e(fb.e1||'')}</textarea>
     </div>
     <div>
-      <label class="lbl" for="fb-e2">2. Apa yang sudah bagus dari pelatihan ini?</label>
-      <textarea class="ta" id="fb-e2" maxlength="500" placeholder="Tuliskan hal yang sudah baik dari pelatihan ini…">${e(fb.e2||'')}</textarea>
+      <label class="lbl" for="fb-e2">${t('fb_e2_q')}</label>
+      <textarea class="ta" id="fb-e2" maxlength="500" placeholder="${curL==='zh'?'请输入做得好的方面…':curL==='en'?'Enter positive feedback or highlights…':'Tuliskan hal yang sudah baik dari pelatihan ini…'}">${e(fb.e2||'')}</textarea>
     </div>
   </div>
   <div class="err" id="fe"></div>
-  <button class="btn p w" id="sb" data-a="submit">${mi('send')} Kirim Feedback &amp; Jawaban Ujian</button>
-  ${!x.timeUp?`<button class="btn w" data-a="go" data-v="review">${mi('arrow_back')} Kembali ke Tinjauan Soal</button>`:''}`;
+  <button class="btn p w" id="sb" data-a="submit">${mi('send')} ${t('fb_submit')}</button>
+  ${!x.timeUp?`<button class="btn w" data-a="go" data-v="review">${mi('arrow_back')} ${t('back_to_exam')}</button>`:''}`;
 }
 async function submit(){
   if(S.busy||!S.ex)return;
@@ -811,19 +1084,25 @@ async function submit(){
   if(missQ){
     if(S.v!=='feedback')go('feedback');
     const idx=FB_QS.indexOf(missQ)+1;
-    showErr('#fe',`Mohon pilih skala bintang (1–5) pada nomor ${idx}: ${missQ[1]}.`);
+    const curL=S.lang||'id';
+    const qLabel=FB_QS_I18N[curL]?.[idx-1]?.[0]||missQ[1];
+    const msg=curL==='zh'?`请在第 ${idx} 题评分 (★ 1–5)：${qLabel}`:curL==='en'?`Please select a star rating (1–5) for #${idx}: ${qLabel}.`:`Mohon pilih skala bintang (1–5) pada nomor ${idx}: ${missQ[1]}.`;
+    showErr('#fe',msg);
     $('#fb-box-'+missQ[0])?.scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
   const e1=cleanInp(fb.e1,500),e2=cleanInp(fb.e2,500);
   if(!e1||!e2){
     if(S.v!=='feedback')go('feedback');
-    showErr('#fe','Mohon isi kedua pertanyaan essay feedback pelatihan terlebih dahulu.');
+    const curL=S.lang||'id';
+    const msg=curL==='zh'?'请先填写完整的培训反馈问答。':curL==='en'?'Please fill in both feedback essay questions before submitting.':'Mohon isi kedua pertanyaan essay feedback pelatihan terlebih dahulu.';
+    showErr('#fe',msg);
     (!e1?$('#fb-e1'):$('#fb-e2'))?.focus();
     return;
   }
   S.busy=true;const b=$('#sb');
-  if(b){b.disabled=true;b.textContent='Mengirim…'}
+  const curL=S.lang||'id';
+  if(b){b.disabled=true;b.textContent=curL==='zh'?'提交中…':curL==='en'?'Submitting…':'Mengirim…'}
   $('#fe')?.classList.remove('on');
   const tr=x.tr||{};
   const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2};
@@ -840,43 +1119,65 @@ async function submit(){
     showResult(res,mod);refresh();
   }catch(er){
     try{localStorage.setItem('mgr_pending_sub',JSON.stringify(payload))}catch{}
-    showErr('#fe',(er.message||'Koneksi tidak stabil')+' — Jawaban & Feedback Anda sudah dikunci di perangkat. Ketuk Kirim Ulang.');
-    if(b){b.disabled=false;b.innerHTML=mi('send')+' Kirim Ulang'}
+    const curL=S.lang||'id';
+    const tip=curL==='zh'?' — 您的答案与反馈已锁定保存在本地设备，请点击重试。':curL==='en'?' — Your answers & feedback are locked locally. Tap retry to resubmit.':' — Jawaban & Feedback Anda sudah dikunci di perangkat. Ketuk Kirim Ulang.';
+    showErr('#fe',(er.message||(curL==='zh'?'网络连接不稳定':curL==='en'?'Connection unstable':'Koneksi tidak stabil'))+tip);
+    if(b){b.disabled=false;b.innerHTML=mi('send')+' '+(curL==='zh'?'重新提交':curL==='en'?'Retry Submission':'Kirim Ulang')}
   }
   S.busy=false;
 }
 function showResult(r,ses){
+  S.lastRes={r,ses};
   const ok=up(r.Status_Lulus)==='LULUS',sc=parseFloat(r.Skor_Akhir)||0;
-  $('#v-result').innerHTML=`<div class="card"><div class="row sp"><span class="chip ${ok?'ok':'er'}">${ok?'LULUS':'BELUM LULUS'}</span><span class="mut sm">${e(r.ID_Ujian)}</span></div><div style="margin:14px 0;padding:14px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);display:flex;align-items:baseline;justify-content:space-between"><span class="mut sm">Skor Akhir</span><b style="font-size:32px;font-weight:800;color:${ok?'var(--ok)':'var(--er)'}">${sc}</b></div><h1>${ok?'Memenuhi Standar Kelulusan':'Belum Mencapai Batas Kelulusan'}</h1><p class="mut sm" style="margin-top:2px">${e(r.Nama_Modul_Sertifikat||ses.Nama_Modul)}</p>${r.Nama_Trainer?`<p class="mut sm" style="margin-top:4px">Trainer: <b>${e(r.Nama_Trainer)}</b> • Jam Training: <b>${e(r.Jam_Mulai_Training||'-')} – ${e(r.Jam_Berakhir_Training||'-')}</b></p>`:''}
-  <div style="margin-top:14px">${kp([r.Benar,'Benar'],[r.Terjawab,'Terjawab'],[r.Sisa_Waktu,'Sisa Waktu'],[sc,'Skor'])}</div></div>
-  ${ok?`<button class="btn p w" data-a="cert" data-v="${e(r.No_Sertifikat)}|${e(r.Nama_Modul_Sertifikat)}|${sc}|${e(String(r.Timestamp_Submit).split(' ')[0])}">Lihat E-Sertifikat</button>`:`<button class="btn p w" data-a="pin" data-v="${e(r.ID_Modul)}">Ujian Ulang (Masukkan PIN)</button>`}
-  <button class="btn w" data-a="go" data-v="profile">Riwayat & Matriks</button><button class="btn w" data-a="go" data-v="home">Kembali ke Beranda</button>`;
+  const curL=S.lang||'id';
+  const modTitle=mText(ses,'Nama_Modul')||r.Nama_Modul_Sertifikat||ses?.Nama_Modul||'';
+  $('#v-result').innerHTML=`<div class="card"><div class="row sp"><span class="chip ${ok?'ok':'er'}">${ok?t('passed'):t('not_passed')}</span><div class="row" style="gap:6px"><span class="mut sm">${e(r.ID_Ujian)}</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div></div><div style="margin:14px 0;padding:14px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);display:flex;align-items:baseline;justify-content:space-between"><span class="mut sm">${t('final_score')}</span><b style="font-size:32px;font-weight:800;color:${ok?'var(--ok)':'var(--er)'}">${sc}</b></div><h1>${ok?t('result_pass'):t('result_fail')}</h1><p class="mut sm" style="margin-top:2px">${e(modTitle)}</p>${r.Nama_Trainer?`<p class="mut sm" style="margin-top:4px">${t('trainer')}: <b>${e(r.Nama_Trainer)}</b> • ${curL==='zh'?'培训时间':curL==='en'?'Session Hours':'Jam Training'}: <b>${e(r.Jam_Mulai_Training||'-')} – ${e(r.Jam_Berakhir_Training||'-')}</b></p>`:''}
+  <div style="margin-top:14px">${kp([r.Benar,curL==='zh'?'答对':curL==='en'?'Correct':'Benar'],[r.Terjawab,t('answered')],[r.Sisa_Waktu,t('time_left')],[sc,t('score')])}</div></div>
+  ${ok?`<button class="btn p w" data-a="cert" data-v="${e(r.No_Sertifikat)}|${e(r.Nama_Modul_Sertifikat||modTitle)}|${sc}|${e(String(r.Timestamp_Submit).split(' ')[0])}">${t('view_cert')}</button>`:`<button class="btn p w" data-a="pin" data-v="${e(r.ID_Modul)}">${t('retest')}</button>`}
+  <button class="btn w" data-a="go" data-v="profile">${t('history_matrix')}</button><button class="btn w" data-a="go" data-v="home">${t('back_home')}</button>`;
   $('#o-map').classList.remove('on');go('result');
 }
 
 /* ---------- profile ---------- */
 function rProfile(){
   const p=pd(),em=S.emp,co=empCo(em),m=p.m.filter(x=>S.mf==='all'||(S.mf==='done')===(up(x.Status)==='DONE'));
-  $('#v-profile').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(em.Status_Level||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:4px">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([key(em),em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length,'Selesai'],[p.pct+'%','Kompetensi'],[p.avg,'Rata-rata'],[p.cert,'Sertifikat'])}</div></div>
-  <div class="tabs"><button class="${S.pt==='mat'?'on':''}" data-a="pt" data-v="mat">Matriks Kompetensi</button><button class="${S.pt==='his'?'on':''}" data-a="pt" data-v="his">Riwayat Asesmen</button></div>
-  ${S.pt==='mat'?`<div class="tabs">${[['all','Semua'],['done','Selesai'],['no','Belum Selesai']].map(([k,l])=>`<button class="${S.mf===k?'on':''}" data-a="mf" data-v="${k}">${l}</button>`).join('')}</div>`+m.map(x=>{const d=up(x.Status)==='DONE',td=hasToday(x.ID_Modul);return`<div class="item"><div class="g"><span class="chip ${d?'ok':'wa'}">${d?'DONE':'NOT YET'}</span> <span class="mut sm">${e(x.Kode_Kompetensi||x.ID_Modul)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(x.Nama_Kompetensi)}</b>${d?`<span class="mut sm">Skor ${e(x.Skor||'-')} • ${e(x.Tgl_Selesai||'-')}</span>`:''}</div>${d?`<button class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}">Sertifikat</button>`:td?`<button class="btn p s" data-a="pin" data-v="${e(x.ID_Modul)}">Mulai</button>`:''}</div>`}).join('')||'<p class="mut sm">Tidak ada data.</p>'
-  :S.his.slice().reverse().map(h=>{const ok=up(h.Status_Lulus)==='LULUS';return`<div class="item"><div class="g"><span class="chip ${ok?'ok':'er'}">${e(h.Status_Lulus)}</span> <span class="mut sm">${e(String(h.Timestamp_Submit).split(' ')[0])} • PIN ${e(h.Kode_PIN)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(h.Nama_Modul_Sertifikat||h.ID_Modul)}</b><span class="mut sm">Skor ${e(h.Skor_Akhir)}</span></div>${ok?`<button class="btn s" data-a="cert" data-v="${e(h.No_Sertifikat)}|${e(h.Nama_Modul_Sertifikat)}|${e(h.Skor_Akhir)}|${e(String(h.Timestamp_Submit).split(' ')[0])}">Sertifikat</button>`:''}</div>`}).join('')||'<p class="mut sm">Belum ada riwayat asesmen.</p>'}`;
+  const curL=S.lang||'id';
+  const tabsMatHis=[['mat',t('mat_title')],['his',t('his_title')]];
+  const matFilters=curL==='zh'?[['all','全部'],['done','已完成'],['no','未完成']]:curL==='en'?[['all','All'],['done','Completed'],['no','Incomplete']]:[['all','Semua'],['done','Selesai'],['no','Belum Selesai']];
+  $('#v-profile').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(em.Status_Level||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:4px">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([key(em),em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>
+  <div class="tabs">${tabsMatHis.map(([k,l])=>`<button class="${S.pt===k?'on':''}" data-a="pt" data-v="${k}">${l}</button>`).join('')}</div>
+  ${S.pt==='mat'?`<div class="tabs">${matFilters.map(([k,l])=>`<button class="${S.mf===k?'on':''}" data-a="mf" data-v="${k}">${l}</button>`).join('')}</div>`+m.map(x=>{const d=up(x.Status)==='DONE',td=hasToday(x.ID_Modul);return`<div class="item"><div class="g"><span class="chip ${d?'ok':'wa'}">${d?'DONE':'NOT YET'}</span> <span class="mut sm">${e(x.Kode_Kompetensi||x.ID_Modul)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(x.Nama_Kompetensi)}</b>${d?`<span class="mut sm">${t('score')} ${e(x.Skor||'-')} • ${e(x.Tgl_Selesai||'-')}</span>`:''}</div>${d?`<button class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}">${t('kpi_cert')}</button>`:td?`<button class="btn p s" data-a="pin" data-v="${e(x.ID_Modul)}">${t('start_btn')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无数据。':curL==='en'?'No data available.':'Tidak ada data.'}</p>`
+  :S.his.slice().reverse().map(h=>{const ok=up(h.Status_Lulus)==='LULUS';return`<div class="item"><div class="g"><span class="chip ${ok?'ok':'er'}">${ok?t('passed'):t('not_passed')}</span> <span class="mut sm">${e(String(h.Timestamp_Submit).split(' ')[0])} • PIN ${e(h.Kode_PIN)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(h.Nama_Modul_Sertifikat||h.ID_Modul)}</b><span class="mut sm">${t('score')} ${e(h.Skor_Akhir)}</span></div>${ok?`<button class="btn s" data-a="cert" data-v="${e(h.No_Sertifikat)}|${e(h.Nama_Modul_Sertifikat)}|${e(h.Skor_Akhir)}|${e(String(h.Timestamp_Submit).split(' ')[0])}">${t('kpi_cert')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无评估历史记录。':curL==='en'?'No assessment history yet.':'Belum ada riwayat asesmen.'}</p>`}`;
 }
 function cert(v){
+  S.lastCert=v;
   const [no,mod,sc,dt]=v.split('|'),em=S.emp,co=empCo(em);
-  $('#ce').innerHTML=`<img class="cert-logo" src="${LOGO_URI}" alt="Merdeka Gold Resources"><div><span class="chip">${mi('workspace_premium')} E-SERTIFIKAT KOMPETENSI</span></div><p class="mut sm" style="margin-top:8px;letter-spacing:.1em">${e(up(co||'PT MERDEKA GOLD RESOURCES TBK'))}</p><p class="mut" style="margin-top:12px">Diberikan kepada</p><h1 style="font-size:24px;color:var(--br)">${e(em.Nama_Lengkap)}</h1><p class="mut sm">${e([key(em),co,em.Departemen||''].filter(Boolean).join(' • '))}</p><div class="card" style="margin:14px 0;background:var(--pf);border-color:var(--gold)"><b style="color:var(--p)">${e(mod)}</b><p class="sm mut">Skor ${e(sc)} • ${e(dt)}</p></div><p class="sm" style="font-family:monospace">${e(no)}</p>`;
+  const curL=S.lang||'id';
+  const cTitle=curL==='zh'?'能力认证电子结业证书':curL==='en'?'E-CERTIFICATE OF COMPETENCY':'E-SERTIFIKAT KOMPETENSI';
+  const cAward=curL==='zh'?'特此授予':curL==='en'?'Proudly Presented To':'Diberikan kepada';
+  $('#ce').innerHTML=`<img class="cert-logo" src="${LOGO_URI}" alt="Merdeka Gold Resources"><div><span class="chip">${mi('workspace_premium')} ${cTitle}</span></div><p class="mut sm" style="margin-top:8px;letter-spacing:.1em">${e(up(co||'PT MERDEKA GOLD RESOURCES TBK'))}</p><p class="mut" style="margin-top:12px">${cAward}</p><h1 style="font-size:24px;color:var(--br)">${e(em.Nama_Lengkap)}</h1><p class="mut sm">${e([key(em),co,em.Departemen||''].filter(Boolean).join(' • '))}</p><div class="card" style="margin:14px 0;background:var(--pf);border-color:var(--gold)"><b style="color:var(--p)">${e(mod)}</b><p class="sm mut">${t('score')} ${e(sc)} • ${e(dt)}</p></div><p class="sm" style="font-family:monospace">${e(no)}</p>`;
   $('#o-cert').classList.add('on');
 }
 
 /* ---------- actions ---------- */
 function ans(l){const x=S.ex,q=x.qs[x.i];x.ans[q.ID_Soal]=l;save();rExam()}
-function tts(){const q=S.ex.qs[S.ex.i];if(!('speechSynthesis' in window))return;if(speechSynthesis.speaking){speechSynthesis.cancel();return}const u=new SpeechSynthesisUtterance(`${q.Pertanyaan}. A: ${q.Opsi_A}. B: ${q.Opsi_B}. C: ${q.Opsi_C}. D: ${q.Opsi_D}.`);u.lang='id-ID';speechSynthesis.speak(u)}
+function tts(){
+  const q=S.ex?.qs?.[S.ex.i];if(!q||!('speechSynthesis' in window))return;
+  if(speechSynthesis.speaking){speechSynthesis.cancel();return}
+  const curL=S.lang||'id';
+  const qP=qText(q,'Pertanyaan'),oa=qText(q,'Opsi_A'),ob=qText(q,'Opsi_B'),oc=qText(q,'Opsi_C'),od=qText(q,'Opsi_D');
+  const u=new SpeechSynthesisUtterance(`${qP}. A: ${oa}. B: ${ob}. C: ${oc}. D: ${od}.`);
+  u.lang=curL==='zh'?'zh-CN':curL==='en'?'en-US':'id-ID';
+  speechSynthesis.speak(u);
+}
 const A={
-  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];saveCache();$('#un').textContent='Masuk';$('#li').value='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
+  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
-  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
-  lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},cert,ans,submit,tts,
+  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='sim-jn')S.simJn=val;document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
+  pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50)},
+  pickSimTime:v=>{saveSimInputs();S.simTime=v;if($('#sim-time'))$('#sim-time').value=v;$('#se-sim')?.classList.remove('on');rSim()},
+  lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},cert,ans,submit,tts,lang:v=>setLang(v),
   rateFb:v=>{if(!S.ex)return;syncFbText();const [k,n]=String(v||'').split('|');S.ex.fb=S.ex.fb||{};S.ex.fb[k]=parseInt(n,10)||0;save();const st=$('#main').scrollTop;rFeedback();$('#main').scrollTop=st},
   hint:()=>{const h=$('#hint');h.style.display=h.style.display==='none'?'block':'none'},
   prev:()=>{S.ex.i--;save();rExam()},flag:()=>{const q=S.ex.qs[S.ex.i];S.ex.fl[q.ID_Soal]=!S.ex.fl[q.ID_Soal];save();rExam()},
@@ -891,6 +1192,9 @@ document.addEventListener('focusin',ev=>{const s=ev.target.closest('.sdd');if(s&
 document.addEventListener('input',ev=>{
   const s=ev.target.closest('.sdd');if(s&&ev.target.tagName==='INPUT')renderSdd(s.dataset.sdd,ev.target.value.trim());
   if(ev.target.id==='fb-e1'||ev.target.id==='fb-e2'){syncFbText();$('#fe')?.classList.remove('on')}
+  if(ev.target.id==='sim-jn'){S.simJn=ev.target.value;$('#se-sim')?.classList.remove('on')}
+  if(ev.target.id==='sim-mat-other'){S.simMatOther=ev.target.value;$('#se-sim')?.classList.remove('on')}
+  if(ev.target.id==='sim-time'){S.simTime=ev.target.value;$('#se-sim')?.classList.remove('on')}
 });
 $('#lf').addEventListener('submit',async ev=>{ev.preventDefault();$('#le').classList.remove('on');const b=$('#lb');b.disabled=true;if(await login(cleanInp($('#li').value,80)))go('home');b.disabled=false});
 $('#li').addEventListener('input',rLogin);
