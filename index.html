@@ -63,9 +63,9 @@ h1{font-size:18px;font-weight:700;line-height:1.3;letter-spacing:-.01em}h2{font-
 .sdd-i small{color:var(--mut);font-size:11.5px;min-width:20px}
 .sdd-e{padding:10px;font-size:12.5px;color:var(--mut);text-align:center}
 .tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}.tabs button{flex:none;padding:6px 12px;border-radius:5px;font-size:12.5px;font-weight:600;background:var(--sf);border:1px solid var(--ln);color:var(--mut)}.tabs .on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.err{background:var(--erb);color:var(--er);border:1px solid var(--er);padding:9px 12px;border-radius:6px;font-size:12.5px;font-weight:600;display:none}.err.on{display:block}
+.err{background:var(--erb);color:var(--er);border:1px solid var(--er);padding:9px 12px;border-radius:6px;font-size:12.5px;font-weight:600;display:none}.err.on{display:block}.err.guide{background:var(--pf);color:var(--br);border:1px solid var(--gold);font-weight:500}
 footer{position:fixed;left:0;right:0;bottom:0;background:var(--sf);border-top:1px solid var(--ln);z-index:20}
-nav{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:0 8px env(safe-area-inset-bottom)}
+nav{max-width:860px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:0 8px env(safe-area-inset-bottom)}
 nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 2px 7px;border-top:2px solid transparent;border-radius:0 0 5px 5px;font-size:11px;font-weight:600;color:var(--mut);position:relative;transition:color .15s,background .15s}
 nav button:hover{color:var(--ink);background:var(--sf2)}
 nav .on{color:var(--p);background:var(--pf);border-top-color:var(--p);font-weight:700}
@@ -161,18 +161,24 @@ ul.rules b{color:var(--ink)}
 
 <main id="main">
 <section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div class="login-brand"><img class="login-logo" data-logo alt="PT Merdeka Gold Resources Tbk"></div><h1>Masuk Portal Asesmen</h1>
-<form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="NIK, ID Karyawan, atau Nama" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg">Peserta Baru (Belum Terdaftar)</button></form>
+<form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="NIK, ID Karyawan, atau Nama" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg"><span class="mi" style="font-size:18px;color:var(--p)">person_add</span> Peserta Baru (NIK Belum Terdaftar)</button></form>
 <div id="lreg" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);flex-direction:column;gap:10px">
-  <h2>Data Peserta Baru</h2>
-  <div><label class="lbl" for="rg-id">ID Karyawan / NIK</label><input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK"></div>
-  <div><label class="lbl" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap"></div>
+  <div class="row sp" style="align-items:flex-start">
+    <div>
+      <h2 style="color:var(--br);display:flex;align-items:center;gap:6px"><span class="mi" style="color:var(--p);font-size:18px">person_add</span> Pendaftaran Peserta Baru</h2>
+      <p class="mut sm" style="margin-top:2px">Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.</p>
+    </div>
+    <button type="button" class="btn s" data-a="closeReg" title="Batal pendaftaran" style="padding:0 8px;font-size:11px;color:var(--mut)"><span class="mi" style="font-size:15px">close</span> Batal</button>
+  </div>
+  <div><label class="lbl" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 5px">Terisi Otomatis</span></label><input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK" required></div>
+  <div><label class="lbl" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap peserta" required></div>
   <div><label class="lbl" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
   <div class="row m-col" style="gap:10px;align-items:flex-start">
     <div class="g" style="width:100%"><label class="lbl" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
     <div class="g" style="width:100%"><label class="lbl" for="rg-jb">Jabatan</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Jabatan…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
   </div>
   <div class="err" id="re-reg"></div>
-  <button type="button" class="btn p w" id="rb" data-a="reg">Daftar &amp; Masuk</button>
+  <button type="button" class="btn p w" id="rb" data-a="reg"><span class="mi">how_to_reg</span> Simpan &amp; Masuk ke Portal</button>
 </div></div></section>
 
 <section class="view" id="v-home"></section>
@@ -191,7 +197,6 @@ ul.rules b{color:var(--ink)}
 <footer id="ft"><nav id="nav">
   <button data-a="go" data-v="home"><span class="mi">home</span><span>Beranda</span></button>
   <button data-a="go" data-v="sim"><svg class="ic-ex" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="17" width="12" height="4" rx="2"/><circle cx="5" cy="19" r=".7" fill="currentColor" stroke="none"/><circle cx="8" cy="19" r=".7" fill="currentColor" stroke="none"/><circle cx="11" cy="19" r=".7" fill="currentColor" stroke="none"/><path d="M3 17v-5a1 1 0 0 1 1-1h6l2 3v3M7 11v3h4M11 13l4.5-6.5L20 10l-1.5 4.5"/><path d="M17 14.5h4.5l-1 3.2a2 2 0 0 1-1.9 1.3H17z"/></svg><span>Operation</span></button>
-  <button data-a="go" data-v="exam"><span class="mi" id="ni-ex">key</span><span id="nl-ex">PIN Ujian</span><i class="nb er" id="nd" hidden>!</i></button>
   <button data-a="go" data-v="matriks"><span class="mi">fact_check</span><span>Matriks</span><i class="nb wa" id="nb-mat" hidden>0</i></button>
   <button data-a="go" data-v="riwayat"><span class="mi">workspace_premium</span><span>Riwayat</span><i class="nb" id="nb-his" hidden>0</i></button>
 </nav></footer>
@@ -400,13 +405,32 @@ function openReg(q){
   if(!S.company.length)g({action:'read_sheet',sheet:CFG.COMPANY}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.company=cleanCo(r.data);saveCache();fillDl()}}).catch(()=>{});
   if(!S.dept.length)g({action:'read_sheet',sheet:CFG.DEPT}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.dept=cleanDp(r.data);saveCache();fillDl()}}).catch(()=>{});
   if(!S.jabatan.length)g({action:'read_sheet',sheet:CFG.JABATAN}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.jabatan=cleanJb(r.data);saveCache();fillDl()}}).catch(()=>{});
-  const box=$('#lreg'),btn=$('#bt-oreg'),val=String(q??$('#li')?.value??'').trim();
+  const box=$('#lreg'),btn=$('#bt-oreg'),val=String(q??$('#li')?.value??'').trim(),tag=$('#rg-id-tag');
   if(box)box.style.display='flex';
   if(btn)btn.style.display='none';
   if(val){
-    if(/\s/.test(val)&&!/\d/.test(val)){if($('#rg-nm')&&!$('#rg-nm').value)$('#rg-nm').value=val;$('#rg-id')?.focus()}
-    else{if($('#rg-id'))$('#rg-id').value=val.toUpperCase();$('#rg-nm')?.focus()}
-  }else $('#rg-id')?.focus();
+    if(/\s/.test(val)&&!/\d/.test(val)){
+      if($('#rg-nm'))$('#rg-nm').value=val;
+      if(tag)tag.style.display='none';
+      $('#rg-id')?.focus();
+    }else{
+      if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
+      if(tag)tag.style.display='inline-flex';
+      $('#rg-nm')?.focus();
+    }
+  }else{
+    if(tag)tag.style.display='none';
+    $('#rg-id')?.focus();
+  }
+  setTimeout(()=>{box?.scrollIntoView({behavior:'smooth',block:'start'})},60);
+}
+function closeReg(){
+  const box=$('#lreg'),btn=$('#bt-oreg'),tag=$('#rg-id-tag');
+  if(box)box.style.display='none';
+  if(btn)btn.style.display='';
+  if(tag)tag.style.display='none';
+  $('#le')?.classList.remove('on');
+  $('#li')?.focus();
 }
 async function regEmp(){
   $('#re-reg')?.classList.remove('on');$('#le')?.classList.remove('on');
@@ -428,7 +452,8 @@ async function regEmp(){
   po(regBody).then(r=>{if(r&&r.status==='success')localStorage.removeItem('mgr_pending_reg')}).catch(()=>{});
   await Promise.all([syncCustomHis(id),syncSimHis(id)]);
   saveCache();
-  if(b){b.disabled=false;b.textContent='Daftar & Masuk'}
+  if(b){b.disabled=false;b.innerHTML='<span class="mi">how_to_reg</span> Simpan &amp; Masuk ke Portal'}
+  toast('Selamat datang! NIK '+id+' berhasil didaftarkan.');
   go('home');
 }
 async function login(q,silent){
@@ -441,7 +466,7 @@ async function login(q,silent){
         await Promise.all([syncCustomHis(key(foundLocal)),syncSimHis(key(foundLocal))]);saveCache();return true;
       }
       if(!silent){
-        showErr('#le',`ID/Nama "${q}" belum terdaftar di Data_Karyawan. Silakan lengkapi form Peserta Baru di bawah untuk masuk ke Beranda.`);
+        showGuide('#le',`NIK / ID "${q}" Belum Terdaftar`,'NIK Anda belum tercatat di data karyawan. Formulir Pendaftaran Peserta Baru telah dibuka di bawah dan NIK sudah terisi otomatis. Silakan lengkapi data untuk masuk.');
         openReg(q);
       }
       return false;
@@ -454,7 +479,8 @@ async function login(q,silent){
     saveCache();return true;
   }catch{if(!silent)showErr('#le','Koneksi bermasalah. Coba lagi.');return false}
 }
-function showErr(sel,m){const x=$(sel);if(x){x.textContent=m;x.classList.add('on')}}
+function showGuide(sel,title,desc){const x=$(sel);if(!x)return;x.className='err on guide';x.innerHTML=`<div style="display:flex;align-items:flex-start;gap:8px"><span class="mi" style="font-size:18px;color:var(--p);flex:none;margin-top:2px">how_to_reg</span><div class="g" style="line-height:1.4"><b style="display:block;color:var(--br);font-size:12.5px">${e(title)}</b><div style="font-size:11.5px;color:var(--mut);font-weight:500;margin-top:2px">${e(desc)}</div></div></div>`}
+function showErr(sel,m){const x=$(sel);if(x){x.className='err on';x.textContent=m}}
 async function refresh(){
   const id=key(S.emp);if(!id)return;
   const j=await g({action:'get_profile',id_karyawan:id}).catch(()=>null);
@@ -490,15 +516,12 @@ function dayDiff(s){
 /* ---------- router ---------- */
 function updNav(v){
   const p=S.emp?pd():{m:[],done:[],cert:0},todoCnt=p.m.length-p.done.length;
-  const bm=$('#nb-mat'),bh=$('#nb-his'),nd=$('#nd'),ne=$('#ni-ex'),nl=$('#nl-ex');
+  const bm=$('#nb-mat'),bh=$('#nb-his');
   if(bm){bm.textContent=todoCnt;bm.hidden=todoCnt<=0}
   if(bh){bh.textContent=p.cert;bh.hidden=p.cert<=0}
-  if(nd)nd.hidden=!S.ex;
-  if(ne)ne.textContent=S.ex?'edit_note':'key';
-  if(nl)nl.textContent=S.ex?'Ujian Aktif':'PIN Ujian';
   document.querySelectorAll('nav button').forEach(b=>{
     const bv=b.dataset.v;
-    const on=bv===v||((v==='review'||v==='feedback')&&bv==='exam')||(v==='profile'&&((S.pt==='mat'&&bv==='matriks')||(S.pt==='his'&&bv==='riwayat')));
+    const on=bv===v||(v==='profile'&&((S.pt==='mat'&&bv==='matriks')||(S.pt==='his'&&bv==='riwayat')));
     b.classList.toggle('on',on);
   });
 }
@@ -518,8 +541,17 @@ function go(v){
 
 /* ---------- login ---------- */
 function rLogin(){
-  const q=up($('#li').value);
-  $('#ls').innerHTML=q.length<2?'':S.kar.filter(k=>up(key(k)+k.Nama_Lengkap+empCo(k)).includes(q)).slice(0,4).map(k=>`<button type="button" class="item" data-a="pick" data-v="${e(key(k))}"><div class="g"><b class="ell" style="display:block;font-size:14px">${e(k.Nama_Lengkap)}</b><span class="mut sm">${e([empCo(k),k.Departemen,k.Jabatan].filter(Boolean).join(' • '))}</span></div><span class="chip">${e(key(k))}</span></button>`).join('');
+  const raw=($('#li')?.value||'').trim();
+  const q=up(raw);
+  if(q.length<2){$('#ls').innerHTML='';return}
+  const found=S.kar.filter(k=>up(key(k)+k.Nama_Lengkap+empCo(k)).includes(q)).slice(0,4);
+  if(found.length){
+    $('#ls').innerHTML=found.map(k=>`<button type="button" class="item" data-a="pick" data-v="${e(key(k))}"><div class="g"><b class="ell" style="display:block;font-size:14px">${e(k.Nama_Lengkap)}</b><span class="mut sm">${e([empCo(k),k.Departemen,k.Jabatan].filter(Boolean).join(' • '))}</span></div><span class="chip">${e(key(k))}</span></button>`).join('');
+  }else if(raw.length>=3){
+    $('#ls').innerHTML=`<button type="button" class="item" data-a="openRegWith" data-v="${e(raw)}" style="background:var(--pf);border-color:var(--gold);text-align:left"><div class="row sp" style="width:100%;align-items:center;gap:8px"><div class="g"><div style="font-weight:700;font-size:12.5px;color:var(--br)"><span class="mi" style="font-size:16px;color:var(--p);vertical-align:-3px;margin-right:4px">person_add</span> NIK "${e(raw)}" belum terdaftar</div><span class="mut sm" style="font-size:11px">Ketuk untuk daftar akun baru dengan NIK ini</span></div><span class="btn p s" style="pointer-events:none;white-space:nowrap;padding:3px 8px;font-size:11px">Daftar <span class="mi" style="font-size:13px">arrow_forward</span></span></div></button>`;
+  }else{
+    $('#ls').innerHTML='';
+  }
 }
 
 /* ---------- home ---------- */
@@ -840,8 +872,8 @@ function cert(v){
 function ans(l){const x=S.ex,q=x.qs[x.i];x.ans[q.ID_Soal]=l;save();rExam()}
 function tts(){const q=S.ex.qs[S.ex.i];if(!('speechSynthesis' in window))return;if(speechSynthesis.speaking){speechSynthesis.cancel();return}const u=new SpeechSynthesisUtterance(`${q.Pertanyaan}. A: ${q.Opsi_A}. B: ${q.Opsi_B}. C: ${q.Opsi_C}. D: ${q.Opsi_D}.`);u.lang='id-ID';speechSynthesis.speak(u)}
 const A={
-  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];saveCache();$('#un').textContent='Masuk';$('#li').value='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';$('#le')?.classList.remove('on');go('login')},
-  pick:async v=>{if(await login(v))go('home')},openReg:()=>openReg(),reg:regEmp,subSim,pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
+  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];saveCache();$('#un').textContent='Masuk';$('#li').value='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
+  pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
   sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
   lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},cert,ans,submit,tts,
