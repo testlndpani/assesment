@@ -172,8 +172,8 @@ ul.rules b{color:var(--ink)}
 <section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div class="login-brand" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><img class="login-logo" data-logo alt="PT Merdeka Gold Resources Tbk"><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div></div><h1 id="lg-h1">Masuk Portal Asesmen</h1>
 <form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
   <div>
-    <input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="Masukkan NIK Lengkap (Huruf & Angka, mis. MCC-260156)" required>
-    <p class="mut sm" id="li-hint" style="font-size:11.5px;line-height:1.4;margin-top:4px">Wajib kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>). Jika hanya nomor tidak bisa.</p>
+    <input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="Masukkan NIK (MCC-260156) / No HP / No KTP" required>
+    <p class="mut sm" id="li-hint" style="font-size:11.5px;line-height:1.4;margin-top:4px">Gunakan ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>) atau No HP / No KTP (&gt;10 digit angka).</p>
   </div>
   <div class="err" id="le"></div>
   <div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div>
@@ -190,8 +190,8 @@ ul.rules b{color:var(--ink)}
   </div>
   <div>
     <label class="lbl" id="lbl-rg-id" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 5px">Terisi Otomatis</span></label>
-    <input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="Contoh: MCC-260156, PGP260062" required>
-    <p class="mut sm" id="reg-id-hint" style="font-size:11.5px;line-height:1.4;margin-top:3px">Format wajib memuat huruf dan angka (tidak bisa hanya nomor). Contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>.</p>
+    <input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="Contoh: MCC-260156, PGP260062 / No HP / No KTP" required>
+    <p class="mut sm" id="reg-id-hint" style="font-size:11.5px;line-height:1.4;margin-top:3px">Format: ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>) atau No HP / No KTP (&gt;10 digit angka). Nomor pendek tanpa huruf tidak bisa.</p>
   </div>
   <div><label class="lbl" id="lbl-rg-nm" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap peserta" required></div>
   <div><label class="lbl" id="lbl-rg-co" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
@@ -323,13 +323,13 @@ const FB_QS_I18N={
 const I18N={
   id:{
     portal_title:"Portal Asesmen L&D",masuk:"Masuk",nav_home:"Beranda",nav_modules:"Modul",nav_sim:"Simulator",nav_profile:"Profil",nav_mat:"Matriks",nav_his:"Riwayat",
-    login_h1:"Masuk Portal Asesmen",login_ph:"Masukkan NIK Lengkap (Huruf & Angka, mis. MCC-260156)",login_btn:"Masuk",login_unreg:"Peserta Baru (NIK Belum Terdaftar)",
-    login_hint_html:"Wajib kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>). Jika hanya nomor tidak bisa.",
-    reg_id_hint_html:"Format wajib memuat huruf dan angka (tidak bisa hanya nomor). Contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>.",
+    login_h1:"Masuk Portal Asesmen",login_ph:"Masukkan NIK (MCC-260156) / No HP / No KTP",login_btn:"Masuk",login_unreg:"Peserta Baru (NIK Belum Terdaftar)",
+    login_hint_html:"Gunakan ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>) atau No HP / No KTP (&gt;10 digit angka).",
+    reg_id_hint_html:"Format: ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>) atau No HP / No KTP (&gt;10 digit angka). Nomor pendek tanpa huruf tidak bisa.",
     err_nik_len:"ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).",
-    err_nik_no_letter:"ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya nomor). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_no_letter:"ID Karyawan / NIK harus memuat huruf dan angka (contoh: MCC-260156, PGP260062). Jika hanya angka tanpa huruf, minimal 10 digit ke atas (khusus Nomor HP atau Nomor KTP).",
     err_nik_no_digit:"ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya huruf). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
-    err_nik_invalid:"ID Karyawan / NIK harus memuat kombinasi huruf dan angka. Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_invalid:"ID Karyawan / NIK harus memuat kombinasi huruf dan angka, atau nomor HP/KTP (>10 digit).",
     reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Jabatan",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",
     kpi_done:"Selesai",kpi_comp:"Kompetensi",kpi_avg:"Rata-rata",kpi_cert:"Sertifikat",active_exam:"Ujian Aktif",continue_btn:"Lanjutkan",sched_running:"Sedang Berjalan",sched_done:"Sudah Berjalan",sched_upcoming:"Akan Berjalan",today:"Hari Ini",
     mod_all:"Semua",mod_title:"Katalog Modul",min:"mnt",qs_cnt:"soal",pass_std:"Lulus",pin_btn:"Masukkan PIN",start_btn:"Mulai",passed:"LULUS",not_passed:"BELUM LULUS",
@@ -340,13 +340,13 @@ const I18N={
   },
   en:{
     portal_title:"L&D Assessment Portal",masuk:"Sign In",nav_home:"Home",nav_modules:"Modules",nav_sim:"Simulator",nav_profile:"Profile",nav_mat:"Matrix",nav_his:"History",
-    login_h1:"Assessment Portal Sign In",login_ph:"Enter Complete ID / NIK (Letters & Numbers, e.g. MCC-260156)",login_btn:"Sign In",login_unreg:"New Participant (Unregistered NIK)",
-    login_hint_html:"Must combine letters &amp; numbers (e.g. <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>). Numbers only not allowed.",
-    reg_id_hint_html:"Format must contain letters and numbers (cannot be numbers only). Example: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>.",
+    login_h1:"Assessment Portal Sign In",login_ph:"Enter Employee ID (MCC-260156) / Phone / KTP No.",login_btn:"Sign In",login_unreg:"New Participant (Unregistered NIK)",
+    login_hint_html:"Use Employee ID with letters &amp; numbers (e.g. <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>) or Phone / KTP Number (&gt;10 digits).",
+    reg_id_hint_html:"Format: Employee ID with letters &amp; numbers (e.g. <code>MCC-260156</code>) or Phone / KTP Number (&gt;10 digits). Short numbers without letters not allowed.",
     err_nik_len:"Employee ID / NIK must be at least 3 characters.",
-    err_nik_no_letter:"Employee ID / NIK must contain letters and numbers (cannot be numbers only). Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_no_letter:"Employee ID / NIK must contain letters and numbers (e.g. MCC-260156, PGP260062). Numbers-only must be at least 10 digits (for Phone Number or KTP Number).",
     err_nik_no_digit:"Employee ID / NIK must contain letters and numbers (cannot be letters only). Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
-    err_nik_invalid:"Employee ID / NIK must contain both letters and numbers. Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_invalid:"Employee ID / NIK must contain both letters and numbers, or phone/KTP number (>10 digits).",
     reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",
     kpi_done:"Completed",kpi_comp:"Competency",kpi_avg:"Average",kpi_cert:"Certificates",active_exam:"Active Exam",continue_btn:"Continue",sched_running:"In Progress",sched_done:"Finished",sched_upcoming:"Upcoming",today:"Today",
     mod_all:"All",mod_title:"Modules Catalog",min:"mins",qs_cnt:"questions",pass_std:"Pass",pin_btn:"Enter PIN",start_btn:"Start",passed:"PASSED",not_passed:"NOT PASSED",
@@ -357,13 +357,13 @@ const I18N={
   },
   zh:{
     portal_title:"L&D 评估门户",masuk:"登录",nav_home:"主页",nav_modules:"课程模块",nav_sim:"模拟器",nav_profile:"个人资料",nav_mat:"胜任矩阵",nav_his:"历史记录",
-    login_h1:"登录评估门户",login_ph:"请输入完整员工工号 / NIK（字母+数字，例如 MCC-260156）",login_btn:"登录",login_unreg:"新学员（未注册工号）",
-    login_hint_html:"必须包含字母和数字（例：<code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>）。不能纯数字。",
-    reg_id_hint_html:"必须包含字母和数字（例：<code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>）。不能纯数字。",
+    login_h1:"登录评估门户",login_ph:"输入工号 (MCC-260156) / 手机号 / 身份证号",login_btn:"登录",login_unreg:"新学员（未注册工号）",
+    login_hint_html:"请使用含字母与数字的员工工号（例：<code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>）或手机号/身份证号（10位以上纯数字）。",
+    reg_id_hint_html:"格式：含字母与数字的员工工号（例：<code>MCC-260156</code>）或手机号/身份证号（10位以上数字）。不含字母的短数字不可用。",
     err_nik_len:"员工工号 / NIK 至少需要3位字符。",
-    err_nik_no_letter:"员工工号 / NIK 必须包含字母和数字（不能仅为纯数字）。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
+    err_nik_no_letter:"员工工号 / NIK 必须包含字母和数字（例：MCC-260156, PGP260062）。若为纯数字，需在10位以上（仅限手机号或身份证号）。",
     err_nik_no_digit:"员工工号 / NIK 必须包含字母和数字（不能仅为纯字母）。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
-    err_nik_invalid:"员工工号 / NIK 必须同时包含字母和数字。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
+    err_nik_invalid:"员工工号 / NIK 必须包含字母与数字，或10位以上手机号/身份证号。",
     reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称",reg_auto:"自动填入",reg_btn:"保存并进入系统",
     kpi_done:"已完成",kpi_comp:"胜任达标",kpi_avg:"平均分",kpi_cert:"获得证书",active_exam:"进行中的考试",continue_btn:"继续答题",sched_running:"进行中",sched_done:"已结束",sched_upcoming:"即将开始",today:"今天",
     mod_all:"全部",mod_title:"评估模块目录",min:"分钟",qs_cnt:"题",pass_std:"及格线",pin_btn:"输入PIN码",start_btn:"开始",passed:"合格",not_passed:"未合格",
@@ -426,10 +426,13 @@ const valNik=v=>{
   if(!s||s.length<3) return {ok:false, code:'too_short', msg:t('err_nik_len','ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).')};
   const hasLetter=/[a-zA-Z]/.test(s);
   const hasDigit=/[0-9]/.test(s);
-  if(!hasLetter && hasDigit) return {ok:false, code:'no_letter', msg:t('err_nik_no_letter','ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya nomor). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.')};
+  const digitsOnly=s.replace(/\D/g,'');
+  const isLongNumeric=!hasLetter && hasDigit && digitsOnly.length>=10;
+  if(isLongNumeric) return {ok:true, type:'numeric_long'};
+  if(hasLetter && hasDigit) return {ok:true, type:'alphanumeric'};
+  if(!hasLetter && hasDigit) return {ok:false, code:'no_letter', msg:t('err_nik_no_letter','ID Karyawan / NIK harus memuat huruf dan angka (contoh: MCC-260156, PGP260062). Jika hanya angka tanpa huruf, minimal 10 digit ke atas (khusus Nomor HP atau Nomor KTP).')};
   if(hasLetter && !hasDigit) return {ok:false, code:'no_digit', msg:t('err_nik_no_digit','ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya huruf). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.')};
-  if(!hasLetter || !hasDigit) return {ok:false, code:'invalid', msg:t('err_nik_invalid','ID Karyawan / NIK harus memuat kombinasi huruf dan angka. Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.')};
-  return {ok:true};
+  return {ok:false, code:'invalid', msg:t('err_nik_invalid','ID Karyawan / NIK harus memuat kombinasi huruf dan angka, atau nomor HP/KTP (>10 digit).')};
 };
 const stripKunci=a=>(a||[]).map(q=>{const c={...q};delete c.Kunci;return c});
 const key=o=>String(o?.NIK||o?.ID_Karyawan||o?.Username||'').trim(),up=s=>String(s||'').trim().toUpperCase();
@@ -675,15 +678,15 @@ function openReg(q){
       if(tag)tag.style.display='none';
       $('#rg-id')?.focus();
     }else{
-      const hasL=/[a-zA-Z]/.test(val), hasD=/[0-9]/.test(val);
-      if(hasL && hasD){
+      const vCheck=valNik(val);
+      if(vCheck.ok){
         if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
         if(tag)tag.style.display='inline-flex';
         $('#rg-nm')?.focus();
-      }else if(!hasL && hasD){
+      }else if(vCheck.code==='no_letter'){
         if($('#rg-id'))$('#rg-id').value=val;
         if(tag)tag.style.display='none';
-        showErr('#re-reg',t('err_nik_no_letter'));
+        showErr('#re-reg',vCheck.msg);
         $('#rg-id')?.focus();
       }else{
         if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
