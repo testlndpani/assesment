@@ -170,7 +170,16 @@ ul.rules b{color:var(--ink)}
 
 <main id="main">
 <section class="view" id="v-login"><div class="card" style="max-width:440px;width:100%;margin:4vh auto 0;border-top:3px solid var(--gold)"><div class="login-brand" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap"><img class="login-logo" data-logo alt="PT Merdeka Gold Resources Tbk"><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div></div><h1 id="lg-h1">Masuk Portal Asesmen</h1>
-<form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"><input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="Masukkan NIK / ID Karyawan Lengkap" required><div class="err" id="le"></div><div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div><button class="btn p w" id="lb">Masuk</button><button type="button" class="btn w" id="bt-oreg" data-a="openReg"><span class="mi" style="font-size:18px;color:var(--p)">person_add</span> Peserta Baru (NIK Belum Terdaftar)</button></form>
+<form id="lf" style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
+  <div>
+    <input class="inp" id="li" maxlength="80" autocomplete="off" autocapitalize="characters" placeholder="Masukkan NIK Lengkap (Huruf & Angka, mis. MCC-260156)" required>
+    <p class="mut sm" id="li-hint" style="font-size:11.5px;line-height:1.4;margin-top:4px">Wajib kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>). Jika hanya nomor tidak bisa.</p>
+  </div>
+  <div class="err" id="le"></div>
+  <div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div>
+  <button class="btn p w" id="lb">Masuk</button>
+  <button type="button" class="btn w" id="bt-oreg" data-a="openReg"><span class="mi" style="font-size:18px;color:var(--p)">person_add</span> Peserta Baru (NIK Belum Terdaftar)</button>
+</form>
 <div id="lreg" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);flex-direction:column;gap:10px">
   <div class="row sp" style="align-items:flex-start">
     <div>
@@ -179,7 +188,11 @@ ul.rules b{color:var(--ink)}
     </div>
     <button type="button" class="btn s" id="reg-close" data-a="closeReg" title="Batal pendaftaran" style="padding:0 8px;font-size:11px;color:var(--mut)"><span class="mi" style="font-size:15px">close</span> Batal</button>
   </div>
-  <div><label class="lbl" id="lbl-rg-id" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 5px">Terisi Otomatis</span></label><input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="ID Karyawan / NIK" required></div>
+  <div>
+    <label class="lbl" id="lbl-rg-id" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 5px">Terisi Otomatis</span></label>
+    <input class="inp" id="rg-id" maxlength="50" autocapitalize="characters" autocomplete="off" placeholder="Contoh: MCC-260156, PGP260062" required>
+    <p class="mut sm" id="reg-id-hint" style="font-size:11.5px;line-height:1.4;margin-top:3px">Format wajib memuat huruf dan angka (tidak bisa hanya nomor). Contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>.</p>
+  </div>
   <div><label class="lbl" id="lbl-rg-nm" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap peserta" required></div>
   <div><label class="lbl" id="lbl-rg-co" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
   <div class="row m-col" style="gap:10px;align-items:flex-start">
@@ -310,7 +323,13 @@ const FB_QS_I18N={
 const I18N={
   id:{
     portal_title:"Portal Asesmen L&D",masuk:"Masuk",nav_home:"Beranda",nav_modules:"Modul",nav_sim:"Simulator",nav_profile:"Profil",nav_mat:"Matriks",nav_his:"Riwayat",
-    login_h1:"Masuk Portal Asesmen",login_ph:"Masukkan NIK / ID Karyawan Lengkap",login_btn:"Masuk",login_unreg:"Peserta Baru (NIK Belum Terdaftar)",
+    login_h1:"Masuk Portal Asesmen",login_ph:"Masukkan NIK Lengkap (Huruf & Angka, mis. MCC-260156)",login_btn:"Masuk",login_unreg:"Peserta Baru (NIK Belum Terdaftar)",
+    login_hint_html:"Wajib kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>). Jika hanya nomor tidak bisa.",
+    reg_id_hint_html:"Format wajib memuat huruf dan angka (tidak bisa hanya nomor). Contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>.",
+    err_nik_len:"ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).",
+    err_nik_no_letter:"ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya nomor). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_no_digit:"ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya huruf). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_invalid:"ID Karyawan / NIK harus memuat kombinasi huruf dan angka. Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
     reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Jabatan",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",
     kpi_done:"Selesai",kpi_comp:"Kompetensi",kpi_avg:"Rata-rata",kpi_cert:"Sertifikat",active_exam:"Ujian Aktif",continue_btn:"Lanjutkan",sched_running:"Sedang Berjalan",sched_done:"Sudah Berjalan",sched_upcoming:"Akan Berjalan",today:"Hari Ini",
     mod_all:"Semua",mod_title:"Katalog Modul",min:"mnt",qs_cnt:"soal",pass_std:"Lulus",pin_btn:"Masukkan PIN",start_btn:"Mulai",passed:"LULUS",not_passed:"BELUM LULUS",
@@ -321,7 +340,13 @@ const I18N={
   },
   en:{
     portal_title:"L&D Assessment Portal",masuk:"Sign In",nav_home:"Home",nav_modules:"Modules",nav_sim:"Simulator",nav_profile:"Profile",nav_mat:"Matrix",nav_his:"History",
-    login_h1:"Assessment Portal Sign In",login_ph:"Enter Complete Employee ID / NIK",login_btn:"Sign In",login_unreg:"New Participant (Unregistered NIK)",
+    login_h1:"Assessment Portal Sign In",login_ph:"Enter Complete ID / NIK (Letters & Numbers, e.g. MCC-260156)",login_btn:"Sign In",login_unreg:"New Participant (Unregistered NIK)",
+    login_hint_html:"Must combine letters &amp; numbers (e.g. <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>). Numbers only not allowed.",
+    reg_id_hint_html:"Format must contain letters and numbers (cannot be numbers only). Example: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>.",
+    err_nik_len:"Employee ID / NIK must be at least 3 characters.",
+    err_nik_no_letter:"Employee ID / NIK must contain letters and numbers (cannot be numbers only). Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_no_digit:"Employee ID / NIK must contain letters and numbers (cannot be letters only). Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
+    err_nik_invalid:"Employee ID / NIK must contain both letters and numbers. Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
     reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",
     kpi_done:"Completed",kpi_comp:"Competency",kpi_avg:"Average",kpi_cert:"Certificates",active_exam:"Active Exam",continue_btn:"Continue",sched_running:"In Progress",sched_done:"Finished",sched_upcoming:"Upcoming",today:"Today",
     mod_all:"All",mod_title:"Modules Catalog",min:"mins",qs_cnt:"questions",pass_std:"Pass",pin_btn:"Enter PIN",start_btn:"Start",passed:"PASSED",not_passed:"NOT PASSED",
@@ -332,7 +357,13 @@ const I18N={
   },
   zh:{
     portal_title:"L&D 评估门户",masuk:"登录",nav_home:"主页",nav_modules:"课程模块",nav_sim:"模拟器",nav_profile:"个人资料",nav_mat:"胜任矩阵",nav_his:"历史记录",
-    login_h1:"登录评估门户",login_ph:"请输入完整员工工号 / NIK",login_btn:"登录",login_unreg:"新学员（未注册工号）",
+    login_h1:"登录评估门户",login_ph:"请输入完整员工工号 / NIK（字母+数字，例如 MCC-260156）",login_btn:"登录",login_unreg:"新学员（未注册工号）",
+    login_hint_html:"必须包含字母和数字（例：<code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>）。不能纯数字。",
+    reg_id_hint_html:"必须包含字母和数字（例：<code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>）。不能纯数字。",
+    err_nik_len:"员工工号 / NIK 至少需要3位字符。",
+    err_nik_no_letter:"员工工号 / NIK 必须包含字母和数字（不能仅为纯数字）。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
+    err_nik_no_digit:"员工工号 / NIK 必须包含字母和数字（不能仅为纯字母）。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
+    err_nik_invalid:"员工工号 / NIK 必须同时包含字母和数字。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
     reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称",reg_auto:"自动填入",reg_btn:"保存并进入系统",
     kpi_done:"已完成",kpi_comp:"胜任达标",kpi_avg:"平均分",kpi_cert:"获得证书",active_exam:"进行中的考试",continue_btn:"继续答题",sched_running:"进行中",sched_done:"已结束",sched_upcoming:"即将开始",today:"今天",
     mod_all:"全部",mod_title:"评估模块目录",min:"分钟",qs_cnt:"题",pass_std:"及格线",pin_btn:"输入PIN码",start_btn:"开始",passed:"合格",not_passed:"未合格",
@@ -390,6 +421,16 @@ const DURASI_SIM_OPTS=[
 const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
+const valNik=v=>{
+  const s=String(v||'').trim();
+  if(!s||s.length<3) return {ok:false, code:'too_short', msg:t('err_nik_len','ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).')};
+  const hasLetter=/[a-zA-Z]/.test(s);
+  const hasDigit=/[0-9]/.test(s);
+  if(!hasLetter && hasDigit) return {ok:false, code:'no_letter', msg:t('err_nik_no_letter','ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya nomor). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.')};
+  if(hasLetter && !hasDigit) return {ok:false, code:'no_digit', msg:t('err_nik_no_digit','ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya huruf). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.')};
+  if(!hasLetter || !hasDigit) return {ok:false, code:'invalid', msg:t('err_nik_invalid','ID Karyawan / NIK harus memuat kombinasi huruf dan angka. Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.')};
+  return {ok:true};
+};
 const stripKunci=a=>(a||[]).map(q=>{const c={...q};delete c.Kunci;return c});
 const key=o=>String(o?.NIK||o?.ID_Karyawan||o?.Username||'').trim(),up=s=>String(s||'').trim().toUpperCase();
 const empCo=o=>String(o?.Nama_Company||o?.Company||o?.Perusahaan||o?.Nama_Perusahaan||'').trim();
@@ -634,9 +675,21 @@ function openReg(q){
       if(tag)tag.style.display='none';
       $('#rg-id')?.focus();
     }else{
-      if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
-      if(tag)tag.style.display='inline-flex';
-      $('#rg-nm')?.focus();
+      const hasL=/[a-zA-Z]/.test(val), hasD=/[0-9]/.test(val);
+      if(hasL && hasD){
+        if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
+        if(tag)tag.style.display='inline-flex';
+        $('#rg-nm')?.focus();
+      }else if(!hasL && hasD){
+        if($('#rg-id'))$('#rg-id').value=val;
+        if(tag)tag.style.display='none';
+        showErr('#re-reg',t('err_nik_no_letter'));
+        $('#rg-id')?.focus();
+      }else{
+        if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
+        if(tag)tag.style.display='none';
+        $('#rg-id')?.focus();
+      }
     }
   }else{
     if(tag)tag.style.display='none';
@@ -655,7 +708,12 @@ function closeReg(){
 async function regEmp(){
   $('#re-reg')?.classList.remove('on');$('#le')?.classList.remove('on');
   const id=cleanInp($('#rg-id')?.value,50).toUpperCase(),nm=cleanInp($('#rg-nm')?.value,100),co=cleanInp($('#rg-co')?.value,100),dp=cleanInp($('#rg-dp')?.value,100),jb=cleanInp($('#rg-jb')?.value,100);
-  if(!id||id.length<3){showErr('#re-reg','ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).');$('#rg-id')?.focus();return}
+  const vCheck=valNik(id);
+  if(!vCheck.ok){
+    showErr('#re-reg',vCheck.msg);
+    $('#rg-id')?.focus();
+    return;
+  }
   if(!nm||nm.length<3){showErr('#re-reg','Nama Lengkap wajib diisi lengkap (minimal 3 karakter).');$('#rg-nm')?.focus();return}
   if(!co){showErr('#re-reg','Silakan pilih atau isi Nama Company terlebih dahulu.');$('#rg-co')?.focus();return}
   if(!dp){showErr('#re-reg','Silakan pilih atau isi Departemen terlebih dahulu.');$('#rg-dp')?.focus();return}
@@ -679,8 +737,9 @@ async function regEmp(){
 }
 async function login(q,silent){
   q=cleanInp(q,80).trim();
-  if(!q||q.length<3){
-    if(!silent)showErr('#le',S.lang==='zh'?'请输入完整的员工工号 / NIK（至少3位）。':S.lang==='en'?'Please enter complete Employee ID / NIK (at least 3 characters).':'ID Karyawan / NIK tidak boleh kosong dan harus lengkap (minimal 3 karakter).');
+  const vCheck=valNik(q);
+  if(!vCheck.ok){
+    if(!silent)showErr('#le',vCheck.msg);
     $('#li')?.focus();return false;
   }
   try{
@@ -785,12 +844,14 @@ function go(v){
 function rLogin(){
   if($('#lg-h1'))$('#lg-h1').textContent=t('login_h1');
   if($('#li'))$('#li').placeholder=t('login_ph');
+  if($('#li-hint'))$('#li-hint').innerHTML=t('login_hint_html');
   if($('#lb'))$('#lb').textContent=t('login_btn');
   if($('#bt-oreg'))$('#bt-oreg').innerHTML=`<span class="mi" style="font-size:18px;color:var(--p)">person_add</span> ${t('login_unreg')}`;
   if($('#reg-h2'))$('#reg-h2').innerHTML=`<span class="mi" style="color:var(--p);font-size:18px">person_add</span> ${t('reg_title')}`;
   if($('#reg-sub'))$('#reg-sub').textContent=t('reg_sub');
   if($('#reg-close'))$('#reg-close').innerHTML=`<span class="mi" style="font-size:15px">close</span> ${t('reg_cancel')}`;
   if($('#lbl-rg-id'))$('#lbl-rg-id').innerHTML=`${t('reg_id')} <span class="chip ok" id="rg-id-tag" style="${$('#rg-id-tag')?.style.display==='inline-flex'?'display:inline-flex':'display:none'};margin-left:4px;font-size:10px;padding:1px 5px">${t('reg_auto')}</span>`;
+  if($('#reg-id-hint'))$('#reg-id-hint').innerHTML=t('reg_id_hint_html');
   if($('#lbl-rg-nm'))$('#lbl-rg-nm').textContent=t('reg_name');
   if($('#lbl-rg-co'))$('#lbl-rg-co').textContent=t('reg_comp');
   if($('#lbl-rg-dp'))$('#lbl-rg-dp').textContent=t('reg_dept');
@@ -1551,8 +1612,9 @@ $('#lf').addEventListener('submit',async ev=>{
   ev.preventDefault();
   $('#le')?.classList.remove('on');
   const raw=cleanInp($('#li').value,80).trim();
-  if(!raw||raw.length<3){
-    showErr('#le',S.lang==='zh'?'请输入完整的员工工号 / NIK（至少3位）。':S.lang==='en'?'Please enter complete Employee ID / NIK (at least 3 characters).':'ID Karyawan / NIK tidak boleh kosong atau terlalu pendek. Masukkan NIK lengkap Anda.');
+  const vCheck=valNik(raw);
+  if(!vCheck.ok){
+    showErr('#le',vCheck.msg);
     $('#li')?.focus();
     return;
   }
