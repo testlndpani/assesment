@@ -104,6 +104,13 @@ ul.rules b{color:var(--ink)}
 .st-b.on{background:var(--p);border-color:var(--p);color:#fff}
 .st-b.on .st-i{color:#f3dc9c}
 .ta{width:100%;min-height:76px;border-radius:6px;border:1px solid var(--ln);background:var(--sf);padding:9px 12px;font:inherit;font-size:13.5px;color:inherit;resize:vertical;outline:0;line-height:1.45}.ta:focus{border-color:var(--p)}
+.nfc-pulse{width:82px;height:82px;border-radius:50%;background:linear-gradient(135deg,#f6f1e2 0%,#fffefb 100%);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;margin:12px auto;animation:nfcPulse 2.2s infinite;color:var(--p)}
+@keyframes nfcPulse{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(196,169,107,.65)}70%{transform:scale(1.04);box-shadow:0 0 0 18px rgba(196,169,107,0)}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(196,169,107,0)}}
+.comp-bar{height:6px;background:var(--ln);border-radius:4px;overflow:hidden;margin-top:6px}
+.comp-bar-fill{height:100%;background:var(--ok);transition:width .4s ease}
+#o-nfc .sheet{max-width:540px;height:min(92dvh,760px);max-height:none;overflow:hidden}
+@media(max-width:600px){#o-nfc .sheet{height:95dvh;border-radius:14px 14px 0 0;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}}
+@media(max-width:480px){.hide-xs{display:none}}
 @media(max-width:600px){
   body{font-size:13px}
   .mi{font-size:17px}.ic-ex{width:17px;height:17px}
@@ -166,6 +173,7 @@ ul.rules b{color:var(--ink)}
 <body class="nonav">
 <header><img class="logo-img" data-logo alt="Merdeka Gold Resources"><span class="h-div"></span><div class="brand"><b class="ell" id="hdr-brand">Portal Asesmen L&amp;D</b></div>
 <div class="lang-switch" id="hdr-lang"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div>
+<button type="button" class="btn s" data-a="openNfc" id="hdr-nfc" title="Scan Kartu NFC Karyawan (Cek Kompetensi)" style="padding:0 8px;gap:4px;border-color:var(--gold);background:var(--pf);color:var(--br);font-weight:700;font-size:11.5px;flex:none;height:28px"><span class="mi" style="font-size:17px;color:var(--p)">contactless</span> <span class="hide-xs">Scan NFC</span></button>
 <button class="pill" data-a="sync" aria-label="Sinkronisasi"><span class="dot" id="sd"></span><span id="un">Masuk</span></button></header>
 
 <main id="main">
@@ -178,6 +186,7 @@ ul.rules b{color:var(--ink)}
   <div class="err" id="le"></div>
   <div id="ls" class="g" style="display:flex;flex-direction:column;gap:6px"></div>
   <button class="btn p w" id="lb">Masuk</button>
+  <button type="button" class="btn w" id="bt-nfc-login" data-a="openNfcLogin" style="background:var(--pf);border:1.5px dashed var(--gold);color:var(--br);font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px"><span class="mi" style="font-size:20px;color:var(--p)">contactless</span> <span id="lbl-btn-nfc">Masuk Cepat dengan Kartu NFC</span></button>
   <button type="button" class="btn w" id="bt-oreg" data-a="openReg"><span class="mi" style="font-size:18px;color:var(--p)">person_add</span> Peserta Baru (NIK Belum Terdaftar)</button>
 </form>
 <div id="lreg" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--ln);flex-direction:column;gap:10px">
@@ -281,6 +290,98 @@ ul.rules b{color:var(--ink)}
 </div></div>
 <div class="ov" id="o-map"><div class="sheet"><div class="row sp"><h2>Peta Soal</h2><button class="btn s" data-a="close" data-v="o-map"><span class="mi">close</span></button></div><div class="row sm mut" style="gap:14px"><span>■ Terjawab</span><span>▢ Belum</span><span>⚑ Ragu</span></div><div class="map" id="mp"></div></div></div>
 <div class="ov" id="o-cert"><div class="sheet"><div class="row sp"><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div><button class="btn s" data-a="close" data-v="o-cert"><span class="mi">close</span></button></div><div class="card cert" id="ce"></div><div class="row"><button class="btn g" data-a="close" data-v="o-cert">Tutup</button><button class="btn p g" onclick="print()"><span class="mi">print</span>Cetak</button></div></div></div>
+<div class="ov" id="o-nfc"><div class="sheet"><div class="row sp" style="flex:none;align-items:flex-start">
+  <div class="g"><h2 id="nfc-title" style="display:flex;align-items:center;gap:6px;color:var(--br)"><span class="mi" style="color:var(--p);font-size:22px">contactless</span> <span>Verifikasi Kartu NFC Karyawan</span></h2><p class="mut sm" id="nfc-sub">Cek status kompetensi (DONE &amp; NOT YET) secara instan via kartu ID.</p></div>
+  <button type="button" class="btn s" data-a="closeNfc" title="Tutup Modal"><span class="mi">close</span></button>
+</div>
+<input id="nfc-wedge-input" type="text" autocomplete="off" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px" aria-hidden="true">
+<div id="nfc-body" style="flex:1;min-height:0;overflow-y:auto;padding-right:2px;display:flex;flex-direction:column;gap:12px">
+  <!-- 1. State Scan -->
+  <div id="nfc-view-scan" class="card" style="text-align:center;padding:24px 16px;border:1.5px dashed var(--gold);background:var(--pf)">
+    <div class="nfc-pulse"><span class="mi" style="font-size:38px">contactless</span></div>
+    <b id="nfc-status-txt" style="display:block;font-size:15px;color:var(--br);margin-top:8px">Menunggu Tempelan Kartu NFC...</b>
+    <p class="mut sm" id="nfc-guide-txt" style="max-width:340px;margin:6px auto 14px;line-height:1.4">Dekatkan kartu ID ke sensor NFC ponsel atau tempelkan pada USB NFC Reader.</p>
+    <div id="nfc-err-box" class="err" style="margin-bottom:10px"></div>
+    <div style="border-top:1px solid var(--ln);padding-top:14px;margin-top:6px;text-align:left">
+      <label class="lbl" for="nfc-manual-id" style="font-size:11.5px">Atau Masukkan NIK / UID Kartu Secara Manual:</label>
+      <div class="row" style="gap:6px">
+        <input class="inp g" id="nfc-manual-id" placeholder="Contoh: MCC-260156 atau 04A23B5C" autocomplete="off" autocapitalize="characters" style="font-size:13px;height:38px">
+        <button type="button" class="btn p s" data-a="nfcCheckManual" style="height:38px;padding:0 14px"><span class="mi">search</span> Cek</button>
+      </div>
+    </div>
+  </div>
+  <!-- 2. State Loading -->
+  <div id="nfc-view-loading" class="card" style="display:none;text-align:center;padding:36px 16px">
+    <div class="dot ok" style="width:14px;height:14px;margin:0 auto 12px;animation:nfcPulse 1.2s infinite"></div>
+    <b id="nfc-load-msg" style="font-size:15px;color:var(--br)">Membaca data kartu NFC...</b>
+    <p class="mut sm" style="margin-top:4px">Mengambil profil &amp; matriks kompetensi karyawan dari database.</p>
+  </div>
+  <!-- 3. State Unlinked (Belum terdaftar di Kolom I) -->
+  <div id="nfc-view-unlinked" class="card" style="display:none;padding:16px;border:1px solid var(--wa);background:var(--wab)">
+    <div class="row" style="gap:10px;align-items:flex-start">
+      <span class="mi" style="font-size:24px;color:var(--wa);flex:none">help_outline</span>
+      <div class="g">
+        <b style="font-size:14px;color:var(--wa)">Kartu NFC Belum Terdaftar</b>
+        <p class="mut sm" style="margin-top:2px;color:var(--ink)">UID Kartu: <code id="nfc-unlinked-uid" style="font-weight:700;background:var(--sf);padding:2px 6px;border-radius:4px;border:1px solid var(--ln)">-</code></p>
+        <p class="mut sm" style="margin-top:4px;font-size:12px">Kode kartu ini belum tersimpan di sheet <code>Data_Karyawan</code> (Kolom I). Anda dapat menautkannya langsung ke salah satu karyawan:</p>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+      <label class="lbl" for="nfc-link-nik">Ketik NIK / ID Karyawan Pemilik Kartu:</label>
+      <input class="inp" id="nfc-link-nik" placeholder="Contoh: MCC-260156" autocomplete="off" autocapitalize="characters">
+      <div class="err" id="nfc-link-err"></div>
+      <div class="row" style="gap:8px;margin-top:4px">
+        <button type="button" class="btn p g" data-a="nfcSaveLink"><span class="mi">link</span> Tautkan Kartu ke Karyawan Ini</button>
+        <button type="button" class="btn s" data-a="nfcResetScan">Batal</button>
+      </div>
+    </div>
+  </div>
+  <!-- 4. State Result -->
+  <div id="nfc-view-result" style="display:none;flex-direction:column;gap:12px">
+    <div class="card hero" style="margin:0;padding:14px 16px">
+      <div class="row" style="gap:12px">
+        <div class="ava" id="nfc-res-ava" style="width:48px;height:48px;font-size:22px;flex:none"><span class="mi">person</span></div>
+        <div class="g">
+          <div class="row sp" style="gap:6px;flex-wrap:wrap;align-items:center">
+            <span class="chip ok" id="nfc-res-co">-</span>
+            <span class="chip" id="nfc-res-lvl">Active Talent</span>
+          </div>
+          <h1 id="nfc-res-nm" class="ell" style="font-size:16px;font-weight:800;color:var(--br);margin-top:3px">-</h1>
+          <p class="mut sm ell" id="nfc-res-sub" style="font-size:12px">-</p>
+          <div class="row" style="gap:6px;margin-top:4px">
+            <span class="chip" style="font-size:10.5px;background:var(--pf);border-color:var(--gold)"><span class="mi" style="font-size:13px;color:var(--p)">contactless</span> <span id="nfc-res-uid">-</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="kpis" style="margin-top:12px">
+        <div class="kpi"><b id="nfc-kpi-done" style="color:var(--ok)">0</b><small>Lulus (DONE)</small></div>
+        <div class="kpi"><b id="nfc-kpi-pending" style="color:var(--wa)">0</b><small>Belum (NOT YET)</small></div>
+        <div class="kpi"><b id="nfc-kpi-pct">0%</b><small>Kelulusan</small></div>
+        <div class="kpi"><b id="nfc-kpi-avg">0</b><small>Rata-rata Skor</small></div>
+      </div>
+      <div style="margin-top:10px">
+        <div class="row sp" style="font-size:11.5px;font-weight:600">
+          <span class="mut">Progres Kompetensi</span>
+          <span id="nfc-res-status-badge" class="chip ok">KOMPETEN</span>
+        </div>
+        <div class="comp-bar"><div id="nfc-res-bar-fill" class="comp-bar-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="tabs" style="margin-top:2px">
+      <button type="button" class="on" data-a="nfcTab" data-v="all" id="nfc-tab-all">Semua (<span id="nfc-cnt-all">0</span>)</button>
+      <button type="button" data-a="nfcTab" data-v="done" id="nfc-tab-done" style="color:var(--ok)">✅ Sudah Lulus (<span id="nfc-cnt-done">0</span>)</button>
+      <button type="button" data-a="nfcTab" data-v="pending" id="nfc-tab-pending" style="color:var(--wa)">⏳ Belum Diambil (<span id="nfc-cnt-pending">0</span>)</button>
+    </div>
+    <div id="nfc-mat-list" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</div>
+<div class="row sp" style="flex:none;border-top:1px solid var(--ln);padding-top:12px;gap:8px;flex-wrap:wrap">
+  <button type="button" class="btn s" data-a="nfcResetScan" id="nfc-btn-rescan" style="background:var(--sf2);color:var(--ink)"><span class="mi">restart_alt</span> Scan Kartu Lain</button>
+  <div class="row" style="gap:6px">
+    <button type="button" class="btn s p" data-a="nfcLoginAs" id="nfc-btn-login-as" style="display:none"><span class="mi">login</span> Masuk ke Akun</button>
+    <button type="button" class="btn s" data-a="closeNfc">Tutup</button>
+  </div>
+</div></div></div>
 <div class="toast" id="ts"></div>
 
 <script>
@@ -336,7 +437,7 @@ const I18N={
     brief_title:"Data Pelaksanaan Training",trainer:"Nama Trainer",time_start:"Jam Mulai",time_end:"Jam Selesai",btn_start_exam:"Mulai Ujian",hint:"Petunjuk",doubt:"Ragu",prev:"Sebelumnya",next:"Lanjut",review:"Tinjau",review_title:"Tinjau Jawaban",time_left:"Sisa Waktu",answered:"Terjawab",unanswered:"Kosong",score:"Skor",progress:"Progres",all_answered:"Semua soal terjawab.",unanswered_warn:"soal belum dijawab",doubt_warn:"soal ditandai ragu",tap_number_tip:"Ketuk nomor untuk kembali ke soal.",to_feedback_btn:"Lanjut Isi Training Feedback",back_to_exam:"Kembali ke Soal",
     fb_title:"TRAINING FEEDBACK",fb_desc:"Skala ★ 1 Sangat Buruk — ★ 5 Sangat Baik",star_1:"Sangat Buruk",star_2:"Kurang",star_3:"Cukup",star_4:"Baik",star_5:"Sangat Baik",fb_e1_q:"1. Apa yang masih kurang / perlu ditingkatkan dari pelatihan ini?",fb_e2_q:"2. Apa yang sudah bagus dari pelatihan ini?",fb_submit:"Kirim Feedback & Jawaban Ujian",
     result_pass:"Memenuhi Standar Kelulusan",result_fail:"Belum Mencapai Batas Kelulusan",final_score:"Skor Akhir",view_cert:"Lihat E-Sertifikat",retest:"Ujian Ulang (Masukkan PIN)",back_home:"Kembali ke Beranda",history_matrix:"Riwayat & Matriks",
-    sim_title:"Simulator Operasional",sim_sub:"Input dan monitoring hasil praktik simulator alat berat / operasional.",sim_type:"Jenis Simulator",sim_mat_lbl:"Materi Simulator",sim_time_lbl:"Waktu / Durasi Simulator",sim_mat_oth_ph:"Tuliskan materi pelatihan simulator...",sim_time_ph:"Pilih durasi atau ketik waktu (mis. 45 Menit)",sim_score:"Nilai / Skor Simulator (0–100)",sim_btn:"Catat Absensi Simulator",sim_history:"Riwayat Simulator",sim_recorded:"Tercatat",mat_title:"Matriks Kompetensi",his_title:"Riwayat Asesmen",pin_modal_title:"Masukkan Kode PIN",pin_verify:"Verifikasi PIN"
+    sim_title:"Simulator Operasional",sim_sub:"Input dan monitoring hasil praktik simulator alat berat / operasional.",sim_type:"Jenis Simulator",sim_mat_lbl:"Materi Simulator",sim_time_lbl:"Waktu / Durasi Simulator",sim_mat_oth_ph:"Tuliskan materi pelatihan simulator...",sim_time_ph:"Pilih durasi atau ketik waktu (mis. 45 Menit)",sim_score:"Nilai / Skor Simulator (0–100)",sim_btn:"Catat Absensi Simulator",sim_history:"Riwayat Simulator",sim_recorded:"Tercatat",mat_title:"Matriks Kompetensi",his_title:"Riwayat Asesmen",pin_modal_title:"Masukkan Kode PIN",pin_verify:"Verifikasi PIN",nfc_login_btn:"Tempel Kartu NFC / Cek Kompetensi",nfc_hdr_btn:"Scan NFC"
   },
   en:{
     portal_title:"L&D Assessment Portal",masuk:"Sign In",nav_home:"Home",nav_modules:"Modules",nav_sim:"Simulator",nav_profile:"Profile",nav_mat:"Matrix",nav_his:"History",
@@ -353,7 +454,7 @@ const I18N={
     brief_title:"Training Session Data",trainer:"Trainer Name",time_start:"Start Time",time_end:"End Time",btn_start_exam:"Start Exam",hint:"Hint",doubt:"Doubt",prev:"Previous",next:"Next",review:"Review",review_title:"Review Answers",time_left:"Time Remaining",answered:"Answered",unanswered:"Empty",score:"Score",progress:"Progress",all_answered:"All questions answered.",unanswered_warn:"questions unanswered",doubt_warn:"questions marked doubt",tap_number_tip:"Tap question number to return to it.",to_feedback_btn:"Proceed to Training Feedback",back_to_exam:"Back to Questions",
     fb_title:"TRAINING FEEDBACK",fb_desc:"Scale ★ 1 Very Poor — ★ 5 Excellent",star_1:"Very Poor",star_2:"Poor",star_3:"Fair",star_4:"Good",star_5:"Excellent",fb_e1_q:"1. What needs improvement in this training?",fb_e2_q:"2. What was good about this training?",fb_submit:"Submit Feedback & Exam Answers",
     result_pass:"Met Passing Standard",result_fail:"Below Passing Standard",final_score:"Final Score",view_cert:"View E-Certificate",retest:"Retake Exam (Enter PIN)",back_home:"Back to Home",history_matrix:"History & Matrix",
-    sim_title:"Operational Simulator",sim_sub:"Record and monitor operational / simulator practice results.",sim_type:"Simulator Type",sim_mat_lbl:"Simulator Topic / Objective",sim_time_lbl:"Simulator Duration / Time",sim_mat_oth_ph:"Specify simulator training topic...",sim_time_ph:"Select duration or type time (e.g. 45 Mins)",sim_score:"Simulator Score (0–100)",sim_btn:"Record Simulator Session",sim_history:"Simulator History",sim_recorded:"Recorded",mat_title:"Competency Matrix",his_title:"Assessment History",pin_modal_title:"Enter PIN Code",pin_verify:"Verify PIN"
+    sim_title:"Operational Simulator",sim_sub:"Record and monitor operational / simulator practice results.",sim_type:"Simulator Type",sim_mat_lbl:"Simulator Topic / Objective",sim_time_lbl:"Simulator Duration / Time",sim_mat_oth_ph:"Specify simulator training topic...",sim_time_ph:"Select duration or type time (e.g. 45 Mins)",sim_score:"Simulator Score (0–100)",sim_btn:"Record Simulator Session",sim_history:"Simulator History",sim_recorded:"Recorded",mat_title:"Competency Matrix",his_title:"Assessment History",pin_modal_title:"Enter PIN Code",pin_verify:"Verify PIN",nfc_login_btn:"Tap NFC Card / Check Competency",nfc_hdr_btn:"Scan NFC"
   },
   zh:{
     portal_title:"L&D 评估门户",masuk:"登录",nav_home:"主页",nav_modules:"课程模块",nav_sim:"模拟器",nav_profile:"个人资料",nav_mat:"胜任矩阵",nav_his:"历史记录",
@@ -370,7 +471,7 @@ const I18N={
     brief_title:"培训实施信息",trainer:"讲师姓名",time_start:"开始时间",time_end:"结束时间",btn_start_exam:"开始答题",hint:"提示",doubt:"标记存疑",prev:"上一题",next:"下一题",review:"检查",review_title:"检查答卷",time_left:"剩余时间",answered:"已答",unanswered:"未答",score:"得分",progress:"答题进度",all_answered:"所有题目均已完成答题。",unanswered_warn:"道题目未作答",doubt_warn:"道题目标记存疑",tap_number_tip:"轻触题号可直接跳转返回该题。",to_feedback_btn:"前往填写培训评估反馈",back_to_exam:"返回题目界面",
     fb_title:"培训评估反馈",fb_desc:"评分标准：★ 1 极差 — ★ 5 优秀",star_1:"极差",star_2:"较差",star_3:"一般",star_4:"良好",star_5:"优秀",fb_e1_q:"1. 本次培训有哪些不足或需要进一步改善之处？",fb_e2_q:"2. 本次培训有哪些优秀表现值得肯定与保持？",fb_submit:"提交答卷与培训反馈",
     result_pass:"达到评估合格标准",result_fail:"未达评估合格标准",final_score:"最终考核得分",view_cert:"查看电子结业证书",retest:"重新考试（输入PIN码）",back_home:"返回主页",history_matrix:"历史记录与矩阵",
-    sim_title:"运营实操模拟器",sim_sub:"录入与跟踪重型设备/实操模拟器评估数据。",sim_type:"模拟器机型",sim_mat_lbl:"模拟实操培训课题",sim_time_lbl:"模拟操作时长/时间",sim_mat_oth_ph:"请输入具体实操培训课题...",sim_time_ph:"选择上方时长或输入时间（例：45分钟）",sim_score:"模拟器考核得分 (0–100)",sim_btn:"提交模拟考核记录",sim_history:"模拟考核记录",sim_recorded:"已记录",mat_title:"胜任力矩阵",his_title:"评估考核历史",pin_modal_title:"请输入考核PIN码",pin_verify:"验证PIN码"
+    sim_title:"运营实操模拟器",sim_sub:"录入与跟踪重型设备/实操模拟器评估数据。",sim_type:"模拟器机型",sim_mat_lbl:"模拟实操培训课题",sim_time_lbl:"模拟操作时长/时间",sim_mat_oth_ph:"请输入具体实操培训课题...",sim_time_ph:"选择上方时长或输入时间（例：45分钟）",sim_score:"模拟器考核得分 (0–100)",sim_btn:"提交模拟考核记录",sim_history:"模拟考核记录",sim_recorded:"已记录",mat_title:"胜任力矩阵",his_title:"评估考核历史",pin_modal_title:"请输入考核PIN码",pin_verify:"验证PIN码",nfc_login_btn:"刷NFC卡 / 查看胜任力",nfc_hdr_btn:"NFC扫描"
   }
 };
 const t=(k,fallback='')=>{const l=S?.lang||'id';return I18N[l]?.[k]??I18N['id']?.[k]??fallback??k};
@@ -381,6 +482,9 @@ function setLang(lang){
   S.lang=lang;try{localStorage.setItem('mgr_lang',lang)}catch{}
   document.querySelectorAll('.lang-switch .l-btn').forEach(b=>{b.classList.toggle('on',b.dataset.v===lang)});
   if($('#hdr-brand'))$('#hdr-brand').textContent=t('portal_title');
+  if($('#lbl-btn-nfc'))$('#lbl-btn-nfc').textContent=t('nfc_login_btn');
+  const hdrNfcSpan=$('#hdr-nfc .hide-xs');
+  if(hdrNfcSpan)hdrNfcSpan.textContent=t('nfc_hdr_btn','Scan NFC');
   if(!S.emp&&$('#un'))$('#un').textContent=t('masuk');
   go(S.v);
   if($('#o-pin')?.classList.contains('on')){
@@ -421,9 +525,10 @@ const DURASI_SIM_OPTS=[
 const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
-const valNik=v=>{
+const valNik=(v,isNfc=false)=>{
   const s=String(v||'').trim();
-  if(!s||s.length<3) return {ok:false, code:'too_short', msg:t('err_nik_len','ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).')};
+  if(!s||s.length<2) return {ok:false, code:'too_short', msg:t('err_nik_len','ID Karyawan / NIK wajib diisi lengkap (minimal 3 karakter).')};
+  if(isNfc) return {ok:true, type:'nfc_uid'};
   const hasLetter=/[a-zA-Z]/.test(s);
   const hasDigit=/[0-9]/.test(s);
   const digitsOnly=s.replace(/\D/g,'');
@@ -738,9 +843,9 @@ async function regEmp(){
   toast('Selamat datang! NIK '+id+' berhasil didaftarkan.');
   go('home');
 }
-async function login(q,silent){
+async function login(q,silent,isNfc=false){
   q=cleanInp(q,80).trim();
-  const vCheck=valNik(q);
+  const vCheck=valNik(q,isNfc);
   if(!vCheck.ok){
     if(!silent)showErr('#le',vCheck.msg);
     $('#li')?.focus();return false;
@@ -748,10 +853,10 @@ async function login(q,silent){
   try{
     const qUp=up(q);
     const foundLocal=S.kar.find(k=>{
-      const kId=up(k.ID_Karyawan||''),kNik=up(k.NIK||''),kUsr=up(k.Username||'');
-      return (kId&&kId===qUp)||(kNik&&kNik===qUp)||(kUsr&&kUsr===qUp);
+      const kId=up(k.ID_Karyawan||''),kNik=up(k.NIK||''),kUsr=up(k.Username||''),kNfc=up(k.NFC_UID||k._col_I||'');
+      return (kId&&kId===qUp)||(kNik&&kNik===qUp)||(kUsr&&kUsr===qUp)||(kNfc&&kNfc===qUp);
     });
-    const j=await g({action:'get_profile',id_karyawan:q});
+    const j=await g({action:'get_profile',id_karyawan:q,nfc_uid:q,bypass:'1'});
     if(j.status!=='success'){
       if(foundLocal){
         S.emp=foundLocal;localStorage.setItem('mgr_nik',key(foundLocal));$('#un').textContent=(foundLocal.Nama_Lengkap||key(foundLocal)).split(' ')[0];
@@ -1583,7 +1688,418 @@ function tts(){
   u.lang=curL==='zh'?'zh-CN':curL==='en'?'en-US':'id-ID';
   speechSynthesis.speak(u);
 }
+/* ---------- NFC Reader & Verification Module ---------- */
+let nfcAbort = null;
+let currentNfcData = null;
+let currentNfcTab = 'all';
+let nfcMode = 'assess'; // 'assess' atau 'login'
+
+function triggerNfcHaptic(){
+  try{if(navigator.vibrate)navigator.vibrate([40,30,40])}catch{}
+}
+
+function openNfcModal(mode='assess'){
+  nfcMode = mode;
+  resetNfcScan();
+  $('#o-nfc')?.classList.add('on');
+  setTimeout(()=>{
+    const wedge=$('#nfc-wedge-input');
+    if(wedge){wedge.value='';wedge.focus()}
+  },80);
+  startWebNfc();
+}
+
+function closeNfcModal(){
+  stopWebNfc();
+  $('#o-nfc')?.classList.remove('on');
+}
+
+function resetNfcScan(){
+  currentNfcData = null;
+  currentNfcTab = 'all';
+  $('#nfc-view-scan').style.display='block';
+  $('#nfc-view-loading').style.display='none';
+  $('#nfc-view-unlinked').style.display='none';
+  $('#nfc-view-result').style.display='none';
+  $('#nfc-btn-login-as').style.display='none';
+  $('#nfc-err-box').classList.remove('on');
+  $('#nfc-err-box').textContent='';
+  $('#nfc-link-err').classList.remove('on');
+  $('#nfc-link-err').textContent='';
+  if($('#nfc-manual-id'))$('#nfc-manual-id').value='';
+  if($('#nfc-link-nik'))$('#nfc-link-nik').value='';
+  
+  const curL = S.lang || 'id';
+  const isLogMode = nfcMode === 'login';
+  
+  const titleSpan = $('#nfc-title span:last-child');
+  if(titleSpan){
+    titleSpan.textContent = isLogMode ? 
+      (curL==='zh'?'通过NFC卡快速登录':curL==='en'?'Fast Sign In with NFC Card':'Masuk Cepat dengan Kartu NFC') :
+      (curL==='zh'?'NFC卡员工胜任力核验':curL==='en'?'Employee Competency NFC Verification':'Verifikasi Kartu NFC Karyawan');
+  }
+  const subP = $('#nfc-sub');
+  if(subP){
+    subP.textContent = isLogMode ?
+      (curL==='zh'?'靠近工号卡以立即自动登录系统。':curL==='en'?'Tap employee ID card to instantly sign in to the portal.':'Tempelkan kartu ID karyawan untuk login otomatis ke portal.') :
+      (curL==='zh'?'即时查验员工胜任力达标状态（已完成与未完成模块）。':curL==='en'?'Instant employee competency verification (DONE & NOT YET modules).':'Cek status kompetensi (DONE & NOT YET) secara instan via kartu ID.');
+  }
+
+  if('NDEFReader' in window){
+    $('#nfc-status-txt').textContent = isLogMode ?
+      (curL==='zh'?'等待刷卡登录…':curL==='en'?'Waiting for NFC Card to Sign In…':'Siap Membaca Kartu untuk Login…') :
+      'Sensor NFC HP Aktif';
+    $('#nfc-guide-txt').textContent='Dekatkan kartu ID karyawan ke bodi belakang ponsel Anda.';
+  } else {
+    $('#nfc-status-txt').textContent = isLogMode ?
+      'Menunggu Tempelan Kartu NFC untuk Login...' :
+      'Menunggu Tempelan Kartu NFC (USB / Manual)';
+    $('#nfc-guide-txt').textContent='Tempelkan kartu pada USB NFC Reader komputer ini, atau masukkan NIK / UID kartu secara manual.';
+  }
+  setTimeout(()=>$('#nfc-wedge-input')?.focus(),50);
+}
+
+function showNfcErr(msg){
+  const b=$('#nfc-err-box');
+  if(!b)return;
+  b.className='err on';
+  b.textContent=msg;
+}
+
+async function startWebNfc(){
+  if(!('NDEFReader' in window))return;
+  try{
+    if(nfcAbort){try{nfcAbort.abort()}catch{}}
+    nfcAbort=new AbortController();
+    const ndef=new NDEFReader();
+    await ndef.scan({signal:nfcAbort.signal});
+    ndef.onreading=(ev)=>{
+      const serial=ev.serialNumber;
+      if(serial){
+        triggerNfcHaptic();
+        handleNfcScanned(serial);
+      }
+    };
+    ndef.onreadingerror=()=>{
+      showNfcErr('Kartu tidak terbaca dengan sempurna. Silakan tempelkan ulang.');
+    };
+  }catch(err){
+    if(err.name!=='AbortError'){
+      $('#nfc-guide-txt').textContent='Izin NFC belum aktif di browser. Anda dapat menggunakan USB Reader atau ketik manual.';
+    }
+  }
+}
+
+function stopWebNfc(){
+  if(nfcAbort){try{nfcAbort.abort()}catch{}nfcAbort=null}
+}
+
+async function directNfcLogin(rawKey){
+  const q=String(rawKey||'').trim();
+  if(!q)return;
+  triggerNfcHaptic();
+  
+  if($('#li'))$('#li').value=q;
+  const lb=$('#lb');
+  if(lb){lb.disabled=true;lb.textContent=S.lang==='zh'?'正在通过NFC登录…':S.lang==='en'?'Signing in via NFC…':'Masuk via NFC…'}
+  
+  toast('Membaca kartu NFC ['+q+']...');
+  const ok=await login(q,true,true);
+  if(lb){lb.disabled=false;lb.textContent=t('login_btn')}
+  
+  if(ok){
+    closeNfcModal();
+    go('home');
+    const firstNm=(S.emp?.Nama_Lengkap||key(S.emp)).split(' ')[0];
+    toast(`Selamat datang, ${firstNm}! Berhasil masuk via NFC.`);
+  } else {
+    openNfcModal('login');
+    showNfcUnlinked(q);
+  }
+}
+
+async function handleNfcScanned(rawKey){
+  const q=String(rawKey||'').trim();
+  if(!q)return;
+
+  // Jika sedang dalam mode login karyawan, langsung login!
+  if(nfcMode==='login'){
+    await directNfcLogin(q);
+    return;
+  }
+  
+  // Jika dalam mode asesor, ambil profil & matriks kompetensi lengkap
+  $('#nfc-view-scan').style.display='none';
+  $('#nfc-view-unlinked').style.display='none';
+  $('#nfc-view-result').style.display='none';
+  $('#nfc-view-loading').style.display='block';
+  $('#nfc-load-msg').textContent=`Membaca kartu [${q}]... Mengambil matriks kompetensi...`;
+  $('#nfc-btn-login-as').style.display='none';
+
+  try{
+    const res=await g({action:'get_profile',nfc_uid:q,id_karyawan:q,bypass:'1'});
+    $('#nfc-view-loading').style.display='none';
+    if(res&&res.status==='success'&&res.data&&res.data.profil){
+      currentNfcData=res.data;
+      renderNfcResult(res.data,q);
+    } else {
+      showNfcUnlinked(q);
+    }
+  }catch(err){
+    $('#nfc-view-loading').style.display='none';
+    $('#nfc-view-scan').style.display='block';
+    showNfcErr('Koneksi bermasalah saat mengambil data dari server. Coba lagi.');
+  }
+}
+
+function showNfcUnlinked(uid){
+  $('#nfc-view-scan').style.display='none';
+  $('#nfc-view-loading').style.display='none';
+  $('#nfc-view-result').style.display='none';
+  $('#nfc-view-unlinked').style.display='block';
+  $('#nfc-unlinked-uid').textContent=uid;
+  $('#nfc-link-nik').value='';
+  $('#nfc-link-err').classList.remove('on');
+  setTimeout(()=>$('#nfc-link-nik')?.focus(),60);
+}
+
+async function saveNfcLink(){
+  const uid=$('#nfc-unlinked-uid')?.textContent?.trim();
+  const nik=$('#nfc-link-nik')?.value?.trim();
+  const errBox=$('#nfc-link-err');
+  if(!uid||uid==='-'){
+    if(errBox){errBox.className='err on';errBox.textContent='UID kartu tidak valid.'}
+    return;
+  }
+  if(!nik||nik.length<3){
+    if(errBox){errBox.className='err on';errBox.textContent='Masukkan NIK / ID Karyawan yang valid.'}
+    $('#nfc-link-nik')?.focus();
+    return;
+  }
+  
+  errBox?.classList.remove('on');
+  const btn=document.querySelector('[data-a="nfcSaveLink"]');
+  if(btn){btn.disabled=true;btn.textContent='Menyimpan ke Kolom I...'}
+
+  try{
+    const r=await po({action:'link_nfc',nfc_uid:uid,id_karyawan:nik});
+    if(btn){btn.disabled=false;btn.innerHTML='<span class="mi">link</span> Tautkan Kartu ke Karyawan Ini'}
+    if(r&&r.status==='success'){
+      toast('Kartu NFC berhasil ditautkan ke '+nik+'!');
+      if(nfcMode==='login'){
+        await directNfcLogin(uid);
+      } else {
+        await handleNfcScanned(uid);
+      }
+    } else {
+      if(errBox){errBox.className='err on';errBox.textContent=r?.message||'Gagal menautkan kartu ke karyawan.'}
+    }
+  }catch(err){
+    if(btn){btn.disabled=false;btn.innerHTML='<span class="mi">link</span> Tautkan Kartu ke Karyawan Ini'}
+    if(errBox){errBox.className='err on';errBox.textContent='Gagal menghubungi server. Periksa koneksi Anda.'}
+  }
+}
+
+function renderNfcResult(data,scannedKey){
+  const em=data.profil;
+  const his=data.histori||[];
+  const mat=data.matriks||[];
+
+  const lulus=his.filter(h=>up(h.Status_Lulus)==='LULUS');
+  let mList=mat.length?mat.map(x=>({...x})):S.modul.map((d,i)=>({
+    ID_Modul:d.ID_Modul,
+    Kode_Kompetensi:'KOMP-'+(i+1),
+    Nama_Kompetensi:d.Nama_Modul||d.ID_Modul,
+    Status:'NOT YET'
+  }));
+
+  mList.forEach(x=>{
+    const h=lulus.filter(h=>up(h.ID_Modul)===up(x.ID_Modul)).sort((a,b)=>(parseFloat(b.Skor_Akhir)||0)-(parseFloat(a.Skor_Akhir)||0))[0];
+    if(h&&up(x.Status)!=='DONE'){
+      x.Status='DONE';
+      x.Skor=h.Skor_Akhir;
+      x.Tgl_Selesai=String(h.Timestamp_Submit).split(' ')[0];
+      x.cert=h.No_Sertifikat;
+    }
+  });
+
+  const doneList=mList.filter(x=>up(x.Status)==='DONE');
+  const pendingList=mList.filter(x=>up(x.Status)!=='DONE');
+  const sc=his.filter(h=>up(h.Status_Lulus)!=='HANYA ABSEN').map(h=>parseFloat(h.Skor_Akhir)).filter(n=>!isNaN(n));
+  const pct=mList.length?Math.round(doneList.length/mList.length*100):0;
+  const avg=sc.length?(sc.reduce((a,b)=>a+b)/sc.length).toFixed(1):'0';
+
+  const uidVal=em.NFC_UID||em._col_I||scannedKey||'-';
+  $('#nfc-res-uid').textContent='UID: '+uidVal;
+  $('#nfc-res-nm').textContent=em.Nama_Lengkap||key(em);
+  $('#nfc-res-co').textContent=empCo(em)||'Merdeka';
+  $('#nfc-res-lvl').textContent=em.Status_Level||'Active Talent';
+  $('#nfc-res-sub').textContent=[key(em),empDp(em),empJb(em)].filter(Boolean).join(' • ');
+
+  const avaBox=$('#nfc-res-ava');
+  if(avaBox){
+    if(okUrl(em.Foto_URL)){
+      avaBox.innerHTML=`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`;
+    } else {
+      avaBox.innerHTML=`<span class="mi">person</span>`;
+    }
+  }
+
+  $('#nfc-kpi-done').textContent=doneList.length;
+  $('#nfc-kpi-pending').textContent=pendingList.length;
+  $('#nfc-kpi-pct').textContent=pct+'%';
+  $('#nfc-kpi-avg').textContent=avg;
+
+  const bar=$('#nfc-res-bar-fill');
+  if(bar)bar.style.width=pct+'%';
+  const badge=$('#nfc-res-status-badge');
+  if(badge){
+    if(pct===100){
+      badge.className='chip ok';badge.textContent='KOMPETENSI LENGKAP';
+    }else if(pct>=50){
+      badge.className='chip wa';badge.textContent=`${pendingList.length} MODUL BELUM`;
+    }else{
+      badge.className='chip er';badge.textContent=`BELUM LENGKAP (${pendingList.length} MODUL)`;
+    }
+  }
+
+  $('#nfc-cnt-all').textContent=mList.length;
+  $('#nfc-cnt-done').textContent=doneList.length;
+  $('#nfc-cnt-pending').textContent=pendingList.length;
+
+  currentNfcData._processedList=mList;
+  currentNfcTab='all';
+  updateNfcTabs();
+  renderNfcList(mList);
+
+  $('#nfc-view-scan').style.display='none';
+  $('#nfc-view-unlinked').style.display='none';
+  $('#nfc-view-loading').style.display='none';
+  $('#nfc-view-result').style.display='flex';
+  
+  const logBtn=$('#nfc-btn-login-as');
+  if(logBtn){
+    logBtn.style.display='inline-flex';
+    logBtn.innerHTML=`<span class="mi">login</span> Masuk sebagai ${e(em.Nama_Lengkap.split(' ')[0])}`;
+  }
+}
+
+function renderNfcList(list){
+  const container=$('#nfc-mat-list');
+  if(!container)return;
+  if(!list.length){
+    container.innerHTML=`<div class="card" style="text-align:center;padding:16px;color:var(--mut);font-size:12.5px">Tidak ada kompetensi pada kategori ini.</div>`;
+    return;
+  }
+  container.innerHTML=list.map(x=>{
+    const isDone=up(x.Status)==='DONE';
+    return `
+      <div class="item" style="padding:10px 12px;background:var(--sf);border:1px solid var(--ln);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div class="g">
+          <div class="row" style="gap:6px;align-items:center">
+            <span class="chip ${isDone?'ok':'wa'}" style="font-size:10.5px;padding:2px 7px">${isDone?'DONE':'NOT YET'}</span>
+            <span class="mut sm" style="font-size:11px">${e(x.Kode_Kompetensi||x.ID_Modul)}</span>
+          </div>
+          <b style="display:block;font-size:13.5px;margin-top:3px;color:var(--ink)">${e(x.Nama_Kompetensi)}</b>
+          ${isDone?`
+            <span class="mut sm" style="font-size:11.5px;color:var(--ok);font-weight:600">
+              Skor: ${e(x.Skor||'-')} • Selesai: ${e(x.Tgl_Selesai||'-')}
+            </span>
+          `:`
+            <span class="mut sm" style="font-size:11.5px;color:var(--mut)">Belum dilakukan asesmen</span>
+          `}
+        </div>
+        ${isDone?`
+          <button type="button" class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}" style="padding:0 8px;font-size:11px">
+            <span class="mi" style="font-size:15px">workspace_premium</span> Sertifikat
+          </button>
+        `:''}
+      </div>
+    `;
+  }).join('');
+}
+
+function updateNfcTabs(){
+  $('#nfc-tab-all')?.classList.toggle('on',currentNfcTab==='all');
+  $('#nfc-tab-done')?.classList.toggle('on',currentNfcTab==='done');
+  $('#nfc-tab-pending')?.classList.toggle('on',currentNfcTab==='pending');
+}
+
+function setNfcTab(tab){
+  currentNfcTab=tab;
+  updateNfcTabs();
+  const all=currentNfcData?._processedList||[];
+  let filtered=all;
+  if(tab==='done')filtered=all.filter(x=>up(x.Status)==='DONE');
+  else if(tab==='pending')filtered=all.filter(x=>up(x.Status)!=='DONE');
+  renderNfcList(filtered);
+}
+
+function handleNfcManualCheck(){
+  const val=$('#nfc-manual-id')?.value?.trim();
+  if(!val){
+    showNfcErr('Masukkan NIK atau UID kartu terlebih dahulu.');
+    $('#nfc-manual-id')?.focus();
+    return;
+  }
+  handleNfcScanned(val);
+}
+
+async function nfcLoginAs(){
+  if(!currentNfcData||!currentNfcData.profil)return;
+  const em=currentNfcData.profil;
+  const nikVal=key(em);
+  closeNfcModal();
+  if(await login(nikVal,false,true)){
+    go('home');
+    toast('Berhasil masuk sebagai '+em.Nama_Lengkap+'!');
+  }
+}
+
+/* Global Wedge Listener for USB / Bluetooth NFC Readers */
+let nfcWedgeBuffer='';
+let lastNfcKeyTime=0;
+document.addEventListener('keydown',ev=>{
+  const modalOpen=$('#o-nfc')?.classList.contains('on');
+  const isLogin=S.v==='login';
+  if(!modalOpen&&!isLogin)return;
+  if(ev.target&&['TEXTAREA'].includes(ev.target.tagName))return;
+
+  const now=Date.now();
+  if(ev.key==='Enter'){
+    const trimmed=nfcWedgeBuffer.trim();
+    if(trimmed&&trimmed.length>=2){
+      nfcWedgeBuffer='';
+      if(modalOpen){
+        handleNfcScanned(trimmed);
+      } else if(isLogin){
+        directNfcLogin(trimmed);
+      } else {
+        openNfcModal('assess');
+        handleNfcScanned(trimmed);
+      }
+      ev.preventDefault();
+      return;
+    }
+    nfcWedgeBuffer='';
+  } else if(ev.key&&ev.key.length===1){
+    if(now-lastNfcKeyTime>140&&nfcWedgeBuffer.length>0&&nfcWedgeBuffer.length<3){
+      nfcWedgeBuffer='';
+    }
+    nfcWedgeBuffer+=ev.key;
+    lastNfcKeyTime=now;
+  }
+});
+
 const A={
+  openNfcLogin:()=>openNfcModal('login'),
+  openNfc:()=>openNfcModal('assess'),
+  closeNfc:()=>closeNfcModal(),
+  nfcResetScan:()=>resetNfcScan(),
+  nfcCheckManual:()=>handleNfcManualCheck(),
+  nfcTab:v=>setNfcTab(v),
+  nfcLoginAs:()=>nfcLoginAs(),
+  nfcSaveLink:()=>saveNfcLink(),
   go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
@@ -1615,16 +2131,15 @@ $('#lf').addEventListener('submit',async ev=>{
   ev.preventDefault();
   $('#le')?.classList.remove('on');
   const raw=cleanInp($('#li').value,80).trim();
-  const vCheck=valNik(raw);
-  if(!vCheck.ok){
-    showErr('#le',vCheck.msg);
+  if(!raw){
+    showErr('#le',t('err_nik_len','ID Karyawan / NIK wajib diisi lengkap.'));
     $('#li')?.focus();
     return;
   }
   const b=$('#lb');
   b.disabled=true;
-  b.textContent=S.lang==='zh'?'正在严格验证工号…':S.lang==='en'?'Verifying Employee ID…':'Memverifikasi NIK…';
-  const ok=await login(raw);
+  b.textContent=S.lang==='zh'?'正在验证…':S.lang==='en'?'Verifying…':'Memverifikasi ID / Kartu…';
+  const ok=await login(raw,false,true);
   if(ok) go('home');
   b.disabled=false;
   b.textContent=t('login_btn');
