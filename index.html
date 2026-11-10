@@ -1693,6 +1693,33 @@ let nfcAbort = null;
 let currentNfcData = null;
 let currentNfcTab = 'all';
 let nfcMode = 'assess'; // 'assess' atau 'login'
+let currentUnlinkedNfc = null;
+
+function parseNfcUid(raw){
+  const s = String(raw || '').trim();
+  const cleanHex = s.replace(/[^0-9a-fA-F]/g, '');
+  const isPureDigits = /^\d+$/.test(s) && !s.includes(':');
+  if(isPureDigits) return { primaryDec: s, altDec: '', hex: '', isHex: false };
+
+  let primaryDec = '';
+  let altDec = '';
+  try {
+    // 1. Big Endian (e.g. 77931061 -> 2006126689)
+    altDec = BigInt('0x' + cleanHex).toString(10);
+    // 2. Reverse Byte Little Endian (Standard 10-digit USB reader: 61 10 93 77 -> 1628476279)
+    const bytes = cleanHex.match(/.{1,2}/g);
+    if (bytes && bytes.length >= 2) {
+      primaryDec = BigInt('0x' + bytes.slice().reverse().join('')).toString(10);
+    }
+  } catch(e) {}
+
+  return {
+    primaryDec: primaryDec || altDec || s,
+    altDec: (altDec && altDec !== primaryDec) ? altDec : '',
+    hex: s,
+    isHex: true
+  };
+}
 
 function triggerNfcHaptic(){
   try{if(navigator.vibrate)navigator.vibrate([40,30,40])}catch{}
@@ -1799,12 +1826,24 @@ async function directNfcLogin(rawKey){
   if(!q)return;
   triggerNfcHaptic();
   
-  if($('#li'))$('#li').value=q;
+  const parsed = parseNfcUid(q);
+  const displayVal = parsed.isHex ? `${parsed.primaryDec} (${parsed.hex})` : parsed.primaryDec;
+  if($('#li'))$('#li').value = parsed.primaryDec;
+  
   const lb=$('#lb');
   if(lb){lb.disabled=true;lb.textContent=S.lang==='zh'?'正在通过NFC登录…':S.lang==='en'?'Signing in via NFC…':'Masuk via NFC…'}
   
-  toast('Membaca kartu NFC ['+q+']...');
-  const ok=await login(q,true,true);
+  toast('Membaca kartu NFC ['+(parsed.primaryDec||q)+']...');
+  
+  // Coba login dengan key asli atau desimal hasil konversi
+  let ok = await login(q, true, true);
+  if(!ok && parsed.primaryDec && parsed.primaryDec !== q){
+    ok = await login(parsed.primaryDec, true, true);
+  }
+  if(!ok && parsed.altDec && parsed.altDec !== q){
+    ok = await login(parsed.altDec, true, true);
+  }
+
   if(lb){lb.disabled=false;lb.textContent=t('login_btn')}
   
   if(ok){
@@ -1828,16 +1867,27 @@ async function handleNfcScanned(rawKey){
     return;
   }
   
+  const parsed = parseNfcUid(q);
+  const displayVal = parsed.primaryDec || q;
+
   // Jika dalam mode asesor, ambil profil & matriks kompetensi lengkap
   $('#nfc-view-scan').style.display='none';
   $('#nfc-view-unlinked').style.display='none';
   $('#nfc-view-result').style.display='none';
   $('#nfc-view-loading').style.display='block';
-  $('#nfc-load-msg').textContent=`Membaca kartu [${q}]... Mengambil matriks kompetensi...`;
+  $('#nfc-load-msg').textContent=`Membaca kartu [${displayVal}]... Mengambil matriks kompetensi...`;
   $('#nfc-btn-login-as').style.display='none';
 
   try{
-    const res=await g({action:'get_profile',nfc_uid:q,id_karyawan:q,bypass:'1'});
+    // Coba query dengan rawKey, jika tidak ketemu coba dengan primaryDec
+    let res = await g({action:'get_profile',nfc_uid:q,id_karyawan:q,bypass:'1'});
+    if((!res || res.status !== 'success') && parsed.primaryDec && parsed.primaryDec !== q){
+      res = await g({action:'get_profile',nfc_uid:parsed.primaryDec,id_karyawan:parsed.primaryDec,bypass:'1'});
+    }
+    if((!res || res.status !== 'success') && parsed.altDec && parsed.altDec !== q){
+      res = await g({action:'get_profile',nfc_uid:parsed.altDec,id_karyawan:parsed.altDec,bypass:'1'});
+    }
+
     $('#nfc-view-loading').style.display='none';
     if(res&&res.status==='success'&&res.data&&res.data.profil){
       currentNfcData=res.data;
@@ -1857,39 +1907,51 @@ function showNfcUnlinked(uid){
   $('#nfc-view-loading').style.display='none';
   $('#nfc-view-result').style.display='none';
   $('#nfc-view-unlinked').style.display='block';
-  $('#nfc-unlinked-uid').textContent=uid;
+  
+  const parsed = parseNfcUid(uid);
+  currentUnlinkedNfc = parsed;
+  
+  const uidBox = $('#nfc-unlinked-uid');
+  if(uidBox){
+    if(parsed.isHex){
+      uidBox.innerHTML = `<b style="font-size:15px;color:var(--p)">${parsed.primaryDec}</b> <span class="mut sm" style="font-size:11.5px">(Desimal)</span> <span class="mut sm" style="font-size:11px;display:block;margin-top:2px">Kode Hex Antena: <code>${parsed.hex}</code></span>`;
+    } else {
+      uidBox.textContent = parsed.primaryDec;
+    }
+  }
   $('#nfc-link-nik').value='';
   $('#nfc-link-err').classList.remove('on');
   setTimeout(()=>$('#nfc-link-nik')?.focus(),60);
 }
 
 async function saveNfcLink(){
-  const uid=$('#nfc-unlinked-uid')?.textContent?.trim();
-  const nik=$('#nfc-link-nik')?.value?.trim();
-  const errBox=$('#nfc-link-err');
-  if(!uid||uid==='-'){
+  const parsed = currentUnlinkedNfc || parseNfcUid($('#nfc-unlinked-uid')?.textContent?.trim());
+  const uidToSave = parsed.primaryDec || $('#nfc-unlinked-uid')?.textContent?.trim();
+  const nik = $('#nfc-link-nik')?.value?.trim();
+  const errBox = $('#nfc-link-err');
+  if(!uidToSave || uidToSave === '-'){
     if(errBox){errBox.className='err on';errBox.textContent='UID kartu tidak valid.'}
     return;
   }
-  if(!nik||nik.length<3){
+  if(!nik || nik.length < 3){
     if(errBox){errBox.className='err on';errBox.textContent='Masukkan NIK / ID Karyawan yang valid.'}
     $('#nfc-link-nik')?.focus();
     return;
   }
   
   errBox?.classList.remove('on');
-  const btn=document.querySelector('[data-a="nfcSaveLink"]');
+  const btn = document.querySelector('[data-a="nfcSaveLink"]');
   if(btn){btn.disabled=true;btn.textContent='Menyimpan ke Kolom I...'}
 
   try{
-    const r=await po({action:'link_nfc',nfc_uid:uid,id_karyawan:nik});
+    const r = await po({action:'link_nfc', nfc_uid:uidToSave, id_karyawan:nik});
     if(btn){btn.disabled=false;btn.innerHTML='<span class="mi">link</span> Tautkan Kartu ke Karyawan Ini'}
-    if(r&&r.status==='success'){
-      toast('Kartu NFC berhasil ditautkan ke '+nik+'!');
-      if(nfcMode==='login'){
-        await directNfcLogin(uid);
+    if(r && r.status === 'success'){
+      toast('Nomor kartu desimal ('+uidToSave+') berhasil disimpan ke Kolom I!');
+      if(nfcMode === 'login'){
+        await directNfcLogin(uidToSave);
       } else {
-        await handleNfcScanned(uid);
+        await handleNfcScanned(uidToSave);
       }
     } else {
       if(errBox){errBox.className='err on';errBox.textContent=r?.message||'Gagal menautkan kartu ke karyawan.'}
