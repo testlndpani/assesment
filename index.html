@@ -165,7 +165,7 @@ ul.rules b{color:var(--ink)}
   .row.m-col{flex-direction:column;align-items:stretch;gap:8px!important}
 }
 #o-absen .sheet{max-width:560px;height:min(92dvh,760px);max-height:none;overflow:hidden}
-#o-absen .sdd-m{position:static;max-height:none;margin-top:6px;box-shadow:none}
+#o-absen .sdd-m{position:static;max-height:220px;overflow-y:auto;margin-top:6px;box-shadow:none}
 @media(max-width:600px){#o-absen .sheet{height:95dvh;border-radius:14px 14px 0 0;padding:12px 12px calc(12px + env(safe-area-inset-bottom))}}
 @media print{body *{visibility:hidden}.cert,.cert *{visibility:visible}.cert{position:fixed;inset:0;margin:auto;height:fit-content}}
 </style>
@@ -173,6 +173,7 @@ ul.rules b{color:var(--ink)}
 <body class="nonav">
 <header><img class="logo-img" data-logo alt="Merdeka Gold Resources"><span class="h-div"></span><div class="brand"><b class="ell" id="hdr-brand">Portal Asesmen L&amp;D</b></div>
 <div class="lang-switch" id="hdr-lang"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div>
+<button type="button" class="btn s" data-a="go" data-v="trainer" id="hdr-trainer" title="Buka Halaman Khusus Trainer (Kode Akses & Nilai Peserta)" style="display:none;padding:0 9px;gap:4px;border-color:var(--ok);background:#e8f5ee;color:var(--ok);font-weight:700;font-size:11.5px;flex:none;height:28px"><span class="mi" style="font-size:16px;color:var(--ok)">verified_user</span> <span>Panel Trainer</span></button>
 <button type="button" class="btn s" data-a="openNfc" id="hdr-nfc" title="Scan Kartu NFC Karyawan (Cek Kompetensi)" style="padding:0 8px;gap:4px;border-color:var(--gold);background:var(--pf);color:var(--br);font-weight:700;font-size:11.5px;flex:none;height:28px"><span class="mi" style="font-size:17px;color:var(--p)">contactless</span> <span class="hide-xs">Scan NFC</span></button>
 <button class="pill" data-a="sync" aria-label="Sinkronisasi"><span class="dot" id="sd"></span><span id="un">Masuk</span></button></header>
 
@@ -213,6 +214,7 @@ ul.rules b{color:var(--ink)}
 </div></div></section>
 
 <section class="view" id="v-home"></section>
+<section class="view" id="v-trainer"></section>
 <section class="view" id="v-sim"></section>
 <section class="view" id="v-modules"></section>
 
@@ -227,6 +229,7 @@ ul.rules b{color:var(--ink)}
 
 <footer id="ft"><nav id="nav">
   <button data-a="go" data-v="home"><span class="mi">home</span><span>Beranda</span></button>
+  <button data-a="go" data-v="trainer" id="nav-trainer" style="display:none"><span class="mi">verified_user</span><span>Panel Trainer</span><i class="nb ok" id="nb-tr" hidden>0</i></button>
   <button data-a="go" data-v="sim"><svg class="ic-ex" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="17" width="12" height="4" rx="2"/><circle cx="5" cy="19" r=".7" fill="currentColor" stroke="none"/><circle cx="8" cy="19" r=".7" fill="currentColor" stroke="none"/><circle cx="11" cy="19" r=".7" fill="currentColor" stroke="none"/><path d="M3 17v-5a1 1 0 0 1 1-1h6l2 3v3M7 11v3h4M11 13l4.5-6.5L20 10l-1.5 4.5"/><path d="M17 14.5h4.5l-1 3.2a2 2 0 0 1-1.9 1.3H17z"/></svg><span>Operation</span></button>
   <button data-a="go" data-v="matriks"><span class="mi">fact_check</span><span>Matriks</span><i class="nb wa" id="nb-mat" hidden>0</i></button>
   <button data-a="go" data-v="riwayat"><span class="mi">workspace_premium</span><span>Riwayat</span><i class="nb" id="nb-his" hidden>0</i></button>
@@ -267,6 +270,17 @@ ul.rules b{color:var(--ink)}
   </div>
   <label class="lbl" for="absen-tgl" style="margin-top:10px">Tanggal Training <span style="color:var(--er)">*</span></label>
   <input class="inp" id="absen-tgl" placeholder="YYYY-MM-DD atau DD/MM/YYYY">
+  <label class="lbl" for="absen-tr" style="margin-top:10px">Pilih Trainer (Trainer_Name) <span style="color:var(--er)">*</span></label>
+  <div class="sdd" data-sdd="absen-tr" style="position:relative">
+    <input class="inp" id="absen-tr" maxlength="100" autocomplete="off" placeholder="Pilih / cari nama trainer atau specialist…" style="cursor:pointer">
+    <button type="button" class="sdd-b" data-a="sdd" data-v="absen-tr" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button>
+    <div class="sdd-m" id="dd-absen-tr"></div>
+  </div>
+  <div id="absen-tr-info" class="row" style="display:none;gap:6px;align-items:center;margin-top:6px;padding:7px 10px;border-radius:6px;background:var(--pf);border:1px solid var(--gold);font-size:12px">
+    <span class="mi" style="font-size:16px;color:var(--p)">badge</span>
+    <span class="mut">Specialist:</span>
+    <b id="absen-tr-spec" style="color:var(--br)">-</b>
+  </div>
   <div class="row sp" style="margin-top:12px;gap:8px">
     <div class="g card" style="margin:0;padding:8px;background:var(--sf2);border:1px solid var(--ln);text-align:center">
       <span class="mut sm" style="font-size:11px">Nilai Default</span>
@@ -387,7 +401,7 @@ ul.rules b{color:var(--ink)}
 <script>
 const LOGO_URI="data:image/png;base64,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";
 document.querySelectorAll('[data-logo]').forEach(el=>el.src=LOGO_URI);
-const CFG={URL:"https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec",PIN:"Jadwal_PIN",SOAL:"Bank_Soal",TRAINER:"List_Trainer",HASIL:"Hasil_Asesmen",NEW_REG:"New_Register",COMPANY:"Company",DEPT:"Departement",JABATAN:"Jabatan",SIM:"Jenis_Simulator",HASIL_SIM:"Hasil_Simulator",FEEDBACK:"Training_Feedback",JADWAL_IMPORT:"Jadwal_Import"};
+const CFG={URL:"https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec",PIN:"Jadwal_PIN",SOAL:"Bank_Soal",TRAINER:"Trainer_Name",TRAINER_LEGACY:"List_Trainer",HASIL:"Hasil_Asesmen",NEW_REG:"New_Register",COMPANY:"Company",DEPT:"Departement",JABATAN:"Jabatan",SIM:"Jenis_Simulator",HASIL_SIM:"Hasil_Simulator",FEEDBACK:"Training_Feedback",JADWAL_IMPORT:"Jadwal_Import"};
 const FB_LABELS=['','Sangat Buruk','Kurang','Cukup','Baik','Sangat Baik'];
 const FB_LABELS_I18N={
   id:['','Sangat Buruk','Kurang','Cukup','Baik','Sangat Baik'],
@@ -423,7 +437,7 @@ const FB_QS_I18N={
 };
 const I18N={
   id:{
-    portal_title:"Portal Asesmen L&D",masuk:"Masuk",nav_home:"Beranda",nav_modules:"Modul",nav_sim:"Simulator",nav_profile:"Profil",nav_mat:"Matriks",nav_his:"Riwayat",
+    portal_title:"Portal Asesmen L&D",masuk:"Masuk",nav_home:"Beranda",nav_trainer:"Panel Trainer",nav_modules:"Modul",nav_sim:"Simulator",nav_profile:"Profil",nav_mat:"Matriks",nav_his:"Riwayat",
     login_h1:"Masuk Portal Asesmen",login_ph:"Masukkan NIK (MCC-260156) / No HP / No KTP",login_btn:"Masuk",login_unreg:"Peserta Baru (NIK Belum Terdaftar)",
     login_hint_html:"Gunakan ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>) atau No HP / No KTP (&gt;10 digit angka).",
     reg_id_hint_html:"Format: ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>) atau No HP / No KTP (&gt;10 digit angka). Nomor pendek tanpa huruf tidak bisa.",
@@ -440,7 +454,7 @@ const I18N={
     sim_title:"Simulator Operasional",sim_sub:"Input dan monitoring hasil praktik simulator alat berat / operasional.",sim_type:"Jenis Simulator",sim_mat_lbl:"Materi Simulator",sim_time_lbl:"Waktu / Durasi Simulator",sim_mat_oth_ph:"Tuliskan materi pelatihan simulator...",sim_time_ph:"Pilih durasi atau ketik waktu (mis. 45 Menit)",sim_score:"Nilai / Skor Simulator (0–100)",sim_btn:"Catat Absensi Simulator",sim_history:"Riwayat Simulator",sim_recorded:"Tercatat",mat_title:"Matriks Kompetensi",his_title:"Riwayat Asesmen",pin_modal_title:"Masukkan Kode PIN",pin_verify:"Verifikasi PIN",nfc_login_btn:"Tempel Kartu NFC / Cek Kompetensi",nfc_hdr_btn:"Scan NFC"
   },
   en:{
-    portal_title:"L&D Assessment Portal",masuk:"Sign In",nav_home:"Home",nav_modules:"Modules",nav_sim:"Simulator",nav_profile:"Profile",nav_mat:"Matrix",nav_his:"History",
+    portal_title:"L&D Assessment Portal",masuk:"Sign In",nav_home:"Home",nav_trainer:"Trainer Panel",nav_modules:"Modules",nav_sim:"Simulator",nav_profile:"Profile",nav_mat:"Matrix",nav_his:"History",
     login_h1:"Assessment Portal Sign In",login_ph:"Enter Employee ID (MCC-260156) / Phone / KTP No.",login_btn:"Sign In",login_unreg:"New Participant (Unregistered NIK)",
     login_hint_html:"Use Employee ID with letters &amp; numbers (e.g. <code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>) or Phone / KTP Number (&gt;10 digits).",
     reg_id_hint_html:"Format: Employee ID with letters &amp; numbers (e.g. <code>MCC-260156</code>) or Phone / KTP Number (&gt;10 digits). Short numbers without letters not allowed.",
@@ -457,7 +471,7 @@ const I18N={
     sim_title:"Operational Simulator",sim_sub:"Record and monitor operational / simulator practice results.",sim_type:"Simulator Type",sim_mat_lbl:"Simulator Topic / Objective",sim_time_lbl:"Simulator Duration / Time",sim_mat_oth_ph:"Specify simulator training topic...",sim_time_ph:"Select duration or type time (e.g. 45 Mins)",sim_score:"Simulator Score (0–100)",sim_btn:"Record Simulator Session",sim_history:"Simulator History",sim_recorded:"Recorded",mat_title:"Competency Matrix",his_title:"Assessment History",pin_modal_title:"Enter PIN Code",pin_verify:"Verify PIN",nfc_login_btn:"Tap NFC Card / Check Competency",nfc_hdr_btn:"Scan NFC"
   },
   zh:{
-    portal_title:"L&D 评估门户",masuk:"登录",nav_home:"主页",nav_modules:"课程模块",nav_sim:"模拟器",nav_profile:"个人资料",nav_mat:"胜任矩阵",nav_his:"历史记录",
+    portal_title:"L&D 评估门户",masuk:"登录",nav_home:"主页",nav_trainer:"讲师面板",nav_modules:"课程模块",nav_sim:"模拟器",nav_profile:"个人资料",nav_mat:"胜任矩阵",nav_his:"历史记录",
     login_h1:"登录评估门户",login_ph:"输入工号 (MCC-260156) / 手机号 / 身份证号",login_btn:"登录",login_unreg:"新学员（未注册工号）",
     login_hint_html:"请使用含字母与数字的员工工号（例：<code>MCC-260156</code>, <code>PGP260062</code>, <code>EL CV 2035361</code>, <code>CHS-26002</code>）或手机号/身份证号（10位以上纯数字）。",
     reg_id_hint_html:"格式：含字母与数字的员工工号（例：<code>MCC-260156</code>）或手机号/身份证号（10位以上数字）。不含字母的短数字不可用。",
@@ -522,7 +536,7 @@ const DURASI_SIM_OPTS=[
   {val:'90 Menit',id:'90 Menit (1.5 Jam)',en:'90 Mins (1.5 Hr)',zh:'90分钟 (1.5小时)'},
   {val:'120 Menit',id:'120 Menit (2 Jam)',en:'120 Mins (2 Hr)',zh:'120分钟 (2小时)'}
 ];
-const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,lang:localStorage.getItem('mgr_lang')||'id'};
+const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'ALL',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
 const valNik=(v,isNfc=false)=>{
@@ -553,7 +567,143 @@ const mi=n=>`<span class="mi">${e(n)}</span>`;
 const icoEx=`<svg class="ic-ex" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="17" width="12" height="4" rx="2"/><circle cx="5" cy="19" r=".7" fill="currentColor" stroke="none"/><circle cx="8" cy="19" r=".7" fill="currentColor" stroke="none"/><circle cx="11" cy="19" r=".7" fill="currentColor" stroke="none"/><path d="M3 17v-5a1 1 0 0 1 1-1h6l2 3v3M7 11v3h4M11 13l4.5-6.5L20 10l-1.5 4.5"/><path d="M17 14.5h4.5l-1 3.2a2 2 0 0 1-1.9 1.3H17z"/></svg>`;
 const okUrl=u=>typeof u==='string'&&/^https?:\/\/[a-z0-9-]+(\.[a-z0-9-]+)+/i.test(u.trim())&&!u.includes('...');
 const cleanList=(a,fn)=>{const seen=new Set();return(a||[]).map((r,i)=>{if(typeof r==='object'&&r){const c=fn(r)||String(r.val||Object.entries(r).find(([k])=>!/^no$/i.test(k))?.[1]||'').trim();return{No:String(r.No||i+1).trim(),val:c,Nama_Trainer:c,Company:c}}const c=String(r||'').trim();return{No:String(i+1),val:c,Nama_Trainer:c,Company:c}}).filter(x=>x.val&&x.val.toLowerCase()!=='(blank)'&&!seen.has(up(x.val))&&seen.add(up(x.val)))};
-const cleanTr=a=>cleanList(a,r=>String(r?.Nama_Trainer||'').trim());
+const empTrName=o=>String(o?.Name||o?.name||o?.NAME||o?.Nama_Trainer||o?.nama_trainer||o?.Trainer||o?.Nama||o?.val||'').trim();
+const empTrSpec=o=>String(o?.Specialist||o?.specialist||o?.SPECIALIST||o?.Spesialis||o?.spesialis||o?.Keahlian||o?.Bidang||'').trim();
+const cleanTr=a=>{
+  const seen=new Set();
+  return(a||[]).map((r,i)=>{
+    if(typeof r==='object'&&r){
+      const nm=empTrName(r)||String(Object.entries(r).find(([k])=>!/^(no|id|nik|id_karyawan|specialist|spesialis)$/i.test(k))?.[1]||'').trim();
+      const sp=empTrSpec(r);
+      const noVal=String(r.No||r.no||r.NO||i+1).trim();
+      const idVal=String(r.ID_Karyawan||r.NIK||r.ID||r.No||r.no||r.NO||'').trim();
+      return{No:noVal,ID_Karyawan:idVal,NIK:idVal,val:nm,Name:nm,Nama_Trainer:nm,Specialist:sp};
+    }
+    const nm=String(r||'').trim();
+    return{No:String(i+1),ID_Karyawan:'',NIK:'',val:nm,Name:nm,Nama_Trainer:nm,Specialist:''};
+  }).filter(x=>x.val&&x.val.toLowerCase()!=='(blank)'&&!seen.has(up(x.val))&&seen.add(up(x.val)));
+};
+function findTrainer(v){
+  const q=up(v);
+  if(!q)return null;
+  return (S.trainer||[]).find(x=>up(x.Name||x.Nama_Trainer||x.val)===q||up(`${x.Name} - ${x.Specialist}`)===q||up(`${x.Name} (${x.Specialist})`)===q)||null;
+}
+async function loadTrainerList(force){
+  const hasSpec=(S.trainer||[]).some(x=>Boolean(x.Specialist));
+  if(!force&&S.trainer&&S.trainer.length&&hasSpec)return S.trainer;
+  try{
+    const csvUrl='https://docs.google.com/spreadsheets/d/114CzkEdLASq3EhLtTcVCoIejHVkWGSfQBG4d0thp8ew/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(CFG.TRAINER)+'&_t='+Date.now();
+    const text=await fetch(csvUrl,{cache:'no-store'}).then(r=>r.text());
+    const parsed=parseCsv(text);
+    const cleaned=cleanTr(parsed);
+    if(cleaned&&cleaned.length){
+      S.trainer=cleaned;
+      saveCache();fillDl();updNav(S.v);
+      return S.trainer;
+    }
+  }catch(e){}
+  try{
+    const res=await g({action:'read_sheet',sheet:CFG.TRAINER,bypass:'1'});
+    if(res?.status==='success'&&Array.isArray(res.data)&&res.data.length){
+      S.trainer=cleanTr(res.data);
+      saveCache();fillDl();updNav(S.v);
+      return S.trainer;
+    }
+  }catch(e){}
+  if(!S.trainer||!S.trainer.length){
+    try{
+      const resLeg=await g({action:'read_sheet',sheet:CFG.TRAINER_LEGACY});
+      if(resLeg?.status==='success'&&Array.isArray(resLeg.data)&&resLeg.data.length){
+        S.trainer=cleanTr(resLeg.data);
+        saveCache();fillDl();updNav(S.v);
+      }
+    }catch(e){}
+  }
+  return S.trainer||[];
+}
+function getLoggedTrainer(emp=S.emp){
+  if(!emp)return null;
+  const norm=s=>up(s).replace(/\s+/g,' ');
+  const nm=norm(emp.Nama_Lengkap||emp.Nama_Karyawan||emp.Name||'');
+  const id=norm(key(emp));
+  if(!nm&&!id)return null;
+  const found=(S.trainer||[]).find(t=>{
+    const tName=norm(t.Name||t.Nama_Trainer||t.val||'');
+    const tId=norm(t.ID_Karyawan||t.NIK||t.No||'');
+    if(nm&&tName&&nm===tName)return true;
+    if(id&&tId&&id===tId)return true;
+    return false;
+  });
+  return found||S.trainerInfo||null;
+}
+async function loadTrainerDashboardData(force){
+  if(!S.emp)return;
+  if(force||!S.trainer||!S.trainer.length||!getLoggedTrainer(S.emp))await loadTrainerList(true);
+  const tr=getLoggedTrainer(S.emp);
+  if(!tr){
+    S.isTrainer=false;
+    S.trainerInfo=null;
+    updNav(S.v);
+    return;
+  }
+  S.isTrainer=true;
+  S.trainerInfo=tr;
+  updNav(S.v);
+  if(S.v==='home')rHome();
+  else if(S.v==='trainer')rTrainer();
+  const sheetBase='https://docs.google.com/spreadsheets/d/114CzkEdLASq3EhLtTcVCoIejHVkWGSfQBG4d0thp8ew/gviz/tq?tqx=out:csv&sheet=';
+  try{
+    const res=await g({action:'trainer_dashboard',id_karyawan:key(S.emp),nama_karyawan:S.emp.Nama_Lengkap||''},1);
+    if(res?.status==='success'&&res.data){
+      if(res.data.trainer_info)S.trainerInfo=res.data.trainer_info;
+      if(Array.isArray(res.data.trainer_pins)&&res.data.trainer_pins.length)S.trainerPins=res.data.trainer_pins;
+      if(Array.isArray(res.data.all_hasil)&&res.data.all_hasil.length)S.trainerHasil=res.data.all_hasil;
+    }
+  }catch(e){}
+  const tasks=[];
+  if(force||!S.trainerPins||!S.trainerPins.length||!S.trainerPins.some(p=>Boolean(p.Kode_PIN))){
+    tasks.push((async()=>{
+      try{
+        const text=await fetch(sheetBase+encodeURIComponent('Jadwal_PIN')+'&_t='+Date.now(),{cache:'no-store'}).then(r=>r.text());
+        const rows=parseCsv(text).filter(r=>up(r.Status)!=='NONAKTIF'&&(r.Kode_PIN||r.ID_Modul));
+        if(rows.length)S.trainerPins=rows;
+      }catch(e){}
+      if(!S.trainerPins||!S.trainerPins.length){
+        try{
+          const rPin=await g({action:'read_sheet',sheet:'Jadwal_PIN',bypass:'1'},1);
+          if(rPin?.status==='success'&&Array.isArray(rPin.data)){
+            const rows=rPin.data.filter(r=>up(r.Status)!=='NONAKTIF'&&(r.Kode_PIN||r.ID_Modul));
+            if(rows.length)S.trainerPins=rows;
+          }
+        }catch(e){}
+      }
+    })());
+  }
+  if(force||!S.trainerHasil||!S.trainerHasil.length){
+    tasks.push((async()=>{
+      try{
+        const text=await fetch(sheetBase+encodeURIComponent(CFG.HASIL||'Hasil_Asesmen')+'&_t='+Date.now(),{cache:'no-store'}).then(r=>r.text());
+        const rows=parseCsv(text).filter(r=>r.ID_Karyawan||r.Nama_Karyawan).map(r=>{const c={...r};delete c.Jawaban_Peserta_JSON;return c});
+        if(rows.length)S.trainerHasil=rows;
+      }catch(e){}
+      if(!S.trainerHasil||!S.trainerHasil.length){
+        try{
+          const rHas=await g({action:'read_sheet',sheet:CFG.HASIL||'Hasil_Asesmen',bypass:'1'},1);
+          if(rHas?.status==='success'&&Array.isArray(rHas.data)){
+            const rows=rHas.data.filter(r=>r.ID_Karyawan||r.Nama_Karyawan).map(r=>{const c={...r};delete c.Jawaban_Peserta_JSON;return c});
+            if(rows.length)S.trainerHasil=rows;
+          }
+        }catch(e){}
+      }
+    })());
+  }
+  if(tasks.length)await Promise.all(tasks);
+  saveCache();
+  updNav(S.v);
+  if(S.v==='home')rHome();
+  else if(S.v==='trainer')rTrainer();
+  else if(S.v==='modules')rModules();
+}
 const cleanCo=a=>cleanList(a,empCo);
 const cleanDp=a=>cleanList(a,empDp);
 const cleanJb=a=>cleanList(a,empJb);
@@ -611,7 +761,7 @@ async function g(p,ret=2){return req(CFG.URL+'?'+new URLSearchParams({...p,_t:Da
 async function po(b,ret=3){return req(CFG.URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)},ret)}
 function toast(m,t=3200){const x=$('#ts');x.textContent=m;x.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>x.style.display='none',t)}
 function sync(st){$('#sd').className='dot '+(st||'')}
-function saveCache(touchMaster){try{localStorage.setItem('mgr_cache',JSON.stringify({emp:S.emp,mat:S.mat,his:S.his,hisSim:S.hisSim,modul:S.modul,sesi:S.sesi,kar:S.kar,bank:S.bank,trainer:S.trainer,company:S.company,dept:S.dept,jabatan:S.jabatan,sim:S.sim,jadwalImport:S.jadwalImport}));if(touchMaster)localStorage.setItem('mgr_master_ts',String(Date.now()))}catch{}}
+function saveCache(touchMaster){try{localStorage.setItem('mgr_cache',JSON.stringify({emp:S.emp,mat:S.mat,his:S.his,hisSim:S.hisSim,modul:S.modul,sesi:S.sesi,kar:S.kar,bank:S.bank,trainer:S.trainer,company:S.company,dept:S.dept,jabatan:S.jabatan,sim:S.sim,jadwalImport:S.jadwalImport,isTrainer:S.isTrainer,trainerInfo:S.trainerInfo,trainerPins:S.trainerPins,trainerHasil:S.trainerHasil}));if(touchMaster)localStorage.setItem('mgr_master_ts',String(Date.now()))}catch{}}
 async function flushPending(){
   try{
     const pendReg=JSON.parse(localStorage.getItem('mgr_pending_reg')||'null');
@@ -654,7 +804,7 @@ addEventListener('DOMContentLoaded',async()=>{
   document.querySelectorAll('.lang-switch .l-btn').forEach(b=>{b.classList.toggle('on',b.dataset.v===curLang)});
   if($('#hdr-brand'))$('#hdr-brand').textContent=t('portal_title');
   try{S.ex=JSON.parse(localStorage.getItem('mgr_exam')||'null')}catch{}
-  try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:stripKunci(c.bank),trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim),jadwalImport:cleanJadwalImport(c.jadwalImport)})}}catch{}
+  try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:stripKunci(c.bank),trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim),jadwalImport:cleanJadwalImport(c.jadwalImport),isTrainer:Boolean(c.isTrainer),trainerInfo:c.trainerInfo||null,trainerPins:c.trainerPins||[],trainerHasil:c.trainerHasil||[]})}}catch{}
   const n=localStorage.getItem('mgr_nik');
   if(n&&!S.emp)S.emp={ID_Karyawan:n,Nama_Lengkap:n,Departemen:'Memuat data…'};
   if(S.emp){$('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];go('home')}else{if($('#un'))$('#un').textContent=t('masuk');go('login')}
@@ -673,7 +823,8 @@ async function boot(forceMaster){
     if(j.status!=='success')throw 0;
     const d=j.data||{};
     S.modul=d.modul||[];
-    if(Array.isArray(d.trainer)&&d.trainer.length)S.trainer=cleanTr(d.trainer);
+    const initTr=d.trainer_name||((d.trainer||[]).some(x=>Boolean(x.Specialist||x.specialist))?d.trainer:null);
+    if(Array.isArray(initTr)&&initTr.length)S.trainer=cleanTr(initTr);
     if(Array.isArray(d.company)&&d.company.length)S.company=cleanCo(d.company);
     if(Array.isArray(d.departement)&&d.departement.length)S.dept=cleanDp(d.departement);
     if(Array.isArray(d.jabatan)&&d.jabatan.length)S.jabatan=cleanJb(d.jabatan);
@@ -682,8 +833,7 @@ async function boot(forceMaster){
 
     const masterAge=Date.now()-(parseInt(localStorage.getItem('mgr_master_ts')||'0',10)||0);
     const needMaster=forceMaster||masterAge>600000;
-    const extraReqs=[];
-    if(!S.trainer.length||needMaster)extraReqs.push(g({action:'read_sheet',sheet:CFG.TRAINER}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.trainer=cleanTr(r.data)}).catch(()=>{}));
+    const extraReqs=[loadTrainerList(true)];
     if((!S.company.length||needMaster)&&!Array.isArray(d.company))extraReqs.push(g({action:'read_sheet',sheet:CFG.COMPANY}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.company=cleanCo(r.data)}).catch(()=>{}));
     if((!S.dept.length||needMaster)&&!Array.isArray(d.departement))extraReqs.push(g({action:'read_sheet',sheet:CFG.DEPT}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.dept=cleanDp(r.data)}).catch(()=>{}));
     if((!S.jabatan.length||needMaster)&&!Array.isArray(d.jabatan))extraReqs.push(g({action:'read_sheet',sheet:CFG.JABATAN}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.jabatan=cleanJb(r.data)}).catch(()=>{}));
@@ -703,25 +853,37 @@ async function boot(forceMaster){
     if($('#li'))$('#li').placeholder=t('login_ph');
     if(pr&&pr.status==='success'){
       S.emp=pr.data.profil;S.mat=pr.data.matriks||[];S.his=pr.data.histori||[];
+      if(pr.data.is_trainer){
+        S.isTrainer=true;
+        if(pr.data.trainer_info)S.trainerInfo=pr.data.trainer_info;
+        if(Array.isArray(pr.data.trainer_pins)&&pr.data.trainer_pins.length)S.trainerPins=pr.data.trainer_pins;
+        if(Array.isArray(pr.data.all_hasil)&&pr.data.all_hasil.length)S.trainerHasil=pr.data.all_hasil;
+      }else{
+        S.trainerInfo=null;
+      }
       if(Array.isArray(pr.data.hasil_simulator))S.hisSim=mergeSimHis(key(S.emp),pr.data.hasil_simulator);
       else await syncSimHis(key(S.emp));
       localStorage.setItem('mgr_nik',key(S.emp));localStorage.removeItem('mgr_custom_emp');
       $('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];
       if(S.ex&&S.ex.nik!==key(S.emp)){S.ex=null;localStorage.removeItem('mgr_exam')}
+      loadTrainerDashboardData();
     }else if(n&&pr&&pr.status==='error'){
       const ce=getCustomEmp(n);
       if(ce){
         S.emp=ce;$('#un').textContent=(ce.Nama_Lengkap||key(ce)).split(' ')[0];
         if(!S.kar.some(k=>up(key(k))===up(key(ce))))S.kar.unshift(ce);
         await Promise.all([syncCustomHis(key(ce)),syncSimHis(key(ce))]);
+        loadTrainerDashboardData();
       }else{
         S.emp=null;localStorage.removeItem('mgr_nik');go('login');
       }
+    }else if(S.emp){
+      loadTrainerDashboardData();
     }
     saveCache(true);sync('ok');
     if(!S.emp||!key(S.emp)||String(key(S.emp)).trim().length<3||!S.emp.Nama_Lengkap){
       S.emp=null;localStorage.removeItem('mgr_nik');go('login');
-    }else if(['home','sim','modules','profile','login'].includes(S.v)){
+    }else if(['home','trainer','sim','modules','profile','login'].includes(S.v)){
       go(S.emp?(S.v==='login'?'home':S.v):'login');
     }
   }catch{sync('er');if(!S.modul.length)toast('Gagal terhubung ke server. Periksa koneksi.')}
@@ -750,7 +912,29 @@ async function syncCustomHis(id){
     }
   }catch{}
 }
-const SDD={'rg-co':()=>S.company,'rg-dp':()=>S.dept,'rg-jb':()=>S.jabatan,'bt-tr':()=>S.trainer,'sim-jn':()=>S.sim};
+const SDD={'rg-co':()=>S.company,'rg-dp':()=>S.dept,'rg-jb':()=>S.jabatan,'bt-tr':()=>S.trainer,'absen-tr':()=>S.trainer,'sim-jn':()=>S.sim};
+function updateTrainerSpecUI(id,val){
+  const trObj=findTrainer(val??($('#'+id)?.value||''));
+  const spec=trObj?.Specialist||'';
+  if(id==='bt-tr'){
+    const box=$('#bt-tr-info'),spEl=$('#bt-tr-spec');
+    if(box&&spEl){
+      if(spec){spEl.textContent=spec;box.style.display='flex'}
+      else{spEl.textContent='-';box.style.display='none'}
+    }
+  }else if(id==='absen-tr'){
+    const box=$('#absen-tr-info'),spEl=$('#absen-tr-spec');
+    if(box&&spEl){
+      if(spec){spEl.textContent=spec;box.style.display='flex'}
+      else{spEl.textContent='-';box.style.display='none'}
+    }
+    const picEl=$('#absen-detail-pic');
+    const nm=trObj?.Name||cleanInp(val??($('#absen-tr')?.value||''),100);
+    if(picEl){
+      picEl.textContent=nm?(spec?`${nm} (${spec})`:nm):(S.selectedAbsen?.PIC||'-');
+    }
+  }
+}
 function renderSdd(id,q=''){
   const box=document.querySelector(`[data-sdd="${id}"]`),menu=$('#dd-'+id),inp=$('#'+id);
   if(!box||!menu)return;
@@ -760,14 +944,23 @@ function renderSdd(id,q=''){
     box.classList.add('open');
     return;
   }
-  const list=SDD[id]?.()||[],f=q?list.filter(x=>up((x.No||'')+' '+(x.val||x.Nama_Trainer||x.Company||'')).includes(up(q))):list;
-  menu.innerHTML=f.length?f.map(x=>{const v=x.val||x.Nama_Trainer||x.Company||'';return`<button type="button" class="sdd-i ${up(inp?.value)===up(v)?'on':''}" data-a="sddPick" data-v="${e(id)}|${e(v)}">${x.No?`<small>${e(x.No)}.</small>`:''}<span class="g ell">${e(v)}</span></button>`}).join(''):`<div class="sdd-e">${list.length?'Tidak ada hasil yang cocok.':'Belum ada daftar di Sheet — silakan ketik langsung.'}</div>`;
+  const isTr=id==='bt-tr'||id==='absen-tr';
+  const list=SDD[id]?.()||[],f=q?list.filter(x=>up((x.No||'')+' '+(x.Name||x.val||x.Nama_Trainer||x.Company||'')+' '+(x.Specialist||'')).includes(up(q))):list;
+  menu.innerHTML=f.length?f.map(x=>{
+    const v=x.Name||x.val||x.Nama_Trainer||x.Company||'';
+    const sp=isTr?(x.Specialist||''):'';
+    return`<button type="button" class="sdd-i ${up(inp?.value)===up(v)?'on':''}" data-a="sddPick" data-v="${e(id)}|${e(v)}" style="justify-content:space-between;align-items:center">
+      <span class="row" style="gap:8px;min-width:0;flex:1">${x.No?`<small>${e(x.No)}.</small>`:''}<span class="g ell">${e(v)}</span></span>
+      ${sp?`<span class="chip" style="font-size:10.5px;flex:none;margin-left:6px">${e(sp)}</span>`:''}
+    </button>`;
+  }).join(''):`<div class="sdd-e">${list.length?'Tidak ada hasil yang cocok.':'Belum ada daftar di Sheet — silakan ketik langsung.'}</div>`;
   box.classList.add('open');
 }
 function fillDl(){
-  ['rg-co','rg-dp','rg-jb','bt-tr','sim-jn','absen-agenda'].forEach(id=>{
+  ['rg-co','rg-dp','rg-jb','bt-tr','absen-tr','sim-jn','absen-agenda'].forEach(id=>{
     const box=document.querySelector(`[data-sdd="${id}"]`);
     if(box&&box.classList.contains('open'))renderSdd(id,($('#'+id)?.value||'').trim());
+    if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id);
   });
 }
 function openReg(q){
@@ -859,8 +1052,10 @@ async function login(q,silent,isNfc=false){
     const j=await g({action:'get_profile',id_karyawan:q,nfc_uid:q,bypass:'1'});
     if(j.status!=='success'){
       if(foundLocal){
-        S.emp=foundLocal;localStorage.setItem('mgr_nik',key(foundLocal));$('#un').textContent=(foundLocal.Nama_Lengkap||key(foundLocal)).split(' ')[0];
-        await Promise.all([syncCustomHis(key(foundLocal)),syncSimHis(key(foundLocal))]);saveCache();return true;
+        S.emp=foundLocal;S.trainerInfo=null;localStorage.setItem('mgr_nik',key(foundLocal));$('#un').textContent=(foundLocal.Nama_Lengkap||key(foundLocal)).split(' ')[0];
+        await Promise.all([syncCustomHis(key(foundLocal)),syncSimHis(key(foundLocal))]);
+        await loadTrainerDashboardData(true);
+        saveCache();return true;
       }
       if(!silent){
         const curL=S.lang||'id';
@@ -877,10 +1072,19 @@ async function login(q,silent,isNfc=false){
       return false;
     }
     S.emp=prof;S.mat=j.data.matriks||[];S.his=j.data.histori||[];
+    if(j.data.is_trainer){
+      S.isTrainer=true;
+      if(j.data.trainer_info)S.trainerInfo=j.data.trainer_info;
+      if(Array.isArray(j.data.trainer_pins)&&j.data.trainer_pins.length)S.trainerPins=j.data.trainer_pins;
+      if(Array.isArray(j.data.all_hasil)&&j.data.all_hasil.length)S.trainerHasil=j.data.all_hasil;
+    }else{
+      S.trainerInfo=null;
+    }
     if(Array.isArray(j.data.hasil_simulator))S.hisSim=mergeSimHis(key(S.emp),j.data.hasil_simulator);
     else await syncSimHis(key(S.emp));
     localStorage.setItem('mgr_nik',key(S.emp));localStorage.removeItem('mgr_custom_emp');
     $('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];
+    await loadTrainerDashboardData(true);
     saveCache();return true;
   }catch{if(!silent)showErr('#le','Koneksi bermasalah. Coba lagi.');return false}
 }
@@ -891,10 +1095,17 @@ async function refresh(){
   const j=await g({action:'get_profile',id_karyawan:id}).catch(()=>null);
   if(j&&j.status==='success'){
     S.mat=j.data.matriks||[];S.his=j.data.histori||[];
+    if(j.data.is_trainer){
+      S.isTrainer=true;
+      if(j.data.trainer_info)S.trainerInfo=j.data.trainer_info;
+      if(Array.isArray(j.data.trainer_pins)&&j.data.trainer_pins.length)S.trainerPins=j.data.trainer_pins;
+      if(Array.isArray(j.data.all_hasil)&&j.data.all_hasil.length)S.trainerHasil=j.data.all_hasil;
+    }
     if(Array.isArray(j.data.hasil_simulator))S.hisSim=mergeSimHis(id,j.data.hasil_simulator);
     else await syncSimHis(id);
+    await loadTrainerDashboardData(true);
     saveCache();updNav(S.v);
-  }else{await Promise.all([syncCustomHis(id),syncSimHis(id)]);updNav(S.v)}
+  }else{await Promise.all([syncCustomHis(id),syncSimHis(id),loadTrainerDashboardData(true)]);updNav(S.v)}
 }
 
 /* ---------- derived data ---------- */
@@ -909,22 +1120,46 @@ const isDone=(id)=>pd().done.some(x=>up(x.ID_Modul)===up(id));
 const hasToday=(id)=>S.sesi.some(s=>up(s.ID_Modul)===up(id)&&dayDiff(s.Tanggal)===0&&!['NONAKTIF','SELESAI'].includes(up(s.Status)));
 const left=()=>S.ex?Math.max(0,Math.round((S.ex.end-Date.now())/1000)):0;
 const kp=(a,b,c,d)=>`<div class="kpis">${[a,b,c,d].map(([v,l])=>`<div class="kpi"><b>${e(v)}</b><small>${l}</small></div>`).join('')}</div>`;
-function dayDiff(s){
+function parseFlexDate(s){
   if(!s)return null;
-  const m=String(s).trim().match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-  const d=m?new Date(+m[1],+m[2]-1,+m[3]):new Date(s);
-  if(isNaN(d))return null;
+  const v=String(s).trim();
+  let m=v.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+  if(m)return new Date(+m[1],+m[2]-1,+m[3]);
+  m=v.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+  if(m){
+    const a=+m[1],b=+m[2],y=+m[3];
+    if(b>12)return new Date(y,a-1,b);
+    if(a>12)return new Date(y,b-1,a);
+    const n=new Date(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+    const dMdy=new Date(y,a-1,b),dDmy=new Date(y,b-1,a);
+    return Math.abs(dMdy-t0)<=Math.abs(dDmy-t0)?dMdy:dDmy;
+  }
+  const d=new Date(v);
+  return isNaN(d)?null:new Date(d.getFullYear(),d.getMonth(),d.getDate());
+}
+function dayDiff(s){
+  const d=parseFlexDate(s);
+  if(!d||isNaN(d))return null;
   const n=new Date(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
-  return Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-t0)/86400000);
+  return Math.round((d-t0)/86400000);
 }
 
 /* ---------- router ---------- */
 function updNav(v){
   const p=S.emp?pd():{m:[],done:[],cert:0},todoCnt=p.m.length-p.done.length;
+  const isTr=Boolean(S.emp&&getLoggedTrainer(S.emp));
+  const navTr=$('#nav-trainer'),hdrTr=$('#hdr-trainer'),nbTr=$('#nb-tr');
+  if(navTr)navTr.style.display=isTr?'':'none';
+  if(hdrTr)hdrTr.style.display=isTr?'inline-flex':'none';
+  if(nbTr){
+    const pinCnt=(S.trainerPins&&S.trainerPins.length?S.trainerPins:S.sesi||[]).filter(s=>up(s.Status)!=='NONAKTIF').length;
+    nbTr.textContent=pinCnt;
+    nbTr.hidden=!isTr||pinCnt<=0;
+  }
   const bm=$('#nb-mat'),bh=$('#nb-his');
   if(bm){bm.textContent=todoCnt;bm.hidden=todoCnt<=0}
   if(bh){bh.textContent=p.cert;bh.hidden=p.cert<=0}
-  const navLbls={home:'nav_home',modules:'nav_modules',sim:'nav_sim',profile:'nav_profile',matriks:'nav_mat',riwayat:'nav_his'};
+  const navLbls={home:'nav_home',trainer:'nav_trainer',modules:'nav_modules',sim:'nav_sim',profile:'nav_profile',matriks:'nav_mat',riwayat:'nav_his'};
   document.querySelectorAll('nav button').forEach(b=>{
     const bv=b.dataset.v;
     const on=bv===v||(v==='profile'&&((S.pt==='mat'&&bv==='matriks')||(S.pt==='his'&&bv==='riwayat')));
@@ -943,7 +1178,7 @@ function go(v){
   const focus=['exam','review','feedback','brief','result'].includes(v);
   document.body.classList.toggle('nonav',v==='login'||focus);
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
-  ({login:rLogin,home:rHome,sim:rSim,modules:rModules,brief:()=>{if(S.pend?.ses)brief()},exam:rExam,review:rReview,feedback:rFeedback,result:()=>{if(S.lastRes)showResult(S.lastRes.r,S.lastRes.ses)},profile:rProfile}[v]||(()=>{}))();
+  ({login:rLogin,home:rHome,trainer:rTrainer,sim:rSim,modules:rModules,brief:()=>{if(S.pend?.ses)brief()},exam:rExam,review:rReview,feedback:rFeedback,result:()=>{if(S.lastRes)showResult(S.lastRes.r,S.lastRes.ses)},profile:rProfile}[v]||(()=>{}))();
   updNav(v);
   $('#main').scrollTop=0;S.v=v;
 }
@@ -998,9 +1233,271 @@ function rLogin(){
   }
 }
 
-/* ---------- home ---------- */
+/* ---------- home & trainer panel ---------- */
+function getFilteredTrainerHasil(trInfo){
+  const all=(S.trainerHasil||[]).slice().reverse();
+  const fMod=S.trFilterMod||'ALL';
+  const fSt=S.trFilterSt||'ALL';
+  const fTes=S.trFilterTes||'ALL';
+  const q=up(S.trSearch||'');
+  const trName=up(trInfo?.Name||trInfo?.Nama_Trainer||S.emp?.Nama_Lengkap||'').replace(/\s+/g,' ');
+
+  return all.filter(r=>{
+    if(fMod==='MINE'){
+      const rTr=up(r.Nama_Trainer||r.Trainer||'').replace(/\s+/g,' ');
+      const pinRow=(S.trainerPins||[]).find(p=>up(p.Kode_PIN)===up(r.Kode_PIN)||up(p.ID_Modul)===up(r.ID_Modul));
+      const pTr=up(pinRow?.Trainer||'').replace(/\s+/g,' ');
+      if(rTr!==trName&&pTr!==trName)return false;
+    }else if(fMod.startsWith('PIN:')){
+      const targetPin=up(fMod.slice(4));
+      if(up(r.Kode_PIN)!==targetPin)return false;
+    }else if(fMod.startsWith('MOD:')){
+      const targetMod=up(fMod.slice(4));
+      if(up(r.ID_Modul)!==targetMod&&up(r.Nama_Modul_Sertifikat)!==targetMod)return false;
+    }else if(fMod!=='ALL'){
+      if(up(r.ID_Modul)!==up(fMod)&&up(r.Nama_Modul_Sertifikat)!==up(fMod)&&up(r.Kode_PIN)!==up(fMod))return false;
+    }
+    if(fSt!=='ALL'){
+      if(up(r.Status_Lulus)!==up(fSt))return false;
+    }
+    if(fTes!=='ALL'){
+      const rTes=up(r.Jenis_Tes||r.Tipe_Tes||(up(r.Status_Lulus)==='HANYA ABSEN'?'TANPA TEST':''));
+      if(!rTes.includes(up(fTes)))return false;
+    }
+    if(q){
+      const hay=up([r.Nama_Karyawan,r.ID_Karyawan,r.Company,r.Departemen,r.Jabatan,r.ID_Modul,r.Nama_Modul_Sertifikat,r.Kode_PIN,r.Jenis_Tes,r.Batch_Sesi,r.Nama_Trainer,r.Specialist,r.Tanggal_Training,r.Timestamp_Submit].join(' '));
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  });
+}
+
+function getTrainerHasilBodyHtml(trInfo){
+  const list=getFilteredTrainerHasil(trInfo);
+  const total=list.length;
+  const lulusCnt=list.filter(r=>up(r.Status_Lulus)==='LULUS').length;
+  const absenCnt=list.filter(r=>up(r.Status_Lulus)==='HANYA ABSEN').length;
+  const belumCnt=total-lulusCnt-absenCnt;
+  const avg=total?Math.round(list.reduce((s,r)=>s+(parseFloat(r.Skor_Akhir)||0),0)/total):0;
+  const pctLulus=total?Math.round((lulusCnt/total)*100):0;
+
+  return `${kp(
+    [total,S.lang==='zh'?'参训总人数':S.lang==='en'?'Participants':'Total Peserta'],
+    [`${lulusCnt} (${pctLulus}%)`,S.lang==='zh'?'通过人数':S.lang==='en'?'Passed':'Peserta Lulus'],
+    [belumCnt+absenCnt,S.lang==='zh'?'未过 / 仅签到':S.lang==='en'?'Failed / Att.':'Belum Lulus / Absen'],
+    [avg,S.lang==='zh'?'班级平均分':S.lang==='en'?'Class Avg':'Rata-rata Nilai']
+  )}
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto;padding-right:2px">
+    ${list.length?list.map(r=>{
+      const st=up(r.Status_Lulus);
+      const isPass=st==='LULUS',isAbsen=st==='HANYA ABSEN';
+      const stCl=isPass?'ok':isAbsen?'':'er';
+      const stStyle=isAbsen?'background:var(--pf);color:var(--p);border-color:var(--gold)':'';
+      const jTes=String(r.Jenis_Tes||r.Tipe_Tes||'').trim();
+      const isPre=/pre/i.test(jTes),isPost=/post/i.test(jTes);
+      const modTitle=r.Nama_Modul_Sertifikat||S.modul.find(m=>up(m.ID_Modul)===up(r.ID_Modul))?.Nama_Modul||r.ID_Modul||'-';
+      const trName=r.Nama_Trainer||r.Trainer||'';
+      const trSpec=r.Specialist||findTrainer(trName)?.Specialist||'';
+      const tgl=r.Tanggal_Training||String(r.Timestamp_Submit||'').split(' ')[0]||'-';
+      const hasScoreDetails=r.Benar!==undefined&&r.Benar!==''&&String(r.Benar)!=='-';
+      return `<div class="item" style="margin:0;align-items:flex-start;gap:10px">
+        <div class="g" style="min-width:0">
+          <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:3px">
+            <b style="font-size:13.5px;color:var(--br)">${e(r.Nama_Karyawan||'-')}</b>
+            <span class="chip gy" style="font-family:var(--mo);font-size:10.5px">${e(r.ID_Karyawan||'-')}</span>
+            ${jTes?`<span class="chip" style="font-size:10.5px;font-weight:700;${isPre?'background:#eef4ff;color:#1d4ed8;border-color:#93c5fd':isPost?'background:#e8f5ee;color:#115e38;border-color:#6ee7b7':'background:var(--sf2);color:var(--mut)'}">${e(jTes)}</span>`:''}
+            <span class="chip ${stCl}" style="${stStyle}">${e(r.Status_Lulus||'-')}</span>
+          </div>
+          <div class="mut sm ell">${e([r.Company,r.Departemen,r.Jabatan].filter(Boolean).join(' • ')||'-')}</div>
+          <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-top:4px">${e(modTitle)} ${r.ID_Modul&&up(r.ID_Modul)!==up(modTitle)?`<span class="mut sm">(${e(r.ID_Modul)})</span>`:''}</div>
+          <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:4px">
+            ${r.Kode_PIN?`<span class="chip" style="background:var(--pf);color:var(--p);border-color:var(--gold);font-family:var(--mo);font-size:10.5px">🔑 PIN: ${e(r.Kode_PIN)}</span>`:''}
+            ${r.Batch_Sesi?`<span class="chip gy" style="font-size:10.5px">${e(r.Batch_Sesi)}</span>`:''}
+            ${hasScoreDetails?`<span class="chip gy" style="font-size:10.5px">Benar: ${e(r.Benar)}/${e(r.Terjawab||'-')}</span>`:''}
+            <span class="mut sm" style="font-size:11px">📅 ${e(tgl)}</span>
+          </div>
+          ${trName?`<div class="mut sm" style="margin-top:3px;font-size:11px">👨‍🏫 Trainer: <b>${e(trName)}</b>${trSpec?` • <span style="color:var(--p);font-weight:600">${e(trSpec)}</span>`:''}</div>`:''}
+        </div>
+        <div style="text-align:right;flex-shrink:0;min-width:54px;padding:6px 8px;border-radius:8px;background:var(--bg);border:1px solid var(--ln)">
+          <div style="font-family:var(--mo);font-size:20px;font-weight:700;line-height:1.1;color:${isPass?'var(--ok)':isAbsen?'var(--p)':'var(--er)'}">${e(r.Skor_Akhir??0)}</div>
+          <div class="mut" style="font-size:9.5px;text-transform:uppercase;font-weight:700;margin-top:2px">${S.lang==='zh'?'最终得分':S.lang==='en'?'Score':'Nilai'}</div>
+        </div>
+      </div>`;
+    }).join(''):`<div class="card mut sm" style="margin:0;text-align:center;padding:18px">${S.lang==='zh'?'暂无符合筛选条件的学员成绩记录。':S.lang==='en'?'No participant score records match the selected filter.':'Belum ada data nilai peserta untuk filter pelatihan ini.'}</div>`}
+  </div>`;
+}
+
+function updateTrainerHasilUI(){
+  const trInfo=getLoggedTrainer(S.emp);
+  if(!trInfo)return;
+  const body=$('#tr-hasil-body');
+  if(body)body.innerHTML=getTrainerHasilBodyHtml(trInfo);
+  document.querySelectorAll('[data-a="trFltSt"]').forEach(b=>{
+    b.classList.toggle('on',up(b.dataset.v)===up(S.trFilterSt||'ALL'));
+  });
+  document.querySelectorAll('[data-a="trFltTes"]').forEach(b=>{
+    b.classList.toggle('on',up(b.dataset.v)===up(S.trFilterTes||'ALL'));
+  });
+  const sel=$('#tr-flt-mod');
+  if(sel&&sel.value!==S.trFilterMod)sel.value=S.trFilterMod||'ALL';
+}
+
+function renderTrainerPanelHtml(trInfo){
+  if(!trInfo)return '';
+  const allPins=(S.trainerPins&&S.trainerPins.length?S.trainerPins:S.sesi||[]).filter(s=>up(s.Status)!=='NONAKTIF');
+  const sortedPins=allPins.map(s=>{
+    const d=dayDiff(s.Tanggal);
+    const m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
+    const isToday=d===0,isPast=d!==null&&d<0;
+    const stLb=d===null?'Aktif':isPast?t('sched_done'):isToday?t('sched_running'):t('sched_upcoming');
+    const dayLb=d===null?'':isToday?t('today'):isPast?'H'+d:'H+'+d;
+    const sortRank=d===0?-1000:d!==null&&d>0?d:d!==null?Math.abs(d)+100:500;
+    const pCount=(S.trainerHasil||[]).filter(h=>up(h.ID_Modul)===up(s.ID_Modul)||(s.Kode_PIN&&up(h.Kode_PIN)===up(s.Kode_PIN))).length;
+    return {...s,title:mText(m,'Nama_Modul')||mText(s,'Nama_Modul')||s.ID_Modul,stLb,dayLb,isToday,sortRank,pCount};
+  }).sort((a,b)=>a.sortRank-b.sortRank);
+
+  const allHasil=S.trainerHasil||[];
+  const trNameNorm=up(trInfo.Name||trInfo.Nama_Trainer||S.emp?.Nama_Lengkap||'').replace(/\s+/g,' ');
+  const mineCount=allHasil.filter(r=>{
+    const rTr=up(r.Nama_Trainer||r.Trainer||'').replace(/\s+/g,' ');
+    const pinRow=allPins.find(p=>up(p.Kode_PIN)===up(r.Kode_PIN)||up(p.ID_Modul)===up(r.ID_Modul));
+    const pTr=up(pinRow?.Trainer||'').replace(/\s+/g,' ');
+    return rTr===trNameNorm||pTr===trNameNorm;
+  }).length;
+
+  const modOptsMap=new Map();
+  sortedPins.forEach(p=>{
+    const modId=String(p.ID_Modul||'').trim();
+    if(!modId)return;
+    const keyUp='MOD:'+up(modId);
+    if(!modOptsMap.has(keyUp)){
+      const cnt=allHasil.filter(h=>up(h.ID_Modul)===up(modId)).length;
+      const pinList=sortedPins.filter(x=>up(x.ID_Modul)===up(modId)&&x.Kode_PIN).map(x=>x.Kode_PIN).join(', ');
+      modOptsMap.set(keyUp,{val:'MOD:'+modId,label:`${p.title} (${modId})${pinList?` — PIN: ${pinList}`:''} [${cnt} Peserta]`});
+    }
+  });
+  allHasil.forEach(h=>{
+    const modId=String(h.ID_Modul||h.Nama_Modul_Sertifikat||'').trim();
+    if(!modId)return;
+    const keyUp='MOD:'+up(modId);
+    if(!modOptsMap.has(keyUp)){
+      const cnt=allHasil.filter(x=>up(x.ID_Modul||x.Nama_Modul_Sertifikat)===up(modId)).length;
+      const title=h.Nama_Modul_Sertifikat||S.modul.find(m=>up(m.ID_Modul)===up(modId))?.Nama_Modul||modId;
+      modOptsMap.set(keyUp,{val:'MOD:'+modId,label:`${title}${up(title)!==up(modId)?` (${modId})`:''} [${cnt} Peserta]`});
+    }
+  });
+  const modOpts=Array.from(modOptsMap.values());
+
+  return `<div class="card" id="trainer-panel" style="margin-top:14px;border:1.5px solid var(--p);background:linear-gradient(180deg,var(--pf) 0%,var(--sf) 120px)">
+    <div class="row sp" style="gap:10px;align-items:flex-start;flex-wrap:wrap;margin-bottom:10px">
+      <div class="g">
+        <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:4px">
+          <span class="chip ok" style="font-weight:700"><span class="mi" style="font-size:13px;margin-right:3px">verified_user</span>${S.lang==='zh'?'讲师专属面板':S.lang==='en'?'TRAINER ACCESS PANEL':'PANEL AKSES TRAINER'}</span>
+          ${trInfo.Specialist?`<span class="chip" style="background:var(--sf);color:var(--p);border-color:var(--gold);font-weight:700">${e(trInfo.Specialist)}</span>`:''}
+        </div>
+        <h2 style="font-size:15px;color:var(--br);margin:0">${S.lang==='zh'?'当前考核访问码 (PIN) 与全体学员成绩':S.lang==='en'?'Active Training Access Codes (PIN) & All Participant Scores':'Kode Akses Pelatihan Aktif & Hasil Nilai Seluruh Peserta'}</h2>
+        <p class="mut sm" style="margin-top:2px">Trainer: <b>${e(trInfo.Name||S.emp?.Nama_Lengkap)}</b>${trInfo.Specialist?` • Specialist: <b>${e(trInfo.Specialist)}</b>`:''}</p>
+      </div>
+      <button type="button" class="btn s" data-a="trRefresh" style="flex-shrink:0">
+        <span class="mi" style="font-size:15px">refresh</span> ${S.lang==='zh'?'刷新数据':S.lang==='en'?'Refresh Data':'Muat Ulang'}
+      </button>
+    </div>
+
+    <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:11px;margin-bottom:12px">
+      <div class="row sp" style="margin-bottom:8px">
+        <b style="font-size:12.5px;color:var(--br);display:flex;align-items:center;gap:5px"><span class="mi" style="font-size:17px;color:var(--p)">vpn_key</span>${S.lang==='zh'?'1. 培训考核激活访问码 (Jadwal_PIN)':S.lang==='en'?'1. Active Training Access Codes (Jadwal_PIN)':'1. Kode Akses (PIN) Pelatihan yang Aktif'} (${sortedPins.length})</b>
+      </div>
+      ${sortedPins.length?`<div style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;padding-right:2px">
+        ${sortedPins.map(s=>`<div class="item ${s.isToday?'act':''}" style="margin:0;padding:10px 12px;gap:10px;flex-wrap:wrap">
+          <div class="g" style="min-width:180px">
+            <div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:3px">
+              <span class="chip ${s.isToday?'ok':'gy'}">${e(s.stLb)}</span>
+              ${s.dayLb?`<span class="chip ${s.isToday?'ok':'gy'}">${e(s.dayLb)}</span>`:''}
+              ${s.ID_Modul?`<span class="chip gy" style="font-family:var(--mo)">${e(s.ID_Modul)}</span>`:''}
+            </div>
+            <b style="display:block;font-size:13.5px;color:var(--br)">${e(s.title)}</b>
+            <span class="mut sm" style="display:block;margin-top:2px">${e([s.Tanggal,s.Jam_Mulai&&s.Jam_Selesai?`${s.Jam_Mulai}–${s.Jam_Selesai}`:'',s.Batch_Sesi,s.Trainer?`Trainer: ${s.Trainer}`:''].filter(Boolean).join(' • '))}</span>
+          </div>
+          <div class="row" style="gap:6px;flex-wrap:wrap;align-items:center">
+            <div style="padding:5px 10px;border-radius:8px;background:var(--pf);border:1.5px dashed var(--p);text-align:center">
+              <span style="display:block;font-size:9px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.05em">KODE AKSES / PIN</span>
+              <b style="font-family:var(--mo);font-size:15px;letter-spacing:.1em;color:var(--br)">${e(s.Kode_PIN||'-')}</b>
+            </div>
+            ${s.Kode_PIN?`<button type="button" class="btn s" data-a="copyPin" data-v="${e(s.Kode_PIN)}" title="Salin Kode PIN"><span class="mi" style="font-size:15px">content_copy</span> Salin</button>`:''}
+            <button type="button" class="btn p s" data-a="trViewMod" data-v="MOD:${e(s.ID_Modul)}"><span class="mi" style="font-size:15px">analytics</span> Nilai (${s.pCount})</button>
+          </div>
+        </div>`).join('')}
+      </div>`:`<div class="mut sm" style="padding:8px 0">${S.lang==='zh'?'当前暂无激活的考核 PIN。':S.lang==='en'?'No active training PINs found.':'Belum ada jadwal PIN aktif di Jadwal_PIN.'}</div>`}
+    </div>
+
+    <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:11px" id="tr-hasil-sec">
+      <div class="row sp" style="margin-bottom:8px;flex-wrap:wrap;gap:6px">
+        <b style="font-size:12.5px;color:var(--br);display:flex;align-items:center;gap:5px"><span class="mi" style="font-size:17px;color:var(--p)">leaderboard</span>${S.lang==='zh'?'2. 参训学员考核成绩总览 (Hasil_Asesmen)':S.lang==='en'?'2. All Participant Assessment Scores (Hasil_Asesmen)':'2. Daftar Hasil Nilai Seluruh Peserta Training'}</b>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+        <div>
+          <label class="lbl" style="margin-bottom:4px">${S.lang==='zh'?'选择培训课程 / 模块':S.lang==='en'?'Filter by Training / Module':'Pilih Pelatihan / Modul'}</label>
+          <select class="inp" id="tr-flt-mod" style="height:38px;padding:0 10px;font-weight:600">
+            <option value="ALL" ${S.trFilterMod==='ALL'?'selected':''}>Semua Pelatihan / Modul (${allHasil.length} Peserta)</option>
+            <option value="MINE" ${S.trFilterMod==='MINE'?'selected':''}>Pelatihan dengan Trainer: ${e(trInfo.Name)} (${mineCount} Peserta)</option>
+            ${modOpts.map(o=>`<option value="${e(o.val)}" ${up(S.trFilterMod)===up(o.val)?'selected':''}>${e(o.label)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="row" style="gap:8px;flex-wrap:wrap">
+          <input class="inp g" id="tr-search" maxlength="80" placeholder="${S.lang==='zh'?'搜索学员姓名、工号、公司、部门或PIN码…':S.lang==='en'?'Search participant name, ID, company, dept, or PIN…':'Cari nama peserta, NIK, company, departemen, atau kode PIN…'}" value="${e(S.trSearch||'')}" style="height:38px;min-width:200px">
+        </div>
+        <div class="tabs" style="margin:0">
+          <button type="button" class="${(S.trFilterTes||'ALL')==='ALL'?'on':''}" data-a="trFltTes" data-v="ALL">${S.lang==='zh'?'全部测试':S.lang==='en'?'All Tests':'Semua Jenis Tes'}</button>
+          <button type="button" class="${up(S.trFilterTes)==='PRE TEST'?'on':''}" data-a="trFltTes" data-v="Pre Test">Pre Test</button>
+          <button type="button" class="${up(S.trFilterTes)==='POST TEST'?'on':''}" data-a="trFltTes" data-v="Post Test">Post Test</button>
+          <button type="button" class="${up(S.trFilterTes)==='TANPA TEST'?'on':''}" data-a="trFltTes" data-v="Tanpa Test">${S.lang==='zh'?'免考签到':S.lang==='en'?'No Test (Att.)':'Tanpa Test (Absen)'}</button>
+        </div>
+        <div class="tabs" style="margin:0">
+          <button type="button" class="${(S.trFilterSt||'ALL')==='ALL'?'on':''}" data-a="trFltSt" data-v="ALL">${S.lang==='zh'?'全部状态':S.lang==='en'?'All Status':'Semua Status'}</button>
+          <button type="button" class="${up(S.trFilterSt)==='LULUS'?'on':''}" data-a="trFltSt" data-v="LULUS">${S.lang==='zh'?'通过':S.lang==='en'?'Passed':'Lulus'}</button>
+          <button type="button" class="${up(S.trFilterSt)==='BELUM LULUS'?'on':''}" data-a="trFltSt" data-v="BELUM LULUS">${S.lang==='zh'?'未通过':S.lang==='en'?'Failed':'Belum Lulus'}</button>
+          <button type="button" class="${up(S.trFilterSt)==='HANYA ABSEN'?'on':''}" data-a="trFltSt" data-v="HANYA ABSEN">${S.lang==='zh'?'仅签到':S.lang==='en'?'Att. Only':'Hanya Absen'}</button>
+        </div>
+      </div>
+      <div id="tr-hasil-body">
+        ${getTrainerHasilBodyHtml(trInfo)}
+      </div>
+    </div>
+  </div>`;
+}
+
+function rTrainer(){
+  const em=S.emp||{};
+  const trInfo=getLoggedTrainer(em);
+  if(trInfo&&(!S.trainerPins?.length||!S.trainerHasil?.length)&&!S._loadingTrDash){
+    S._loadingTrDash=true;
+    loadTrainerDashboardData(true).finally(()=>{S._loadingTrDash=false});
+  }
+  if(!trInfo){
+    $('#v-trainer').innerHTML=`<div class="card"><span class="chip wa">Akses Dibatasi</span><h1 style="margin-top:6px">Panel Khusus Trainer</h1><p class="mut sm" style="margin-top:4px">Akun Anda belum terdaftar di sheet <b>Trainer_Name</b>. Sedang memeriksa ulang data trainer…</p><div class="row" style="gap:8px;margin-top:12px"><button type="button" class="btn p s" data-a="trRefresh"><span class="mi">refresh</span> Cek Ulang Sheet Trainer_Name</button><button type="button" class="btn s" data-a="go" data-v="home">Kembali ke Beranda</button></div></div>`;
+    if(!S._loadingTrDash){
+      S._loadingTrDash=true;
+      loadTrainerDashboardData(true).finally(()=>{S._loadingTrDash=false});
+    }
+    return;
+  }
+  $('#v-trainer').innerHTML=`<div class="row sp" style="margin-bottom:8px;flex-wrap:wrap;gap:8px">
+    <div>
+      <h1 style="font-size:18px;color:var(--br)">${S.lang==='zh'?'讲师专属面板':S.lang==='en'?'Trainer Access Panel':'Halaman Panel Khusus Trainer'}</h1>
+      <p class="mut sm">${S.lang==='zh'?'查看激活的培训访问码 (PIN) 与所有参训学员成绩':S.lang==='en'?'View active training access codes (PIN) & all participant scores':'Monitoring kode akses (PIN) pelatihan aktif & rekap nilai seluruh peserta'}</p>
+    </div>
+    <button type="button" class="btn s" data-a="go" data-v="home"><span class="mi" style="font-size:15px">arrow_back</span> ${t('back_home')}</button>
+  </div>
+  ${renderTrainerPanelHtml(trInfo)}`;
+}
+
 function rHome(){
   const p=pd(),em=S.emp,k=key(em),co=empCo(em);
+  const trInfo=getLoggedTrainer(em);
+  if((!trInfo||!S.trainerPins?.length||!S.trainerHasil?.length)&&!S._loadingTrDash){
+    S._loadingTrDash=true;
+    loadTrainerDashboardData(true).finally(()=>{S._loadingTrDash=false});
+  }
   const nearSesi=S.sesi.filter(s=>{const d=dayDiff(s.Tanggal);return d!==null&&d>=-2&&d<=3});
   const items=nearSesi.map(s=>{
     const d=dayDiff(s.Tanggal),dn=isDone(s.ID_Modul),m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
@@ -1009,14 +1506,38 @@ function rHome(){
     const stCl=isToday?'ok':'gy';
     const dayLb=isToday?t('today'):isPast?'H'+d:'H+'+d;
     const dayCl=isToday?'ok':'gy';
+    const matchedPin=trInfo?((S.trainerPins||[]).find(tp=>up(tp.ID_Modul)===up(s.ID_Modul)&&(tp.Tanggal===s.Tanggal||tp.Batch_Sesi===s.Batch_Sesi))||(S.trainerPins||[]).find(tp=>up(tp.ID_Modul)===up(s.ID_Modul))):null;
+    const pinCode=trInfo?(matchedPin?.Kode_PIN||s.Kode_PIN||''):'';
+    const pCount=trInfo?(S.trainerHasil||[]).filter(h=>up(h.ID_Modul)===up(s.ID_Modul)||(pinCode&&up(h.Kode_PIN)===up(pinCode))).length:0;
     return{
       id:s.ID_Modul,
       title:mText(m,'Nama_Modul')||mText(s,'Nama_Modul')||s.ID_Modul,
       sub:[s.Tanggal,s.Jam_Mulai&&s.Jam_Selesai?`${s.Jam_Mulai}–${s.Jam_Selesai}`:'',s.Trainer].filter(Boolean).join(' • '),
-      stLb,stCl,dayLb,dayCl,dim:!isToday,d,dn
+      stLb,stCl,dayLb,dayCl,dim:!isToday,d,dn,pinCode,pCount
     };
   }).sort((a,b)=>a.d-b.d);
   const rs=S.ex?`<div class="card" style="border-color:var(--p);background:var(--pf)"><div class="row sp"><div class="g"><b>${t('active_exam')}</b><p class="mut sm ell">${e(mText(S.ex.ses,'Nama_Modul'))} • ${fmt(left())}</p></div><button class="btn p s" data-a="go" data-v="exam">${t('continue_btn')}</button></div></div>`:'';
+  const activePinsCnt=trInfo?((S.trainerPins&&S.trainerPins.length?S.trainerPins:S.sesi||[]).filter(s=>up(s.Status)!=='NONAKTIF').length):0;
+  const totalHasilCnt=trInfo?(S.trainerHasil||[]).length:0;
+  const trainerMenuCard=trInfo?`<div class="card" style="margin-top:12px;margin-bottom:12px;background:#e8f5ee;border:1.5px solid var(--ok)">
+    <div class="row sp" style="gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="row" style="gap:10px;align-items:center;min-width:0;flex:1">
+        <div class="ava" style="width:42px;height:42px;border-radius:8px;background:#fff;color:var(--ok);border:1px solid var(--ok);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span class="mi" style="font-size:24px">verified_user</span>
+        </div>
+        <div style="min-width:0;flex:1">
+          <div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:2px">
+            <b style="font-size:14.5px;color:#115e38">${S.lang==='zh'?'讲师专属面板 (Kode PIN & 成绩)':S.lang==='en'?'Trainer Access Panel (Active PINs & Scores)':'Menu Panel Khusus Trainer (Kode PIN & Nilai)'}</b>
+            <span class="chip ok" style="font-size:10px">Trainer Terdaftar</span>
+          </div>
+          <span class="mut sm ell" style="display:block;color:#1b4d35">${e(trInfo.Specialist?`Specialist: ${trInfo.Specialist}`:'Lihat kode akses (PIN) pelatihan aktif & hasil nilai seluruh peserta')} • <b>${activePinsCnt} PIN Aktif</b> • <b>${totalHasilCnt} Data Nilai</b></span>
+        </div>
+      </div>
+      <button type="button" class="btn p s" data-a="go" data-v="trainer" style="white-space:nowrap;padding:8px 14px;flex-shrink:0;background:var(--ok);border-color:var(--ok);color:#fff">
+        <span class="mi" style="font-size:16px;vertical-align:middle;margin-right:4px">vpn_key</span>${S.lang==='zh'?'打开讲师面板':S.lang==='en'?'Open Trainer Page':'Buka Halaman Trainer'}
+      </button>
+    </div>
+  </div>`:'';
   const absenCard=`<div class="card" style="margin-top:12px;margin-bottom:12px;background:var(--pf);border:1px solid var(--gold)">
     <div class="row sp" style="gap:10px;align-items:center">
       <div class="row" style="gap:10px;align-items:center;min-width:0">
@@ -1033,10 +1554,12 @@ function rHome(){
       </button>
     </div>
   </div>`;
-  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta Asesmen')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length+'/'+p.m.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>${rs}
+  const trainerHeroBadge=trInfo?`<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="chip ok" style="font-weight:700"><span class="mi" style="font-size:13px;margin-right:3px">verified_user</span>Trainer Terdaftar${trInfo.Specialist?` • ${e(trInfo.Specialist)}`:''}</span></div>`:'';
+  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta Asesmen')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p>${trainerHeroBadge}</div></div><div style="margin-top:12px">${kp([p.done.length+'/'+p.m.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>${rs}
+  ${trainerMenuCard}
   ${absenCard}
   <div class="row sp" style="margin-top:2px"><h2>${S.lang==='zh'?'评估日程':S.lang==='en'?'Assessment Schedule':'Jadwal Asesmen'}</h2><button class="btn s" data-a="go" data-v="modules">${t('mod_all')} (${S.modul.length})</button></div>
-  ${items.length?items.map(x=>`<div class="item ${x.dim?'dim':'act'}"><div class="g"><div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:3px"><span class="chip ${x.stCl}">${e(x.stLb)}</span><span class="chip ${x.dayCl}">${e(x.dayLb)}</span>${x.dn?`<span class="chip ok">${t('passed')}</span>`:''}</div><b class="ell" style="display:block;font-size:14px">${e(x.title)}</b><span class="mut sm" style="display:block;margin-top:2px">${e(x.sub)}</span></div>${!x.dim?`<button class="btn ${x.dn?'':'p'} s" data-a="pin" data-v="${e(x.id)}">${x.dn?t('retest'):t('start_btn')}</button>`:''}</div>`).join(''):`<div class="card mut sm">${S.lang==='zh'?'暂无近期考核日程。':S.lang==='en'?'No assessment schedules at this time.':'Tidak ada jadwal asesmen saat ini.'}</div>`}
+  ${items.length?items.map(x=>`<div class="item ${x.dim?'dim':'act'}"><div class="g"><div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:3px"><span class="chip ${x.stCl}">${e(x.stLb)}</span><span class="chip ${x.dayCl}">${e(x.dayLb)}</span>${x.dn?`<span class="chip ok">${t('passed')}</span>`:''}${x.pinCode?`<span class="chip" style="background:var(--pf);color:var(--p);border-color:var(--gold);font-family:var(--mo);font-weight:700;cursor:pointer" data-a="copyPin" data-v="${e(x.pinCode)}" title="Klik untuk salin PIN">🔑 Kode Akses: ${e(x.pinCode)}</span>`:''}</div><b class="ell" style="display:block;font-size:14px">${e(x.title)}</b><span class="mut sm" style="display:block;margin-top:2px">${e(x.sub)}</span></div><div class="row" style="gap:6px;flex-shrink:0;flex-wrap:wrap">${trInfo?`<button type="button" class="btn s" data-a="trViewMod" data-v="MOD:${e(x.id)}"><span class="mi" style="font-size:15px">analytics</span> Nilai (${x.pCount})</button>`:''}${!x.dim?`<button class="btn ${x.dn?'':'p'} s" data-a="pin" data-v="${e(x.id)}">${x.dn?t('retest'):t('start_btn')}</button>`:''}</div></div>`).join(''):`<div class="card mut sm">${S.lang==='zh'?'暂无近期考核日程。':S.lang==='en'?'No assessment schedules at this time.':'Tidak ada jadwal asesmen saat ini.'}</div>`}
   <button class="btn w" data-a="logout">${S.lang==='zh'?'切换账户':S.lang==='en'?'Switch Account':'Ganti Akun'}</button>`;
 }
 
@@ -1280,6 +1803,8 @@ async function openAbsen(){
   S.selectedAbsen=null;S.absenAll=false;
   if($('#absen-agenda'))$('#absen-agenda').value='';
   if($('#absen-tgl'))$('#absen-tgl').value='';
+  if($('#absen-tr'))$('#absen-tr').value='';
+  if($('#absen-tr-info'))$('#absen-tr-info').style.display='none';
   if($('#absen-detail-card'))$('#absen-detail-card').style.display='none';
   $('#ae-absen')?.classList.remove('on');
   const b=$('#bt-sub-absen');
@@ -1287,6 +1812,7 @@ async function openAbsen(){
   $('#o-absen').classList.add('on');
   renderAbsenAgendaList('');
   loadJadwalImport().then(()=>renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||''));
+  loadTrainerList().then(()=>fillDl());
 }
 
 function pickAbsen(idx){
@@ -1296,14 +1822,25 @@ function pickAbsen(idx){
   S.selectedAbsen=item;
   if($('#absen-agenda'))$('#absen-agenda').value=item.AGENDA;
   if($('#absen-tgl'))$('#absen-tgl').value=item.START||nowTs().split(' ')[0];
+  if($('#absen-tr')&&!$('#absen-tr').value.trim()){
+    const matchedTr=findTrainer(item.PIC);
+    if(matchedTr){
+      $('#absen-tr').value=matchedTr.Name;
+    }else if(item.PIC&&item.PIC!=='-'){
+      $('#absen-tr').value=item.PIC;
+    }
+  }
+  const curTrVal=$('#absen-tr')?.value?.trim()||item.PIC||'';
+  const trObj=findTrainer(curTrVal);
   if($('#absen-detail-status'))$('#absen-detail-status').textContent=item.STATUS||'Buka';
   if($('#absen-detail-id'))$('#absen-detail-id').textContent=item.ID_Jadwal||'';
   if($('#absen-detail-agenda'))$('#absen-detail-agenda').textContent=item.AGENDA;
   if($('#absen-detail-date'))$('#absen-detail-date').textContent=item.START||'-';
   if($('#absen-detail-batch'))$('#absen-detail-batch').textContent=item.BATCH||'-';
-  if($('#absen-detail-pic'))$('#absen-detail-pic').textContent=item.PIC||'-';
+  if($('#absen-detail-pic'))$('#absen-detail-pic').textContent=trObj?(trObj.Specialist?`${trObj.Name} (${trObj.Specialist})`:trObj.Name):(curTrVal||'-');
   if($('#absen-detail-room'))$('#absen-detail-room').textContent=item.ROOM||'-';
   if($('#absen-detail-card'))$('#absen-detail-card').style.display='block';
+  updateTrainerSpecUI('absen-tr');
   document.querySelector('[data-sdd="absen-agenda"]')?.classList.remove('open');
   $('#ae-absen')?.classList.remove('on');
 }
@@ -1313,6 +1850,7 @@ async function submitAbsen(){
   if(!S.emp){go('login');return}
   const agenda=cleanInp($('#absen-agenda')?.value,150);
   const tgl=cleanInp($('#absen-tgl')?.value,50);
+  const trInp=cleanInp($('#absen-tr')?.value,120);
   const item=S.selectedAbsen||{};
 
   if(!agenda){
@@ -1325,13 +1863,21 @@ async function submitAbsen(){
     $('#absen-tgl')?.focus();
     return;
   }
+  if(!trInp){
+    showErr('#ae-absen',S.lang==='zh'?'请选择培训讲师（Trainer_Name）。':S.lang==='en'?'Please select a trainer (Trainer_Name).':'Silakan pilih Nama Trainer (Trainer_Name) terlebih dahulu.');
+    $('#absen-tr')?.focus();
+    return;
+  }
 
   if(/batal|cancel/i.test(item.STATUS||'')){showErr('#ae-absen','Agenda ini berstatus batal / dibatalkan.');return}
   const dup=(S.his||[]).some(h=>up(h.Kode_PIN)==='ABSEN'&&up(h.ID_Modul||h.Nama_Modul_Sertifikat)===up(agenda)&&String(h.Tanggal_Training||h.Tanggal||'').slice(0,10)===tgl.slice(0,10));
   if(dup){showErr('#ae-absen','Anda sudah tercatat hadir pada agenda dan tanggal ini.');return}
   const em=S.emp,idKaryawan=key(em),namaKaryawan=em.Nama_Lengkap||idKaryawan;
   const company=empCo(em),departemen=em.Departemen||'',jabatan=em.Jabatan||'';
-  const batch=item.BATCH||'Batch 1',trainer=item.PIC||'-',idJadwal=item.ID_Jadwal||'';
+  const trObj=findTrainer(trInp);
+  const trainer=trObj?trObj.Name:(trInp||item.PIC||'-');
+  const specialist=trObj?(trObj.Specialist||'-'):'-';
+  const batch=item.BATCH||'Batch 1',idJadwal=item.ID_Jadwal||'';
 
   const b=$('#bt-sub-absen');
   if(b){
@@ -1359,6 +1905,9 @@ async function submitAbsen(){
     Nama_Modul_Sertifikat:agenda,
     Penyelenggara:'LnD',
     Nama_Trainer:trainer,
+    Trainer_Name:trainer,
+    Specialist:specialist,
+    Specialist_Trainer:specialist,
     Jam_Mulai_Training:'-',
     Jam_Berakhir_Training:'-',
     Terjawab:'Absen',
@@ -1369,11 +1918,13 @@ async function submitAbsen(){
     Jawaban_Peserta_JSON:'{}',
     No_Sertifikat:noSertifikat,
     Tanggal_Training:tgl,
-    Tanggal:tgl
+    Tanggal:tgl,
+    Jenis_Tes:'Tanpa Test (Absen)'
   };
 
   if(!S.his)S.his=[];
   S.his.push(rec);
+  if(Array.isArray(S.trainerHasil))S.trainerHasil.push(rec);
   saveCache();
 
   const payload={
@@ -1384,7 +1935,12 @@ async function submitAbsen(){
     tgl_training:tgl,
     batch:batch,
     agenda:agenda,
-    trainer:trainer
+    trainer:trainer,
+    nama_trainer:trainer,
+    trainer_name:trainer,
+    specialist:specialist,
+    specialist_trainer:specialist,
+    jenis_tes:'Tanpa Test (Absen)'
   };
 
   try{
@@ -1406,21 +1962,54 @@ async function submitAbsen(){
 
 /* ---------- modules ---------- */
 function rModules(){
+  const trInfo=getLoggedTrainer(S.emp);
   const lv=['ALL',...new Set(S.modul.map(m=>m.Tingkat).filter(Boolean))],q=up($('#ms')?.value||'');
   const list=S.modul.filter(m=>(S.lv==='ALL'||m.Tingkat===S.lv)&&(!q||up(mText(m,'Nama_Modul')+m.ID_Modul).includes(q)));
   $('#v-modules').innerHTML=`<h1>${t('mod_title')}</h1><input class="inp" id="ms" maxlength="80" placeholder="${S.lang==='zh'?'搜索模块名称或编号…':S.lang==='en'?'Search module name or code…':'Cari nama atau kode modul…'}" value="${e($('#ms')?.value||'')}" oninput="rModules();$('#ms').focus();$('#ms').setSelectionRange(99,99)">
   <div class="tabs">${lv.map(l=>`<button class="${S.lv===l?'on':''}" data-a="lv" data-v="${e(l)}">${l==='ALL'?t('mod_all'):e(l)}</button>`).join('')}</div>
-  ${list.map(m=>{const d=isDone(m.ID_Modul),td=hasToday(m.ID_Modul);return`<div class="item"><div class="g"><div class="row" style="gap:6px;margin-bottom:3px"><span class="chip ${d?'ok':''}">${d?t('passed'):e(m.Tingkat||'Umum')}</span><span class="mut sm">${e(m.Durasi_Default||'-')} ${t('min')} • ${e(m.Jml_Soal_Default||'-')} ${t('qs_cnt')} • ${t('pass_std')} ${e(m.Passing_Grade||75)}</span></div><b style="display:block;font-size:14px;line-height:1.35">${e(mText(m,'Nama_Modul'))}</b></div>${td?`<button class="btn ${d?'':'p'} s" data-a="pin" data-v="${e(m.ID_Modul)}">${d?t('retest'):t('start_btn')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${S.lang==='zh'?'未找到符合条件的课程模块。':S.lang==='en'?'No modules matching criteria.':'Tidak ada modul yang sesuai kriteria.'}</p>`}`;
+  ${list.map(m=>{const d=isDone(m.ID_Modul),td=hasToday(m.ID_Modul);const pinRows=trInfo?(S.trainerPins||[]).filter(p=>up(p.ID_Modul)===up(m.ID_Modul)&&p.Kode_PIN):[];const pinStr=pinRows.map(p=>p.Kode_PIN).filter((v,i,a)=>a.indexOf(v)===i).join(', ');const pCnt=trInfo?(S.trainerHasil||[]).filter(h=>up(h.ID_Modul)===up(m.ID_Modul)).length:0;return`<div class="item"><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:3px"><span class="chip ${d?'ok':''}">${d?t('passed'):e(m.Tingkat||'Umum')}</span><span class="mut sm">${e(m.Durasi_Default||'-')} ${t('min')} • ${e(m.Jml_Soal_Default||'-')} ${t('qs_cnt')} • ${t('pass_std')} ${e(m.Passing_Grade||75)}</span>${pinStr?`<span class="chip" style="background:var(--pf);color:var(--p);border-color:var(--gold);font-family:var(--mo);font-weight:700;cursor:pointer" data-a="copyPin" data-v="${e(pinRows[0].Kode_PIN)}" title="Klik untuk salin PIN">🔑 Kode Akses: ${e(pinStr)}</span>`:''}</div><b style="display:block;font-size:14px;line-height:1.35">${e(mText(m,'Nama_Modul'))}</b></div><div class="row" style="gap:6px;flex-shrink:0;flex-wrap:wrap">${trInfo?`<button type="button" class="btn s" data-a="trViewMod" data-v="MOD:${e(m.ID_Modul)}"><span class="mi" style="font-size:15px">analytics</span> Nilai (${pCnt})</button>`:''}${td?`<button class="btn ${d?'':'p'} s" data-a="pin" data-v="${e(m.ID_Modul)}">${d?t('retest'):t('start_btn')}</button>`:''}</div></div>`}).join('')||`<p class="mut sm">${S.lang==='zh'?'未找到符合条件的课程模块。':S.lang==='en'?'No modules matching criteria.':'Tidak ada modul yang sesuai kriteria.'}</p>`}`;
 }
 
 /* ---------- PIN → briefing → exam ---------- */
 function openPin(id){
   const validUser=S.emp&&key(S.emp)&&String(key(S.emp)).trim().length>=3&&S.emp.Nama_Lengkap;
   if(!validUser){toast('Silakan masuk dengan NIK / ID Karyawan lengkap terlebih dahulu.');go('login');return}
-  const m=S.modul.find(x=>up(x.ID_Modul)===up(id))||S.sesi.find(x=>up(x.ID_Modul)===up(id))||S.mat.find(x=>up(x.ID_Modul)===up(id));S.pend={id:id||''};
+  const m=S.modul.find(x=>up(x.ID_Modul)===up(id))||S.sesi.find(x=>up(x.ID_Modul)===up(id))||S.mat.find(x=>up(x.ID_Modul)===up(id));S.pend={id:id||'',jenisTes:''};
   $('#pt').textContent=m?(mText(m,'Nama_Modul')||m.Nama_Kompetensi):t('pin_modal_title');$('#ps').textContent=m?'Modul '+m.ID_Modul:'';$('#pi').value='';$('#pe').classList.remove('on');
   if($('#pb'))$('#pb').innerHTML=`${t('pin_verify')} <span class="mi">arrow_forward</span>`;
   $('#o-pin').classList.add('on');setTimeout(()=>$('#pi').focus(),150);
+}
+async function resolveSessionFallback(pin,reqMod,tglFromErr){
+  try{
+    const csvUrl='https://docs.google.com/spreadsheets/d/114CzkEdLASq3EhLtTcVCoIejHVkWGSfQBG4d0thp8ew/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(CFG.PIN);
+    const text=await fetch(csvUrl).then(r=>r.text());
+    const rows=parseCsv(text);
+    const found=rows.find(r=>up(r.Kode_PIN)===up(pin)&&(!reqMod||up(r.ID_Modul)===up(reqMod)));
+    if(found)return found;
+  }catch(e){}
+  return S.sesi.find(s=>(!reqMod||up(s.ID_Modul)===up(reqMod))&&(String(s.Tanggal||'').trim()===String(tglFromErr||'').trim()||dayDiff(s.Tanggal)===0))||null;
+}
+async function loadQuestionsFallback(ses){
+  let all=[];
+  try{
+    const r=await g({action:'read_sheet',sheet:CFG.SOAL});
+    if(r?.status==='success'&&Array.isArray(r.data)&&r.data.length)all=r.data;
+  }catch(e){}
+  if(!all.length){
+    try{
+      const csvUrl='https://docs.google.com/spreadsheets/d/114CzkEdLASq3EhLtTcVCoIejHVkWGSfQBG4d0thp8ew/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(CFG.SOAL);
+      const text=await fetch(csvUrl).then(r=>r.text());
+      all=parseCsv(text);
+    }catch(e){}
+  }
+  let mqs=all.filter(q=>up(q.ID_Modul)===up(ses.ID_Modul));
+  mqs.sort((a,b)=>(parseInt(a.No_Urut,10)||0)-(parseInt(b.No_Urut,10)||0));
+  if(up(ses.Acak_Soal)==='YA'){
+    for(let i=mqs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[mqs[i],mqs[j]]=[mqs[j],mqs[i]]}
+  }
+  const lim=parseInt(ses.Jml_Soal,10);
+  if(!isNaN(lim)&&lim>0)mqs=mqs.slice(0,lim);
+  return stripKunci(mqs);
 }
 async function verify(){
   const validUser=S.emp&&key(S.emp)&&String(key(S.emp)).trim().length>=3&&S.emp.Nama_Lengkap;
@@ -1429,8 +2018,15 @@ async function verify(){
   b.disabled=true;b.textContent='Memeriksa…';$('#pe').classList.remove('on');
   try{
     const vr=await g({action:'verify_pin',pin,id_modul:S.pend.id||''},1);
-    if(!vr||vr.status!=='success')throw new Error(vr?.message||'Gagal memverifikasi PIN.');
-    const found=vr.session;
+    let found=vr?.status==='success'?vr.session:null;
+    if(!found){
+      const errMsg=String(vr?.message||'');
+      const dm=errMsg.match(/dijadwalkan untuk tanggal\s+([^\s(]+)\s+\(hari ini:\s*([0-9-]+)\)/i);
+      if(dm&&dayDiff(dm[1])===0){
+        found=await resolveSessionFallback(pin,S.pend.id||'',dm[1]);
+      }
+      if(!found)throw new Error(errMsg||'Gagal memverifikasi PIN.');
+    }
     S.pend.pin=pin;S.pend.ses=found;$('#o-pin').classList.remove('on');brief();
   }catch(x){showErr('#pe',x.message||'Gagal memverifikasi PIN.')}
   b.disabled=false;b.innerHTML=t('pin_verify')+' '+mi('arrow_forward');
@@ -1439,34 +2035,70 @@ const tSlots=[];for(let h=6;h<=22;h++){const hh=String(h).padStart(2,'0');tSlots
 function brief(){
   const s=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
   const tOpt=tSlots.map(t=>`<option value="${t}">${t}</option>`).join('');
+  const initTrObj=findTrainer(s.Trainer||'');
+  const initName=initTrObj?initTrObj.Name:(s.Trainer||'');
+  const initSpec=initTrObj?.Specialist||'';
+  if(!S.pend.jenisTes){
+    const pinTes=String(s.Jenis_Tes||s.Tipe_Tes||'').trim();
+    if(/pre/i.test(pinTes))S.pend.jenisTes='Pre Test';
+    else if(/post/i.test(pinTes))S.pend.jenisTes='Post Test';
+  }
+  const curJT=S.pend.jenisTes||'';
   $('#v-brief').innerHTML=`<div class="card"><div class="row sp"><span class="chip ok">${mi('verified')} PIN Valid</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div><h1 style="margin:6px 0 2px">${e(mText(s,'Nama_Modul')||mText(m,'Nama_Modul'))}</h1><p class="mut sm">${e([s.Batch_Sesi,m.Penyelenggara||s.Trainer].filter(Boolean).join(' • '))}</p>
   <div style="margin-top:12px">${kp([s.Durasi_Menit||m.Durasi_Default||'-',t('min')],[s.Jml_Soal||m.Jml_Soal_Default||'-',t('qs_cnt')],[m.Passing_Grade||'-',t('pass_std')],[up(s.Acak_Soal)==='YA'?'Acak':'Urut','Urutan'])}</div></div>
   <div class="card"><h2>${t('brief_title')}</h2>
-  <label class="lbl" for="bt-tr" style="margin-top:8px">${t('trainer')}</label>
-  <div class="sdd" data-sdd="bt-tr"><input class="inp" id="bt-tr" maxlength="100" value="${e(s.Trainer||'')}" autocomplete="off" placeholder="Pilih / cari Trainer…"><button type="button" class="sdd-b" data-a="sdd" data-v="bt-tr" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button><div class="sdd-m" id="dd-bt-tr"></div></div>
+  <label class="lbl" style="margin-top:8px">${S.lang==='zh'?'选择考核类型 (Pre Test / Post Test)':S.lang==='en'?'Select Assessment Type (Pre Test / Post Test)':'Pilih Jenis Asesmen / Tes (Pre Test / Post Test)'} <span style="color:var(--er)">*</span></label>
+  <div class="row m-col" style="gap:8px;margin-top:4px">
+    <button type="button" class="opt g ${curJT==='Pre Test'?'on':''}" data-a="pickJenisTes" data-v="Pre Test" id="jt-pre" style="min-height:48px;padding:9px 12px;margin:0;width:100%">
+      <span class="mi" style="font-size:20px;color:${curJT==='Pre Test'?'var(--p)':'var(--mut)'}">quiz</span>
+      <div class="g" style="text-align:left">
+        <b style="display:block;font-size:13.5px;width:auto;height:auto;background:none;border:none;padding:0;color:var(--br)">Pre Test</b>
+        <span class="mut sm" style="font-size:11px;display:block">${S.lang==='zh'?'课前初始摸底测试':S.lang==='en'?'Initial test before training':'Tes awal sebelum materi pelatihan'}</span>
+      </div>
+    </button>
+    <button type="button" class="opt g ${curJT==='Post Test'?'on':''}" data-a="pickJenisTes" data-v="Post Test" id="jt-post" style="min-height:48px;padding:9px 12px;margin:0;width:100%">
+      <span class="mi" style="font-size:20px;color:${curJT==='Post Test'?'var(--ok)':'var(--mut)'}">task_alt</span>
+      <div class="g" style="text-align:left">
+        <b style="display:block;font-size:13.5px;width:auto;height:auto;background:none;border:none;padding:0;color:var(--br)">Post Test</b>
+        <span class="mut sm" style="font-size:11px;display:block">${S.lang==='zh'?'课后结业评估测试':S.lang==='en'?'Final evaluation after training':'Tes akhir evaluasi setelah pelatihan'}</span>
+      </div>
+    </button>
+  </div>
+  <label class="lbl" for="bt-tr" style="margin-top:10px">${t('trainer')} (Trainer_Name) <span style="color:var(--er)">*</span></label>
+  <div class="sdd" data-sdd="bt-tr"><input class="inp" id="bt-tr" maxlength="100" value="${e(initName)}" autocomplete="off" placeholder="Pilih / cari nama trainer atau specialist…"><button type="button" class="sdd-b" data-a="sdd" data-v="bt-tr" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button><div class="sdd-m" id="dd-bt-tr"></div></div>
+  <div id="bt-tr-info" class="row" style="display:${initSpec?'flex':'none'};gap:6px;align-items:center;margin-top:6px;padding:7px 10px;border-radius:6px;background:var(--pf);border:1px solid var(--gold);font-size:12px">
+    <span class="mi" style="font-size:16px;color:var(--p)">badge</span>
+    <span class="mut">Specialist:</span>
+    <b id="bt-tr-spec" style="color:var(--br)">${e(initSpec||'-')}</b>
+  </div>
   <div class="row m-col" style="align-items:flex-start;gap:10px;margin-top:8px">
     <div class="g" style="width:100%"><label class="lbl" for="bt-jm">${t('time_start')}</label><select class="inp" id="bt-jm"><option value="">Pilih jam…</option>${tOpt}</select></div>
     <div class="g" style="width:100%"><label class="lbl" for="bt-js">${t('time_end')}</label><select class="inp" id="bt-js"><option value="">Pilih jam…</option>${tOpt}</select></div>
   </div></div>
   <div class="err" id="be"></div><button class="btn p w" id="bs" data-a="start">${t('btn_start_exam')} ${mi('play_arrow')}</button><button class="btn w" data-a="go" data-v="home">${t('reg_cancel')}</button>`;
   go('brief');
-  if(!S.trainer.length){
-    g({action:'read_sheet',sheet:CFG.TRAINER}).then(tr=>{
-      if(tr&&tr.status==='success'&&Array.isArray(tr.data)){
-        S.trainer=cleanTr(tr.data);saveCache();fillDl();
-      }
-    }).catch(()=>{});
-  }
+  loadTrainerList().then(()=>{
+    if($('#bt-tr')&&!$('#bt-tr').value.trim()&&s.Trainer){
+      const mTr=findTrainer(s.Trainer);
+      if(mTr)$('#bt-tr').value=mTr.Name;
+    }
+    fillDl();
+  });
 }
 async function start(){
   const validUser=S.emp&&key(S.emp)&&String(key(S.emp)).trim().length>=3&&S.emp.Nama_Lengkap;
   if(!validUser){showErr('#be','Data peserta tidak lengkap atau belum terdaftar. Silakan masuk ulang dengan NIK lengkap.');go('login');return}
   const b=$('#bs');$('#be').classList.remove('on');
+  const jenisTes=cleanInp(S.pend?.jenisTes||'',30);
   const tr=cleanInp($('#bt-tr')?.value,100),jm=cleanInp($('#bt-jm')?.value,10),js=cleanInp($('#bt-js')?.value,10);
+  if(!jenisTes){showErr('#be','Silakan pilih Jenis Asesmen / Tes (Pre Test atau Post Test) terlebih dahulu.');return}
   if(!tr){showErr('#be','Silakan pilih Nama Trainer terlebih dahulu.');$('#bt-tr')?.focus();return}
   if(!jm){showErr('#be','Silakan pilih Jam Mulai Training terlebih dahulu.');$('#bt-jm')?.focus();return}
   if(!js){showErr('#be','Silakan pilih Jam Berakhir Training terlebih dahulu.');$('#bt-js')?.focus();return}
   if(js<=jm){showErr('#be','Jam Berakhir Training harus setelah Jam Mulai Training.');$('#bt-js')?.focus();return}
+  const trObj=findTrainer(tr);
+  const trName=trObj?trObj.Name:tr;
+  const trSpec=trObj?(trObj.Specialist||''):'';
   b.disabled=true;b.textContent='Memuat soal…';
   try{
     const ses=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(ses.ID_Modul))||{};
@@ -1474,13 +2106,17 @@ async function start(){
     const gq=await g({action:'get_questions',pin:S.pend.pin,id_modul:ses.ID_Modul}).catch(()=>null);
     if(gq&&gq.status==='success'&&Array.isArray(gq.questions)&&gq.questions.length){
       qs=stripKunci(gq.questions).map((q,i)=>({...q,No_Tampil:i+1}));
+    }else if(String(gq?.message||'').includes('dijadwalkan untuk tanggal')&&dayDiff(ses.Tanggal)===0){
+      const fbQs=await loadQuestionsFallback(ses);
+      if(fbQs&&fbQs.length)qs=fbQs.map((q,i)=>({...q,No_Tampil:i+1}));
+      else throw new Error(gq?.message||'Gagal memuat soal. Periksa koneksi lalu coba lagi.');
     }else{
       throw new Error(gq?.message||'Gagal memuat soal. Periksa koneksi lalu coba lagi.');
     }
     if(!qs.length)throw new Error('Belum ada soal untuk modul '+ses.ID_Modul+' di Sheet '+CFG.SOAL+'.');
     const dur=parseFloat(ses.Durasi_Menit||m.Durasi_Default)||30;
     const uid='#MGR-'+new Date().getFullYear()+'-'+Math.floor(100000+Math.random()*900000);
-    S.ex={uid,nik:key(S.emp),pin:S.pend.pin,ses,tr:{nama:tr,mulai:jm,selesai:js},qs,i:0,ans:{},fl:{},fb:{e1:'',e2:''},tabs:0,end:Date.now()+dur*60000};
+    S.ex={uid,nik:key(S.emp),pin:S.pend.pin,jenis_tes:jenisTes,ses,tr:{nama:trName,specialist:trSpec,jenis_tes:jenisTes,mulai:jm,selesai:js},qs,i:0,ans:{},fl:{},fb:{e1:'',e2:''},tabs:0,end:Date.now()+dur*60000};
     save();tick.id=setInterval(tick,1000);go('exam');
   }catch(x){showErr('#be',x.message);b.disabled=false;b.innerHTML=t('btn_start_exam')+' '+mi('play_arrow')}
 }
@@ -1508,8 +2144,12 @@ function rExam(){
   if(!tick.id||!S.tk){S.tk=1;clearInterval(tick.id);tick.id=setInterval(tick,1000)}
   const q=x.qs[x.i],n=x.qs.length,a=Object.keys(x.ans).length,L=['A','B','C','D'];
   const foto=okUrl(q.Foto_Kasus_URL),vid=okUrl(q.Video_Kasus_URL);
+  const trSpec=x.tr?.specialist||(x.tr?.nama?findTrainer(x.tr.nama)?.Specialist:'')||'';
+  const jTes=x.jenis_tes||x.tr?.jenis_tes||'';
   $('#v-exam').innerHTML=`<div class="xbar"><div class="row"><span class="chip">${x.i+1} / ${n}</span><b class="g ell" style="font-size:13px">${e(mText(x.ses,'Nama_Modul'))}</b><div class="tm" id="tm">${mi('timer')}<span>${fmt(left())}</span></div></div><div class="bar"><i style="width:${Math.round(a/n*100)}%"></i></div></div>
   <div class="row" style="flex-wrap:wrap;gap:6px;align-items:center">
+    ${jTes?`<span class="chip ${up(jTes).includes('PRE')?'wa':'ok'}">${mi('quiz')} ${e(jTes)}</span>`:''}
+    ${x.tr?.nama?`<span class="chip" style="background:var(--pf);color:var(--br);border:1px solid var(--gold)">${mi('person')} ${e(x.tr.nama)}${trSpec?` • ${e(trSpec)}`:''}</span>`:''}
     ${String(q.Tag_Topik||'').split(',').filter(t=>t.trim()).map(t=>`<span class="chip">${e(t.trim())}</span>`).join('')}
     <span class="g"></span>
     <div class="lang-switch">
@@ -1567,7 +2207,7 @@ function rFeedback(){
   $('#v-feedback').innerHTML=`<div class="card hero">
     <div class="row sp"><span class="hero-co">${mi('rate_review')} ${t('fb_title')}</span><div class="row" style="gap:6px"><span class="chip ${ratedCnt===12?'ok':''}">${ratedCnt}/12 ${curL==='zh'?'已填':curL==='en'?'Completed':'Terisi'}</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div></div>
     <h1 class="ell" style="margin-top:2px">${e(mText(x.ses,'Nama_Modul'))}</h1>
-    <p class="mut sm ell">${e([tr.nama?`${t('trainer')}: `+tr.nama:'', t('fb_desc')].filter(Boolean).join(' • '))}</p>
+    <p class="mut sm ell">${e([x.jenis_tes||tr.jenis_tes||'', tr.nama?`${t('trainer')}: ${tr.nama}${tr.specialist?` (${tr.specialist})`:''}`:'', t('fb_desc')].filter(Boolean).join(' • '))}</p>
   </div>
   ${qsList.map(([k,title,desc],idx)=>{
     const cur=parseInt(fb[k],10)||0;
@@ -1623,15 +2263,18 @@ async function submit(){
   if(b){b.disabled=true;b.textContent=curL==='zh'?'提交中…':curL==='en'?'Submitting…':'Mengirim…'}
   $('#fe')?.classList.remove('on');
   const tr=x.tr||{};
-  const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2};
+  const trSpec=tr.specialist||(tr.nama?findTrainer(tr.nama)?.Specialist:'')||'';
+  const jenisTes=cleanInp(x.jenis_tes||tr.jenis_tes||'Post Test',30);
+  const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2,Jenis_Tes:jenisTes};
   FB_QS.forEach(([k,,,col])=>{fbData[k]=fb[k];fbData[col]=fb[k]});
-  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(S.emp.Departemen||'',100),jabatan:cleanInp(S.emp.Jabatan||'',100),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans,feedback:fbData};
+  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(S.emp.Departemen||'',100),jabatan:cleanInp(S.emp.Jabatan||'',100),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans,feedback:fbData};
   try{
     const j=await po(payload,3);
     if(j.status!=='success')throw new Error(j.message);
     localStorage.removeItem('mgr_pending_sub');
-    const res={Nama_Trainer:tr.nama||'',Jam_Mulai_Training:tr.mulai||'',Jam_Berakhir_Training:tr.selesai||'',...j.result};
+    const res={Jenis_Tes:jenisTes,Nama_Trainer:tr.nama||'',Trainer_Name:tr.nama||'',Specialist:trSpec,Specialist_Trainer:trSpec,Jam_Mulai_Training:tr.mulai||'',Jam_Berakhir_Training:tr.selesai||'',...j.result};
     if(!S.his.some(h=>h.ID_Ujian===res.ID_Ujian))S.his.push(res);
+    if(Array.isArray(S.trainerHasil)&&!S.trainerHasil.some(h=>h.ID_Ujian===res.ID_Ujian))S.trainerHasil.push(res);
     saveCache();
     clearInterval(tick.id);const mod=x.ses;S.ex=null;S.tk=0;localStorage.removeItem('mgr_exam');
     showResult(res,mod);refresh();
@@ -1649,7 +2292,9 @@ function showResult(r,ses){
   const ok=up(r.Status_Lulus)==='LULUS',sc=parseFloat(r.Skor_Akhir)||0;
   const curL=S.lang||'id';
   const modTitle=mText(ses,'Nama_Modul')||r.Nama_Modul_Sertifikat||ses?.Nama_Modul||'';
-  $('#v-result').innerHTML=`<div class="card"><div class="row sp"><span class="chip ${ok?'ok':'er'}">${ok?t('passed'):t('not_passed')}</span><div class="row" style="gap:6px"><span class="mut sm">${e(r.ID_Ujian)}</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div></div><div style="margin:14px 0;padding:14px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);display:flex;align-items:baseline;justify-content:space-between"><span class="mut sm">${t('final_score')}</span><b style="font-size:32px;font-weight:800;color:${ok?'var(--ok)':'var(--er)'}">${sc}</b></div><h1>${ok?t('result_pass'):t('result_fail')}</h1><p class="mut sm" style="margin-top:2px">${e(modTitle)}</p>${r.Nama_Trainer?`<p class="mut sm" style="margin-top:4px">${t('trainer')}: <b>${e(r.Nama_Trainer)}</b> • ${curL==='zh'?'培训时间':curL==='en'?'Session Hours':'Jam Training'}: <b>${e(r.Jam_Mulai_Training||'-')} – ${e(r.Jam_Berakhir_Training||'-')}</b></p>`:''}
+  const trSpec=r.Specialist||r.Specialist_Trainer||(r.Nama_Trainer?findTrainer(r.Nama_Trainer)?.Specialist:'')||'';
+  const jTes=r.Jenis_Tes||r.Tipe_Tes||'';
+  $('#v-result').innerHTML=`<div class="card"><div class="row sp"><div class="row" style="gap:6px"><span class="chip ${ok?'ok':'er'}">${ok?t('passed'):t('not_passed')}</span>${jTes?`<span class="chip ${up(jTes).includes('PRE')?'wa':'ok'}">${e(jTes)}</span>`:''}</div><div class="row" style="gap:6px"><span class="mut sm">${e(r.ID_Ujian)}</span><div class="lang-switch"><button type="button" class="l-btn ${S.lang==='id'?'on':''}" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn ${S.lang==='en'?'on':''}" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn ${S.lang==='zh'?'on':''}" data-a="lang" data-v="zh">中文</button></div></div></div><div style="margin:14px 0;padding:14px;border-radius:6px;background:var(--sf2);border:1px solid var(--ln);display:flex;align-items:baseline;justify-content:space-between"><span class="mut sm">${t('final_score')}</span><b style="font-size:32px;font-weight:800;color:${ok?'var(--ok)':'var(--er)'}">${sc}</b></div><h1>${ok?t('result_pass'):t('result_fail')}</h1><p class="mut sm" style="margin-top:2px">${e(modTitle)}</p>${r.Nama_Trainer?`<p class="mut sm" style="margin-top:4px">${t('trainer')}: <b>${e(r.Nama_Trainer)}</b>${trSpec&&trSpec!=='-'?` <span class="chip" style="font-size:10.5px">${e(trSpec)}</span>`:''} • ${curL==='zh'?'培训时间':curL==='en'?'Session Hours':'Jam Training'}: <b>${e(r.Jam_Mulai_Training||'-')} – ${e(r.Jam_Berakhir_Training||'-')}</b></p>`:''}
   <div style="margin-top:14px">${kp([r.Benar,curL==='zh'?'答对':curL==='en'?'Correct':'Benar'],[r.Terjawab,t('answered')],[r.Sisa_Waktu,t('time_left')],[sc,t('score')])}</div></div>
   ${ok?`<button class="btn p w" data-a="cert" data-v="${e(r.No_Sertifikat)}|${e(r.Nama_Modul_Sertifikat||modTitle)}|${sc}|${e(String(r.Timestamp_Submit).split(' ')[0])}">${t('view_cert')}</button>`:`<button class="btn p w" data-a="pin" data-v="${e(r.ID_Modul)}">${t('retest')}</button>`}
   <button class="btn w" data-a="go" data-v="profile">${t('history_matrix')}</button><button class="btn w" data-a="go" data-v="home">${t('back_home')}</button>`;
@@ -1665,7 +2310,7 @@ function rProfile(){
   $('#v-profile').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(em.Status_Level||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:4px">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([key(em),em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>
   <div class="tabs">${tabsMatHis.map(([k,l])=>`<button class="${S.pt===k?'on':''}" data-a="pt" data-v="${k}">${l}</button>`).join('')}</div>
   ${S.pt==='mat'?`<div class="tabs">${matFilters.map(([k,l])=>`<button class="${S.mf===k?'on':''}" data-a="mf" data-v="${k}">${l}</button>`).join('')}</div>`+m.map(x=>{const d=up(x.Status)==='DONE',td=hasToday(x.ID_Modul);return`<div class="item"><div class="g"><span class="chip ${d?'ok':'wa'}">${d?'DONE':'NOT YET'}</span> <span class="mut sm">${e(x.Kode_Kompetensi||x.ID_Modul)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(x.Nama_Kompetensi)}</b>${d?`<span class="mut sm">${t('score')} ${e(x.Skor||'-')} • ${e(x.Tgl_Selesai||'-')}</span>`:''}</div>${d?`<button class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}">${t('kpi_cert')}</button>`:td?`<button class="btn p s" data-a="pin" data-v="${e(x.ID_Modul)}">${t('start_btn')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无数据。':curL==='en'?'No data available.':'Tidak ada data.'}</p>`
-  :S.his.slice().reverse().map(h=>{const ok=up(h.Status_Lulus)==='LULUS',isAbsen=up(h.Status_Lulus)==='HANYA ABSEN',chipCl=ok?'ok':isAbsen?'wa':'er',chipTxt=ok?t('passed'):isAbsen?(curL==='zh'?'仅签到':curL==='en'?'Attendance Only':'Hanya Absen'):t('not_passed'),tgl=h.Tanggal_Training||h.Tanggal||String(h.Timestamp_Submit||'').split(' ')[0]||'-',pinStr=h.Kode_PIN&&h.Kode_PIN!=='ABSEN'?`PIN ${e(h.Kode_PIN)}`:'Absen Langsung';return`<div class="item"><div class="g"><span class="chip ${chipCl}">${chipTxt}</span> <span class="mut sm">${e(tgl)} • ${pinStr}</span><b style="display:block;font-size:14px;margin-top:4px">${e(h.Nama_Modul_Sertifikat||h.ID_Modul)}</b><span class="mut sm">${t('score')} ${e(h.Skor_Akhir)} ${h.Batch_Sesi?`• ${e(h.Batch_Sesi)}`:''}</span></div>${ok?`<button class="btn s" data-a="cert" data-v="${e(h.No_Sertifikat)}|${e(h.Nama_Modul_Sertifikat)}|${e(h.Skor_Akhir)}|${e(tgl)}">${t('kpi_cert')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无评估历史记录。':curL==='en'?'No assessment history yet.':'Belum ada riwayat asesmen.'}</p>`}`;
+  :S.his.slice().reverse().map(h=>{const ok=up(h.Status_Lulus)==='LULUS',isAbsen=up(h.Status_Lulus)==='HANYA ABSEN',chipCl=ok?'ok':isAbsen?'wa':'er',chipTxt=ok?t('passed'):isAbsen?(curL==='zh'?'仅签到':curL==='en'?'Attendance Only':'Hanya Absen'):t('not_passed'),tgl=h.Tanggal_Training||h.Tanggal||String(h.Timestamp_Submit||'').split(' ')[0]||'-',pinStr=h.Kode_PIN&&h.Kode_PIN!=='ABSEN'?`PIN ${e(h.Kode_PIN)}`:'Absen Langsung',jTes=h.Jenis_Tes||h.Tipe_Tes||(isAbsen?'Tanpa Test (Absen)':''),trNm=h.Nama_Trainer&&h.Nama_Trainer!=='-'?h.Nama_Trainer:'',trSp=h.Specialist||h.Specialist_Trainer||(trNm?findTrainer(trNm)?.Specialist:'')||'';return`<div class="item"><div class="g"><span class="chip ${chipCl}">${chipTxt}</span>${jTes?` <span class="chip ${up(jTes).includes('PRE')?'wa':up(jTes).includes('POST')?'ok':''}">${e(jTes)}</span>`:''} <span class="mut sm">${e(tgl)} • ${pinStr}</span><b style="display:block;font-size:14px;margin-top:4px">${e(h.Nama_Modul_Sertifikat||h.ID_Modul)}</b><span class="mut sm">${t('score')} ${e(h.Skor_Akhir)} ${h.Batch_Sesi?`• ${e(h.Batch_Sesi)}`:''}${trNm?` • Trainer: ${e(trNm)}${trSp&&trSp!=='-'?` (${e(trSp)})`:''}`:''}</span></div>${ok?`<button class="btn s" data-a="cert" data-v="${e(h.No_Sertifikat)}|${e(h.Nama_Modul_Sertifikat)}|${e(h.Skor_Akhir)}|${e(tgl)}">${t('kpi_cert')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无评估历史记录。':curL==='en'?'No assessment history yet.':'Belum ada riwayat asesmen.'}</p>`}`;
 }
 function cert(v){
   S.lastCert=v;
@@ -2162,10 +2807,16 @@ const A={
   nfcTab:v=>setNfcTab(v),
   nfcLoginAs:()=>nfcLoginAs(),
   nfcSaveLink:()=>saveNfcLink(),
-  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
+  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.isTrainer=false;S.trainerInfo=null;S.trainerPins=[];S.trainerHasil=[];S.trFilterMod='ALL';S.trFilterSt='ALL';S.trFilterTes='ALL';S.trSearch='';S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
+  copyPin:v=>{if(!v)return;try{navigator.clipboard.writeText(v)}catch{}if($('#pi'))$('#pi').value=v;toast(`Kode Akses PIN "${v}" berhasil disalin!`)},
+  trViewMod:v=>{S.trFilterMod=v||'ALL';if(S.v!=='trainer')go('trainer');else updateTrainerHasilUI();setTimeout(()=>{$('#tr-hasil-sec')?.scrollIntoView({behavior:'smooth',block:'start'})},80)},
+  trFltSt:v=>{S.trFilterSt=v||'ALL';updateTrainerHasilUI()},
+  trFltTes:v=>{S.trFilterTes=v||'ALL';updateTrainerHasilUI()},
+  trRefresh:async()=>{toast('Memuat ulang kode akses & nilai peserta…');await loadTrainerDashboardData(true);toast('Data trainer berhasil diperbarui!')},
+  pickJenisTes:v=>{if(!S.pend)S.pend={};S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--mut)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--mut)'}},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
-  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='sim-jn')S.simJn=val;document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
+  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
   pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50)},
   pickSimTime:v=>{saveSimInputs();S.simTime=v;if($('#sim-time'))$('#sim-time').value=v;$('#se-sim')?.classList.remove('on');rSim()},
   lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},cert,ans,submit,tts,lang:v=>setLang(v),
@@ -2188,6 +2839,12 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='sim-time'){S.simTime=ev.target.value;$('#se-sim')?.classList.remove('on')}
   if(ev.target.id==='absen-agenda'){$('#ae-absen')?.classList.remove('on');renderAbsenAgendaList(ev.target.value.trim())}
   if(ev.target.id==='absen-tgl'){$('#ae-absen')?.classList.remove('on')}
+  if(ev.target.id==='absen-tr'){$('#ae-absen')?.classList.remove('on');updateTrainerSpecUI('absen-tr',ev.target.value)}
+  if(ev.target.id==='bt-tr'){$('#be')?.classList.remove('on');updateTrainerSpecUI('bt-tr',ev.target.value)}
+  if(ev.target.id==='tr-search'){S.trSearch=ev.target.value;updateTrainerHasilUI()}
+});
+document.addEventListener('change',ev=>{
+  if(ev.target.id==='tr-flt-mod'){S.trFilterMod=ev.target.value||'ALL';updateTrainerHasilUI()}
 });
 $('#lf').addEventListener('submit',async ev=>{
   ev.preventDefault();
