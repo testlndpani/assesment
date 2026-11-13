@@ -248,9 +248,9 @@ ul.rules b{color:var(--ink)}
 <div class="ov" id="o-pin"><div class="sheet"><div class="row sp"><div class="g"><h2 id="pt">Masukkan Kode PIN</h2><p class="mut sm" id="ps"></p></div><div class="lang-switch"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div><button class="btn s" data-a="close" data-v="o-pin"><span class="mi">close</span></button></div>
 <input class="inp" id="pi" maxlength="16" autocapitalize="characters" autocomplete="off" placeholder="KODE PIN" style="text-align:center;font-size:20px;letter-spacing:.2em;font-weight:800;text-transform:uppercase"><div class="err" id="pe"></div>
 <button class="btn p w" id="pb" data-a="verify">Verifikasi PIN <span class="mi">arrow_forward</span></button></div></div>
-<div class="ov" id="o-absen"><div class="sheet"><div class="row sp"><div class="g"><h2 id="absen-title">Absen Training (Tanpa Asesmen)</h2><p class="mut sm" id="absen-sub">Presensi training tanpa kuis / soal asesmen</p></div><button class="btn s" data-a="close" data-v="o-absen"><span class="mi">close</span></button></div>
+<div class="ov" id="o-absen"><div class="sheet"><div class="row sp"><div class="g"><h2 id="absen-title">Absen Training (Tanpa Asesmen)</h2><p class="mut sm" id="absen-sub">Presensi training &amp; induksi tanpa kuis / soal asesmen</p></div><button class="btn s" data-a="close" data-v="o-absen"><span class="mi">close</span></button></div>
 <div style="overflow-y:auto;padding-right:2px;margin-top:6px;flex:1;min-height:0">
-  <div class="card" style="padding:10px 12px;background:var(--sf2);border:1px solid var(--ln);margin-bottom:12px">
+  <div class="card" style="padding:10px 12px;background:var(--sf2);border:1px solid var(--ln);margin-bottom:10px">
     <div class="row" style="gap:10px;align-items:center">
       <div class="ava" style="width:36px;height:36px;font-size:18px"><span class="mi">person</span></div>
       <div class="g">
@@ -259,24 +259,39 @@ ul.rules b{color:var(--ink)}
       </div>
     </div>
   </div>
-  <label class="lbl" for="absen-agenda">Pilih Agenda Training (Jadwal_Import) <span style="color:var(--er)">*</span></label>
-  <div class="sdd" data-sdd="absen-agenda" style="position:relative">
-    <input class="inp" id="absen-agenda" autocomplete="off" placeholder="Pilih / cari agenda training…" style="cursor:pointer">
-    <button type="button" class="sdd-b" data-a="sdd" data-v="absen-agenda" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button>
-    <div class="sdd-m" id="dd-absen-agenda"></div>
+  <div class="tabs" style="margin:0 0 12px">
+    <button type="button" class="on" id="absen-tab-jadwal" data-a="absenMode" data-v="jadwal">Training Terjadwal</button>
+    <button type="button" id="absen-tab-induksi" data-a="absenMode" data-v="induksi">Khusus Induksi</button>
   </div>
-  <div id="absen-detail-card" class="card" style="margin-top:10px;padding:10px 12px;border:1px dashed var(--p);background:var(--pf);display:none">
-    <div class="row sp" style="margin-bottom:5px">
-      <span class="chip ok" id="absen-detail-status">Buka</span>
-      <span class="mut sm" id="absen-detail-id">-</span>
+  <div id="absen-jadwal-wrap">
+    <label class="lbl" for="absen-agenda">Pilih Agenda Training (Jadwal_Import) <span style="color:var(--er)">*</span></label>
+    <div class="sdd" data-sdd="absen-agenda" style="position:relative">
+      <input class="inp" id="absen-agenda" autocomplete="off" placeholder="Pilih / cari agenda training…" style="cursor:pointer">
+      <button type="button" class="sdd-b" data-a="sdd" data-v="absen-agenda" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button>
+      <div class="sdd-m" id="dd-absen-agenda"></div>
     </div>
-    <b id="absen-detail-agenda" style="font-size:14px;color:var(--br);display:block;margin-bottom:5px">-</b>
-    <div class="row" style="gap:10px 14px;flex-wrap:wrap;font-size:12px;color:var(--ink)">
-      <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">calendar_today</span> <span id="absen-detail-date">-</span></div>
-      <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">layers</span> <span id="absen-detail-batch">-</span></div>
-      <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">person</span> <span id="absen-detail-pic">-</span></div>
-      <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">meeting_room</span> <span id="absen-detail-room">-</span></div>
+    <div id="absen-detail-card" class="card" style="margin-top:10px;padding:10px 12px;border:1px dashed var(--p);background:var(--pf);display:none">
+      <div class="row sp" style="margin-bottom:5px">
+        <span class="chip ok" id="absen-detail-status">Buka</span>
+        <span class="mut sm" id="absen-detail-id">-</span>
+      </div>
+      <b id="absen-detail-agenda" style="font-size:14px;color:var(--br);display:block;margin-bottom:5px">-</b>
+      <div class="row" style="gap:10px 14px;flex-wrap:wrap;font-size:12px;color:var(--ink)">
+        <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">calendar_today</span> <span id="absen-detail-date">-</span></div>
+        <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">layers</span> <span id="absen-detail-batch">-</span></div>
+        <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">person</span> <span id="absen-detail-pic">-</span></div>
+        <div><span class="mi" style="font-size:15px;vertical-align:middle;color:var(--p)">meeting_room</span> <span id="absen-detail-room">-</span></div>
+      </div>
     </div>
+  </div>
+  <div id="absen-induksi-wrap" style="display:none">
+    <label class="lbl" for="absen-ind-sel">Pilih Jenis Induksi <span style="color:var(--er)">*</span></label>
+    <select class="inp" id="absen-ind-sel"></select>
+    <div id="absen-ind-custom-wrap" style="display:none;margin-top:8px">
+      <label class="lbl" for="absen-ind-custom">Nama Training Induksi Lainnya <span style="color:var(--er)">*</span></label>
+      <input class="inp" id="absen-ind-custom" maxlength="140" autocomplete="off" placeholder="Contoh: Induksi Area Workshop / Explosive">
+    </div>
+    <p class="mut sm" style="margin-top:5px;font-size:11.5px">Nama induksi akan langsung disimpan sebagai nama training di Halaman Hasil.</p>
   </div>
   <label class="lbl" for="absen-tgl" style="margin-top:10px">Tanggal Training <span style="color:var(--er)">*</span></label>
   <input class="inp" id="absen-tgl" placeholder="YYYY-MM-DD atau DD/MM/YYYY">
@@ -297,7 +312,7 @@ ul.rules b{color:var(--ink)}
     </div>
     <div class="g card" style="margin:0;padding:8px;background:var(--sf2);border:1px solid var(--ln);text-align:center">
       <span class="mut sm" style="font-size:11px">Tipe Presensi</span>
-      <b style="color:var(--mut);font-size:13px;display:block">Tanpa Test</b>
+      <b id="absen-tipe-lbl" style="color:var(--mut);font-size:13px;display:block">Tanpa Test</b>
     </div>
   </div>
   <div class="err" id="ae-absen" style="margin-top:10px"></div>
@@ -541,7 +556,7 @@ const DURASI_SIM_OPTS=[
   {val:'90 Menit',id:'90 Menit (1.5 Jam)',en:'90 Mins (1.5 Hr)',zh:'90分钟 (1.5小时)'},
   {val:'120 Menit',id:'120 Menit (2 Jam)',en:'120 Mins (2 Hr)',zh:'120分钟 (2小时)'}
 ];
-const S={emp:null,mat:[],jsxcomp:[],matCat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',trShowAll:false,_trDashTs:0,_jsxPromise:null,lang:localStorage.getItem('mgr_lang')||'id'};
+const S={emp:null,mat:[],jsxcomp:[],matCat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,absenMode:'jadwal',simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',trShowAll:false,_trDashTs:0,_jsxPromise:null,lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
 const valNik=(v,isNfc=false)=>{
@@ -606,7 +621,7 @@ const LEVEL_CANON={generalmanager:'General Manager',seniormanager:'Senior Manage
 const LEVEL_OPTS=Object.values(LEVEL_CANON).map((v,i)=>({No:String(i+1),val:v,Nama_Trainer:v,Company:v}));
 const resolveEmpLevelKey=o=>normLevelToken(empLvl(o))||normLevelToken(empJb(o));
 function normTrainingInfo(s){
-  const raw=String(s||'').toLowerCase().replace(/hegiht/g,'height').replace(/\*/g,' ');
+  const raw=String(s||'').toLowerCase().replace(/hegiht/g,'height').replace(/proicessing/g,'processing').replace(/geosience/g,'geoscience').replace(/induski/g,'induksi').replace(/\*/g,' ').replace(/\binduksi\s+hr\b/g,'hr induction').replace(/\b(?:induksi\s+general\s+ohse?|general\s+ohse?\s+induc(?:tion|si))\b/g,'general ohs induction');
   const digits=(raw.match(/\d+/g)||[]).join(',');
   const paren=[];
   raw.replace(/\(([^)]+)\)/g,(_,g)=>{const p=g.replace(/[^a-z0-9]/g,'');if(p.length>=2)paren.push(p);return' '});
@@ -1611,9 +1626,9 @@ function getFilteredTrainerHasil(trInfo){
 
   return all.filter(r=>{
     if(!isRowToday(r))return false;
+    const isTodayAbsen=up(r.Kode_PIN)==='ABSEN';
     if(fMod==='RUNNING'||fMod==='ALL'){
-      if(!runningPins.length)return false;
-      if(!runningPins.some(s=>isRowInPinSession(r,s)))return false;
+      if(!isTodayAbsen&&(!runningPins.length||!runningPins.some(s=>isRowInPinSession(r,s))))return false;
     }else if(fMod.startsWith('PIN:')){
       const targetPin=up(fMod.slice(4));
       if(up(r.Kode_PIN)!==targetPin)return false;
@@ -1699,7 +1714,7 @@ function renderTrainerPanelHtml(trInfo){
     const pCount=allHasil.filter(h=>isRowInPinSession(h,s)).length;
     return {...s,pCount};
   });
-  const totalRunningHasil=allHasil.filter(r=>runningPins.some(s=>isRowInPinSession(r,s))).length;
+  const totalRunningHasil=allHasil.filter(r=>runningPins.some(s=>isRowInPinSession(r,s))||(up(r.Kode_PIN)==='ABSEN'&&isRowToday(r))).length;
 
   const modOpts=[];
   const seenMod=new Set();
@@ -1711,6 +1726,18 @@ function renderTrainerPanelHtml(trInfo){
       val:'MOD:'+modId,
       label:`${s.title}${s.Kode_PIN?` (PIN: ${s.Kode_PIN})`:''} — ${s.pCount} Peserta`
     });
+  });
+  const absenMods=new Map();
+  allHasil.filter(r=>up(r.Kode_PIN)==='ABSEN'&&isRowToday(r)).forEach(r=>{
+    const m=String(r.Nama_Modul_Sertifikat||r.ID_Modul||'').trim();
+    if(!m||seenMod.has(up(m)))return;
+    const k=up(m);
+    if(!absenMods.has(k))absenMods.set(k,{name:m,count:0});
+    absenMods.get(k).count++;
+  });
+  absenMods.forEach(v=>{
+    seenMod.add(up(v.name));
+    modOpts.push({val:'MOD:'+v.name,label:`${v.name} (Absen) — ${v.count} Peserta`});
   });
 
   if(S.trFilterMod&&S.trFilterMod.startsWith('MOD:')){
@@ -1757,6 +1784,7 @@ function renderTrainerPanelHtml(trInfo){
           <button type="button" class="${(S.trFilterTes||'ALL')==='ALL'?'on':''}" data-a="trFltTes" data-v="ALL" style="padding:4px 8px;font-size:11px">Semua</button>
           <button type="button" class="${up(S.trFilterTes)==='PRE TEST'?'on':''}" data-a="trFltTes" data-v="Pre Test" style="padding:4px 8px;font-size:11px">Pre</button>
           <button type="button" class="${up(S.trFilterTes)==='POST TEST'?'on':''}" data-a="trFltTes" data-v="Post Test" style="padding:4px 8px;font-size:11px">Post</button>
+          <button type="button" class="${up(S.trFilterTes)==='TANPA TEST'?'on':''}" data-a="trFltTes" data-v="TANPA TEST" style="padding:4px 8px;font-size:11px">Absen</button>
         </div>
       </div>
       <div id="tr-hasil-body">
@@ -1791,6 +1819,9 @@ function rHome(){
     loadTrainerDashboardData(false).finally(()=>{S._loadingTrDash=false});
   }
   const nearSesi=S.sesi.filter(s=>dayDiff(s.Tanggal)===0);
+  const runningPins=trInfo?getRunningTrainerPins():[];
+  const normJam=v=>String(v||'').trim().replace('.',':');
+  const normBatch=v=>String(v||'').trim();
   const items=nearSesi.map(s=>{
     const d=dayDiff(s.Tanggal),dn=isDone(s.ID_Modul),m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
     const isToday=d===0,isPast=d<0;
@@ -1798,7 +1829,11 @@ function rHome(){
     const stCl=isToday?'ok':'gy';
     const dayLb=isToday?t('today'):isPast?'H'+d:'H+'+d;
     const dayCl=isToday?'ok':'gy';
-    const matchedPin=trInfo?((S.trainerPins||[]).find(tp=>up(tp.ID_Modul)===up(s.ID_Modul)&&(tp.Tanggal===s.Tanggal||tp.Batch_Sesi===s.Batch_Sesi))||(S.trainerPins||[]).find(tp=>up(tp.ID_Modul)===up(s.ID_Modul))):null;
+    const modPins=trInfo?runningPins.filter(tp=>up(tp.ID_Modul)===up(s.ID_Modul)):[];
+    const matchedPin=modPins.find(tp=>normJam(tp.Jam_Mulai)===normJam(s.Jam_Mulai)&&normBatch(tp.Batch_Sesi)===normBatch(s.Batch_Sesi))
+      ||modPins.find(tp=>normJam(tp.Jam_Mulai)===normJam(s.Jam_Mulai))
+      ||modPins[0]
+      ||null;
     const pinCode=trInfo?(matchedPin?.Kode_PIN||s.Kode_PIN||''):'';
     const pCount=trInfo?(S.trainerHasil||[]).filter(h=>isRowInPinSession(h,{...s,Kode_PIN:pinCode})).length:0;
     return{
@@ -1809,14 +1844,13 @@ function rHome(){
     };
   }).sort((a,b)=>a.d-b.d);
   const rs=S.ex?`<div class="card" style="border-color:var(--p);background:var(--pf);padding:10px 12px"><div class="row sp"><div class="g"><b>${t('active_exam')}</b><p class="mut sm ell">${e(mText(S.ex.ses,'Nama_Modul'))} • ${fmt(left())}</p></div><button class="btn p s" data-a="go" data-v="exam">${t('continue_btn')}</button></div></div>`:'';
-  const runningPins=trInfo?getRunningTrainerPins():[];
   const quickActions=`<div class="row" style="gap:8px">
     ${trInfo?`<button type="button" class="btn g" data-a="go" data-v="trainer" style="background:#e8f5ee;border-color:var(--ok);color:#115e38;justify-content:space-between;padding:0 12px;min-height:40px">
       <span class="row" style="gap:6px"><span class="mi" style="color:var(--ok)">vpn_key</span><b>Panel Trainer</b></span>
       <span class="chip ok" style="font-size:10px">${runningPins.length} PIN</span>
     </button>`:''}
     <button type="button" class="btn g" data-a="openAbsen" style="background:var(--pf);border-color:var(--gold);color:var(--br);justify-content:space-between;padding:0 12px;min-height:40px">
-      <span class="row" style="gap:6px"><span class="mi" style="color:var(--p)">how_to_reg</span><b>Absen Training</b></span>
+      <span class="row" style="gap:6px"><span class="mi" style="color:var(--p)">how_to_reg</span><b>Absen Training / Induksi</b></span>
       <span class="mi" style="font-size:16px;color:var(--p)">chevron_right</span>
     </button>
   </div>`;
@@ -1989,6 +2023,50 @@ async function subSim(){
 }
 
 /* ---------- absen training (tanpa test) ---------- */
+const INDUKSI_OPTS=[
+  'Induksi HR',
+  'Induksi General OHS',
+  'Induksi Mining',
+  'Induksi Processing ADR',
+  'Induksi Processing HLO',
+  'Induksi Processing OPP',
+  'Induksi Area Sampling',
+  'Induksi Area Construction',
+  'Induksi Geoscience',
+  'Induksi Fixed Plant Maintenance',
+  'Induksi Environment',
+  'Induksi Engineering',
+  'Induksi Technical Services',
+  'Induksi SCM / Warehouse',
+  'Induksi Compliance & Gov. Relation',
+  'Induksi CSR'
+];
+
+function fillInduksiSelect(){
+  const sel=$('#absen-ind-sel');if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML=`<option value="">${S.lang==='zh'?'-- 请选择入职培训类型 --':S.lang==='en'?'-- Select Induction Type --':'-- Pilih Jenis Induksi --'}</option>`
+    +INDUKSI_OPTS.map(v=>`<option value="${e(v)}">${e(v)}</option>`).join('')
+    +`<option value="__CUSTOM__">${S.lang==='zh'?'其他（手动输入名称）…':S.lang==='en'?'Other (Enter Name)…':'Lainnya (Ketik Nama Induksi)…'}</option>`;
+  if(cur)sel.value=cur;
+}
+
+function setAbsenMode(mode){
+  const m=mode==='induksi'?'induksi':'jadwal';
+  S.absenMode=m;
+  $('#absen-tab-jadwal')?.classList.toggle('on',m==='jadwal');
+  $('#absen-tab-induksi')?.classList.toggle('on',m==='induksi');
+  if($('#absen-jadwal-wrap'))$('#absen-jadwal-wrap').style.display=m==='jadwal'?'block':'none';
+  if($('#absen-induksi-wrap'))$('#absen-induksi-wrap').style.display=m==='induksi'?'block':'none';
+  if($('#absen-tipe-lbl'))$('#absen-tipe-lbl').textContent=m==='induksi'?'Induksi (Tanpa Test)':'Tanpa Test';
+  $('#ae-absen')?.classList.remove('on');
+  if(m==='induksi'){
+    fillInduksiSelect();
+    const tglEl=$('#absen-tgl');
+    if(tglEl&&!tglEl.value.trim())tglEl.value=nowTs().split(' ')[0];
+  }
+}
+
 async function loadJadwalImport(){
   if(S.jadwalImport&&S.jadwalImport.length)return S.jadwalImport;
   try{
@@ -2056,12 +2134,17 @@ async function openAbsen(){
   const co=empCo(em),dp=empDp(em),jb=empJb(em);
   if($('#absen-nm'))$('#absen-nm').textContent=nm;
   if($('#absen-id-meta'))$('#absen-id-meta').textContent=[id,co,dp,jb].filter(Boolean).join(' • ');
-  S.selectedAbsen=null;S.absenAll=false;
+  S.selectedAbsen=null;S.absenAll=false;S.absenMode='jadwal';
   if($('#absen-agenda'))$('#absen-agenda').value='';
   if($('#absen-tgl'))$('#absen-tgl').value='';
   if($('#absen-tr'))$('#absen-tr').value='';
+  if($('#absen-ind-custom'))$('#absen-ind-custom').value='';
+  if($('#absen-ind-custom-wrap'))$('#absen-ind-custom-wrap').style.display='none';
+  fillInduksiSelect();
+  if($('#absen-ind-sel'))$('#absen-ind-sel').value='';
   if($('#absen-tr-info'))$('#absen-tr-info').style.display='none';
   if($('#absen-detail-card'))$('#absen-detail-card').style.display='none';
+  setAbsenMode('jadwal');
   $('#ae-absen')?.classList.remove('on');
   const b=$('#bt-sub-absen');
   if(b){b.disabled=false;b.innerHTML=`<span class="mi">how_to_reg</span> ${S.lang==='zh'?'确认提交签到':S.lang==='en'?'Submit Attendance':'Catat Absen Sekarang'}`;}
@@ -2104,16 +2187,44 @@ function pickAbsen(idx){
 async function submitAbsen(){
   $('#ae-absen')?.classList.remove('on');
   if(!S.emp){go('login');return}
-  const agenda=cleanInp($('#absen-agenda')?.value,150);
+  const isInduksi=S.absenMode==='induksi';
+  let agenda='',item={},batch='Batch 1',idJadwal='',jenisTes='Tanpa Test (Absen)';
+
+  if(isInduksi){
+    const indSel=cleanInp($('#absen-ind-sel')?.value,140);
+    if(!indSel){
+      showErr('#ae-absen',S.lang==='zh'?'请先选择入职培训类型。':S.lang==='en'?'Please select induction type first.':'Silakan pilih jenis induksi terlebih dahulu.');
+      $('#absen-ind-sel')?.focus();
+      return;
+    }
+    if(indSel==='__CUSTOM__'){
+      agenda=cleanInp($('#absen-ind-custom')?.value,140);
+      if(!agenda){
+        showErr('#ae-absen',S.lang==='zh'?'请输入入职培训名称。':S.lang==='en'?'Please enter the induction training name.':'Silakan ketik nama training induksi terlebih dahulu.');
+        $('#absen-ind-custom')?.focus();
+        return;
+      }
+    }else{
+      agenda=indSel;
+    }
+    batch='Induksi';
+    jenisTes='Induksi (Tanpa Test)';
+  }else{
+    agenda=cleanInp($('#absen-agenda')?.value,150);
+    item=S.selectedAbsen||{};
+    batch=item.BATCH||'Batch 1';
+    idJadwal=item.ID_Jadwal||'';
+    if(!agenda){
+      showErr('#ae-absen',S.lang==='zh'?'请选择或输入培训日程（Agenda）。':S.lang==='en'?'Please select or enter training agenda.':'Silakan pilih agenda training terlebih dahulu.');
+      $('#absen-agenda')?.focus();
+      return;
+    }
+    if(/batal|cancel/i.test(item.STATUS||'')){showErr('#ae-absen','Agenda ini berstatus batal / dibatalkan.');return}
+  }
+
   const tgl=cleanInp($('#absen-tgl')?.value,50);
   const trInp=cleanInp($('#absen-tr')?.value,120);
-  const item=S.selectedAbsen||{};
 
-  if(!agenda){
-    showErr('#ae-absen',S.lang==='zh'?'请选择或输入培训日程（Agenda）。':S.lang==='en'?'Please select or enter training agenda.':'Silakan pilih agenda training terlebih dahulu.');
-    $('#absen-agenda')?.focus();
-    return;
-  }
   if(!tgl){
     showErr('#ae-absen',S.lang==='zh'?'请填写培训日期。':S.lang==='en'?'Please enter training date.':'Silakan isi tanggal training.');
     $('#absen-tgl')?.focus();
@@ -2125,7 +2236,6 @@ async function submitAbsen(){
     return;
   }
 
-  if(/batal|cancel/i.test(item.STATUS||'')){showErr('#ae-absen','Agenda ini berstatus batal / dibatalkan.');return}
   const dup=(S.his||[]).some(h=>up(h.Kode_PIN)==='ABSEN'&&up(h.ID_Modul||h.Nama_Modul_Sertifikat)===up(agenda)&&String(h.Tanggal_Training||h.Tanggal||'').slice(0,10)===tgl.slice(0,10));
   if(dup){showErr('#ae-absen','Anda sudah tercatat hadir pada agenda dan tanggal ini.');return}
   const em=S.emp,idKaryawan=key(em),namaKaryawan=em.Nama_Lengkap||idKaryawan;
@@ -2133,7 +2243,6 @@ async function submitAbsen(){
   const trObj=findTrainer(trInp);
   const trainer=trObj?trObj.Name:(trInp||item.PIC||'-');
   const specialist=trObj?(trObj.Specialist||'-'):'-';
-  const batch=item.BATCH||'Batch 1',idJadwal=item.ID_Jadwal||'';
 
   const b=$('#bt-sub-absen');
   if(b){
@@ -2179,7 +2288,7 @@ async function submitAbsen(){
     No_Sertifikat:noSertifikat,
     Tanggal_Training:tgl,
     Tanggal:tgl,
-    Jenis_Tes:'Tanpa Test (Absen)'
+    Jenis_Tes:jenisTes
   };
 
   if(!S.his)S.his=[];
@@ -2200,7 +2309,7 @@ async function submitAbsen(){
     trainer_name:trainer,
     specialist:specialist,
     specialist_trainer:specialist,
-    jenis_tes:'Tanpa Test (Absen)'
+    jenis_tes:jenisTes
   };
 
   try{
@@ -2215,8 +2324,10 @@ async function submitAbsen(){
   }
 
   $('#o-absen').classList.remove('on');
-  toast(S.lang==='zh'?`培训 "${agenda}" 出勤已记录（仅签到，默认75分）。`:S.lang==='en'?`Attendance for "${agenda}" recorded (Attendance Only, score 75).`:`Presensi training "${agenda}" berhasil dicatat (Hanya Absen, Nilai 75).`);
-  rHome();
+  toast(S.lang==='zh'?`培训 "${agenda}" 出勤已记录（仅签到，默认75分）。`:S.lang==='en'?`Attendance for "${agenda}" recorded (Attendance Only, score 75).`:`Presensi ${isInduksi?'induksi':'training'} "${agenda}" berhasil disimpan ke Halaman Hasil (Hanya Absen, Nilai 75).`);
+  if(S.v==='profile')rProfile();
+  else if(S.v==='trainer')rTrainer();
+  else rHome();
   updNav(S.v);
 }
 
@@ -3076,7 +3187,7 @@ const A={
   trShowAll:()=>{S.trShowAll=true;updateTrainerHasilUI()},
   trRefresh:async()=>{toast('Memuat ulang kode akses & nilai peserta…');S._trDashTs=0;await loadTrainerDashboardData(true);toast('Data trainer berhasil diperbarui!')},
   pickJenisTes:v=>{if(!S.pend)S.pend={};S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--mut)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--mut)'}},
-  pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
+  pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),absenMode:v=>setAbsenMode(v),pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
   sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='rg-jb'){const lvEl=$('#rg-lv');if(lvEl){const dpK=normDeptKey($('#rg-dp')?.value||''),pK=normPosKey(val),mRow=(S.jsxcomp||[]).find(r=>(!dpK||normDeptKey(r.Department)===dpK)&&(normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK))||(S.jsxcomp||[]).find(r=>normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK);const inferred=(mRow&&mRow.Level)||LEVEL_CANON[normLevelToken(val)]||'';if(inferred)lvEl.value=inferred}}if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
   pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50)},
@@ -3100,6 +3211,7 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='sim-mat-other'){S.simMatOther=ev.target.value;$('#se-sim')?.classList.remove('on')}
   if(ev.target.id==='sim-time'){S.simTime=ev.target.value;$('#se-sim')?.classList.remove('on')}
   if(ev.target.id==='absen-agenda'){$('#ae-absen')?.classList.remove('on');renderAbsenAgendaList(ev.target.value.trim())}
+  if(ev.target.id==='absen-ind-custom'){$('#ae-absen')?.classList.remove('on')}
   if(ev.target.id==='absen-tgl'){$('#ae-absen')?.classList.remove('on')}
   if(ev.target.id==='absen-tr'){$('#ae-absen')?.classList.remove('on');updateTrainerSpecUI('absen-tr',ev.target.value)}
   if(ev.target.id==='bt-tr'){$('#be')?.classList.remove('on');updateTrainerSpecUI('bt-tr',ev.target.value)}
@@ -3107,6 +3219,13 @@ document.addEventListener('input',ev=>{
 });
 document.addEventListener('change',ev=>{
   if(ev.target.id==='tr-flt-mod'){S.trFilterMod=ev.target.value||'RUNNING';updateTrainerHasilUI()}
+  if(ev.target.id==='absen-ind-sel'){
+    const val=ev.target.value;
+    $('#ae-absen')?.classList.remove('on');
+    const cw=$('#absen-ind-custom-wrap');
+    if(cw)cw.style.display=val==='__CUSTOM__'?'block':'none';
+    if(val==='__CUSTOM__')setTimeout(()=>$('#absen-ind-custom')?.focus(),50);
+  }
   if(ev.target.id==='sim-mat'){
     S.simMat=ev.target.value;
     $('#se-sim')?.classList.remove('on');
