@@ -216,8 +216,9 @@ ul.rules b{color:var(--ink)}
   <div><label class="lbl" id="lbl-rg-co" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
   <div class="row m-col" style="gap:10px;align-items:flex-start">
     <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-dp" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
-    <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-jb" for="rg-jb">Jabatan</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Jabatan…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
+    <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-jb" for="rg-jb">Position Title</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Position Title…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
   </div>
+  <div><label class="lbl" id="lbl-rg-lv" for="rg-lv">Level</label><div class="sdd" data-sdd="rg-lv"><input class="inp" id="rg-lv" maxlength="50" autocomplete="off" placeholder="Pilih Level (opsional, otomatis terisi sesuai posisi)…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-lv" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-lv"></div></div></div>
   <div class="err" id="re-reg"></div>
   <button type="button" class="btn p w" id="rb" data-a="reg"><span class="mi">how_to_reg</span> Simpan &amp; Masuk ke Portal</button>
 </div></div></section>
@@ -405,7 +406,7 @@ ul.rules b{color:var(--ink)}
 <script>
 const LOGO_URI="data:image/png;base64,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";
 document.querySelectorAll('[data-logo]').forEach(el=>el.src=LOGO_URI);
-const CFG={URL:"https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec",PIN:"Jadwal_PIN",SOAL:"Bank_Soal",TRAINER:"Trainer_Name",TRAINER_LEGACY:"List_Trainer",HASIL:"Hasil_Asesmen",NEW_REG:"New_Register",COMPANY:"Company",DEPT:"Departement",JABATAN:"Jabatan",SIM:"Jenis_Simulator",HASIL_SIM:"Hasil_Simulator",FEEDBACK:"Training_Feedback",JADWAL_IMPORT:"Jadwal_Import"};
+const CFG={URL:"https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec",MATRIKS:"JSxCOMP",MATRIKS_LEGACY:"Matriks_Kompetensi",PIN:"Jadwal_PIN",SOAL:"Bank_Soal",TRAINER:"Trainer_Name",TRAINER_LEGACY:"List_Trainer",HASIL:"Hasil_Asesmen",NEW_REG:"New_Register",COMPANY:"Company",DEPT:"Departement",JABATAN:"Jabatan",SIM:"Jenis_Simulator",HASIL_SIM:"Hasil_Simulator",FEEDBACK:"Training_Feedback",JADWAL_IMPORT:"Jadwal_Import"};
 const FB_LABELS=['','Sangat Buruk','Kurang','Cukup','Baik','Sangat Baik'];
 const FB_LABELS_I18N={
   id:['','Sangat Buruk','Kurang','Cukup','Baik','Sangat Baik'],
@@ -449,7 +450,7 @@ const I18N={
     err_nik_no_letter:"ID Karyawan / NIK harus memuat huruf dan angka (contoh: MCC-260156, PGP260062). Jika hanya angka tanpa huruf, minimal 10 digit ke atas (khusus Nomor HP atau Nomor KTP).",
     err_nik_no_digit:"ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya huruf). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
     err_nik_invalid:"ID Karyawan / NIK harus memuat kombinasi huruf dan angka, atau nomor HP/KTP (>10 digit).",
-    reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Jabatan",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",
+    reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Position Title",reg_lvl:"Level",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",
     kpi_done:"Selesai",kpi_comp:"Kompetensi",kpi_avg:"Rata-rata",kpi_cert:"Sertifikat",active_exam:"Ujian Aktif",continue_btn:"Lanjutkan",sched_running:"Sedang Berjalan",sched_done:"Sudah Berjalan",sched_upcoming:"Akan Berjalan",today:"Hari Ini",
     mod_all:"Semua",mod_title:"Katalog Modul",min:"mnt",qs_cnt:"soal",pass_std:"Lulus",pin_btn:"Masukkan PIN",start_btn:"Mulai",passed:"LULUS",not_passed:"BELUM LULUS",
     brief_title:"Data Pelaksanaan Training",trainer:"Nama Trainer",time_start:"Jam Mulai",time_end:"Jam Selesai",btn_start_exam:"Mulai Ujian",hint:"Petunjuk",doubt:"Ragu",prev:"Sebelumnya",next:"Lanjut",review:"Tinjau",review_title:"Tinjau Jawaban",time_left:"Sisa Waktu",answered:"Terjawab",unanswered:"Kosong",score:"Skor",progress:"Progres",all_answered:"Semua soal terjawab.",unanswered_warn:"soal belum dijawab",doubt_warn:"soal ditandai ragu",tap_number_tip:"Ketuk nomor untuk kembali ke soal.",to_feedback_btn:"Lanjut Isi Training Feedback",back_to_exam:"Kembali ke Soal",
@@ -466,7 +467,7 @@ const I18N={
     err_nik_no_letter:"Employee ID / NIK must contain letters and numbers (e.g. MCC-260156, PGP260062). Numbers-only must be at least 10 digits (for Phone Number or KTP Number).",
     err_nik_no_digit:"Employee ID / NIK must contain letters and numbers (cannot be letters only). Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
     err_nik_invalid:"Employee ID / NIK must contain both letters and numbers, or phone/KTP number (>10 digits).",
-    reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",
+    reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position Title",reg_lvl:"Level",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",
     kpi_done:"Completed",kpi_comp:"Competency",kpi_avg:"Average",kpi_cert:"Certificates",active_exam:"Active Exam",continue_btn:"Continue",sched_running:"In Progress",sched_done:"Finished",sched_upcoming:"Upcoming",today:"Today",
     mod_all:"All",mod_title:"Modules Catalog",min:"mins",qs_cnt:"questions",pass_std:"Pass",pin_btn:"Enter PIN",start_btn:"Start",passed:"PASSED",not_passed:"NOT PASSED",
     brief_title:"Training Session Data",trainer:"Trainer Name",time_start:"Start Time",time_end:"End Time",btn_start_exam:"Start Exam",hint:"Hint",doubt:"Doubt",prev:"Previous",next:"Next",review:"Review",review_title:"Review Answers",time_left:"Time Remaining",answered:"Answered",unanswered:"Empty",score:"Score",progress:"Progress",all_answered:"All questions answered.",unanswered_warn:"questions unanswered",doubt_warn:"questions marked doubt",tap_number_tip:"Tap question number to return to it.",to_feedback_btn:"Proceed to Training Feedback",back_to_exam:"Back to Questions",
@@ -483,7 +484,7 @@ const I18N={
     err_nik_no_letter:"员工工号 / NIK 必须包含字母和数字（例：MCC-260156, PGP260062）。若为纯数字，需在10位以上（仅限手机号或身份证号）。",
     err_nik_no_digit:"员工工号 / NIK 必须包含字母和数字（不能仅为纯字母）。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
     err_nik_invalid:"员工工号 / NIK 必须包含字母与数字，或10位以上手机号/身份证号。",
-    reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称",reg_auto:"自动填入",reg_btn:"保存并进入系统",
+    reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称 (Position Title)",reg_lvl:"职级 (Level)",reg_auto:"自动填入",reg_btn:"保存并进入系统",
     kpi_done:"已完成",kpi_comp:"胜任达标",kpi_avg:"平均分",kpi_cert:"获得证书",active_exam:"进行中的考试",continue_btn:"继续答题",sched_running:"进行中",sched_done:"已结束",sched_upcoming:"即将开始",today:"今天",
     mod_all:"全部",mod_title:"评估模块目录",min:"分钟",qs_cnt:"题",pass_std:"及格线",pin_btn:"输入PIN码",start_btn:"开始",passed:"合格",not_passed:"未合格",
     brief_title:"培训实施信息",trainer:"讲师姓名",time_start:"开始时间",time_end:"结束时间",btn_start_exam:"开始答题",hint:"提示",doubt:"标记存疑",prev:"上一题",next:"下一题",review:"检查",review_title:"检查答卷",time_left:"剩余时间",answered:"已答",unanswered:"未答",score:"得分",progress:"答题进度",all_answered:"所有题目均已完成答题。",unanswered_warn:"道题目未作答",doubt_warn:"道题目标记存疑",tap_number_tip:"轻触题号可直接跳转返回该题。",to_feedback_btn:"前往填写培训评估反馈",back_to_exam:"返回题目界面",
@@ -540,7 +541,7 @@ const DURASI_SIM_OPTS=[
   {val:'90 Menit',id:'90 Menit (1.5 Jam)',en:'90 Mins (1.5 Hr)',zh:'90分钟 (1.5小时)'},
   {val:'120 Menit',id:'120 Menit (2 Jam)',en:'120 Mins (2 Hr)',zh:'120分钟 (2小时)'}
 ];
-const S={emp:null,mat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',lang:localStorage.getItem('mgr_lang')||'id'};
+const S={emp:null,mat:[],jsxcomp:[],matCat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',trShowAll:false,_trDashTs:0,_jsxPromise:null,lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
 const valNik=(v,isNfc=false)=>{
@@ -578,12 +579,196 @@ const rowMatchesEmp=(r,idOrEmp)=>{
   const valid=new Set([...empKeys(empObj),baseId].filter(Boolean));
   return empKeys(r).some(k=>valid.has(k));
 };
-const empCo=o=>String(o?.Nama_Company||o?.Company||o?.Perusahaan||o?.Nama_Perusahaan||'').trim();
-const empDp=o=>String(o?.Departement||o?.Departemen||o?.Nama_Departement||o?.Nama_Departemen||'').trim();
-const empJb=o=>String(o?.Jabatan||o?.Nama_Jabatan||o?.Posisi||'').trim();
+const empCo=o=>String(o?.Company||o?.company||o?.Nama_Company||o?.nama_company||o?.Perusahaan||o?.Nama_Perusahaan||'').trim();
+const empDp=o=>String(o?.Departemen||o?.departemen||o?.Department||o?.department||o?.Departement||o?.departement||o?.Nama_Departement||o?.Nama_Departemen||'').trim();
+const empJb=o=>String(o?.['Position Title']||o?.['Position Tittle']||o?.Position_Title||o?.Position_Tittle||o?.position_title||o?.position_tittle||o?.['Job Title']||o?.['Job Tittle']||o?.Job_Title||o?.['Clear Position']||o?.Clear_Position||o?.Jabatan||o?.jabatan||o?.Nama_Jabatan||o?.Posisi||'').trim();
+const empLvl=o=>String(o?.Level||o?.LEVEL||o?.level||o?.Status_Level||o?.status_level||o?.['Status Level']||'').trim();
 const empSim=o=>String(o?.Jenis_Simulator||o?.Nama_Simulator||o?.Simulator||'').trim();
 const empSimMat=o=>String(o?.Materi_Simulator||o?.Materi||o?.materi_simulator||o?.materi||'').trim();
 const empSimTime=o=>String(o?.Waktu_Simulator||o?.Durasi_Menit||o?.Waktu||o?.waktu_simulator||o?.durasi||o?.waktu||'').trim();
+const normDeptKey=s=>{const k=String(s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'');return k==='environment'?'environmental':k};
+const normPosKey=s=>String(s||'').toLowerCase().replace(/infrastructureee/g,'infrastructure').replace(/electrcian/g,'electrician').replace(/cainsaw/g,'chainsaw').replace(/[^a-z0-9]/g,'');
+function normLevelToken(s){
+  const raw=String(s||'').trim().toLowerCase();
+  if(!raw)return'';
+  const cl=raw.replace(/[^a-z0-9]/g,'');
+  if(cl==='generalmanager'||cl==='gm'||raw.includes('general manager')||raw.includes('executive committee'))return'generalmanager';
+  if(cl==='seniormanager'||cl==='srmanager'||raw.includes('senior manager')||/\bsr\.?\s*manager\b/.test(raw))return'seniormanager';
+  if(cl==='superintendent'||raw.includes('superintendent'))return'superintendent';
+  if(cl==='manager'||cl==='asstmgr'||/\bmanager\b/.test(raw)||/\basst\.?\s*mgr\b/.test(raw))return'manager';
+  if(raw.includes('junior instructor'))return'officer';
+  if(cl==='supervisor'||raw.includes('supervisor')||raw.includes('instructor'))return'supervisor';
+  if(cl==='officer'||/\b(officer|coordinator|foreman|engineer|specialist|admin|planner|scheduler|surveyor|geologist|dispatcher)\b/.test(raw))return'officer';
+  if(cl==='nonstaff'||/\b(non[\s-]*staff|crew|operator|driver|helper|electrician|mechanic|technician|welder|carpenter|plumber|scaffolder|rigger|serviceman|storeman|tyreman)\b/.test(raw))return'nonstaff';
+  return'';
+}
+const LEVEL_CANON={generalmanager:'General Manager',seniormanager:'Senior Manager',manager:'Manager',superintendent:'Superintendent',supervisor:'Supervisor',officer:'Officer',nonstaff:'Non-Staff'};
+const LEVEL_OPTS=Object.values(LEVEL_CANON).map((v,i)=>({No:String(i+1),val:v,Nama_Trainer:v,Company:v}));
+const resolveEmpLevelKey=o=>normLevelToken(empLvl(o))||normLevelToken(empJb(o));
+function normTrainingInfo(s){
+  const raw=String(s||'').toLowerCase().replace(/hegiht/g,'height').replace(/\*/g,' ');
+  const digits=(raw.match(/\d+/g)||[]).join(',');
+  const paren=[];
+  raw.replace(/\(([^)]+)\)/g,(_,g)=>{const p=g.replace(/[^a-z0-9]/g,'');if(p.length>=2)paren.push(p);return' '});
+  const stripped=raw.replace(/\(([^)]+)\)/g,' ').replace(/\b(training|workshop|awareness|kelas|tambahan|request|mcc|and)\b/g,' ').replace(/[^a-z0-9]/g,'');
+  const fullClean=raw.replace(/[^a-z0-9]/g,'');
+  return{fullClean,core:stripped||fullClean,paren,digits};
+}
+function matchTrainingNames(a,b){
+  const ia=normTrainingInfo(a),ib=normTrainingInfo(b);
+  if(!ia.fullClean||!ib.fullClean)return false;
+  if(ia.fullClean===ib.fullClean||ia.core===ib.core)return true;
+  if(ia.digits!==ib.digits)return false;
+  if(ia.paren.some(p=>p===ib.core||p===ib.fullClean||ib.paren.includes(p)))return true;
+  if(ib.paren.some(p=>p===ia.core||p===ia.fullClean))return true;
+  if(ia.core.length>=6&&ib.core.length>=6&&(ia.core.includes(ib.core)||ib.core.includes(ia.core)))return true;
+  return false;
+}
+function computeJsxMatrix(emp,his){
+  const jsxRows=(S.jsxcomp||[]).filter(r=>r&&String(r['Nama Training']||'').trim());
+  const lulus=(his||[]).filter(h=>up(h.Status_Lulus)==='LULUS');
+  const absen=(his||[]).filter(h=>up(h.Status_Lulus)==='HANYA ABSEN');
+  const applyHis=list=>{
+    list.forEach((x,idx)=>{
+      if(!x.Kode_Kompetensi)x.Kode_Kompetensi='COMP-'+(idx+1);
+      const h=lulus.filter(r=>matchTrainingNames(r.ID_Modul,x.ID_Modul)||matchTrainingNames(r.Nama_Modul_Sertifikat,x.Nama_Kompetensi)||matchTrainingNames(r.ID_Modul,x.Nama_Kompetensi)).sort((a,b)=>(parseFloat(b.Skor_Akhir)||0)-(parseFloat(a.Skor_Akhir)||0))[0];
+      if(h){
+        x.Status='DONE';
+        if(h.Skor_Akhir!==undefined&&h.Skor_Akhir!=='')x.Skor=h.Skor_Akhir;
+        x.Tgl_Selesai=h.Tanggal_Training||String(h.Timestamp_Submit||'').split(' ')[0];
+        if(h.No_Sertifikat)x.cert=h.No_Sertifikat;
+      }else if(up(x.Status)!=='DONE'){
+        const ab=absen.find(r=>matchTrainingNames(r.ID_Modul,x.ID_Modul)||matchTrainingNames(r.Nama_Modul_Sertifikat,x.Nama_Kompetensi)||matchTrainingNames(r.ID_Modul,x.Nama_Kompetensi));
+        if(ab){x.Absen_Hadir=true;x.Tgl_Absen=ab.Tanggal_Training||String(ab.Timestamp_Submit||'').split(' ')[0]}
+      }
+    });
+    return list;
+  };
+  if(!jsxRows.length){
+    return applyHis((S.modul||[]).map((d,i)=>({ID_Modul:d.ID_Modul,Kode_Kompetensi:'KOMP-'+(i+1),Nama_Kompetensi:d.Nama_Modul||d.ID_Modul,Kategori:'Mandatory',Internal_External:'INTERNAL',Status:'NOT YET'})));
+  }
+  const empDept=normDeptKey(empDp(emp)),empPos=normPosKey(empJb(emp)),empL=resolveEmpLevelKey(emp);
+  const deptJobs=(empDept&&empPos)?jsxRows.filter(r=>normDeptKey(r.Department)===empDept&&normPosKey(r['Job Title'])===empPos):[];
+  const anyJobs=(!deptJobs.length&&empPos)?jsxRows.filter(r=>normPosKey(r['Job Title'])===empPos):[];
+  const exactJobs=deptJobs.length?deptJobs:anyJobs;
+  let sel=[];
+  if(exactJobs.length){
+    const lvSet=new Set(empL?[empL]:[]),cpSet=new Set();
+    exactJobs.forEach(r=>{const lv=normLevelToken(r.Level),cp=normPosKey(r['Clear Position']);if(lv)lvSet.add(lv);if(cp)cpSet.add(cp)});
+    sel=jsxRows.filter(r=>{
+      if(exactJobs.includes(r))return true;
+      const rd=normDeptKey(r.Department),rj=normPosKey(r['Job Title']),rc=normPosKey(r['Clear Position']),rl=normLevelToken(r.Level);
+      if(empDept&&rd===empDept&&!rj&&((rc&&cpSet.has(rc))||(rl&&lvSet.has(rl))))return true;
+      if(!rd&&!rj&&((rl&&lvSet.has(rl))||(rc&&lvSet.has(normLevelToken(r['Clear Position'])))))return true;
+      return false;
+    });
+  }else if(empDept&&(empPos||empL)){
+    const clrMatches=empPos?jsxRows.filter(r=>normDeptKey(r.Department)===empDept&&normPosKey(r['Clear Position'])===empPos):[];
+    const tLvl=empL||(clrMatches.length?normLevelToken(clrMatches[0].Level):'');
+    sel=jsxRows.filter(r=>{
+      if(clrMatches.includes(r))return true;
+      const rd=normDeptKey(r.Department),rj=normPosKey(r['Job Title']),rl=normLevelToken(r.Level);
+      if(rd===empDept&&!rj)return tLvl?(rl===tLvl||normLevelToken(r['Clear Position'])===tLvl):true;
+      if(!rd&&!rj)return tLvl?(rl===tLvl||normLevelToken(r['Clear Position'])===tLvl):/manda/i.test(String(r.Kategori||''));
+      return false;
+    });
+  }else if(empDept){
+    sel=jsxRows.filter(r=>{
+      const rd=normDeptKey(r.Department),rl=normLevelToken(r.Level);
+      if(rd===empDept)return true;
+      if(!rd)return empL?rl===empL:/manda/i.test(String(r.Kategori||''));
+      return false;
+    });
+  }else if(empL){
+    sel=jsxRows.filter(r=>!normDeptKey(r.Department)&&normLevelToken(r.Level)===empL);
+  }
+  if(!sel.length)sel=jsxRows.filter(r=>!normDeptKey(r.Department)&&/manda/i.test(String(r.Kategori||'')));
+
+  const dMap=new Map();
+  sel.forEach(r=>{
+    const nm=String(r['Nama Training']||'').trim();if(!nm)return;
+    const tk=normTrainingInfo(nm).fullClean;
+    const rawKat=String(r.Kategori||'').trim();
+    const isMand=/non[-\s]*manda/i.test(rawKat)?false:/manda/i.test(rawKat);
+    const katLabel=isMand?'Mandatory':(rawKat||'Non-Mandatory');
+    const intExt=String(r['Internal/External']||'').trim().toUpperCase();
+    const score=(isMand?4:0)+(normDeptKey(r.Department)?2:0)+(normPosKey(r['Job Title'])?1:0);
+    if(dMap.has(tk)){
+      const prev=dMap.get(tk);
+      if(score>prev._score){prev.Kategori=katLabel;if(intExt)prev.Internal_External=intExt;prev._score=score}
+      return;
+    }
+    const mod=(S.modul||[]).find(m=>matchTrainingNames(m.ID_Modul,nm)||matchTrainingNames(m.Nama_Modul,nm));
+    const cat=(S.matCat||[]).find(c=>matchTrainingNames(c['NAMA KOMPETENSI']||c.Nama_Kompetensi,nm));
+    const kode=(cat&&(String(cat['KODE KOMPETENSI MDKA']||cat['KODE KOMPETENSI PANI']||'').replace(/^-$/,'').trim()))||'';
+    dMap.set(tk,{
+      ID_Modul:mod?mod.ID_Modul:nm,
+      Kode_Kompetensi:kode,
+      Nama_Kompetensi:nm,
+      Kategori:katLabel,
+      Internal_External:intExt,
+      Department:String(r.Department||'').trim(),
+      Job_Title:String(r['Job Title']||r['Clear Position']||'').trim(),
+      Level:String(r.Level||'').trim(),
+      Status:'NOT YET',
+      _score:score
+    });
+  });
+  const out=[...dMap.values()].map(({_score,...rest})=>rest);
+  out.sort((a,b)=>{
+    const am=/non[-\s]*manda/i.test(a.Kategori)?1:0,bm=/non[-\s]*manda/i.test(b.Kategori)?1:0;
+    return am!==bm?am-bm:String(a.Nama_Kompetensi).localeCompare(String(b.Nama_Kompetensi));
+  });
+  return applyHis(out);
+}
+async function loadJsxComp(force){
+  if(!force&&S.jsxcomp&&S.jsxcomp.length)return S.jsxcomp;
+  if(S._jsxPromise&&!force)return S._jsxPromise;
+  S._jsxPromise=(async()=>{
+    try{
+      let rows=await fetchSheetGvizJsonp(CFG.MATRIKS);
+      if(!rows||!rows.length){
+        const r=await g({action:'read_sheet',sheet:CFG.MATRIKS});
+        if(r?.status==='success'&&Array.isArray(r.data))rows=r.data;
+      }
+      if(Array.isArray(rows)&&rows.length){
+        S.jsxcomp=rows.filter(r=>r&&String(r['Nama Training']||'').trim());
+        try{localStorage.setItem('mgr_jsx',JSON.stringify(S.jsxcomp))}catch{}
+      }
+    }catch{}
+    if(!S.matCat.length){
+      try{
+        const mc=JSON.parse(localStorage.getItem('mgr_matcat')||'null');
+        if(Array.isArray(mc)&&mc.length)S.matCat=mc;
+      }catch{}
+    }
+    if(force||!S.matCat.length){
+      try{
+        const cat=await fetchSheetGvizJsonp(CFG.MATRIKS_LEGACY);
+        if(Array.isArray(cat)&&cat.length&&cat[0]?.['NAMA KOMPETENSI']!==undefined){
+          S.matCat=cat;
+          try{localStorage.setItem('mgr_matcat',JSON.stringify(S.matCat))}catch{}
+        }
+      }catch{}
+    }
+    return S.jsxcomp;
+  })();
+  try{return await S._jsxPromise}finally{S._jsxPromise=null}
+}
+function getPositionDropdownList(){
+  const dp=normDeptKey($('#rg-dp')?.value||'');
+  const seen=new Set();
+  const out=[];
+  const pushVal=v=>{const s=String(v||'').trim();if(s&&!seen.has(up(s))){seen.add(up(s));out.push({No:String(out.length+1),val:s,Nama_Trainer:s,Company:s})}};
+  const jsx=S.jsxcomp||[];
+  if(dp){
+    jsx.filter(r=>normDeptKey(r.Department)===dp).forEach(r=>{if(r['Job Title'])pushVal(r['Job Title'])});
+  }
+  (S.jabatan||[]).forEach(x=>pushVal(x.val||empJb(x)));
+  jsx.forEach(r=>{if(r['Job Title'])pushVal(r['Job Title'])});
+  jsx.forEach(r=>{if(r['Clear Position'])pushVal(r['Clear Position'])});
+  return out;
+}
 const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 const nowTs=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`};
 const mi=n=>`<span class="mi">${e(n)}</span>`;
@@ -711,7 +896,8 @@ function getLoggedTrainer(emp=S.emp){
 async function loadTrainerDashboardData(force){
   if(!S.emp)return;
   S._trDashLoadedFor=key(S.emp);
-  if(force||!S.trainer||!S.trainer.length||!getLoggedTrainer(S.emp))await loadTrainerList(true);
+  const hasSpec=(S.trainer||[]).some(x=>Boolean(x.Specialist));
+  if((force&&!getLoggedTrainer(S.emp))||!S.trainer||!S.trainer.length||!hasSpec)await loadTrainerList(force);
   const tr=getLoggedTrainer(S.emp);
   if(!tr){
     S.isTrainer=false;
@@ -722,16 +908,23 @@ async function loadTrainerDashboardData(force){
   S.isTrainer=true;
   S.trainerInfo=tr;
   updNav(S.v);
+  if(!force&&S._trDashTs&&(Date.now()-S._trDashTs<60000)&&S.trainerPins.length&&S.trainerHasil.length){
+    return;
+  }
+  let gotDash=false;
   try{
-    const res=await g({action:'trainer_dashboard',id_karyawan:key(S.emp),nama_karyawan:S.emp.Nama_Lengkap||''},1);
+    const res=await g({action:'trainer_dashboard',id_karyawan:key(S.emp),nama_karyawan:S.emp.Nama_Lengkap||'',...(force?{bypass:'1'}:{})},1);
     if(res?.status==='success'&&res.data){
+      gotDash=true;
       if(res.data.trainer_info)S.trainerInfo=res.data.trainer_info;
       if(Array.isArray(res.data.trainer_pins)&&res.data.trainer_pins.length)S.trainerPins=res.data.trainer_pins;
-      if(Array.isArray(res.data.all_hasil)&&res.data.all_hasil.length)S.trainerHasil=res.data.all_hasil;
+      if(Array.isArray(res.data.all_hasil))S.trainerHasil=res.data.all_hasil;
+      S._trDashTs=Date.now();
     }
   }catch(e){}
   const tasks=[];
-  if(force||!S.trainerPins||!S.trainerPins.length||!S.trainerPins.some(p=>Boolean(p.Kode_PIN))){
+  const needPins=!S.trainerPins||!S.trainerPins.length||!S.trainerPins.some(p=>Boolean(p.Kode_PIN));
+  if(needPins){
     tasks.push((async()=>{
       try{
         const rawPins=await fetchSheetGvizJsonp('Jadwal_PIN');
@@ -749,7 +942,7 @@ async function loadTrainerDashboardData(force){
       }
     })());
   }
-  if(force||!S.trainerHasil||!S.trainerHasil.length){
+  if(!gotDash&&(!S.trainerHasil||!S.trainerHasil.length)){
     tasks.push((async()=>{
       try{
         const rawHas=await fetchSheetGvizJsonp(CFG.HASIL||'Hasil_Asesmen');
@@ -767,7 +960,7 @@ async function loadTrainerDashboardData(force){
       }
     })());
   }
-  if(tasks.length)await Promise.all(tasks);
+  if(tasks.length){await Promise.all(tasks);S._trDashTs=Date.now()}
   saveCache();
   updNav(S.v);
   if(S.v==='home')rHome();
@@ -831,7 +1024,15 @@ async function g(p,ret=2){return req(CFG.URL+'?'+new URLSearchParams({...p,_t:Da
 async function po(b,ret=3){return req(CFG.URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)},ret)}
 function toast(m,t=3200){const x=$('#ts');x.textContent=m;x.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>x.style.display='none',t)}
 function sync(st){$('#sd').className='dot '+(st||'')}
-function saveCache(touchMaster){try{localStorage.setItem('mgr_cache',JSON.stringify({emp:S.emp,mat:S.mat,his:S.his,hisSim:S.hisSim,modul:S.modul,sesi:S.sesi,kar:S.kar,bank:S.bank,trainer:S.trainer,company:S.company,dept:S.dept,jabatan:S.jabatan,sim:S.sim,jadwalImport:S.jadwalImport,isTrainer:S.isTrainer,trainerInfo:S.trainerInfo,trainerPins:S.trainerPins,trainerHasil:S.trainerHasil}));if(touchMaster)localStorage.setItem('mgr_master_ts',String(Date.now()))}catch{}}
+function saveCache(touchMaster){
+  try{
+    localStorage.setItem('mgr_cache',JSON.stringify({emp:S.emp,mat:S.mat,his:S.his,hisSim:S.hisSim,modul:S.modul,sesi:S.sesi,kar:(S.kar||[]).slice(0,20),bank:stripKunci(S.bank),trainer:S.trainer,company:S.company,dept:S.dept,jabatan:S.jabatan,sim:S.sim,jadwalImport:S.jadwalImport,isTrainer:S.isTrainer,trainerInfo:S.trainerInfo,trainerPins:S.trainerPins}));
+    if(touchMaster)localStorage.setItem('mgr_master_ts',String(Date.now()));
+  }catch{}
+  if(S.isTrainer&&Array.isArray(S.trainerHasil)&&S.trainerHasil.length){
+    try{localStorage.setItem('mgr_tr_hasil',JSON.stringify(S.trainerHasil.slice(-600)))}catch{}
+  }
+}
 async function flushPending(){
   try{
     const pendReg=JSON.parse(localStorage.getItem('mgr_pending_reg')||'null');
@@ -875,6 +1076,9 @@ addEventListener('DOMContentLoaded',async()=>{
   if($('#hdr-brand'))$('#hdr-brand').textContent=t('portal_title');
   try{S.ex=JSON.parse(localStorage.getItem('mgr_exam')||'null')}catch{}
   try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:stripKunci(c.bank),trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim),jadwalImport:cleanJadwalImport(c.jadwalImport),isTrainer:Boolean(c.isTrainer),trainerInfo:c.trainerInfo||null,trainerPins:c.trainerPins||[],trainerHasil:c.trainerHasil||[]})}}catch{}
+  try{if(!S.trainerHasil.length){const th=JSON.parse(localStorage.getItem('mgr_tr_hasil')||'null');if(Array.isArray(th))S.trainerHasil=th}}catch{}
+  try{const jx=JSON.parse(localStorage.getItem('mgr_jsx')||'null');if(Array.isArray(jx))S.jsxcomp=jx}catch{}
+  try{const mc=JSON.parse(localStorage.getItem('mgr_matcat')||'null');if(Array.isArray(mc))S.matCat=mc}catch{}
   const n=localStorage.getItem('mgr_nik');
   if(n&&!S.emp)S.emp={ID_Karyawan:n,Nama_Lengkap:n,Departemen:'Memuat data…'};
   if(S.emp){$('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];go('home')}else{if($('#un'))$('#un').textContent=t('masuk');go('login')}
@@ -897,16 +1101,19 @@ async function boot(forceMaster){
     if(Array.isArray(initTr)&&initTr.length)S.trainer=cleanTr(initTr);
     if(Array.isArray(d.company)&&d.company.length)S.company=cleanCo(d.company);
     if(Array.isArray(d.departement)&&d.departement.length)S.dept=cleanDp(d.departement);
-    if(Array.isArray(d.jabatan)&&d.jabatan.length)S.jabatan=cleanJb(d.jabatan);
+    const jabSrc=d.jabatan||d.position_title;
+    if(Array.isArray(jabSrc)&&jabSrc.length)S.jabatan=cleanJb(jabSrc);
     if(Array.isArray(d.jenis_simulator)&&d.jenis_simulator.length)S.sim=cleanSim(d.jenis_simulator);
     if(Array.isArray(d.jadwal_import)&&d.jadwal_import.length)S.jadwalImport=cleanJadwalImport(d.jadwal_import);
 
     const masterAge=Date.now()-(parseInt(localStorage.getItem('mgr_master_ts')||'0',10)||0);
     const needMaster=forceMaster||masterAge>600000;
-    const extraReqs=[loadTrainerList(true)];
+    const extraReqs=[];
+    const hasSpec=(S.trainer||[]).some(x=>Boolean(x.Specialist));
+    if(!S.trainer.length||!hasSpec)extraReqs.push(loadTrainerList(needMaster));
     if((!S.company.length||needMaster)&&!Array.isArray(d.company))extraReqs.push(g({action:'read_sheet',sheet:CFG.COMPANY}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.company=cleanCo(r.data)}).catch(()=>{}));
     if((!S.dept.length||needMaster)&&!Array.isArray(d.departement))extraReqs.push(g({action:'read_sheet',sheet:CFG.DEPT}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.dept=cleanDp(r.data)}).catch(()=>{}));
-    if((!S.jabatan.length||needMaster)&&!Array.isArray(d.jabatan))extraReqs.push(g({action:'read_sheet',sheet:CFG.JABATAN}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.jabatan=cleanJb(r.data)}).catch(()=>{}));
+    if((!S.jabatan.length||needMaster)&&!Array.isArray(jabSrc))extraReqs.push(g({action:'read_sheet',sheet:CFG.JABATAN}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.jabatan=cleanJb(r.data)}).catch(()=>{}));
     if((!S.sim.length||needMaster)&&!Array.isArray(d.jenis_simulator))extraReqs.push(g({action:'read_sheet',sheet:CFG.SIM}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data))S.sim=cleanSim(r.data)}).catch(()=>{}));
     if(extraReqs.length)await Promise.all(extraReqs);
 
@@ -915,7 +1122,7 @@ async function boot(forceMaster){
     S.sesi.forEach(s=>{if(s.ID_Modul&&!S.modul.some(m=>up(m.ID_Modul)===up(s.ID_Modul)))S.modul.unshift({ID_Modul:s.ID_Modul,Label_Modul:s.ID_Modul,Nama_Modul:s.Nama_Modul||s.ID_Modul,Nama_Modul_EN:s.Nama_Modul_EN||'',Nama_Modul_ZH:s.Nama_Modul_ZH||'',Tingkat:'-',Badge_Kategori:'-',Ikon_UI:'assignment',Durasi_Default:s.Durasi_Menit||'',Jml_Soal_Default:s.Jml_Soal||'',Passing_Grade:'',Penyelenggara:s.Trainer||''})});
     S.kar=d.karyawan||[];
     const nrRows=d.new_register||d._nr||[];
-    nrRows.forEach(r=>{if(key(r)&&!S.kar.some(k=>up(key(k))===up(key(r))))S.kar.push({...r,Status_Level:r.Status_Level||'New Register'})});
+    nrRows.forEach(r=>{if(key(r)&&!S.kar.some(k=>up(key(k))===up(key(r))))S.kar.push({...r,Level:empLvl(r)||'New Register',Status_Level:r.Status_Level||r.Level||'New Register'})});
     if(!S.company.length)S.company=cleanCo(S.kar.map(k=>empCo(k)).filter(Boolean));
     if(!S.dept.length)S.dept=cleanDp(S.kar.map(k=>empDp(k)).filter(Boolean));
     if(!S.jabatan.length)S.jabatan=cleanJb(S.kar.map(k=>empJb(k)).filter(Boolean));
@@ -923,21 +1130,24 @@ async function boot(forceMaster){
     if($('#li'))$('#li').placeholder=t('login_ph');
     if(pr&&pr.status==='success'){
       S.emp=pr.data.profil;S.mat=pr.data.matriks||[];S.his=pr.data.histori||[];
+      if(!S.mat.length&&!S.jsxcomp.length)await loadJsxComp();
       if(!S.his.length&&empKeys(S.emp).length>1)await syncCustomHis(S.emp);
       if(pr.data.is_trainer){
         S.isTrainer=true;
         if(pr.data.trainer_info)S.trainerInfo=pr.data.trainer_info;
         if(Array.isArray(pr.data.trainer_pins)&&pr.data.trainer_pins.length)S.trainerPins=pr.data.trainer_pins;
-        if(Array.isArray(pr.data.all_hasil)&&pr.data.all_hasil.length)S.trainerHasil=pr.data.all_hasil;
+        if(Array.isArray(pr.data.all_hasil))S.trainerHasil=pr.data.all_hasil;
+        S._trDashLoadedFor=key(S.emp);
+        if(S.trainerPins.length)S._trDashTs=Date.now();
+        else loadTrainerDashboardData(false);
       }else{
-        S.trainerInfo=null;
+        S.trainerInfo=null;S.isTrainer=false;
       }
       if(Array.isArray(pr.data.hasil_simulator)&&(pr.data.hasil_simulator.length||empKeys(S.emp).length<=1))S.hisSim=mergeSimHis(S.emp,pr.data.hasil_simulator);
       else await syncSimHis(S.emp);
       localStorage.setItem('mgr_nik',key(S.emp));localStorage.removeItem('mgr_custom_emp');
       $('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];
       if(S.ex&&!empKeys(S.emp).includes(up(S.ex.nik))){S.ex=null;localStorage.removeItem('mgr_exam')}
-      loadTrainerDashboardData();
     }else if(n&&pr&&pr.status==='error'){
       const fb=await resolveEmpBySheetFallback(n);
       const ce=(fb&&fb.status==='success'&&fb.data?.profil)?fb.data.profil:getCustomEmp(n);
@@ -947,13 +1157,14 @@ async function boot(forceMaster){
         if(fb?.data?.matriks)S.mat=fb.data.matriks;
         if(fb?.data?.histori?.length)S.his=fb.data.histori;else await syncCustomHis(ce);
         if(fb?.data?.hasil_simulator?.length)S.hisSim=mergeSimHis(ce,fb.data.hasil_simulator);else await syncSimHis(ce);
-        loadTrainerDashboardData();
+        loadTrainerDashboardData(false);
       }else{
         S.emp=null;localStorage.removeItem('mgr_nik');go('login');
       }
     }else if(S.emp){
-      loadTrainerDashboardData();
+      loadTrainerDashboardData(false);
     }
+    if(needMaster){setTimeout(()=>{if(!S.jsxcomp.length||forceMaster)loadJsxComp(true)},1200)}
     saveCache(true);sync('ok');
     if(!S.emp||!key(S.emp)||String(key(S.emp)).trim().length<3||!S.emp.Nama_Lengkap){
       S.emp=null;localStorage.removeItem('mgr_nik');go('login');
@@ -992,7 +1203,7 @@ async function syncCustomHis(idOrEmp){
     }
   }catch{}
 }
-const SDD={'rg-co':()=>S.company,'rg-dp':()=>S.dept,'rg-jb':()=>S.jabatan,'bt-tr':()=>S.trainer,'absen-tr':()=>S.trainer,'sim-jn':()=>S.sim};
+const SDD={'rg-co':()=>S.company,'rg-dp':()=>S.dept,'rg-jb':()=>getPositionDropdownList(),'rg-lv':()=>LEVEL_OPTS,'bt-tr':()=>S.trainer,'absen-tr':()=>S.trainer,'sim-jn':()=>S.sim};
 function updateTrainerSpecUI(id,val){
   const trObj=findTrainer(val??($('#'+id)?.value||''));
   if(id==='absen-tr'){
@@ -1013,12 +1224,14 @@ function renderSdd(id,q=''){
     return;
   }
   const list=SDD[id]?.()||[],f=q?list.filter(x=>up((x.No||'')+' '+(x.Name||x.val||x.Nama_Trainer||x.Company||'')).includes(up(q))):list;
-  menu.innerHTML=f.length?f.map(x=>{
+  const MAX_SDD=120;
+  const shown=f.slice(0,MAX_SDD);
+  menu.innerHTML=shown.length?(shown.map(x=>{
     const v=x.Name||x.val||x.Nama_Trainer||x.Company||'';
     return`<button type="button" class="sdd-i ${up(inp?.value)===up(v)?'on':''}" data-a="sddPick" data-v="${e(id)}|${e(v)}">
       <span class="g ell">${e(v)}</span>
     </button>`;
-  }).join(''):`<div class="sdd-e">${list.length?'Tidak ada hasil yang cocok.':'Belum ada daftar — silakan ketik langsung.'}</div>`;
+  }).join('')+(f.length>MAX_SDD?`<div class="sdd-e" style="border-top:1px solid var(--ln)">Menampilkan ${MAX_SDD} dari ${f.length} opsi — ketik untuk mencari lebih spesifik.</div>`:'')):`<div class="sdd-e">${list.length?'Tidak ada hasil yang cocok.':'Belum ada daftar — silakan ketik langsung.'}</div>`;
   box.classList.add('open');
 }
 function fillDl(){
@@ -1032,6 +1245,7 @@ function openReg(q){
   if(!S.company.length)g({action:'read_sheet',sheet:CFG.COMPANY}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.company=cleanCo(r.data);saveCache();fillDl()}}).catch(()=>{});
   if(!S.dept.length)g({action:'read_sheet',sheet:CFG.DEPT}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.dept=cleanDp(r.data);saveCache();fillDl()}}).catch(()=>{});
   if(!S.jabatan.length)g({action:'read_sheet',sheet:CFG.JABATAN}).then(r=>{if(r?.status==='success'&&Array.isArray(r.data)){S.jabatan=cleanJb(r.data);saveCache();fillDl()}}).catch(()=>{});
+  if(!S.jsxcomp.length)loadJsxComp().then(()=>{fillDl()}).catch(()=>{});
   const box=$('#lreg'),btn=$('#bt-oreg'),val=String(q??$('#li')?.value??'').trim(),tag=$('#rg-id-tag');
   if(box)box.style.display='flex';
   if(btn)btn.style.display='none';
@@ -1073,7 +1287,7 @@ function closeReg(){
 }
 async function regEmp(){
   $('#re-reg')?.classList.remove('on');$('#le')?.classList.remove('on');
-  const id=cleanInp($('#rg-id')?.value,50).toUpperCase(),nm=cleanInp($('#rg-nm')?.value,100),co=cleanInp($('#rg-co')?.value,100),dp=cleanInp($('#rg-dp')?.value,100),jb=cleanInp($('#rg-jb')?.value,100);
+  const id=cleanInp($('#rg-id')?.value,50).toUpperCase(),nm=cleanInp($('#rg-nm')?.value,100),co=cleanInp($('#rg-co')?.value,100),dp=cleanInp($('#rg-dp')?.value,100),jb=cleanInp($('#rg-jb')?.value,100),lvInp=cleanInp($('#rg-lv')?.value,50);
   const vCheck=valNik(id);
   if(!vCheck.ok){
     showErr('#re-reg',vCheck.msg);
@@ -1083,11 +1297,12 @@ async function regEmp(){
   if(!nm||nm.length<3){showErr('#re-reg','Nama Lengkap wajib diisi lengkap (minimal 3 karakter).');$('#rg-nm')?.focus();return}
   if(!co){showErr('#re-reg','Silakan pilih atau isi Nama Company terlebih dahulu.');$('#rg-co')?.focus();return}
   if(!dp){showErr('#re-reg','Silakan pilih atau isi Departemen terlebih dahulu.');$('#rg-dp')?.focus();return}
-  if(!jb){showErr('#re-reg','Silakan pilih atau isi Jabatan terlebih dahulu.');$('#rg-jb')?.focus();return}
+  if(!jb){showErr('#re-reg','Silakan pilih atau isi Position Title terlebih dahulu.');$('#rg-jb')?.focus();return}
+  const lv=lvInp||LEVEL_CANON[normLevelToken(jb)]||'New Register';
   try{const ex=await g({action:'get_profile',id_karyawan:id},1);if(ex&&ex.status==='success'){showErr('#re-reg','NIK '+id+' sudah terdaftar. Tutup form ini lalu masuk dengan NIK tersebut.');return}}catch{}
   const b=$('#rb');if(b){b.disabled=true;b.textContent='Menyimpan ke New_Register…'}
-  const emp={ID_Karyawan:id,NIK:id,Nama_Lengkap:nm,Company:co,Nama_Company:co,Departemen:dp,Departement:dp,Jabatan:jb,Status_Level:'New Register'};
-  S.emp=emp;S.mat=[];S.his=[];
+  const emp={ID_Karyawan:id,NIK:id,Nama_Lengkap:nm,Company:co,Nama_Company:co,Departemen:dp,Department:dp,Departement:dp,Jabatan:jb,'Position Title':jb,Position_Title:jb,Position_Tittle:jb,Level:lv,Status_Level:lv};
+  S.emp=emp;S.mat=computeJsxMatrix(emp,[]);S.his=[];
   if(!S.kar.some(k=>up(key(k))===up(id)))S.kar.unshift(emp);
   localStorage.setItem('mgr_nik',id);
   try{localStorage.setItem('mgr_custom_emp',JSON.stringify(emp))}catch{}
@@ -1131,9 +1346,10 @@ async function resolveEmpBySheetFallback(q){
       if(r2&&r2.status==='success'&&r2.data&&r2.data.profil)return r2;
     }catch(e){}
   }
-  return{status:'success',data:{profil:hit,matriks:[],histori:[],hasil_simulator:null},_localFallback:true};
+  if(!S.jsxcomp.length)await loadJsxComp();
+  return{status:'success',data:{profil:hit,matriks:computeJsxMatrix(hit,[]),histori:[],hasil_simulator:null},_localFallback:true};
 }
-async function login(q,silent,isNfc=false){
+async function login(q,silent,isNfc=false,altKeys=[]){
   q=cleanInp(q,80).trim();
   const vCheck=valNik(q,isNfc);
   if(!vCheck.ok){
@@ -1143,7 +1359,7 @@ async function login(q,silent,isNfc=false){
   try{
     const qUp=up(q);
     const foundLocal=S.kar.find(k=>empKeys(k).includes(qUp)||up(k.NFC_UID||k._col_I||'')===qUp);
-    let j=await g({action:'get_profile',id_karyawan:q,nfc_uid:q,bypass:'1'});
+    let j=await g({action:'get_profile',id_karyawan:q,...(isNfc?{nfc_uid:q}:{}),...(altKeys?.length?{alt_keys:altKeys.join(',')}:{})});
     if(j.status!=='success'){
       const fb=await resolveEmpBySheetFallback(q);
       if(fb&&fb.status==='success')j=fb;
@@ -1152,7 +1368,7 @@ async function login(q,silent,isNfc=false){
       if(foundLocal){
         S.emp=foundLocal;S.trainerInfo=null;localStorage.setItem('mgr_nik',key(foundLocal));$('#un').textContent=(foundLocal.Nama_Lengkap||key(foundLocal)).split(' ')[0];
         await Promise.all([syncCustomHis(foundLocal),syncSimHis(foundLocal)]);
-        await loadTrainerDashboardData(true);
+        await loadTrainerDashboardData(false);
         saveCache();return true;
       }
       if(!silent){
@@ -1171,13 +1387,15 @@ async function login(q,silent,isNfc=false){
     }
     S.emp=prof;S.mat=j.data.matriks||[];S.his=j.data.histori||[];
     if(j._localFallback||(!S.his.length&&empKeys(prof).length>1))await syncCustomHis(prof);
+    let skipTrDash=false;
     if(j.data.is_trainer){
       S.isTrainer=true;
       if(j.data.trainer_info)S.trainerInfo=j.data.trainer_info;
       if(Array.isArray(j.data.trainer_pins)&&j.data.trainer_pins.length)S.trainerPins=j.data.trainer_pins;
-      if(Array.isArray(j.data.all_hasil)&&j.data.all_hasil.length)S.trainerHasil=j.data.all_hasil;
+      if(Array.isArray(j.data.all_hasil))S.trainerHasil=j.data.all_hasil;
+      if(!j._localFallback&&S.trainerPins.length){S._trDashLoadedFor=key(prof);S._trDashTs=Date.now();skipTrDash=true}
     }else{
-      S.trainerInfo=null;
+      S.trainerInfo=null;S.isTrainer=false;
     }
     if(!j._localFallback&&Array.isArray(j.data.hasil_simulator)&&(j.data.hasil_simulator.length||empKeys(prof).length<=1)){
       S.hisSim=mergeSimHis(S.emp,j.data.hasil_simulator);
@@ -1186,7 +1404,10 @@ async function login(q,silent,isNfc=false){
     }
     localStorage.setItem('mgr_nik',key(S.emp));localStorage.removeItem('mgr_custom_emp');
     $('#un').textContent=(S.emp.Nama_Lengkap||key(S.emp)).split(' ')[0];
-    await loadTrainerDashboardData(true);
+    await Promise.all([
+      skipTrDash?Promise.resolve():loadTrainerDashboardData(false),
+      (!S.mat.length&&!S.jsxcomp.length?loadJsxComp():Promise.resolve())
+    ]);
     saveCache();return true;
   }catch{if(!silent)showErr('#le','Koneksi bermasalah. Coba lagi.');return false}
 }
@@ -1197,30 +1418,50 @@ async function refresh(){
   const j=await g({action:'get_profile',id_karyawan:id}).catch(()=>null);
   if(j&&j.status==='success'){
     S.mat=j.data.matriks||[];S.his=j.data.histori||[];
+    let skipTrDash=false;
     if(j.data.is_trainer){
       S.isTrainer=true;
       if(j.data.trainer_info)S.trainerInfo=j.data.trainer_info;
       if(Array.isArray(j.data.trainer_pins)&&j.data.trainer_pins.length)S.trainerPins=j.data.trainer_pins;
-      if(Array.isArray(j.data.all_hasil)&&j.data.all_hasil.length)S.trainerHasil=j.data.all_hasil;
+      if(Array.isArray(j.data.all_hasil))S.trainerHasil=j.data.all_hasil;
+      if(S.trainerPins.length){S._trDashLoadedFor=key(S.emp);S._trDashTs=Date.now();skipTrDash=true}
     }
     if(Array.isArray(j.data.hasil_simulator)&&(j.data.hasil_simulator.length||empKeys(S.emp).length<=1))S.hisSim=mergeSimHis(S.emp,j.data.hasil_simulator);
     else await syncSimHis(S.emp);
     if(!S.his.length&&empKeys(S.emp).length>1)await syncCustomHis(S.emp);
-    await loadTrainerDashboardData(true);
+    await Promise.all([
+      skipTrDash?Promise.resolve():loadTrainerDashboardData(false),
+      (!S.mat.length&&!S.jsxcomp.length?loadJsxComp():Promise.resolve())
+    ]);
     saveCache();updNav(S.v);
-  }else{await Promise.all([syncCustomHis(S.emp||id),syncSimHis(S.emp||id),loadTrainerDashboardData(true)]);updNav(S.v)}
+  }else{await Promise.all([syncCustomHis(S.emp||id),syncSimHis(S.emp||id),loadTrainerDashboardData(false),(!S.mat.length&&!S.jsxcomp.length?loadJsxComp():Promise.resolve())]);updNav(S.v)}
 }
 
 /* ---------- derived data ---------- */
 function pd(){
   const lulus=S.his.filter(h=>up(h.Status_Lulus)==='LULUS');
-  let m=S.mat.length?S.mat.map(x=>({...x})):S.modul.map((d,i)=>({ID_Modul:d.ID_Modul,Kode_Kompetensi:'KOMP-'+(i+1),Nama_Kompetensi:d.Nama_Modul||d.ID_Modul,Status:'NOT YET'}));
-  m.forEach(x=>{const h=lulus.filter(h=>up(h.ID_Modul)===up(x.ID_Modul)).sort((a,b)=>(parseFloat(b.Skor_Akhir)||0)-(parseFloat(a.Skor_Akhir)||0))[0];if(h&&up(x.Status)!=='DONE'){x.Status='DONE';x.Skor=h.Skor_Akhir;x.Tgl_Selesai=String(h.Timestamp_Submit).split(' ')[0];x.cert=h.No_Sertifikat}});
+  const absen=S.his.filter(h=>up(h.Status_Lulus)==='HANYA ABSEN');
+  const hasServerMat=Array.isArray(S.mat)&&S.mat.length>0;
+  let m;
+  if(hasServerMat){
+    m=S.mat.map(x=>({...x}));
+    m.forEach(x=>{
+      const h=lulus.filter(r=>matchTrainingNames(r.ID_Modul,x.ID_Modul)||matchTrainingNames(r.Nama_Modul_Sertifikat,x.Nama_Kompetensi)||matchTrainingNames(r.ID_Modul,x.Nama_Kompetensi)).sort((a,b)=>(parseFloat(b.Skor_Akhir)||0)-(parseFloat(a.Skor_Akhir)||0))[0];
+      if(h&&up(x.Status)!=='DONE'){
+        x.Status='DONE';x.Skor=h.Skor_Akhir;x.Tgl_Selesai=h.Tanggal_Training||String(h.Timestamp_Submit||'').split(' ')[0];x.cert=h.No_Sertifikat;
+      }else if(up(x.Status)!=='DONE'){
+        const ab=absen.find(r=>matchTrainingNames(r.ID_Modul,x.ID_Modul)||matchTrainingNames(r.Nama_Modul_Sertifikat,x.Nama_Kompetensi)||matchTrainingNames(r.ID_Modul,x.Nama_Kompetensi));
+        if(ab){x.Absen_Hadir=true;x.Tgl_Absen=ab.Tanggal_Training||String(ab.Timestamp_Submit||'').split(' ')[0]}
+      }
+    });
+  }else{
+    m=computeJsxMatrix(S.emp||{},S.his||[]);
+  }
   const done=m.filter(x=>up(x.Status)==='DONE'),sc=S.his.filter(h=>up(h.Status_Lulus)!=='HANYA ABSEN').map(h=>parseFloat(h.Skor_Akhir)).filter(n=>!isNaN(n));
   return{m,done,pct:m.length?Math.round(done.length/m.length*100):0,avg:sc.length?(sc.reduce((a,b)=>a+b)/sc.length).toFixed(1):'0',cert:lulus.length};
 }
-const isDone=(id)=>pd().done.some(x=>up(x.ID_Modul)===up(id));
-const hasToday=(id)=>S.sesi.some(s=>up(s.ID_Modul)===up(id)&&dayDiff(s.Tanggal)===0&&!['NONAKTIF','SELESAI'].includes(up(s.Status)));
+const isDone=id=>(S.his||[]).some(h=>up(h.Status_Lulus)==='LULUS'&&(up(h.ID_Modul)===up(id)||matchTrainingNames(h.ID_Modul,id)||matchTrainingNames(h.Nama_Modul_Sertifikat,id)))||(S.mat||[]).some(x=>up(x.Status)==='DONE'&&(up(x.ID_Modul)===up(id)||matchTrainingNames(x.ID_Modul,id)));
+const hasToday=id=>S.sesi.some(s=>(up(s.ID_Modul)===up(id)||matchTrainingNames(s.ID_Modul,id)||matchTrainingNames(s.Nama_Modul,id))&&dayDiff(s.Tanggal)===0&&!['NONAKTIF','SELESAI'].includes(up(s.Status)));
 const left=()=>S.ex?Math.max(0,Math.round((S.ex.end-Date.now())/1000)):0;
 const kp=(a,b,c,d)=>`<div class="kpis">${[a,b,c,d].map(([v,l])=>`<div class="kpi"><b>${e(v)}</b><small>${l}</small></div>`).join('')}</div>`;
 function parseFlexDate(s){
@@ -1302,6 +1543,7 @@ function rLogin(){
   if($('#lbl-rg-co'))$('#lbl-rg-co').textContent=t('reg_comp');
   if($('#lbl-rg-dp'))$('#lbl-rg-dp').textContent=t('reg_dept');
   if($('#lbl-rg-jb'))$('#lbl-rg-jb').textContent=t('reg_pos');
+  if($('#lbl-rg-lv'))$('#lbl-rg-lv').textContent=t('reg_lvl');
   if($('#rb'))$('#rb').innerHTML=`<span class="mi">how_to_reg</span> ${t('reg_btn')}`;
   $('#le')?.classList.remove('on');
   const raw=($('#li')?.value||'').trim();
@@ -1314,7 +1556,7 @@ function rLogin(){
   if(exact){
     const curL=S.lang||'id';
     const tagMatch=curL==='zh'?'已匹配':curL==='en'?'Matched':'Cocok';
-    const subInfo=[empCo(exact),exact.Departemen,exact.Jabatan].filter(Boolean).join(' • ');
+    const subInfo=[empCo(exact),empDp(exact),empJb(exact),empLvl(exact)].filter(Boolean).join(' • ');
     $('#ls').innerHTML=`<div class="item act" data-a="pick" data-v="${e(key(exact))}" role="button" tabindex="0" style="padding:8px 10px;border-radius:6px;border:1px solid var(--gold);background:var(--pf);cursor:pointer;display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;overflow:hidden">
       <div class="ava" style="width:32px;height:32px;font-size:15px;flex:none;border-radius:5px">${mi('person')}</div>
       <div style="flex:1;min-width:0;overflow:hidden">
@@ -1389,7 +1631,7 @@ function getFilteredTrainerHasil(trInfo){
       if(!rTes.includes(up(fTes)))return false;
     }
     if(q){
-      const hay=up([r.Nama_Karyawan,r.ID_Karyawan,r.Company,r.Departemen,r.Jabatan,r.ID_Modul,r.Nama_Modul_Sertifikat,r.Kode_PIN,r.Jenis_Tes].join(' '));
+      const hay=up([r.Nama_Karyawan,r.ID_Karyawan,empCo(r),empDp(r),empJb(r),empLvl(r),r.ID_Modul,r.Nama_Modul_Sertifikat,r.Kode_PIN,r.Jenis_Tes].join(' '));
       if(!hay.includes(q))return false;
     }
     return true;
@@ -1401,6 +1643,8 @@ function getTrainerHasilBodyHtml(trInfo){
   const total=list.length;
   const lulusCnt=list.filter(r=>up(r.Status_Lulus)==='LULUS').length;
   const avg=total?Math.round(list.reduce((s,r)=>s+(parseFloat(r.Skor_Akhir)||0),0)/total):0;
+  const MAX_TR_ROWS=200;
+  const shownList=(!S.trShowAll&&total>MAX_TR_ROWS)?list.slice(0,MAX_TR_ROWS):list;
 
   return `<div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:10px">
     <span class="chip" style="background:var(--sf2);font-weight:700">${S.lang==='zh'?'参训人数':S.lang==='en'?'Participants':'Peserta'}: ${total}</span>
@@ -1408,7 +1652,7 @@ function getTrainerHasilBodyHtml(trInfo){
     <span class="chip" style="background:var(--pf);color:var(--p);border-color:var(--gold);font-weight:700">${S.lang==='zh'?'平均分':S.lang==='en'?'Avg Score':'Rata-rata'}: ${avg}</span>
   </div>
   <div style="display:flex;flex-direction:column;gap:8px;max-height:440px;overflow-y:auto;padding-right:2px">
-    ${list.length?list.map(r=>{
+    ${shownList.length?shownList.map(r=>{
       const st=up(r.Status_Lulus);
       const isPass=st==='LULUS',isAbsen=st==='HANYA ABSEN';
       const stCl=isPass?'ok':isAbsen?'':'er';
@@ -1432,7 +1676,7 @@ function getTrainerHasilBodyHtml(trInfo){
           <div class="mut" style="font-size:9px;text-transform:uppercase;font-weight:700">${S.lang==='zh'?'得分':S.lang==='en'?'Score':'Nilai'}</div>
         </div>
       </div>`;
-    }).join(''):`<div class="mut sm" style="text-align:center;padding:18px;background:var(--bg);border-radius:8px;border:1px dashed var(--ln)">${S.lang==='zh'?'当前进行中的培训暂无学员成绩记录。':S.lang==='en'?'No participant scores yet for this running training.':'Belum ada peserta yang mengerjakan asesmen pada training yang sedang berjalan ini.'}</div>`}
+    }).join('')+((!S.trShowAll&&total>MAX_TR_ROWS)?`<button type="button" class="btn s w" data-a="trShowAll" style="margin-top:4px">Tampilkan semua (${total}) hasil peserta</button>`:''):`<div class="mut sm" style="text-align:center;padding:18px;background:var(--bg);border-radius:8px;border:1px dashed var(--ln)">${S.lang==='zh'?'当前进行中的培训暂无学员成绩记录。':S.lang==='en'?'No participant scores yet for this running training.':'Belum ada peserta yang mengerjakan asesmen pada training yang sedang berjalan ini.'}</div>`}
   </div>`;
 }
 
@@ -1529,7 +1773,7 @@ function rTrainer(){
   if(empKey&&S._trDashLoadedFor!==empKey&&!S._loadingTrDash){
     S._loadingTrDash=true;
     S._trDashLoadedFor=empKey;
-    loadTrainerDashboardData(true).finally(()=>{S._loadingTrDash=false});
+    loadTrainerDashboardData(false).finally(()=>{S._loadingTrDash=false});
   }
   if(!trInfo){
     $('#v-trainer').innerHTML=`<div class="card"><span class="chip wa">Akses Dibatasi</span><h1 style="margin-top:6px">Panel Khusus Trainer</h1><p class="mut sm" style="margin-top:4px">Akun Anda belum terdaftar di sheet <b>Trainer_Name</b>. Klik tombol di bawah untuk memeriksa ulang data trainer.</p><div class="row" style="gap:8px;margin-top:12px"><button type="button" class="btn p s" data-a="trRefresh"><span class="mi">refresh</span> Cek Ulang Sheet Trainer_Name</button><button type="button" class="btn s" data-a="go" data-v="home">Kembali ke Beranda</button></div></div>`;
@@ -1544,7 +1788,7 @@ function rHome(){
   if(k&&S._trDashLoadedFor!==k&&!S._loadingTrDash){
     S._loadingTrDash=true;
     S._trDashLoadedFor=k;
-    loadTrainerDashboardData(true).finally(()=>{S._loadingTrDash=false});
+    loadTrainerDashboardData(false).finally(()=>{S._loadingTrDash=false});
   }
   const nearSesi=S.sesi.filter(s=>dayDiff(s.Tanggal)===0);
   const items=nearSesi.map(s=>{
@@ -1576,7 +1820,7 @@ function rHome(){
       <span class="mi" style="font-size:16px;color:var(--p)">chevron_right</span>
     </button>
   </div>`;
-  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,em.Departemen].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:10px">${kp([p.done.length+'/'+p.m.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>${rs}
+  $('#v-home').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><span class="hero-co">${mi('apartment')} ${e(co||'Peserta')}</span><h1 class="ell">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([k,empDp(em),empJb(em)].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:10px">${kp([p.done.length+'/'+p.m.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>${rs}
   ${quickActions}
   <div class="row sp" style="margin-top:2px"><h2>${S.lang==='zh'?'今日培训':S.lang==='en'?'Today Schedule':'Jadwal Hari Ini'}</h2><button class="btn s" data-a="go" data-v="modules">${t('mod_all')} (${S.modul.length})</button></div>
   ${items.length?items.map(x=>`<div class="item act"><div class="g"><div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:2px">${x.dn?`<span class="chip ok">${t('passed')}</span>`:''}${x.pinCode?`<span class="chip" style="background:var(--pf);color:var(--p);border-color:var(--gold);font-family:var(--mo);font-weight:700;cursor:pointer" data-a="copyPin" data-v="${e(x.pinCode)}">🔑 ${e(x.pinCode)}</span>`:''}</div><b class="ell" style="display:block;font-size:13.5px">${e(x.title)}</b><span class="mut sm ell" style="display:block;margin-top:1px">${e(x.sub)}</span></div><button class="btn ${x.dn?'':'p'} s" data-a="pin" data-v="${e(x.id)}">${x.dn?t('retest'):t('start_btn')}</button></div>`).join(''):`<div class="card mut sm" style="text-align:center;padding:14px">${S.lang==='zh'?'今日暂无考核日程。':S.lang==='en'?'No schedule today.':'Tidak ada jadwal asesmen hari ini.'}</div>`}
@@ -1809,7 +2053,7 @@ async function openAbsen(){
   const validUser=S.emp&&key(S.emp)&&String(key(S.emp)).trim().length>=3&&S.emp.Nama_Lengkap;
   if(!validUser){toast('Silakan masuk dengan NIK / ID Karyawan lengkap terlebih dahulu.');go('login');return}
   const em=S.emp,id=key(em),nm=em.Nama_Lengkap||id;
-  const co=empCo(em),dp=em.Departemen||'',jb=em.Jabatan||'';
+  const co=empCo(em),dp=empDp(em),jb=empJb(em);
   if($('#absen-nm'))$('#absen-nm').textContent=nm;
   if($('#absen-id-meta'))$('#absen-id-meta').textContent=[id,co,dp,jb].filter(Boolean).join(' • ');
   S.selectedAbsen=null;S.absenAll=false;
@@ -1885,7 +2129,7 @@ async function submitAbsen(){
   const dup=(S.his||[]).some(h=>up(h.Kode_PIN)==='ABSEN'&&up(h.ID_Modul||h.Nama_Modul_Sertifikat)===up(agenda)&&String(h.Tanggal_Training||h.Tanggal||'').slice(0,10)===tgl.slice(0,10));
   if(dup){showErr('#ae-absen','Anda sudah tercatat hadir pada agenda dan tanggal ini.');return}
   const em=S.emp,idKaryawan=key(em),namaKaryawan=em.Nama_Lengkap||idKaryawan;
-  const company=empCo(em),departemen=em.Departemen||'',jabatan=em.Jabatan||'';
+  const company=empCo(em),departemen=empDp(em),jabatan=empJb(em),level=empLvl(em);
   const trObj=findTrainer(trInp);
   const trainer=trObj?trObj.Name:(trInp||item.PIC||'-');
   const specialist=trObj?(trObj.Specialist||'-'):'-';
@@ -1913,6 +2157,10 @@ async function submitAbsen(){
     Nama_Company:company,
     Departemen:departemen,
     Jabatan:jabatan,
+    Position_Title:jabatan,
+    Position_Tittle:jabatan,
+    Level:level,
+    Status_Level:level,
     ID_Modul:agenda,
     Nama_Modul_Sertifikat:agenda,
     Penyelenggara:'LnD',
@@ -2265,7 +2513,7 @@ async function submit(){
   const jenisTes=cleanInp(x.jenis_tes||tr.jenis_tes||'Post Test',30);
   const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2,Jenis_Tes:jenisTes};
   FB_QS.forEach(([k,,,col])=>{fbData[k]=fb[k];fbData[col]=fb[k]});
-  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(S.emp.Departemen||'',100),jabatan:cleanInp(S.emp.Jabatan||'',100),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans,feedback:fbData};
+  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(empDp(S.emp),100),jabatan:cleanInp(empJb(S.emp),100),position_title:cleanInp(empJb(S.emp),100),level:cleanInp(empLvl(S.emp),50),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans,feedback:fbData};
   try{
     const j=await po(payload,3);
     if(j.status!=='success')throw new Error(j.message);
@@ -2301,13 +2549,18 @@ function showResult(r,ses){
 
 /* ---------- profile ---------- */
 function rProfile(){
-  const p=pd(),em=S.emp,co=empCo(em),m=p.m.filter(x=>S.mf==='all'||(S.mf==='done')===(up(x.Status)==='DONE'));
+  const p=pd(),em=S.emp,co=empCo(em),lv=empLvl(em),dp=empDp(em),jb=empJb(em);
+  const m=p.m.filter(x=>{
+    if(S.mf==='all')return true;
+    if(S.mf==='mandatory')return !/non[-\s]*manda/i.test(x.Kategori||'');
+    return (S.mf==='done')===(up(x.Status)==='DONE');
+  });
   const curL=S.lang||'id';
   const tabsMatHis=[['mat',t('mat_title')],['his',t('his_title')]];
-  const matFilters=curL==='zh'?[['all','全部'],['done','已完成'],['no','未完成']]:curL==='en'?[['all','All'],['done','Completed'],['no','Incomplete']]:[['all','Semua'],['done','Selesai'],['no','Belum Selesai']];
-  $('#v-profile').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(em.Status_Level||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:4px">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([key(em),em.Departemen,em.Jabatan].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>
+  const matFilters=curL==='zh'?[['all','全部'],['mandatory','必修'],['done','已完成'],['no','未完成']]:curL==='en'?[['all','All'],['mandatory','Mandatory'],['done','Completed'],['no','Incomplete']]:[['all','Semua'],['mandatory','Mandatory'],['done','Selesai'],['no','Belum Selesai']];
+  $('#v-profile').innerHTML=`<div class="card hero"><div class="row"><div class="ava">${okUrl(em.Foto_URL)?`<img src="${e(em.Foto_URL)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=mi>person</span>'">`:mi('person')}</div><div class="g"><div class="row" style="gap:6px;flex-wrap:wrap"><span class="chip">${e(lv||'Active Talent')}</span>${co?`<span class="chip ok">${e(co)}</span>`:''}</div><h1 class="ell" style="margin-top:4px">${e(em.Nama_Lengkap)}</h1><p class="mut sm ell">${e([key(em),dp,jb].filter(Boolean).join(' • '))}</p></div></div><div style="margin-top:12px">${kp([p.done.length+'/'+p.m.length,t('kpi_done')],[p.pct+'%',t('kpi_comp')],[p.avg,t('kpi_avg')],[p.cert,t('kpi_cert')])}</div></div>
   <div class="tabs">${tabsMatHis.map(([k,l])=>`<button class="${S.pt===k?'on':''}" data-a="pt" data-v="${k}">${l}</button>`).join('')}</div>
-  ${S.pt==='mat'?`<div class="tabs">${matFilters.map(([k,l])=>`<button class="${S.mf===k?'on':''}" data-a="mf" data-v="${k}">${l}</button>`).join('')}</div>`+m.map(x=>{const d=up(x.Status)==='DONE',td=hasToday(x.ID_Modul);return`<div class="item"><div class="g"><span class="chip ${d?'ok':'wa'}">${d?'DONE':'NOT YET'}</span> <span class="mut sm">${e(x.Kode_Kompetensi||x.ID_Modul)}</span><b style="display:block;font-size:14px;margin-top:4px">${e(x.Nama_Kompetensi)}</b>${d?`<span class="mut sm">${t('score')} ${e(x.Skor||'-')} • ${e(x.Tgl_Selesai||'-')}</span>`:''}</div>${d?`<button class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}">${t('kpi_cert')}</button>`:td?`<button class="btn p s" data-a="pin" data-v="${e(x.ID_Modul)}">${t('start_btn')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无数据。':curL==='en'?'No data available.':'Tidak ada data.'}</p>`
+  ${S.pt==='mat'?`<div class="tabs">${matFilters.map(([k,l])=>`<button class="${S.mf===k?'on':''}" data-a="mf" data-v="${k}">${l}</button>`).join('')}</div>`+m.map(x=>{const d=up(x.Status)==='DONE',td=hasToday(x.ID_Modul),isMand=x.Kategori&&!/non[-\s]*manda/i.test(x.Kategori),ie=x.Internal_External||'';return`<div class="item"><div class="g"><div class="row" style="gap:5px;flex-wrap:wrap;align-items:center"><span class="chip ${d?'ok':'wa'}">${d?'DONE':'NOT YET'}</span>${x.Kategori?`<span class="chip ${isMand?'':'gy'}" style="font-size:10px">${e(isMand?'Mandatory':'Opsional')}</span>`:''}${ie?`<span class="chip gy" style="font-size:10px">${e(ie)}</span>`:''}${!d&&x.Absen_Hadir?`<span class="chip" style="font-size:10px">${curL==='zh'?'已签到':curL==='en'?'Attended':'Hadir Absen'}</span>`:''}<span class="mut sm">${e(x.Kode_Kompetensi||x.ID_Modul)}</span></div><b style="display:block;font-size:14px;margin-top:4px">${e(x.Nama_Kompetensi)}</b>${d?`<span class="mut sm">${t('score')} ${e(x.Skor||'-')} • ${e(x.Tgl_Selesai||'-')}</span>`:''}</div>${d?`<button class="btn s" data-a="cert" data-v="${e(x.cert||'CERT/MGR/'+x.Kode_Kompetensi)}|${e(x.Nama_Kompetensi)}|${e(x.Skor)}|${e(x.Tgl_Selesai)}">${t('kpi_cert')}</button>`:td?`<button class="btn p s" data-a="pin" data-v="${e(x.ID_Modul)}">${t('start_btn')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无数据。':curL==='en'?'No data available.':'Tidak ada data.'}</p>`
   :S.his.slice().reverse().map(h=>{const ok=up(h.Status_Lulus)==='LULUS',isAbsen=up(h.Status_Lulus)==='HANYA ABSEN',chipCl=ok?'ok':isAbsen?'wa':'er',chipTxt=ok?t('passed'):isAbsen?(curL==='zh'?'仅签到':curL==='en'?'Attendance Only':'Hanya Absen'):t('not_passed'),tgl=h.Tanggal_Training||h.Tanggal||String(h.Timestamp_Submit||'').split(' ')[0]||'-',jTes=h.Jenis_Tes||h.Tipe_Tes||(isAbsen?'Absen':''),trNm=h.Nama_Trainer&&h.Nama_Trainer!=='-'?h.Nama_Trainer:'';return`<div class="item"><div class="g"><span class="chip ${chipCl}">${chipTxt}</span>${jTes?` <span class="chip ${up(jTes).includes('PRE')?'wa':up(jTes).includes('POST')?'ok':''}">${e(jTes)}</span>`:''} <span class="mut sm">${e(tgl)}</span><b class="ell" style="display:block;font-size:13.5px;margin-top:3px">${e(h.Nama_Modul_Sertifikat||h.ID_Modul)}</b><span class="mut sm ell" style="display:block">${t('score')} ${e(h.Skor_Akhir)}${trNm?` • ${e(trNm)}`:''}</span></div>${ok?`<button class="btn s" data-a="cert" data-v="${e(h.No_Sertifikat)}|${e(h.Nama_Modul_Sertifikat)}|${e(h.Skor_Akhir)}|${e(tgl)}">${t('kpi_cert')}</button>`:''}</div>`}).join('')||`<p class="mut sm">${curL==='zh'?'暂无评估历史记录。':curL==='en'?'No assessment history yet.':'Belum ada riwayat asesmen.'}</p>`}`;
 }
 function cert(v){
@@ -2478,13 +2731,15 @@ async function directNfcLogin(rawKey){
   
   toast('Membaca kartu NFC ['+(parsed.primaryDec||q)+']...');
   
-  // Coba login dengan key asli atau desimal hasil konversi
-  let ok = await login(q, true, true);
-  if(!ok && parsed.primaryDec && parsed.primaryDec !== q){
-    ok = await login(parsed.primaryDec, true, true);
+  // Gunakan primaryDec jika hex sudah terkonversi & kirim alt_keys sekaligus (1 round-trip ke GAS baru; tetap kompatibel fallback GAS lama)
+  const altKeys = [...new Set([q, parsed.primaryDec, parsed.altDec].filter(Boolean))];
+  const primaryQuery = parsed.primaryDec || q;
+  let ok = await login(primaryQuery, true, true, altKeys);
+  if(!ok && parsed.altDec && parsed.altDec !== primaryQuery){
+    ok = await login(parsed.altDec, true, true, altKeys);
   }
-  if(!ok && parsed.altDec && parsed.altDec !== q){
-    ok = await login(parsed.altDec, true, true);
+  if(!ok && q !== primaryQuery){
+    ok = await login(q, true, true, altKeys);
   }
 
   if(lb){lb.disabled=false;lb.textContent=t('login_btn')}
@@ -2522,17 +2777,16 @@ async function handleNfcScanned(rawKey){
   $('#nfc-btn-login-as').style.display='none';
 
   try{
-    // Coba query dengan rawKey, jika tidak ketemu coba dengan primaryDec
-    let res = await g({action:'get_profile',nfc_uid:q,id_karyawan:q,bypass:'1'});
-    if((!res || res.status !== 'success') && parsed.primaryDec && parsed.primaryDec !== q){
-      res = await g({action:'get_profile',nfc_uid:parsed.primaryDec,id_karyawan:parsed.primaryDec,bypass:'1'});
-    }
-    if((!res || res.status !== 'success') && parsed.altDec && parsed.altDec !== q){
-      res = await g({action:'get_profile',nfc_uid:parsed.altDec,id_karyawan:parsed.altDec,bypass:'1'});
-    }
+    const altKeys = [...new Set([q, parsed.primaryDec, parsed.altDec].filter(Boolean))];
+    const primaryQuery = parsed.primaryDec || q;
+    let res = await g({action:'get_profile',nfc_uid:primaryQuery,id_karyawan:primaryQuery,alt_keys:altKeys.join(',')});
     if(!res || res.status !== 'success'){
       const fb = await resolveEmpBySheetFallback(parsed.primaryDec || q);
       if(fb && fb.status === 'success') res = fb;
+    }
+    if(res && res.status === 'success' && res.data && res.data.profil && (!res.data.matriks || !res.data.matriks.length)){
+      if(!S.jsxcomp.length) await loadJsxComp();
+      res.data.matriks = computeJsxMatrix(res.data.profil, res.data.histori || []);
     }
 
     $('#nfc-view-loading').style.display='none';
@@ -2615,20 +2869,20 @@ function renderNfcResult(data,scannedKey){
   const mat=data.matriks||[];
 
   const lulus=his.filter(h=>up(h.Status_Lulus)==='LULUS');
-  let mList=mat.length?mat.map(x=>({...x})):S.modul.map((d,i)=>({
-    ID_Modul:d.ID_Modul,
-    Kode_Kompetensi:'KOMP-'+(i+1),
-    Nama_Kompetensi:d.Nama_Modul||d.ID_Modul,
-    Status:'NOT YET'
-  }));
+  const absen=his.filter(h=>up(h.Status_Lulus)==='HANYA ABSEN');
+  let mList=mat.length?mat.map(x=>({...x})):computeJsxMatrix(em,his);
 
-  mList.forEach(x=>{
-    const h=lulus.filter(h=>up(h.ID_Modul)===up(x.ID_Modul)).sort((a,b)=>(parseFloat(b.Skor_Akhir)||0)-(parseFloat(a.Skor_Akhir)||0))[0];
+  mList.forEach((x,idx)=>{
+    if(!x.Kode_Kompetensi)x.Kode_Kompetensi='COMP-'+(idx+1);
+    const h=lulus.filter(r=>matchTrainingNames(r.ID_Modul,x.ID_Modul)||matchTrainingNames(r.Nama_Modul_Sertifikat,x.Nama_Kompetensi)||matchTrainingNames(r.ID_Modul,x.Nama_Kompetensi)).sort((a,b)=>(parseFloat(b.Skor_Akhir)||0)-(parseFloat(a.Skor_Akhir)||0))[0];
     if(h&&up(x.Status)!=='DONE'){
       x.Status='DONE';
       x.Skor=h.Skor_Akhir;
-      x.Tgl_Selesai=String(h.Timestamp_Submit).split(' ')[0];
+      x.Tgl_Selesai=h.Tanggal_Training||String(h.Timestamp_Submit||'').split(' ')[0];
       x.cert=h.No_Sertifikat;
+    }else if(up(x.Status)!=='DONE'){
+      const ab=absen.find(r=>matchTrainingNames(r.ID_Modul,x.ID_Modul)||matchTrainingNames(r.Nama_Modul_Sertifikat,x.Nama_Kompetensi)||matchTrainingNames(r.ID_Modul,x.Nama_Kompetensi));
+      if(ab){x.Absen_Hadir=true;x.Tgl_Absen=ab.Tanggal_Training||String(ab.Timestamp_Submit||'').split(' ')[0]}
     }
   });
 
@@ -2642,7 +2896,7 @@ function renderNfcResult(data,scannedKey){
   $('#nfc-res-uid').textContent='UID: '+uidVal;
   $('#nfc-res-nm').textContent=em.Nama_Lengkap||key(em);
   $('#nfc-res-co').textContent=empCo(em)||'Merdeka';
-  $('#nfc-res-lvl').textContent=em.Status_Level||'Active Talent';
+  $('#nfc-res-lvl').textContent=empLvl(em)||'Active Talent';
   $('#nfc-res-sub').textContent=[key(em),empDp(em),empJb(em)].filter(Boolean).join(' • ');
 
   const avaBox=$('#nfc-res-ava');
@@ -2702,11 +2956,16 @@ function renderNfcList(list){
   }
   container.innerHTML=list.map(x=>{
     const isDone=up(x.Status)==='DONE';
+    const isMand=x.Kategori&&!/non[-\s]*manda/i.test(x.Kategori);
+    const ie=x.Internal_External||'';
     return `
       <div class="item" style="padding:10px 12px;background:var(--sf);border:1px solid var(--ln);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:8px">
         <div class="g">
-          <div class="row" style="gap:6px;align-items:center">
+          <div class="row" style="gap:5px;align-items:center;flex-wrap:wrap">
             <span class="chip ${isDone?'ok':'wa'}" style="font-size:10.5px;padding:2px 7px">${isDone?'DONE':'NOT YET'}</span>
+            ${x.Kategori?`<span class="chip ${isMand?'':'gy'}" style="font-size:10px;padding:2px 6px">${e(isMand?'Mandatory':'Opsional')}</span>`:''}
+            ${ie?`<span class="chip gy" style="font-size:10px;padding:2px 6px">${e(ie)}</span>`:''}
+            ${!isDone&&x.Absen_Hadir?`<span class="chip" style="font-size:10px;padding:2px 6px">Hadir Absen</span>`:''}
             <span class="mut sm" style="font-size:11px">${e(x.Kode_Kompetensi||x.ID_Modul)}</span>
           </div>
           <b style="display:block;font-size:13.5px;margin-top:3px;color:var(--ink)">${e(x.Nama_Kompetensi)}</b>
@@ -2809,16 +3068,17 @@ const A={
   nfcTab:v=>setNfcTab(v),
   nfcLoginAs:()=>nfcLoginAs(),
   nfcSaveLink:()=>saveNfcLink(),
-  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.isTrainer=false;S.trainerInfo=null;S.trainerPins=[];S.trainerHasil=[];S._trDashLoadedFor='';S.trFilterMod='RUNNING';S.trFilterSt='ALL';S.trFilterTes='ALL';S.trSearch='';S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
+  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');localStorage.removeItem('mgr_tr_hasil');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.isTrainer=false;S.trainerInfo=null;S.trainerPins=[];S.trainerHasil=[];S._trDashLoadedFor='';S._trDashTs=0;S.trShowAll=false;S.trFilterMod='RUNNING';S.trFilterSt='ALL';S.trFilterTes='ALL';S.trSearch='';S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
   copyPin:v=>{if(!v)return;try{navigator.clipboard.writeText(v)}catch{}if($('#pi'))$('#pi').value=v;toast(`Kode Akses PIN "${v}" berhasil disalin!`)},
-  trViewMod:v=>{S.trFilterMod=v||'RUNNING';if(S.v!=='trainer')go('trainer');else{rTrainer()}setTimeout(()=>{$('#tr-hasil-sec')?.scrollIntoView({behavior:'smooth',block:'start'})},80)},
-  trFltSt:v=>{S.trFilterSt=v||'ALL';updateTrainerHasilUI()},
-  trFltTes:v=>{S.trFilterTes=v||'ALL';updateTrainerHasilUI()},
-  trRefresh:async()=>{toast('Memuat ulang kode akses & nilai peserta…');await loadTrainerDashboardData(true);toast('Data trainer berhasil diperbarui!')},
+  trViewMod:v=>{S.trFilterMod=v||'RUNNING';S.trShowAll=false;if(S.v!=='trainer')go('trainer');else{rTrainer()}setTimeout(()=>{$('#tr-hasil-sec')?.scrollIntoView({behavior:'smooth',block:'start'})},80)},
+  trFltSt:v=>{S.trFilterSt=v||'ALL';S.trShowAll=false;updateTrainerHasilUI()},
+  trFltTes:v=>{S.trFilterTes=v||'ALL';S.trShowAll=false;updateTrainerHasilUI()},
+  trShowAll:()=>{S.trShowAll=true;updateTrainerHasilUI()},
+  trRefresh:async()=>{toast('Memuat ulang kode akses & nilai peserta…');S._trDashTs=0;await loadTrainerDashboardData(true);toast('Data trainer berhasil diperbarui!')},
   pickJenisTes:v=>{if(!S.pend)S.pend={};S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--mut)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--mut)'}},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
-  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
+  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='rg-jb'){const lvEl=$('#rg-lv');if(lvEl){const dpK=normDeptKey($('#rg-dp')?.value||''),pK=normPosKey(val),mRow=(S.jsxcomp||[]).find(r=>(!dpK||normDeptKey(r.Department)===dpK)&&(normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK))||(S.jsxcomp||[]).find(r=>normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK);const inferred=(mRow&&mRow.Level)||LEVEL_CANON[normLevelToken(val)]||'';if(inferred)lvEl.value=inferred}}if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
   pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50)},
   pickSimTime:v=>{saveSimInputs();S.simTime=v;if($('#sim-time'))$('#sim-time').value=v;$('#se-sim')?.classList.remove('on');rSim()},
   lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},cert,ans,submit,tts,lang:v=>setLang(v),
