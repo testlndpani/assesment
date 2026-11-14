@@ -1264,6 +1264,25 @@ ul.rules b{color:var(--ink)}
   </div>
 </div></div>
 
+<div class="ov" id="o-soal"><div class="sheet" style="max-width:720px;max-height:88vh;display:flex;flex-direction:column">
+  <div style="height:4px;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-soft),var(--gold));margin:-4px 0 8px"></div>
+  <div class="row sp" style="flex:none;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--ln)">
+    <div class="row" style="gap:10px;min-width:0;flex:1">
+      <div class="ava" style="width:42px;height:42px;border-radius:12px;background:var(--pf);color:var(--p)"><span class="mi" style="font-size:24px">quiz</span></div>
+      <div class="g" style="min-width:0">
+        <h2 id="soal-modal-title" class="serif ell" style="font-size:17.5px;font-weight:700;color:var(--ink)">Bank Soal Modul</h2>
+        <p class="mut sm ell" id="soal-modal-sub" style="font-size:12px;margin-top:2px;color:var(--slate)">Daftar soal asesmen yang terdaftar di Sheet Bank_Soal</p>
+      </div>
+    </div>
+    <button type="button" class="btn s tonal" data-a="close" data-v="o-soal" aria-label="Tutup"><span class="mi">close</span></button>
+  </div>
+  <div id="soal-modal-body" style="flex:1;min-height:0;overflow-y:auto;padding:14px 2px;display:flex;flex-direction:column;gap:12px"></div>
+  <div class="row sp" style="flex:none;border-top:1px solid var(--ln);padding-top:10px;gap:8px;flex-wrap:wrap">
+    <span class="chip gold" id="soal-modal-count" style="font-size:11px">0 Soal</span>
+    <button type="button" class="btn s tonal" data-a="close" data-v="o-soal">Tutup</button>
+  </div>
+</div></div>
+
 <div class="ov" id="o-nfc"><div class="sheet">
   <div style="height:4px;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-soft),var(--gold));margin:-4px 0 4px"></div>
   <div class="row sp" style="flex:none;align-items:flex-start;gap:10px">
@@ -1534,8 +1553,21 @@ const DURASI_SIM_OPTS=[
   {val:'90 Menit',id:'90 Menit (1.5 Jam)',en:'90 Mins (1.5 Hr)',zh:'90分钟 (1.5小时)'},
   {val:'120 Menit',id:'120 Menit (2 Jam)',en:'120 Mins (2 Hr)',zh:'120分钟 (2小时)'}
 ];
-const S={emp:null,mat:[],jsxcomp:[],matCat:[],his:[],hisSim:[],modul:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,absenMode:'jadwal',simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',matSearch:'',hisSearch:'',hisFlt:'all',modSearch:'',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',trShowAll:false,_trDashTs:0,_jsxPromise:null,lang:localStorage.getItem('mgr_lang')||'id'};
+const S={emp:null,mat:[],jsxcomp:[],matCat:[],his:[],hisSim:[],modul:[],katalogDb:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,absenMode:'jadwal',simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',matSearch:'',hisSearch:'',hisFlt:'all',modSearch:'',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',trShowAll:false,_trDashTs:0,_trPinFormOpen:false,_katalogLoaded:false,_bankLoaded:false,_katalogPromise:null,_bankPromise:null,_jsxPromise:null,lang:localStorage.getItem('mgr_lang')||'id'};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const parseTsParts=raw=>{
+  const s=String(raw||'').trim();
+  if(!s||s==='-')return{date:'-',time:''};
+  const m=s.match(/^(\d{4}-\d{2}-\d{2}|\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4})[T\s]+(\d{1,2}:\d{2}(?::\d{2})?)/);
+  if(m)return{date:m[1],time:m[2]};
+  return{date:s,time:''};
+};
+const splitTsHtml=(raw,inline=true)=>{
+  const{date,time}=parseTsParts(raw);
+  if(!time)return`<span class="tnum" style="font-weight:700;color:var(--ink)">${e(date)}</span>`;
+  if(inline)return`<span style="display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap"><span class="tnum" style="font-weight:700;color:var(--ink)">${e(date)}</span><span class="tnum" style="font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px;background:rgba(15,23,42,.06);border:1px solid var(--bd);color:var(--slate)">${e(time)}</span></span>`;
+  return`<div style="line-height:1.25"><div class="tnum" style="font-weight:700;color:var(--ink)">${e(date)}</div><div class="tnum" style="font-size:11px;color:var(--slate);margin-top:2px">${e(time)}</div></div>`;
+};
 const cleanInp=(s,m=120)=>String(s??'').replace(/[\x00-\x1F]/g,'').replace(/^[=+\-@]+/,'').trim().slice(0,m);
 const valNik=(v,isNfc=false)=>{
   const s=String(v||'').trim();
@@ -1900,6 +1932,8 @@ async function loadTrainerDashboardData(force){
   }
   S.isTrainer=true;
   S.trainerInfo=tr;
+  if(!S._katalogLoaded)loadKatalogModulFromDb(false).catch(()=>{});
+  if(!S._bankLoaded)loadBankSoalList(false).catch(()=>{});
   updNav(S.v);
   if(!force&&S._trDashTs&&(Date.now()-S._trDashTs<60000)&&S.trainerPins.length&&S.trainerHasil.length){
     return;
@@ -2019,7 +2053,7 @@ function toast(m,t=3200){const x=$('#ts');x.textContent=m;x.style.display='block
 function sync(st){$('#sd').className='dot '+(st||'')}
 function saveCache(touchMaster){
   try{
-    localStorage.setItem('mgr_cache',JSON.stringify({emp:S.emp,mat:S.mat,his:S.his,hisSim:S.hisSim,modul:S.modul,sesi:S.sesi,kar:(S.kar||[]).slice(0,20),bank:stripKunci(S.bank),trainer:S.trainer,company:S.company,dept:S.dept,jabatan:S.jabatan,sim:S.sim,jadwalImport:S.jadwalImport,isTrainer:S.isTrainer,trainerInfo:S.trainerInfo,trainerPins:S.trainerPins}));
+    localStorage.setItem('mgr_cache',JSON.stringify({emp:S.emp,mat:S.mat,his:S.his,hisSim:S.hisSim,modul:S.modul,katalogDb:S.katalogDb,sesi:S.sesi,kar:(S.kar||[]).slice(0,20),bank:S._bankLoaded?stripKunci(S.bank):[],bankFull:Boolean(S._bankLoaded),trainer:S.trainer,company:S.company,dept:S.dept,jabatan:S.jabatan,sim:S.sim,jadwalImport:S.jadwalImport,isTrainer:S.isTrainer,trainerInfo:S.trainerInfo,trainerPins:S.trainerPins}));
     if(touchMaster)localStorage.setItem('mgr_master_ts',String(Date.now()));
   }catch{}
   if(S.isTrainer&&Array.isArray(S.trainerHasil)&&S.trainerHasil.length){
@@ -2048,6 +2082,15 @@ async function flushPending(){
       if(rem.length)localStorage.setItem('mgr_pending_absen',JSON.stringify(rem));
       else localStorage.removeItem('mgr_pending_absen');
     }
+    const pendPins=JSON.parse(localStorage.getItem('mgr_pending_pins')||'[]');
+    if(Array.isArray(pendPins)&&pendPins.length){
+      const rem=[];
+      for(const item of pendPins){
+        try{const rs=await po(item,2);if(!rs||rs.status!=='success')rem.push(item)}catch{rem.push(item)}
+      }
+      if(rem.length)localStorage.setItem('mgr_pending_pins',JSON.stringify(rem));
+      else localStorage.removeItem('mgr_pending_pins');
+    }
     const pendSub=JSON.parse(localStorage.getItem('mgr_pending_sub')||'null');
     if(pendSub){
       const j=await po(pendSub,2);
@@ -2068,7 +2111,7 @@ addEventListener('DOMContentLoaded',async()=>{
   document.querySelectorAll('.lang-switch .l-btn').forEach(b=>{b.classList.toggle('on',b.dataset.v===curLang)});
   if($('#hdr-brand'))$('#hdr-brand').textContent=t('portal_title');
   try{S.ex=JSON.parse(localStorage.getItem('mgr_exam')||'null')}catch{}
-  try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],sesi:c.sesi||[],kar:c.kar||[],bank:stripKunci(c.bank),trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim),jadwalImport:cleanJadwalImport(c.jadwalImport),isTrainer:Boolean(c.isTrainer),trainerInfo:c.trainerInfo||null,trainerPins:c.trainerPins||[],trainerHasil:c.trainerHasil||[]})}}catch{}
+  try{const c=JSON.parse(localStorage.getItem('mgr_cache')||'null');if(c){Object.assign(S,{emp:c.emp||null,mat:c.mat||[],his:c.his||[],hisSim:c.hisSim||[],modul:c.modul||[],katalogDb:c.katalogDb||[],sesi:c.sesi||[],kar:c.kar||[],bank:c.bankFull?stripKunci(c.bank):[],trainer:cleanTr(c.trainer),company:cleanCo(c.company),dept:cleanDp(c.dept),jabatan:cleanJb(c.jabatan),sim:cleanSim(c.sim),jadwalImport:cleanJadwalImport(c.jadwalImport),isTrainer:Boolean(c.isTrainer),trainerInfo:c.trainerInfo||null,trainerPins:c.trainerPins||[],trainerHasil:c.trainerHasil||[]})}}catch{}
   try{if(!S.trainerHasil.length){const th=JSON.parse(localStorage.getItem('mgr_tr_hasil')||'null');if(Array.isArray(th))S.trainerHasil=th}}catch{}
   try{const jx=JSON.parse(localStorage.getItem('mgr_jsx')||'null');if(Array.isArray(jx))S.jsxcomp=jx}catch{}
   try{const mc=JSON.parse(localStorage.getItem('mgr_matcat')||'null');if(Array.isArray(mc))S.matCat=mc}catch{}
@@ -2089,7 +2132,9 @@ async function boot(forceMaster){
     ]);
     if(j.status!=='success')throw 0;
     const d=j.data||{};
-    S.modul=d.modul||[];
+    S.katalogDb=cleanKatalogRows(d.modul||[]);
+    S._katalogLoaded=S.katalogDb.length>0;
+    S.modul=[...S.katalogDb];
     const initTr=d.trainer_name||((d.trainer||[]).some(x=>Boolean(x.Specialist||x.specialist))?d.trainer:null);
     if(Array.isArray(initTr)&&initTr.length)S.trainer=cleanTr(initTr);
     if(Array.isArray(d.company)&&d.company.length)S.company=cleanCo(d.company);
@@ -2647,137 +2692,437 @@ function isRowInPinSession(r,s){
   return false;
 }
 
-function getFilteredTrainerHasil(trInfo){
-  const all=(S.trainerHasil||[]).slice().reverse();
-  const runningPins=getRunningTrainerPins();
-  const fMod=S.trFilterMod||'RUNNING';
-  const fTes=S.trFilterTes||'ALL';
-  const q=up(S.trSearch||'');
+const genRandomBatch=()=>'Batch '+(Math.floor(Math.random()*30)+1);
+const genRandomPin=()=>'MGR'+Math.floor(100+Math.random()*900);
 
-  return all.filter(r=>{
-    if(!isRowToday(r))return false;
-    const isTodayAbsen=up(r.Kode_PIN)==='ABSEN';
-    if(fMod==='RUNNING'||fMod==='ALL'){
-      if(!isTodayAbsen&&(!runningPins.length||!runningPins.some(s=>isRowInPinSession(r,s))))return false;
-    }else if(fMod.startsWith('PIN:')){
-      const targetPin=up(fMod.slice(4));
-      if(up(r.Kode_PIN)!==targetPin)return false;
-    }else if(fMod.startsWith('MOD:')){
-      const targetMod=up(fMod.slice(4));
-      const matchedPin=runningPins.find(s=>up(s.ID_Modul)===targetMod);
-      if(matchedPin){
-        if(!isRowInPinSession(r,matchedPin))return false;
-      }else if(up(r.ID_Modul)!==targetMod&&up(r.Nama_Modul_Sertifikat)!==targetMod){
-        return false;
-      }
-    }
-    if(fTes!=='ALL'){
-      const rTes=up(r.Jenis_Tes||r.Tipe_Tes||(up(r.Status_Lulus)==='HANYA ABSEN'?'TANPA TEST':''));
-      if(!rTes.includes(up(fTes)))return false;
-    }
-    if(q){
-      const hay=up([r.Nama_Karyawan,r.ID_Karyawan,empCo(r),empDp(r),empJb(r),empLvl(r),r.ID_Modul,r.Nama_Modul_Sertifikat,r.Kode_PIN,r.Jenis_Tes].join(' '));
-      if(!hay.includes(q))return false;
-    }
+const MOD_ALIASES = {
+  'MOD-BFI': ['BASIC FIRST AID TRAINING', 'FIRST AID', 'P3K', 'BFI'],
+  'MOD-RC': ['CRITICAL RISK MANAGEMENT (CRM) - PERIKSA', 'RISK CONTROL', 'CRM', 'PERIKSA'],
+  'MOD-ROM': ['BASELINE RISK & OPPORTUNITY ASSESSMENT (BROA)', 'BROA', 'RISK & OPPORTUNITY', 'ROM'],
+  'MOD-OHSE': ['HAZARDOUS MATERIAL & WASTE MANAGEMENT TRAINING', 'HAZARD AWARENESS* (RADIASI, CHEMICAL)', 'OHSE', 'LIMBAH'],
+  'MOD-HT': ['HAND INJURY PREVENTION AWARENESS', 'HAND TOOLS', 'TOOLS']
+};
+
+function isModMatch(qMod, targetMod) {
+  const q = up(qMod || '').trim();
+  const t = up(targetMod || '').trim();
+  if (!q || !t) return false;
+  if (q === t) return true;
+  const aliasMatch = (val, x) => val === x || (x.length >= 6 && val.includes(x)) || (val.length >= 6 && x.includes(val));
+  for (const [code, names] of Object.entries(MOD_ALIASES)) {
+    const uCode = up(code);
+    const list = [uCode, ...names.map(x => up(x))];
+    const qIn = list.some(x => aliasMatch(q, x));
+    const tIn = list.some(x => aliasMatch(t, x));
+    if (qIn && tIn) return true;
+  }
+  return false;
+}
+
+function getBankQuestionsForModule(modId) {
+  if (!modId || !Array.isArray(S.bank) || !S.bank.length) return [];
+  return S.bank.filter(q => isModMatch(q.ID_Modul, modId));
+}
+
+function getBankQuestionCount(modId) {
+  if (!modId || !Array.isArray(S.bank) || !S.bank.length) return null;
+  return getBankQuestionsForModule(modId).length;
+}
+
+function showBankSoalPreview(modId){
+  const targetId = String(modId || $('#tr-pin-mod-id')?.value || '').trim();
+  if(!targetId){toast('Silakan pilih modul terlebih dahulu.');return}
+  const qs = getBankQuestionsForModule(targetId);
+  const titleEl = $('#soal-modal-title');
+  const subEl = $('#soal-modal-sub');
+  const countEl = $('#soal-modal-count');
+  const bodyEl = $('#soal-modal-body');
+  if(titleEl) titleEl.textContent = `Bank Soal: ${targetId}`;
+  if(subEl) subEl.textContent = `Daftar pertanyaan yang sesuai dengan ID_Modul "${targetId}" di Sheet Bank_Soal`;
+  if(countEl) countEl.textContent = `${qs.length} Soal Tersedia`;
+  
+  if(!bodyEl) return;
+  if(!qs.length){
+    bodyEl.innerHTML = `<div class="card" style="text-align:center;padding:28px 16px;background:var(--sf2);border-radius:12px">
+      <span class="mi" style="font-size:38px;color:#b45309">warning</span>
+      <b style="display:block;margin-top:8px;font-size:15px;color:var(--ink)">Belum Ada Soal untuk Modul Ini</b>
+      <p class="mut sm" style="margin-top:4px;max-width:380px;margin-left:auto;margin-right:auto">Tidak ditemukan baris pertanyaan dengan ID_Modul "${e(targetId)}" di Sheet Bank_Soal.</p>
+    </div>`;
+  } else {
+    bodyEl.innerHTML = qs.map((q, idx) => `
+      <div class="card" style="padding:14px;border:1px solid var(--ln);background:var(--sf);border-radius:12px">
+        <div class="row sp" style="gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span class="chip gold" style="font-size:10.5px;font-weight:700">Soal #${idx+1} • ${e(q.ID_Soal||'SOAL')}</span>
+          <div class="row" style="gap:6px">
+            ${q.Tingkat?`<span class="chip gy" style="font-size:10px">${e(q.Tingkat)}</span>`:''}
+            ${q.Tag_Topik?`<span class="chip" style="font-size:10px">${e(q.Tag_Topik)}</span>`:''}
+          </div>
+        </div>
+        <p style="font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:10px">${e(q.Pertanyaan||'-')}</p>
+        <div style="display:grid;grid-template-columns:1fr;gap:6px">
+          ${['A','B','C','D'].map(opt=>{
+            const txt = q['Opsi_'+opt];
+            if(!txt) return '';
+            return `<div style="padding:7px 11px;border-radius:8px;background:var(--sf2);font-size:12.5px;display:flex;gap:8px;align-items:flex-start">
+              <b style="color:var(--p);flex:none;min-width:18px">${opt}.</b>
+              <span style="color:var(--ink)">${e(txt)}</span>
+            </div>`;
+          }).filter(Boolean).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+  $('#o-soal')?.classList.add('on');
+}
+
+function cleanKatalogRows(rows){
+  const seen=new Set();
+  return(Array.isArray(rows)?rows:[]).map(r=>{
+    if(!r||typeof r!=='object')return null;
+    const id=String(r.ID_Modul||r.id_modul||r.ID_MODUL||r.Nama_Modul||'').trim();
+    const nm=String(r.Nama_Modul||r.nama_modul||r.Label_Modul||id).trim();
+    if(!id&&!nm)return null;
+    return{...r,ID_Modul:id||nm,Nama_Modul:nm||id};
+  }).filter(m=>{
+    if(!m)return false;
+    const k=up(m.ID_Modul);
+    if(seen.has(k))return false;
+    seen.add(k);
     return true;
   });
 }
 
-function getTrainerHasilBodyHtml(trInfo){
-  const list=getFilteredTrainerHasil(trInfo);
-  const total=list.length;
-  const lulusCnt=list.filter(r=>up(r.Status_Lulus)==='LULUS').length;
-  const avg=total?Math.round(list.reduce((s,r)=>s+(parseFloat(r.Skor_Akhir)||0),0)/total):0;
-  const MAX_TR_ROWS=200;
-  const shownList=(!S.trShowAll&&total>MAX_TR_ROWS)?list.slice(0,MAX_TR_ROWS):list;
-
-  return `<div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:12px">
-    <span class="chip gy" style="font-weight:700">${S.lang==='zh'?'参训人数':S.lang==='en'?'Participants':'Peserta'}: ${total}</span>
-    <span class="chip ok" style="font-weight:700">${S.lang==='zh'?'通过':S.lang==='en'?'Passed':'Lulus'}: ${lulusCnt}</span>
-    <span class="chip" style="font-weight:700">${S.lang==='zh'?'平均分':S.lang==='en'?'Avg Score':'Rata-rata'}: ${avg}</span>
-  </div>
-  <div style="display:flex;flex-direction:column;gap:9px;max-height:460px;overflow-y:auto;padding-right:2px">
-    ${shownList.length?shownList.map(r=>{
-      const st=up(r.Status_Lulus);
-      const isPass=st==='LULUS',isAbsen=st==='HANYA ABSEN';
-      const stCl=isPass?'ok':isAbsen?'':'er';
-      const jTes=String(r.Jenis_Tes||r.Tipe_Tes||'').trim();
-      const isPre=/pre/i.test(jTes),isPost=/post/i.test(jTes);
-      const modTitle=r.Nama_Modul_Sertifikat||S.modul.find(m=>up(m.ID_Modul)===up(r.ID_Modul))?.Nama_Modul||r.ID_Modul||'-';
-      const hasScoreDetails=r.Benar!==undefined&&r.Benar!==''&&String(r.Benar)!=='-';
-      return `<div class="mod-card ${isPass?'st-done':isAbsen?'st-req':'st-opt'}" style="margin:0">
-        <div class="row sp" style="padding:12px 13px 12px 17px;gap:10px;align-items:center">
-          <div class="g" style="min-width:0">
-            <div class="row" style="gap:5px;flex-wrap:wrap;margin-bottom:4px">
-              <b style="font-size:13.5px;color:var(--ink)">${e(r.Nama_Karyawan||'-')}</b>
-              <span class="chip gy mono" style="font-size:10px">${e(r.ID_Karyawan||'-')}</span>
-              ${jTes?`<span class="chip" style="font-size:10px;${isPre?'background:#eef4ff;color:#1d4ed8;border-color:#93c5fd':isPost?'background:var(--okb);color:var(--ok);border-color:rgba(0,108,74,.25)':''}">${e(jTes)}</span>`:''}
-              <span class="chip ${stCl}">${e(r.Status_Lulus||'-')}</span>
-            </div>
-            <div class="mut sm ell">${e([r.Company,r.Departemen,modTitle,hasScoreDetails?`Benar ${r.Benar}/${r.Terjawab||'-'}`:''].filter(Boolean).join(' • '))}</div>
-          </div>
-          <div style="text-align:center;flex-shrink:0;min-width:56px;padding:7px 9px;border-radius:12px;background:var(--sf2);border:1px solid var(--ln)">
-            <div class="tnum" style="font-size:19px;font-weight:800;line-height:1.1;color:${isPass?'var(--ok)':isAbsen?'var(--p)':'var(--er)'}">${e(r.Skor_Akhir??0)}</div>
-            <div class="mut" style="font-size:9px;text-transform:uppercase;font-weight:800;letter-spacing:.04em;margin-top:2px">${S.lang==='zh'?'得分':S.lang==='en'?'Score':'Nilai'}</div>
-          </div>
-        </div>
-      </div>`;
-    }).join('')+((!S.trShowAll&&total>MAX_TR_ROWS)?`<button type="button" class="btn s tonal w" data-a="trShowAll" style="margin-top:4px">Tampilkan semua (${total}) hasil peserta</button>`:''):`<div class="mut sm" style="text-align:center;padding:20px;background:var(--sf2);border-radius:12px;border:1px dashed var(--ln-strong)">${S.lang==='zh'?'当前进行中的培训暂无学员成绩记录。':S.lang==='en'?'No participant scores yet for this running training.':'Belum ada peserta yang mengerjakan asesmen pada training yang sedang berjalan ini.'}</div>`}
-  </div>`;
+function getTrainerCatalogList(){
+  const db=(Array.isArray(S.katalogDb)&&S.katalogDb.length)?S.katalogDb:cleanKatalogRows(S.modul||[]);
+  return db;
 }
 
-function updateTrainerHasilUI(){
-  const trInfo=getLoggedTrainer(S.emp);
-  if(!trInfo)return;
-  const body=$('#tr-hasil-body');
-  if(body)body.innerHTML=getTrainerHasilBodyHtml(trInfo);
-  document.querySelectorAll('[data-a="trFltTes"]').forEach(b=>{
-    b.classList.toggle('on',up(b.dataset.v)===up(S.trFilterTes||'ALL'));
+function buildTrModulOptionsHtml(){
+  const list=getTrainerCatalogList();
+  const bankReady=Boolean(S._bankLoaded);
+  return list.map(m=>{
+    const id=String(m.ID_Modul||'').trim();
+    const nm=mText(m,'Nama_Modul')||m.Nama_Modul||'';
+    const qCnt=bankReady?getBankQuestionCount(id):null;
+    const qBadge=qCnt!==null?(qCnt>0?`[${qCnt} Soal]`:'[Belum Ada Soal]'):'[Memuat Soal…]';
+    const labelText=(!nm||nm.toUpperCase()===id.toUpperCase())?id:`${id} — ${nm}`;
+    return `<option value="${e(id)}" data-nama="${e(nm||id)}" data-dur="${e(m.Durasi_Default||30)}" data-qcnt="${qCnt!==null?qCnt:''}">
+      ${qBadge?e(qBadge)+' ':''}${e(labelText)}
+    </option>`;
+  }).join('');
+}
+
+function refreshTrModulSelect(){
+  const sel=$('#tr-pin-mod-select');
+  const dbList=getTrainerCatalogList();
+  const kpiMod=$('#tr-pin-kpi-modul');
+  if(kpiMod)kpiMod.textContent=dbList.length;
+  const dbBadge=$('#tr-pin-db-badge');
+  if(dbBadge){
+    const bankCnt=(S.bank||[]).length;
+    if(!dbList.length&&!S._katalogLoaded){
+      dbBadge.textContent='Memuat Katalog_Modul dari database…';
+      dbBadge.className='chip gy sm';
+    }else if(!S._bankLoaded){
+      dbBadge.textContent=`Database: ${dbList.length} Modul • Memuat Bank_Soal…`;
+      dbBadge.className='chip gy sm';
+    }else{
+      dbBadge.textContent=`Database: ${dbList.length} Modul • ${bankCnt} Soal`;
+      dbBadge.className=dbList.length?'chip ok sm':'chip wa sm';
+    }
+  }
+  if(!sel)return;
+  const prevVal=sel.value;
+  sel.innerHTML=`<option value="">${dbList.length?'-- Pilih dari Katalog Modul (Database) --':'-- Memuat Katalog_Modul dari Database --'}</option>${buildTrModulOptionsHtml()}<option value="__CUSTOM__">+ Tambah Modul Baru (Tidak Ada di Katalog)</option>`;
+  if(prevVal&&(prevVal==='__CUSTOM__'||dbList.some(m=>up(m.ID_Modul)===up(prevVal)))){
+    sel.value=prevVal;
+  }
+  const curId=$('#tr-pin-mod-id')?.value;
+  if(curId)updateTrPinBankStatus(curId);
+}
+
+async function loadKatalogModulFromDb(force){
+  if(!force&&S._katalogLoaded&&Array.isArray(S.katalogDb)&&S.katalogDb.length){
+    refreshTrModulSelect();
+    return S.katalogDb;
+  }
+  if(!force&&S._katalogPromise)return S._katalogPromise;
+  S._katalogPromise=(async()=>{
+    let rows=[];
+    const qs=force?{bypass:'1'}:{};
+    try{
+      const r=await g({action:'read_sheet',sheet:'Katalog_Modul',...qs},1);
+      if(r?.status==='success'&&Array.isArray(r.data)&&r.data.length)rows=r.data;
+    }catch(e){}
+    if(!rows.length){
+      try{
+        const r=await g({action:'admin_read',sheet:'Katalog_Modul',...qs},1);
+        if(r?.status==='success'&&Array.isArray(r.data)&&r.data.length)rows=r.data;
+      }catch(e){}
+    }
+    if(!rows.length){
+      try{
+        const r=await g({action:'init'},1);
+        if(r?.status==='success'&&Array.isArray(r.data?.modul)&&r.data.modul.length)rows=r.data.modul;
+      }catch(e){}
+    }
+    if(!rows.length){
+      try{
+        rows=await fetchSheetGvizJsonp('Katalog_Modul');
+      }catch(e){}
+    }
+    const cleaned=cleanKatalogRows(rows);
+    if(cleaned.length){
+      S.katalogDb=cleaned;
+      S._katalogLoaded=true;
+      const merged=[...cleaned];
+      (S.modul||[]).forEach(m=>{if(m.ID_Modul&&!merged.some(x=>up(x.ID_Modul)===up(m.ID_Modul)))merged.push(m)});
+      S.modul=merged;
+      saveCache();
+    }
+    refreshTrModulSelect();
+    return S.katalogDb;
+  })().finally(()=>{S._katalogPromise=null});
+  return S._katalogPromise;
+}
+
+async function loadBankSoalList(force){
+  if(!force&&S._bankLoaded&&Array.isArray(S.bank)&&S.bank.length)return S.bank;
+  if(!force&&S._bankPromise)return S._bankPromise;
+  S._bankPromise=(async()=>{
+    let all=[];
+    // Prioritaskan admin_read (berisi seluruh baris Bank_Soal) lalu fallback read_sheet & GViz; Kunci selalu dibersihkan di klien
+    try{
+      const r=await g({action:'admin_read',sheet:CFG.SOAL,...(force?{bypass:'1'}:{})},2);
+      if(r?.status==='success'&&Array.isArray(r.data)&&r.data.length)all=r.data;
+    }catch(e){}
+    if(!all.length){
+      try{
+        const r=await g({action:'read_sheet',sheet:CFG.SOAL},1);
+        if(r?.status==='success'&&Array.isArray(r.data)&&r.data.length)all=r.data;
+      }catch(e){}
+    }
+    if(!all.length){
+      try{
+        all=await fetchSheetGvizJsonp(CFG.SOAL);
+      }catch(e){}
+    }
+    const cleanQs=stripKunci(all).filter(q=>q&&String(q.ID_Modul||'').trim()&&String(q.Pertanyaan||'').trim());
+    if(cleanQs.length){
+      S.bank=cleanQs;
+      S._bankLoaded=true;
+      saveCache();
+      refreshTrModulSelect();
+    }
+    return S.bank||[];
+  })().finally(()=>{S._bankPromise=null});
+  return S._bankPromise;
+}
+
+function updateTrPinBankStatus(modId){
+  const box=$('#tr-pin-bank-status');
+  if(!box)return;
+  const targetId = String(modId||'').trim();
+  if(!targetId){box.innerHTML='';return}
+  if(!S._bankLoaded){
+    box.innerHTML=`<span class="chip gy sm" style="font-size:11px"><span class="mi" style="font-size:13px">hourglass_empty</span> Mengambil data soal dari Bank_Soal…</span>`;
+    loadBankSoalList().then(()=>{updateTrPinBankStatus(targetId)});
+    return;
+  }
+  const cnt=getBankQuestionCount(targetId)||0;
+  if(cnt>0){
+    box.innerHTML=`<div class="row sp" style="gap:8px;align-items:center;margin-top:2px;flex-wrap:wrap">
+      <span class="chip ok sm" style="font-size:11px;font-weight:700"><span class="mi" style="font-size:14px">check_circle</span> Tersedia ${cnt} Soal di Bank_Soal</span>
+      <button type="button" class="btn s tonal" data-a="trViewSoal" data-v="${e(targetId)}" style="font-size:11.5px;padding:3px 10px;height:auto;display:inline-flex;align-items:center;gap:4px">
+        <span class="mi" style="font-size:15px;color:var(--p)">visibility</span> Lihat Soal (${cnt})
+      </button>
+    </div>`;
+  }else{
+    box.innerHTML=`<div style="margin-top:2px;padding:8px 10px;background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;color:#92400e">
+      <div class="row" style="gap:6px;align-items:center">
+        <span class="mi" style="font-size:16px;color:#b45309">warning</span>
+        <b style="font-size:11.5px">Perhatian: Belum ada soal untuk modul "${e(targetId)}" di Sheet Bank_Soal!</b>
+      </div>
+      <div style="font-size:11px;margin-top:2px;line-height:1.35;opacity:.9">Sesi PIN tetap bisa dibuat, namun peserta baru bisa memulai ujian setelah admin / trainer mengunggah soal ke Sheet Bank_Soal dengan ID_Modul ini.</div>
+    </div>`;
+  }
+}
+
+function setTrModInputsMode(isManual){
+  const inpId=$('#tr-pin-mod-id'),inpNm=$('#tr-pin-mod-nama'),note=$('#tr-pin-mod-mode');
+  [inpId,inpNm].forEach(el=>{
+    if(!el)return;
+    el.readOnly=!isManual;
+    el.style.background=isManual?'':'var(--sf2)';
+    el.style.cursor=isManual?'text':'not-allowed';
+    el.style.fontWeight='600';
+    el.style.color='var(--ink)';
+    el.placeholder=isManual
+      ?(el===inpId?'Ketik ID Modul baru sesuai Bank_Soal':'Ketik Nama Pelatihan / Modul baru')
+      :'Otomatis terisi dari database Katalog_Modul';
   });
-  const sel=$('#tr-flt-mod');
-  if(sel&&sel.value!==S.trFilterMod)sel.value=S.trFilterMod||'RUNNING';
+  if(note){
+    note.style.display=isManual?'block':'none';
+  }
 }
+
+function onTrPickModul(modId){
+  const inpId=$('#tr-pin-mod-id'),inpNm=$('#tr-pin-mod-nama'),inpJml=$('#tr-pin-jml'),inpDur=$('#tr-pin-durasi');
+  if(modId==='__CUSTOM__'){
+    setTrModInputsMode(true);
+    if(inpId){inpId.value='';inpId.focus()}
+    if(inpNm){inpNm.value=''}
+    updateTrPinBankStatus('');
+    return;
+  }
+  setTrModInputsMode(false);
+  const catalog=getTrainerCatalogList();
+  const m=catalog.find(x=>up(x.ID_Modul)===up(modId))||S.modul.find(x=>up(x.ID_Modul)===up(modId));
+  if(m){
+    // ID Modul dan Nama Pelatihan diambil langsung dari sheet Katalog_Modul header ID_Modul
+    const idVal=m.ID_Modul;
+    const nmVal=m.Nama_Modul||m.ID_Modul;
+    if(inpId){inpId.value=idVal}
+    if(inpNm){inpNm.value=nmVal}
+    if(inpDur&&m.Durasi_Default){inpDur.value=m.Durasi_Default}
+    if(inpJml){inpJml.value=20}
+    updateTrPinBankStatus(idVal);
+  }else if(!modId){
+    if(inpId)inpId.value='';
+    if(inpNm)inpNm.value='';
+    updateTrPinBankStatus('');
+  }
+}
+
+async function saveTrainerPin(){
+  const errBox=$('#tr-pin-err');
+  if(errBox)errBox.classList.remove('on');
+  const btn=$('#btn-save-tr-pin');
+  const pin=cleanInp($('#tr-pin-code')?.value,20).toUpperCase();
+  const tgl=cleanInp($('#tr-pin-tgl')?.value,20);
+  const jm=cleanInp($('#tr-pin-jm')?.value,10);
+  const js=cleanInp($('#tr-pin-js')?.value,10);
+  const modId=cleanInp($('#tr-pin-mod-id')?.value,120);
+  let modNama=cleanInp($('#tr-pin-mod-nama')?.value,120);
+  const trainer=cleanInp($('#tr-pin-trainer')?.value,100);
+  const batch=cleanInp($('#tr-pin-batch')?.value,60)||'Batch 1';
+  const jmlSoal=parseInt($('#tr-pin-jml')?.value,10)||20;
+  const acakSoal=cleanInp($('#tr-pin-acak')?.value,10)||'YA';
+  const durasi=parseInt($('#tr-pin-durasi')?.value,10)||30;
+  const jenisTes=cleanInp($('#tr-pin-jenis')?.value,30)||'Post Test';
+
+  if(!pin){showErr('#tr-pin-err','Kode PIN wajib diisi.');$('#tr-pin-code')?.focus();return}
+  if(!modId){showErr('#tr-pin-err','Silakan pilih modul dari katalog atau ketik ID Modul.');$('#tr-pin-mod-id')?.focus();return}
+  if(!modNama)modNama=modId;
+  if(!tgl){showErr('#tr-pin-err','Tanggal pelatihan wajib diisi.');$('#tr-pin-tgl')?.focus();return}
+  if(!jm){showErr('#tr-pin-err','Jam mulai training wajib diisi.');$('#tr-pin-jm')?.focus();return}
+  if(!js){showErr('#tr-pin-err','Jam selesai training wajib diisi.');$('#tr-pin-js')?.focus();return}
+  if(js<=jm){showErr('#tr-pin-err','Jam selesai training harus setelah jam mulai training.');$('#tr-pin-js')?.focus();return}
+
+  const qCnt=getBankQuestionCount(modId);
+  if(qCnt!==null&&qCnt===0){
+    const ok=confirm(`Perhatian: Modul "${modId}" belum memiliki soal di Sheet Bank_Soal.\n\nPeserta tidak akan bisa memulai ujian sampai soal untuk modul ini dimasukkan ke Sheet Bank_Soal.\n\nTetap daftarkan sesi PIN "${pin}" sekarang?`);
+    if(!ok)return;
+  }
+
+  if(btn){btn.disabled=true;btn.textContent='Mendaftarkan Sesi PIN…'}
+
+  const rec={
+    Kode_PIN:pin,
+    ID_Modul:modId,
+    Nama_Modul:modNama,
+    Batch_Sesi:batch,
+    Tanggal:tgl,
+    Jam_Mulai:jm,
+    Jam_Selesai:js,
+    Durasi_Menit:durasi,
+    Jml_Soal:jmlSoal,
+    Batas_Pre_Test:1,
+    Batas_Post_Test:2,
+    Acak_Soal:acakSoal,
+    Trainer:trainer,
+    Status:'AKTIF',
+    Jenis_Tes:jenisTes
+  };
+
+  if(!Array.isArray(S.trainerPins))S.trainerPins=[];
+  S.trainerPins.unshift(rec);
+  if(!Array.isArray(S.sesi))S.sesi=[];
+  S.sesi.unshift(rec);
+
+  if(!S.modul.some(m=>up(m.ID_Modul)===up(modId))){
+    const newModObj={
+      ID_Modul:modId,
+      Nama_Modul:modNama,
+      Tingkat:'-',
+      Badge_Kategori:'-',
+      Ikon_UI:'assignment',
+      Durasi_Default:durasi,
+      Jml_Soal_Default:jmlSoal,
+      Passing_Grade:75,
+      Penyelenggara:trainer
+    };
+    S.modul.unshift(newModObj);
+    if(!Array.isArray(S.katalogDb))S.katalogDb=[];
+    if(!S.katalogDb.some(m=>up(m.ID_Modul)===up(modId)))S.katalogDb.unshift(newModObj);
+    po({
+      action:'admin_save_row',
+      sheet:'Katalog_Modul',
+      record:{ID_Modul:modId,Nama_Modul:modNama,Durasi_Default:durasi,Jml_Soal_Default:jmlSoal,Passing_Grade:75,Penyelenggara:trainer},
+      key_col:'ID_Modul',
+      key_val:modId,
+      mode:'upsert'
+    },2).catch(()=>{});
+  }
+
+  saveCache();
+
+  const payload={
+    action:'admin_save_row',
+    sheet:'Jadwal_PIN',
+    record:rec,
+    key_col:'Kode_PIN',
+    key_val:pin,
+    mode:'create'
+  };
+
+  try{
+    const res=await po(payload,2);
+    if(res?.status!=='success')throw new Error(res?.message||'Gagal menyimpan');
+    toast(`Sesi "${modNama}" dengan Kode PIN ${pin} berhasil didaftarkan dan aktif!`);
+  }catch(err){
+    try{
+      const q=JSON.parse(localStorage.getItem('mgr_pending_pins')||'[]');
+      q.push(payload);
+      localStorage.setItem('mgr_pending_pins',JSON.stringify(q));
+    }catch(e){}
+    toast(`Sesi PIN ${pin} berhasil didaftarkan di perangkat (tersimpan lokal).`);
+  }
+
+  S._trPinFormOpen=false;
+  rTrainer();
+}
+
+function updateTrainerHasilUI(){}
 
 function renderTrainerPanelHtml(trInfo){
   if(!trInfo)return '';
-  const allHasil=S.trainerHasil||[];
-  const runningPins=getRunningTrainerPins().map(s=>{
-    const pCount=allHasil.filter(h=>isRowInPinSession(h,s)).length;
-    return {...s,pCount};
-  });
-  const totalRunningHasil=allHasil.filter(r=>runningPins.some(s=>isRowInPinSession(r,s))||(up(r.Kode_PIN)==='ABSEN'&&isRowToday(r))).length;
-
-  const modOpts=[];
-  const seenMod=new Set();
-  runningPins.forEach(s=>{
-    const modId=String(s.ID_Modul||'').trim();
-    if(!modId||seenMod.has(up(modId)))return;
-    seenMod.add(up(modId));
-    modOpts.push({
-      val:'MOD:'+modId,
-      label:`${s.title}${s.Kode_PIN?` (PIN: ${s.Kode_PIN})`:''} — ${s.pCount} Peserta`
-    });
-  });
-  const absenMods=new Map();
-  allHasil.filter(r=>up(r.Kode_PIN)==='ABSEN'&&isRowToday(r)).forEach(r=>{
-    const m=String(r.Nama_Modul_Sertifikat||r.ID_Modul||'').trim();
-    if(!m||seenMod.has(up(m)))return;
-    const k=up(m);
-    if(!absenMods.has(k))absenMods.set(k,{name:m,count:0});
-    absenMods.get(k).count++;
-  });
-  absenMods.forEach(v=>{
-    seenMod.add(up(v.name));
-    modOpts.push({val:'MOD:'+v.name,label:`${v.name} (Absen) — ${v.count} Peserta`});
-  });
-
-  if(S.trFilterMod&&S.trFilterMod.startsWith('MOD:')){
-    const targetMod=S.trFilterMod.slice(4);
-    if(!seenMod.has(up(targetMod))){
-      const cnt=allHasil.filter(h=>up(h.ID_Modul)===up(targetMod)||up(h.Nama_Modul_Sertifikat)===up(targetMod)).length;
-      modOpts.push({val:'MOD:'+targetMod,label:`${targetMod} — ${cnt} Peserta`});
-    }
+  const runningPins=getRunningTrainerPins();
+  const catalogList=getTrainerCatalogList();
+  const bankLoaded=Boolean(S._bankLoaded);
+  if(!S._katalogLoaded||!catalogList.length||!bankLoaded){
+    setTimeout(()=>{
+      const tasks=[];
+      if(!S._katalogLoaded||!catalogList.length)tasks.push(loadKatalogModulFromDb(false));
+      if(!bankLoaded)tasks.push(loadBankSoalList(false));
+      Promise.all(tasks).then(()=>{updateTrPinBankStatus($('#tr-pin-mod-id')?.value)});
+    },80);
   }
+
+  const defBatch=genRandomBatch();
+  const defPin=genRandomPin();
+  const trName=trInfo.Name||S.emp?.Nama_Lengkap||'Trainer';
+  const modCatalogOpts=buildTrModulOptionsHtml();
 
   return `<div class="hero-dark" style="padding:18px">
     <div class="row sp" style="gap:10px;align-items:flex-start">
@@ -2795,44 +3140,159 @@ function renderTrainerPanelHtml(trInfo){
     </div>
     <div class="kpis" style="margin-top:14px;grid-template-columns:repeat(2,minmax(0,1fr))">
       <div class="kpi"><b class="tnum" style="color:var(--p)">${runningPins.length}</b><small>Kode PIN Aktif Hari Ini</small></div>
-      <div class="kpi"><b class="tnum" style="color:var(--ok)">${totalRunningHasil}</b><small>Total Submit Hari Ini</small></div>
+      <div class="kpi"><b class="tnum" id="tr-pin-kpi-modul" style="color:var(--ok)">${catalogList.length}</b><small>Modul Terdaftar di Katalog</small></div>
     </div>
   </div>
   <div class="card" id="trainer-panel" style="padding:16px">
-    <div style="margin-bottom:16px">
+    <!-- Tombol Trigger Tambah Jadwal & PIN Baru (Default Form Tersembunyi) -->
+    <div id="tr-pin-toggle-bar" style="margin-bottom:16px;display:${S._trPinFormOpen?'none':'flex'};align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,#fffcf5 0%,var(--pf) 100%);border:1.5px dashed var(--gold)">
+      <div style="min-width:0;flex:1">
+        <b style="font-size:13.5px;color:var(--ink);display:block">Tambahkan Jadwal &amp; PIN Training Baru</b>
+        <span class="mut sm" style="font-size:11.5px">Untuk pelatihan yang belum terdaftar di daftar Kode PIN Aktif</span>
+      </div>
+      <button type="button" class="btn p s" id="btn-open-tr-pin-form" data-a="trTogglePinForm" data-v="open" style="flex:none">
+        <span class="mi" style="font-size:17px">add_circle</span> Tambah Jadwal &amp; PIN
+      </button>
+    </div>
+
+    <!-- Form Daftarkan Jadwal dan PIN Baru (Default Tersembunyi) -->
+    <div id="tr-pin-form-card" style="display:${S._trPinFormOpen?'block':'none'};margin-bottom:20px;padding:16px;border-radius:14px;background:linear-gradient(145deg,#ffffff 0%,var(--pf) 100%);border:1.5px solid var(--gold);box-shadow:var(--sh)">
+      <div class="row sp" style="gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <div class="row" style="gap:8px;align-items:center">
+          <span class="bento-ico" style="background:#ffffff;color:var(--p);border:1px solid rgba(184,149,72,.35)"><span class="mi">add_circle</span></span>
+          <div>
+            <b style="font-size:15px;color:var(--ink);display:block">Daftarkan Jadwal &amp; PIN Training Baru</b>
+            <span class="mut sm" style="font-size:11.5px">Buka sesi ujian langsung dari panel trainer untuk pelatihan yang belum memiliki PIN</span>
+          </div>
+        </div>
+        <div class="row" style="gap:6px;align-items:center">
+          <span class="chip gold" style="font-size:10px;font-weight:700">Quick PIN Sesi</span>
+          <button type="button" class="btn s tonal" id="btn-close-tr-pin-form" data-a="trTogglePinForm" data-v="close" style="padding:4px 10px;height:auto;font-size:11.5px">
+            <span class="mi" style="font-size:15px">close</span> Tutup
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <!-- Tanggal & Jam Pelatihan -->
+        <div class="row m-col" style="gap:10px">
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-tgl">Tanggal Pelatihan <span style="color:var(--er)">*</span></label>
+            <input type="date" class="inp" id="tr-pin-tgl" value="${todayYmd()}">
+          </div>
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-jm">Jam Mulai <span style="color:var(--er)">*</span></label>
+            <input type="time" class="inp" id="tr-pin-jm" value="08:00">
+          </div>
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-js">Jam Selesai <span style="color:var(--er)">*</span></label>
+            <input type="time" class="inp" id="tr-pin-js" value="17:00">
+          </div>
+        </div>
+
+        <!-- Nama Training / Modul dari Katalog (Sheet Katalog_Modul) -->
+        <div>
+          <div class="row sp" style="gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+            <label class="lbl" for="tr-pin-mod-select" style="margin:0">Pilih Modul dari Katalog (Sheet Katalog_Modul Header ID_Modul) <span style="color:var(--er)">*</span></label>
+            <span id="tr-pin-db-badge" class="chip ${catalogList.length&&bankLoaded?'ok':'gy'} sm" style="font-size:10px">${catalogList.length?(bankLoaded?`Database: ${catalogList.length} Modul • ${S.bank.length} Soal`:`Database: ${catalogList.length} Modul • Memuat Bank_Soal…`):'Memuat Katalog_Modul dari database…'}</span>
+          </div>
+          <select class="inp" id="tr-pin-mod-select" data-a="trPickModul" style="font-size:13px;font-weight:600">
+            <option value="">${catalogList.length?'-- Pilih dari Katalog Modul (Database) --':'-- Memuat Katalog_Modul dari Database --'}</option>
+            ${modCatalogOpts}
+            <option value="__CUSTOM__">+ Tambah Modul Baru (Tidak Ada di Katalog)</option>
+          </select>
+          <div id="tr-pin-bank-status" style="margin-top:6px"></div>
+        </div>
+
+        <div id="tr-pin-mod-mode" style="display:none;padding:7px 10px;border-radius:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;font-size:11.5px;font-weight:600">
+          Mode Input Modul Baru aktif — ketik ID Modul &amp; Nama Pelatihan baru untuk disimpan ke sheet Katalog_Modul.
+        </div>
+
+        <div class="row m-col" style="gap:10px" id="tr-pin-mod-inputs">
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-mod-id">ID Modul (Katalog &amp; Bank Soal) <span style="color:var(--er)">*</span></label>
+            <input class="inp" id="tr-pin-mod-id" placeholder="Otomatis terisi dari database Katalog_Modul" readonly style="background:var(--sf2);cursor:not-allowed;font-weight:600;color:var(--ink)" autocomplete="off">
+          </div>
+          <div class="g" style="flex:2">
+            <label class="lbl" for="tr-pin-mod-nama">Nama Pelatihan / Modul <span style="color:var(--er)">*</span></label>
+            <input class="inp" id="tr-pin-mod-nama" placeholder="Otomatis terisi dari database Katalog_Modul" readonly style="background:var(--sf2);cursor:not-allowed;font-weight:600;color:var(--ink)" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Nama Trainer (sesuai ID trainer yang mendaftarkan) & Batch Sesi (Random) -->
+        <div class="row m-col" style="gap:10px">
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-trainer">Nama Trainer <span class="chip gold sm" style="font-size:9.5px;padding:1px 6px">Sesuai Akun Login</span></label>
+            <input class="inp" id="tr-pin-trainer" value="${e(trName)}" readonly style="background:var(--sf2);cursor:not-allowed;font-weight:600;color:var(--ink)">
+          </div>
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-batch">Batch Sesi <span class="chip sm" style="font-size:9.5px;padding:1px 6px">Random</span></label>
+            <div class="row" style="gap:6px">
+              <input type="text" class="inp g" id="tr-pin-batch" value="${e(defBatch)}" placeholder="Contoh: Batch 12">
+              <button type="button" class="btn s tonal" data-a="trRerollBatch" title="Acak Ulang Batch" style="flex:none"><span class="mi" style="font-size:15px">casino</span> Acak</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jumlah Soal (Default 20), Acak Soal (Default YA), dan Kode PIN (Random) -->
+        <div class="row m-col" style="gap:10px">
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-jml">Jumlah Soal <span class="chip sm" style="font-size:9.5px;padding:1px 6px">Default: 20</span></label>
+            <input type="number" min="1" max="100" class="inp" id="tr-pin-jml" value="20">
+          </div>
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-acak">Acak Soal <span class="chip sm" style="font-size:9.5px;padding:1px 6px">Default: YA</span></label>
+            <select class="inp" id="tr-pin-acak">
+              <option value="YA" selected>YA (Acak Soal)</option>
+              <option value="TIDAK">TIDAK (Urut)</option>
+            </select>
+          </div>
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-code">Kode PIN Akses <span class="chip sm" style="font-size:9.5px;padding:1px 6px">Random</span></label>
+            <div class="row" style="gap:6px">
+              <input type="text" class="inp mono g" id="tr-pin-code" value="${e(defPin)}" maxlength="20" style="font-weight:800;letter-spacing:0.08em;text-transform:uppercase">
+              <button type="button" class="btn s tonal" data-a="trRerollPin" title="Acak Ulang PIN" style="flex:none"><span class="mi" style="font-size:15px">refresh</span> Acak</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail Tambahan (Jenis Tes & Durasi) -->
+        <div class="row m-col" style="gap:10px">
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-jenis">Jenis Tes</label>
+            <select class="inp" id="tr-pin-jenis">
+              <option value="Post Test" selected>Post Test</option>
+              <option value="Pre Test">Pre Test</option>
+            </select>
+          </div>
+          <div class="g" style="flex:1">
+            <label class="lbl" for="tr-pin-durasi">Durasi Pengerjaan (Menit)</label>
+            <input type="number" min="5" max="180" class="inp" id="tr-pin-durasi" value="30">
+          </div>
+        </div>
+
+        <div class="err" id="tr-pin-err"></div>
+        <button type="button" class="btn p w" id="btn-save-tr-pin" data-a="saveTrainerPin" style="margin-top:4px">
+          <span class="mi">add_circle</span> Daftarkan Jadwal &amp; Aktifkan Kode PIN
+        </button>
+      </div>
+    </div>
+
+    <!-- Kode PIN Training Aktif (Berada di Bawah Form Daftarkan Jadwal dan PIN) -->
+    <div>
       <div class="sec-title" style="margin-bottom:10px"><span>Kode PIN Training Aktif (${runningPins.length})</span></div>
       ${runningPins.length?`<div style="display:flex;flex-direction:column;gap:8px">
         ${runningPins.map(s=>`<div class="item act" style="margin:0;padding:12px 13px;gap:10px;justify-content:space-between;background:linear-gradient(135deg,#ffffff 0%,var(--pf) 100%)">
           <div class="g" style="min-width:0">
             <b class="ell" style="display:block;font-size:14px;color:var(--ink)">${e(s.title)}</b>
-            <span class="mut sm ell" style="display:block;margin-top:2px">${e([s.Jam_Mulai&&s.Jam_Selesai?`${s.Jam_Mulai}–${s.Jam_Selesai}`:s.Tanggal].filter(Boolean).join(' • '))}</span>
+            <span class="mut sm ell" style="display:block;margin-top:2px">${e([s.Jam_Mulai&&s.Jam_Selesai?`${s.Jam_Mulai}–${s.Jam_Selesai}`:s.Tanggal,s.Batch_Sesi].filter(Boolean).join(' • '))}</span>
           </div>
           <div class="row" style="gap:6px;flex-shrink:0">
             <span class="chip mono" style="background:#ffffff;border:1.5px dashed var(--gold);color:var(--ink);font-size:12.5px;font-weight:800;padding:5px 10px;cursor:pointer" data-a="copyPin" data-v="${e(s.Kode_PIN)}" title="Ketuk untuk salin">${e(s.Kode_PIN||'-')}</span>
-            <button type="button" class="btn p s" data-a="trViewMod" data-v="MOD:${e(s.ID_Modul)}">${s.pCount} Peserta</button>
+            <button type="button" class="btn tonal s" data-a="copyPin" data-v="${e(s.Kode_PIN)}"><span class="mi" style="font-size:15px">content_copy</span> Salin</button>
           </div>
         </div>`).join('')}
-      </div>`:`<div class="mut sm" style="padding:16px;text-align:center;background:var(--sf2);border-radius:12px">Tidak ada training terjadwal hari ini.</div>`}
-    </div>
-
-    <div style="border-top:1px solid var(--ln);padding-top:14px" id="tr-hasil-sec">
-      <div class="sec-title" style="margin-bottom:10px"><span>Nilai Peserta Hari Ini (${totalRunningHasil})</span></div>
-      <select class="inp" id="tr-flt-mod" style="height:40px;font-size:13px;font-weight:600;margin-bottom:10px">
-        <option value="RUNNING" ${(S.trFilterMod==='RUNNING'||S.trFilterMod==='ALL')?'selected':''}>Semua Training (${totalRunningHasil})</option>
-        ${modOpts.map(o=>`<option value="${e(o.val)}" ${up(S.trFilterMod)===up(o.val)?'selected':''}>${e(o.label)}</option>`).join('')}
-      </select>
-      <div class="row m-col" style="gap:8px;margin-bottom:12px">
-        <input class="inp g" id="tr-search" maxlength="80" placeholder="Cari nama peserta / NIK…" value="${e(S.trSearch||'')}" style="height:38px;font-size:13px">
-        <div class="tabs" style="margin:0;flex-shrink:0">
-          <button type="button" class="${(S.trFilterTes||'ALL')==='ALL'?'on':''}" data-a="trFltTes" data-v="ALL">Semua</button>
-          <button type="button" class="${up(S.trFilterTes)==='PRE TEST'?'on':''}" data-a="trFltTes" data-v="Pre Test">Pre</button>
-          <button type="button" class="${up(S.trFilterTes)==='POST TEST'?'on':''}" data-a="trFltTes" data-v="Post Test">Post</button>
-          <button type="button" class="${up(S.trFilterTes)==='TANPA TEST'?'on':''}" data-a="trFltTes" data-v="TANPA TEST">Absen</button>
-        </div>
-      </div>
-      <div id="tr-hasil-body">
-        ${getTrainerHasilBodyHtml(trInfo)}
-      </div>
+      </div>`:`<div class="mut sm" style="padding:16px;text-align:center;background:var(--sf2);border-radius:12px">Tidak ada training terjadwal hari ini. Daftarkan sesi baru menggunakan formulir di atas.</div>`}
     </div>
   </div>`;
 }
@@ -3081,7 +3541,7 @@ function rSim(){
             <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:5px">
               ${mat?`<span class="chip" style="font-size:10.5px">${mi('assignment')} ${e(mat)}</span>`:''}
               ${time?`<span class="chip wa" style="font-size:10.5px">${mi('schedule')} ${e(time)}</span>`:''}
-              <span class="mut sm" style="font-size:11px">${e(r.Timestamp_Submit||'-')}</span>
+              ${splitTsHtml(r.Timestamp_Submit,true)}
             </div>
           </div>
         </div>
@@ -3578,13 +4038,57 @@ function isLocalWindowOpen(ses,startHint){
   if(em!==null&&cur>em)return false;
   return true;
 }
+/* ---------- Kode PIN boleh dipakai ulang di tanggal berbeda: pencocokan selalu berbasis Kode_PIN + Tanggal ---------- */
+function ymd(s){
+  const d=parseFlexDate(s);
+  if(!d||isNaN(d))return '';
+  const p=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+const todayYmd=()=>nowTs().split(' ')[0];
+const isLivePin=r=>!['NONAKTIF','SELESAI'].includes(up(r?.Status));
+async function getPinRowsFor(pin){
+  const P=up(pin);if(!P)return [];
+  let rows=[];
+  try{rows=await fetchSheetGvizJsonp(CFG.PIN)}catch(e){}
+  if(!Array.isArray(rows)||!rows.length)rows=[...(S.trainerPins||[])];
+  return (rows||[]).filter(r=>up(r.Kode_PIN)===P);
+}
+/* Pilih baris Jadwal_PIN yang tepat untuk sebuah PIN: prioritas tanggal target (default hari ini) + modul */
+function pickPinSession(rows,reqMod,targetDate){
+  const list=(rows||[]).filter(Boolean);
+  if(!list.length)return null;
+  const tgt=ymd(targetDate)||todayYmd();
+  const M=up(reqMod);
+  const modOk=r=>!M||up(r.ID_Modul)===M;
+  const dOf=r=>ymd(r.Tanggal);
+  const tDays=s=>{const d=parseFlexDate(s);return d?Math.round(d.getTime()/86400000):null};
+  const tgtDays=tDays(tgt);
+  const closest=arr=>arr.slice().sort((a,b)=>{
+    const da=tDays(dOf(a)),db=tDays(dOf(b));
+    const xa=da===null?1e9:Math.abs(da-tgtDays),xb=db===null?1e9:Math.abs(db-tgtDays);
+    return xa-xb;
+  })[0]||null;
+  const tiers=[
+    r=>isLivePin(r)&&modOk(r)&&dOf(r)===tgt,
+    r=>isLivePin(r)&&dOf(r)===tgt,
+    r=>isLivePin(r)&&modOk(r)&&up(r.Status)==='AKTIF'&&!dOf(r),
+    r=>isLivePin(r)&&modOk(r)&&up(r.Status)==='AKTIF',
+    r=>isLivePin(r)&&modOk(r),
+    r=>modOk(r),
+    ()=>true
+  ];
+  for(const f of tiers){const hit=list.filter(f);if(hit.length)return closest(hit)}
+  return null;
+}
 async function resolveSessionFallback(pin,reqMod,tglFromErr,startHint){
   try{
-    const rows=await fetchSheetGvizJsonp(CFG.PIN);
-    const found=(rows||[]).find(r=>up(r.Kode_PIN)===up(pin)&&!['NONAKTIF','SELESAI'].includes(up(r.Status))&&(!reqMod||up(r.ID_Modul)===up(reqMod)));
-    if(found)return found;
+    const rows=await getPinRowsFor(pin);
+    const found=pickPinSession(rows.filter(isLivePin),reqMod,'');
+    if(found&&(dayDiff(found.Tanggal)===0||up(found.Status)==='AKTIF'))return found;
   }catch(e){}
-  const cands=(S.sesi||[]).filter(s=>!['NONAKTIF','SELESAI'].includes(up(s.Status))&&(!reqMod||up(s.ID_Modul)===up(reqMod))&&(String(s.Tanggal||'').trim()===String(tglFromErr||'').trim()||dayDiff(s.Tanggal)===0||up(s.Status)==='AKTIF'));
+  const cands=(S.sesi||[]).filter(s=>!['NONAKTIF','SELESAI'].includes(up(s.Status))&&(!reqMod||up(s.ID_Modul)===up(reqMod))&&(String(s.Tanggal||'').trim()===String(tglFromErr||'').trim()||dayDiff(s.Tanggal)===0||up(s.Status)==='AKTIF'))
+    .sort((a,b)=>(dayDiff(a.Tanggal)===0?0:1)-(dayDiff(b.Tanggal)===0?0:1));
   const hintM=parseHmMins(startHint);
   if(hintM!==null){
     const byTime=cands.find(s=>parseHmMins(s.Jam_Mulai)===hintM);
@@ -3619,13 +4123,25 @@ async function verify(){
   b.disabled=true;b.textContent='Memeriksa…';$('#pe').classList.remove('on');
   const tzOff=-new Date().getTimezoneOffset();
   try{
-    const vr=await g({action:'verify_pin',pin,id_modul:S.pend.id||'',tz_off:tzOff},1);
+    // Ambil semua baris Jadwal_PIN dengan Kode_PIN yang sama (bisa lebih dari satu tanggal/pelatihan)
+    const pinRows=await getPinRowsFor(pin).catch(()=>[]);
+    const todayRow=pickPinSession(pinRows.filter(r=>isLivePin(r)&&dayDiff(r.Tanggal)===0),S.pend.id||'','');
+    const reqMod=S.pend.id||(todayRow?.ID_Modul||'');
+    const vr=await g({action:'verify_pin',pin,id_modul:reqMod,tanggal:todayRow?ymd(todayRow.Tanggal):todayYmd(),tz_off:tzOff},1);
     let found=vr?.status==='success'?vr.session:null;
+    // Server (versi lama) bisa mengembalikan baris PIN dari tanggal lain — utamakan sesi milik HARI INI
+    if(found&&todayRow&&dayDiff(found.Tanggal)!==0&&(!S.pend.id||up(todayRow.ID_Modul)===up(S.pend.id)))found=todayRow;
     if(!found){
-      const errMsg=String(vr?.message||'');
+      let errMsg=String(vr?.message||'');
+      // Server mencocokkan PIN yang sama milik tanggal/pelatihan lain → pakai baris Jadwal_PIN hari ini bila jendelanya terbuka
+      if(todayRow&&(!S.pend.id||up(todayRow.ID_Modul)===up(S.pend.id))&&(up(todayRow.Status)==='AKTIF'||isLocalWindowOpen(todayRow))){
+        found=todayRow;
+      }
       const dm=errMsg.match(/dijadwalkan untuk tanggal\s+([^\s(]+)\s+\(hari ini:\s*([0-9-]+)\)/i);
       const tm=errMsg.match(/Jadwal akses dibuka pukul\s+([0-9.:]+)/i);
-      if(dm&&dayDiff(dm[1])===0){
+      if(found){
+        /* sudah ketemu sesi hari ini */
+      }else if(dm&&dayDiff(dm[1])===0){
         found=await resolveSessionFallback(pin,S.pend.id||'',dm[1]);
       }else if(tm){
         const openM=parseHmMins(tm[1]),nowD=new Date(),curM=nowD.getHours()*60+nowD.getMinutes();
@@ -3641,23 +4157,82 @@ async function verify(){
           if(cand&&isLocalWindowOpen(cand,tm[1]))found=cand;
         }
       }
+      if(!found&&dm&&pinRows.length&&!pinRows.some(r=>isLivePin(r)&&dayDiff(r.Tanggal)===0)){
+        const jadwal=pinRows.filter(isLivePin).map(r=>`${ymd(r.Tanggal)||r.Tanggal||'-'} (${mText(r,'Nama_Modul')||r.ID_Modul||'-'})`);
+        if(jadwal.length)errMsg=`Kode PIN "${pin}" tidak dijadwalkan untuk hari ini (${todayYmd()}). Jadwal PIN ini: ${jadwal.join(', ')}.`;
+      }
       if(!found)throw new Error(errMsg||'Gagal memverifikasi PIN.');
     }
-    S.pend.pin=pin;S.pend.ses=found;$('#o-pin').classList.remove('on');brief();
+    S.pend.pin=pin;S.pend.ses=found;S.pend.pinRows=pinRows.length?pinRows:[found];$('#o-pin').classList.remove('on');brief();
   }catch(x){showErr('#pe',x.message||'Gagal memverifikasi PIN.')}
   b.disabled=false;b.innerHTML=t('pin_verify')+' '+mi('arrow_forward');
 }
 const tSlots=[];for(let h=6;h<=22;h++){const hh=String(h).padStart(2,'0');tSlots.push(hh+':00');if(h<22)tSlots.push(hh+':30')}
+function getPinAttemptLimit(ses,jenis){
+  const isPre=/^pre(?:\b|[\s_-]*test)/i.test(String(jenis||'').trim());
+  const raw=isPre
+    ?(ses?.Batas_Pre_Test??ses?.Batas_Pretest??ses?.Max_Pre_Test??ses?.Max_Pretest??ses?.Limit_Pre_Test??ses?.Kuota_Pre_Test??'')
+    :(ses?.Batas_Post_Test??ses?.Batas_Posttest??ses?.Max_Post_Test??ses?.Max_Posttest??ses?.Limit_Post_Test??ses?.Kuota_Post_Test??'');
+  const str=String(raw!==undefined&&raw!==null?raw:'').trim();
+  if(!str)return isPre?1:2;
+  const n=parseInt(str,10);
+  return isNaN(n)?(isPre?1:2):n;
+}
+/* Tanggal pengerjaan sebuah baris Hasil_Asesmen (Tanggal_Training → Timestamp_Submit) */
+const hisDate=h=>ymd(String(h?.Tanggal_Training||h?.Tanggal||'').trim().split(/\s+/)[0])||ymd(String(h?.Timestamp_Submit||'').trim().split(/\s+/)[0]);
+/* Menentukan baris Jadwal_PIN (tanggal) mana yang "memiliki" sebuah percobaan:
+   sesi dengan Kode_PIN + modul sama yang tanggalnya paling dekat sebelum/sama dengan tanggal pengerjaan */
+function attemptOwnerDate(h,pinRows){
+  const hMod=up(h.ID_Modul);
+  const rows=(pinRows||[]).filter(r=>!hMod||!r.ID_Modul||up(r.ID_Modul)===hMod);
+  const dates=[...new Set(rows.map(r=>ymd(r.Tanggal)||'0000-00-00'))].sort();
+  if(!dates.length)return null;
+  const hd=hisDate(h);
+  if(!hd)return dates.length===1?dates[0]:null;
+  let own='BEFORE';
+  dates.forEach(d=>{if(d<=hd)own=d});
+  return own;
+}
+function countPinUserAttempts(ses,jenis){
+  const targetPin=up(S.pend?.pin||ses?.Kode_PIN||'');
+  if(!targetPin)return 0;
+  const isPre=/^pre(?:\b|[\s_-]*test)/i.test(String(jenis||'').trim());
+  const sesMod=up(ses?.ID_Modul);
+  const sesDate=ymd(ses?.Tanggal)||'0000-00-00';
+  const pinRows=(S.pend?.pinRows&&S.pend.pinRows.length?S.pend.pinRows:[ses]).filter(r=>r&&(!r.Kode_PIN||up(r.Kode_PIN)===targetPin));
+  if(!pinRows.some(r=>(ymd(r.Tanggal)||'0000-00-00')===sesDate&&(!sesMod||up(r.ID_Modul)===sesMod)))pinRows.push(ses);
+  return (S.his||[]).filter(h=>{
+    if(up(h.Status_Lulus)==='HANYA ABSEN')return false;
+    if(up(h.Kode_PIN)!==targetPin)return false;
+    // PIN sama tetapi pelatihan/modul berbeda → bukan percobaan sesi ini
+    if(sesMod&&h.ID_Modul&&!isModMatch(h.ID_Modul,sesMod))return false;
+    // PIN sama tetapi milik sesi tanggal lain → tidak dihitung
+    const own=attemptOwnerDate(h,pinRows);
+    if(own!==null&&own!==sesDate)return false;
+    const hPre=/^pre(?:\b|[\s_-]*test)/i.test(String(h.Jenis_Tes||h.Tipe_Tes||'').trim());
+    return isPre?hPre:!hPre;
+  }).reduce((sum,h)=>sum+Math.max(1,parseInt(h.Attempt_Count,10)||1),0);
+}
 function brief(){
   const s=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(s.ID_Modul))||{};
   const tOpt=tSlots.map(t=>`<option value="${t}">${t}</option>`).join('');
   const initTrObj=findTrainer(s.Trainer||'');
   const initName=initTrObj?initTrObj.Name:(s.Trainer||'');
   const initSpec=initTrObj?.Specialist||'';
+  const maxPre=getPinAttemptLimit(s,'Pre Test');
+  const maxPost=getPinAttemptLimit(s,'Post Test');
+  const usedPre=countPinUserAttempts(s,'Pre Test');
+  const usedPost=countPinUserAttempts(s,'Post Test');
+  const preFull=maxPre>0&&usedPre>=maxPre;
+  const postFull=maxPost>0&&usedPost>=maxPost;
   if(!S.pend.jenisTes){
     const pinTes=String(s.Jenis_Tes||s.Tipe_Tes||'').trim();
-    if(/pre/i.test(pinTes))S.pend.jenisTes='Pre Test';
-    else if(/post/i.test(pinTes))S.pend.jenisTes='Post Test';
+    if(/pre/i.test(pinTes)&&!preFull)S.pend.jenisTes='Pre Test';
+    else if(/post/i.test(pinTes)&&!postFull)S.pend.jenisTes='Post Test';
+    else if(!preFull)S.pend.jenisTes='Pre Test';
+    else if(!postFull)S.pend.jenisTes='Post Test';
+  }else if(S.pend.jenisTes==='Pre Test'&&preFull&&!postFull){
+    S.pend.jenisTes='Post Test';
   }
   const curJT=S.pend.jenisTes||'';
   $('#v-brief').innerHTML=`<div class="hero-dark" style="padding:20px 18px">
@@ -3682,15 +4257,22 @@ function brief(){
     <h2 class="serif" style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:4px">${t('brief_title')}</h2>
     <label class="lbl" style="margin-top:10px">${S.lang==='zh'?'考核类型':S.lang==='en'?'Test Type':'Jenis Tes'} <span style="color:var(--er)">*</span></label>
     <div class="row" style="gap:10px;margin-top:4px">
-      <button type="button" class="opt g ${curJT==='Pre Test'?'on':''}" data-a="pickJenisTes" data-v="Pre Test" id="jt-pre" style="min-height:48px;padding:10px 14px;margin:0;align-items:center;justify-content:center">
-        <span class="mi" style="font-size:19px;color:${curJT==='Pre Test'?'var(--p)':'var(--slate)'}">quiz</span>
-        <b style="font-size:13.5px;width:auto;height:auto;background:none;border:none;padding:0;color:var(--ink)">Pre Test</b>
+      <button type="button" class="opt g ${curJT==='Pre Test'?'on':''}" data-a="pickJenisTes" data-v="Pre Test" id="jt-pre" style="min-height:54px;padding:10px 12px;margin:0;align-items:center;justify-content:center;flex-direction:column;gap:3px;${preFull?'opacity:.55;border-style:dashed':''}">
+        <span style="display:inline-flex;align-items:center;gap:6px">
+          <span class="mi" style="font-size:19px;color:${curJT==='Pre Test'?'var(--p)':'var(--slate)'}">quiz</span>
+          <b style="font-size:13.5px;width:auto;height:auto;background:none;border:none;padding:0;color:var(--ink)">Pre Test</b>
+        </span>
+        <span style="font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;background:${preFull?'rgba(220,38,38,.12)':'rgba(2,132,199,.1)'};color:${preFull?'var(--er)':'#0369a1'}">${maxPre>0?(preFull?`Penuh (${usedPre}/${maxPre}x)`:`Kuota: ${usedPre}/${maxPre}x`):'Tanpa Batas'}</span>
       </button>
-      <button type="button" class="opt g ${curJT==='Post Test'?'on':''}" data-a="pickJenisTes" data-v="Post Test" id="jt-post" style="min-height:48px;padding:10px 14px;margin:0;align-items:center;justify-content:center">
-        <span class="mi" style="font-size:19px;color:${curJT==='Post Test'?'var(--ok)':'var(--slate)'}">task_alt</span>
-        <b style="font-size:13.5px;width:auto;height:auto;background:none;border:none;padding:0;color:var(--ink)">Post Test</b>
+      <button type="button" class="opt g ${curJT==='Post Test'?'on':''}" data-a="pickJenisTes" data-v="Post Test" id="jt-post" style="min-height:54px;padding:10px 12px;margin:0;align-items:center;justify-content:center;flex-direction:column;gap:3px;${postFull?'opacity:.55;border-style:dashed':''}">
+        <span style="display:inline-flex;align-items:center;gap:6px">
+          <span class="mi" style="font-size:19px;color:${curJT==='Post Test'?'var(--ok)':'var(--slate)'}">task_alt</span>
+          <b style="font-size:13.5px;width:auto;height:auto;background:none;border:none;padding:0;color:var(--ink)">Post Test</b>
+        </span>
+        <span style="font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;background:${postFull?'rgba(220,38,38,.12)':'rgba(184,149,72,.14)'};color:${postFull?'var(--er)':'var(--p)'}">${maxPost>0?(postFull?`Penuh (${usedPost}/${maxPost}x)`:`Kuota: ${usedPost}/${maxPost}x`):'Tanpa Batas'}</span>
       </button>
     </div>
+    <p class="mut sm" style="margin-top:6px;font-size:11.5px">Batas pengerjaan sesi PIN ini: <b>Pre Test maks. ${maxPre}x</b> • <b>Post Test maks. ${maxPost}x</b></p>
     <label class="lbl" for="bt-tr" style="margin-top:14px">${t('trainer')} <span style="color:var(--er)">*</span></label>
     <div class="sdd" data-sdd="bt-tr"><input class="inp" id="bt-tr" maxlength="100" value="${e(initName)}" autocomplete="off" placeholder="Pilih nama trainer…"><button type="button" class="sdd-b" data-a="sdd" data-v="bt-tr" tabindex="-1" aria-label="Buka pilihan">${mi('expand_more')}</button><div class="sdd-m" id="dd-bt-tr"></div></div>
     <div class="row m-col" style="align-items:flex-start;gap:10px;margin-top:12px">
@@ -3717,6 +4299,13 @@ async function start(){
   const jenisTes=cleanInp(S.pend?.jenisTes||'',30);
   const tr=cleanInp($('#bt-tr')?.value,100),jm=cleanInp($('#bt-jm')?.value,10),js=cleanInp($('#bt-js')?.value,10);
   if(!jenisTes){showErr('#be','Silakan pilih Jenis Asesmen / Tes (Pre Test atau Post Test) terlebih dahulu.');return}
+  const ses=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(ses.ID_Modul))||{};
+  const maxAttempt=getPinAttemptLimit(ses,jenisTes);
+  const usedAttempt=countPinUserAttempts(ses,jenisTes);
+  if(maxAttempt>0&&usedAttempt>=maxAttempt){
+    showErr('#be',`Batas pengerjaan ${jenisTes} untuk Kode PIN "${S.pend.pin}" adalah maksimal ${maxAttempt} kali (Anda sudah mengerjakan ${usedAttempt} kali).${jenisTes==='Pre Test'?' Silakan pilih Post Test.':''}`);
+    return;
+  }
   if(!tr){showErr('#be','Silakan pilih Nama Trainer terlebih dahulu.');$('#bt-tr')?.focus();return}
   if(!jm){showErr('#be','Silakan pilih Jam Mulai Training terlebih dahulu.');$('#bt-jm')?.focus();return}
   if(!js){showErr('#be','Silakan pilih Jam Berakhir Training terlebih dahulu.');$('#bt-js')?.focus();return}
@@ -3726,12 +4315,23 @@ async function start(){
   const trSpec=trObj?(trObj.Specialist||''):'';
   b.disabled=true;b.textContent='Memuat soal…';
   try{
-    const ses=S.pend.ses,m=S.modul.find(x=>up(x.ID_Modul)===up(ses.ID_Modul))||{};
     let qs=[];
-    const gq=await g({action:'get_questions',pin:S.pend.pin,id_modul:ses.ID_Modul,tz_off:-new Date().getTimezoneOffset()}).catch(()=>null);
+    const gq=await g({action:'get_questions',pin:S.pend.pin,id_modul:ses.ID_Modul,tanggal:ymd(ses.Tanggal)||todayYmd(),id_karyawan:key(S.emp),jenis_tes:jenisTes,tz_off:-new Date().getTimezoneOffset()}).catch(()=>null);
     const gqMsg=String(gq?.message||'');
-    const localDateOk=!ses.Tanggal||dayDiff(ses.Tanggal)===0;
-    const canFallback=(gqMsg.includes('dijadwalkan untuk tanggal')&&localDateOk)||(/Jadwal akses dibuka pukul/i.test(gqMsg)&&localDateOk&&isLocalWindowOpen(ses));
+    const localDateOk=!ses.Tanggal||dayDiff(ses.Tanggal)===0||up(ses.Status)==='AKTIF';
+    let quotaFallback=false;
+    if(/Batas pengerjaan/i.test(gqMsg)){
+      // Server bisa saja menghitung pemakaian PIN yang sama di tanggal/pelatihan lain → sinkron ulang riwayat & cek per tanggal sesi
+      try{await syncCustomHis(S.emp)}catch{}
+      const usedNow=countPinUserAttempts(ses,jenisTes);
+      if(maxAttempt>0&&usedNow>=maxAttempt)throw new Error(gqMsg);
+      quotaFallback=localDateOk;
+      if(!quotaFallback)throw new Error(gqMsg);
+    }
+    const canFallback=quotaFallback
+      ||(gqMsg.includes('dijadwalkan untuk tanggal')&&localDateOk)
+      ||(/terdaftar untuk modul/i.test(gqMsg)&&localDateOk&&isLocalWindowOpen(ses))
+      ||(/Jadwal akses dibuka pukul/i.test(gqMsg)&&localDateOk&&isLocalWindowOpen(ses));
     if(gq&&gq.status==='success'&&Array.isArray(gq.questions)&&gq.questions.length){
       qs=stripKunci(gq.questions).map((q,i)=>({...q,No_Tampil:i+1}));
     }else if(canFallback){
@@ -4047,7 +4647,7 @@ async function submit(){
   const tr=x.tr||{};
   const trSpec=tr.specialist||(tr.nama?findTrainer(tr.nama)?.Specialist:'')||'';
   const jenisTes=cleanInp(x.jenis_tes||tr.jenis_tes||'Post Test',30);
-  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(empDp(S.emp),100),jabatan:cleanInp(empJb(S.emp),100),position_title:cleanInp(empJb(S.emp),100),level:cleanInp(empLvl(S.emp),50),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans};
+  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(empDp(S.emp),100),jabatan:cleanInp(empJb(S.emp),100),position_title:cleanInp(empJb(S.emp),100),level:cleanInp(empLvl(S.emp),50),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),tanggal_sesi:cleanInp(ymd(x.ses?.Tanggal)||'',12),tanggal_training:todayYmd(),sisa_waktu:fmt(left()),jawaban:x.ans};
   if(!skipFb){
     const e1=cleanInp(fb.e1,500),e2=cleanInp(fb.e2,500);
     const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2,Jenis_Tes:jenisTes};
@@ -4058,9 +4658,10 @@ async function submit(){
     const j=await po(payload,3);
     if(j.status!=='success')throw new Error(j.message);
     localStorage.removeItem('mgr_pending_sub');
-    const res={Jenis_Tes:jenisTes,Nama_Trainer:tr.nama||'',Trainer_Name:tr.nama||'',Specialist:trSpec,Specialist_Trainer:trSpec,Jam_Mulai_Training:tr.mulai||'',Jam_Berakhir_Training:tr.selesai||'',...j.result};
-    if(!S.his.some(h=>h.ID_Ujian===res.ID_Ujian))S.his.push(res);
-    if(Array.isArray(S.trainerHasil)&&!S.trainerHasil.some(h=>h.ID_Ujian===res.ID_Ujian))S.trainerHasil.push(res);
+    const res={Jenis_Tes:jenisTes,ID_Modul:x.ses?.ID_Modul||'',Kode_PIN:x.pin||'',Tanggal_Training:payload.tanggal_training,Nama_Trainer:tr.nama||'',Trainer_Name:tr.nama||'',Specialist:trSpec,Specialist_Trainer:trSpec,Jam_Mulai_Training:tr.mulai||'',Jam_Berakhir_Training:tr.selesai||'',...j.result};
+    const hIdx=S.his.findIndex(h=>h.ID_Ujian===res.ID_Ujian);
+    if(hIdx>=0)S.his[hIdx]=res;else S.his.push(res);
+    if(Array.isArray(S.trainerHasil)){const thIdx=S.trainerHasil.findIndex(h=>h.ID_Ujian===res.ID_Ujian);if(thIdx>=0)S.trainerHasil[thIdx]=res;else S.trainerHasil.push(res)}
     saveCache();
     clearInterval(tick.id);const mod=x.ses;S.ex=null;S.tk=0;localStorage.removeItem('mgr_exam');
     showResult(res,mod);refresh();
@@ -4155,11 +4756,38 @@ function renderMatriksListHtml(){
   }).join('');
 }
 
+function getBestHisList(rows){
+  const map=new Map();
+  const canonMod=raw=>{
+    const m=up(raw||'').trim();
+    if(!m)return '';
+    for(const [code,names] of Object.entries(MOD_ALIASES)){
+      const list=[up(code),...names.map(x=>up(x))];
+      if(list.some(x=>m===x||m.includes(x)||x.includes(m)))return up(code);
+    }
+    return m;
+  };
+  const rank=h=>(up(h.Status_Lulus)==='HANYA ABSEN'||up(h.Kode_PIN)==='ABSEN')?0:1;
+  (rows||[]).forEach(h=>{
+    const modK=canonMod(h.ID_Modul||h.Nama_Modul_Sertifikat);
+    const tglK=ymd(h.Tanggal_Training||h.Tanggal||String(h.Timestamp_Submit||'').split(' ')[0]);
+    if(!modK||!tglK){map.set('__'+map.size,h);return}
+    const k=modK+'||'+tglK;
+    const prev=map.get(k);
+    if(!prev){map.set(k,h);return}
+    const rc=rank(h),rp=rank(prev);
+    const sc=parseFloat(h.Skor_Akhir)||0,sp=parseFloat(prev.Skor_Akhir)||0;
+    const isBetter=rc!==rp?rc>rp:(sc!==sp?sc>sp:(up(h.Status_Lulus)==='LULUS'&&up(prev.Status_Lulus)!=='LULUS'));
+    if(isBetter)map.set(k,h);
+  });
+  return Array.from(map.values());
+}
+
 function renderRiwayatListHtml(){
   const curL=S.lang||'id';
   const q=up(S.hisSearch||'');
   const flt=S.hisFlt||'all';
-  const list=S.his.slice().reverse().filter(h=>{
+  const list=getBestHisList(S.his.slice().reverse()).filter(h=>{
     const st=up(h.Status_Lulus);
     if(flt==='lulus'&&st!=='LULUS')return false;
     if(flt==='absen'&&st!=='HANYA ABSEN')return false;
@@ -4173,7 +4801,10 @@ function renderRiwayatListHtml(){
     const sc=Math.min(100,Math.max(0,parseFloat(h.Skor_Akhir)||0));
     const chipCl=ok?'ok':isAbsen?'wa':'er';
     const chipTxt=ok?t('passed'):isAbsen?(curL==='zh'?'仅签到':curL==='en'?'Attendance Only':'Hanya Absen'):t('not_passed');
-    const tgl=h.Tanggal_Training||h.Tanggal||String(h.Timestamp_Submit||'').split(' ')[0]||'-';
+    const tsParts=parseTsParts(h.Timestamp_Submit);
+    const tglParts=parseTsParts(h.Tanggal_Training||h.Tanggal);
+    const tgl=(tglParts.date&&tglParts.date!=='-'?tglParts.date:tsParts.date)||'-';
+    const jam=tsParts.time||tglParts.time||'-';
     const jTes=h.Jenis_Tes||h.Tipe_Tes||(isAbsen?'Absen':'');
     const trNm=h.Nama_Trainer&&h.Nama_Trainer!=='-'?h.Nama_Trainer:'-';
     const td=!ok&&hasToday(h.ID_Modul);
@@ -4193,8 +4824,9 @@ function renderRiwayatListHtml(){
           </div>
         </div>
         <div class="bar" style="margin-top:10px;height:5px"><i style="width:${sc}%;background:${ok?'linear-gradient(90deg,var(--ok-bright),var(--ok))':isAbsen?'linear-gradient(90deg,var(--gold),var(--p))':'var(--er)'}"></i></div>
-        <div class="card-low" style="margin-top:11px;padding:9px 11px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;font-size:11.5px">
-          <div><span class="mut sm" style="display:block;font-size:10px">Tanggal</span><b style="color:var(--ink)">${e(tgl)}</b></div>
+        <div class="card-low" style="margin-top:11px;padding:9px 11px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 10px;font-size:11.5px">
+          <div><span class="mut sm" style="display:block;font-size:10px">Tanggal</span><b class="tnum" style="color:var(--ink)">${e(tgl)}</b></div>
+          <div><span class="mut sm" style="display:block;font-size:10px">Jam</span><b class="tnum" style="color:var(--ink)">${e(jam)}</b></div>
           <div><span class="mut sm" style="display:block;font-size:10px">Trainer</span><b class="ell" style="display:block;color:var(--ink)">${e(trNm)}</b></div>
         </div>
       </div>
@@ -4828,14 +5460,17 @@ const A={
   nfcTab:v=>setNfcTab(v),
   nfcLoginAs:()=>nfcLoginAs(),
   nfcSaveLink:()=>saveNfcLink(),
-  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');localStorage.removeItem('mgr_tr_hasil');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.isTrainer=false;S.trainerInfo=null;S.trainerPins=[];S.trainerHasil=[];S._trDashLoadedFor='';S._trDashTs=0;S.trShowAll=false;S.trFilterMod='RUNNING';S.trFilterSt='ALL';S.trFilterTes='ALL';S.trSearch='';S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';S.matSearch='';S.hisSearch='';S.hisFlt='all';S.modSearch='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
+  go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');localStorage.removeItem('mgr_tr_hasil');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.isTrainer=false;S.trainerInfo=null;S.trainerPins=[];S.trainerHasil=[];S._trDashLoadedFor='';S._trDashTs=0;S._trPinFormOpen=false;S.trShowAll=false;S.trFilterMod='RUNNING';S.trFilterSt='ALL';S.trFilterTes='ALL';S.trSearch='';S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';S.matSearch='';S.hisSearch='';S.hisFlt='all';S.modSearch='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
   copyPin:v=>{if(!v)return;try{navigator.clipboard.writeText(v)}catch{}if($('#pi'))$('#pi').value=v;toast(`Kode Akses PIN "${v}" berhasil disalin!`)},
-  trViewMod:v=>{S.trFilterMod=v||'RUNNING';S.trShowAll=false;if(S.v!=='trainer')go('trainer');else{rTrainer()}setTimeout(()=>{$('#tr-hasil-sec')?.scrollIntoView({behavior:'smooth',block:'start'})},80)},
-  trFltSt:v=>{S.trFilterSt=v||'ALL';S.trShowAll=false;updateTrainerHasilUI()},
-  trFltTes:v=>{S.trFilterTes=v||'ALL';S.trShowAll=false;updateTrainerHasilUI()},
-  trShowAll:()=>{S.trShowAll=true;updateTrainerHasilUI()},
-  trRefresh:async()=>{toast('Memuat ulang kode akses & nilai peserta…');S._trDashTs=0;await loadTrainerDashboardData(true);toast('Data trainer berhasil diperbarui!')},
-  pickJenisTes:v=>{if(!S.pend)S.pend={};S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--slate)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--slate)'}},
+  trViewMod:v=>{if(S.v!=='trainer')go('trainer');},
+  trTogglePinForm:v=>{const open=v==='open'?true:v==='close'?false:!S._trPinFormOpen;S._trPinFormOpen=open;const card=$('#tr-pin-form-card'),bar=$('#tr-pin-toggle-bar');if(card)card.style.display=open?'block':'none';if(bar)bar.style.display=open?'none':'flex';if(open&&(!S._katalogLoaded||!getTrainerCatalogList().length))loadKatalogModulFromDb(false);if(open&&!S._bankLoaded)loadBankSoalList(false)},
+  trRerollBatch:()=>{const el=$('#tr-pin-batch');if(el)el.value=genRandomBatch()},
+  trRerollPin:()=>{const el=$('#tr-pin-code');if(el)el.value=genRandomPin()},
+  trPickModul:v=>onTrPickModul(v||$('#tr-pin-mod-select')?.value),
+  trViewSoal:v=>showBankSoalPreview(v),
+  saveTrainerPin:()=>saveTrainerPin(),
+  trRefresh:async()=>{toast('Memuat ulang data trainer, katalog & bank soal…');S._trDashTs=0;await Promise.all([loadTrainerDashboardData(true),loadKatalogModulFromDb(true),loadBankSoalList(true)]);toast('Data trainer & katalog database berhasil diperbarui!')},
+  pickJenisTes:v=>{if(!S.pend)S.pend={};const ses=S.pend.ses||{},maxL=getPinAttemptLimit(ses,v),usedL=countPinUserAttempts(ses,v);if(maxL>0&&usedL>=maxL){showErr('#be',`Batas pengerjaan ${v} untuk Kode PIN "${S.pend.pin||ses.Kode_PIN||''}" adalah maksimal ${maxL} kali (Anda sudah mengerjakan ${usedL} kali).${v==='Pre Test'?' Silakan pilih Post Test.':''}`);return}S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--slate)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--slate)'}},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),absenMode:v=>setAbsenMode(v),absenToManual:()=>{const cur=cleanInp($('#absen-agenda')?.value,150);setAbsenMode('manual');if(cur&&$('#absen-manual-nama'))$('#absen-manual-nama').value=cur;setTimeout(()=>{const el=$('#absen-manual-nama');el?.focus();renderSdd('absen-manual-nama',el?.value?.trim()||'')},50)},pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
   sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='rg-jb')inferLevelFromPosition(val);if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
@@ -4871,8 +5506,11 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='ms'){S.modSearch=ev.target.value;const w=$('#mod-list-wrap');if(w)w.innerHTML=renderModulesListHtml()}
   if(ev.target.id==='mat-search'){S.matSearch=ev.target.value;const w=$('#mat-list-wrap');if(w)w.innerHTML=renderMatriksListHtml()}
   if(ev.target.id==='his-search'){S.hisSearch=ev.target.value;const w=$('#his-list-wrap');if(w)w.innerHTML=renderRiwayatListHtml()}
+  if(ev.target.id==='tr-pin-mod-id'){updateTrPinBankStatus(ev.target.value);$('#tr-pin-err')?.classList.remove('on')}
+  if(ev.target.id==='tr-pin-code'||ev.target.id==='tr-pin-mod-nama'||ev.target.id==='tr-pin-tgl'||ev.target.id==='tr-pin-jm'||ev.target.id==='tr-pin-js'){$('#tr-pin-err')?.classList.remove('on')}
 });
 document.addEventListener('change',ev=>{
+  if(ev.target.id==='tr-pin-mod-select'){onTrPickModul(ev.target.value);$('#tr-pin-err')?.classList.remove('on')}
   if(ev.target.id==='tr-flt-mod'){S.trFilterMod=ev.target.value||'RUNNING';updateTrainerHasilUI()}
   if(ev.target.id==='absen-ind-sel'){
     const val=ev.target.value;
