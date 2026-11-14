@@ -1085,11 +1085,10 @@ ul.rules b{color:var(--ink)}
         <p class="mut sm" id="reg-id-hint" style="font-size:11.5px;line-height:1.45;margin-top:4px">Format: ID Karyawan kombinasi huruf &amp; nomor (contoh: <code>MCC-260156</code>, <code>PGP260062</code>) atau No HP / No KTP (&gt;10 digit angka). Nomor pendek tanpa huruf tidak bisa.</p>
       </div>
       <div><label class="lbl" id="lbl-rg-nm" for="rg-nm">Nama Lengkap</label><input class="inp" id="rg-nm" maxlength="100" autocomplete="off" placeholder="Nama lengkap peserta" required></div>
-      <div><label class="lbl" id="lbl-rg-co" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih / cari Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
-      <div class="row m-col" style="gap:10px;align-items:flex-start">
-        <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-dp" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih / cari Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
-        <div class="g" style="width:100%"><label class="lbl" id="lbl-rg-jb" for="rg-jb">Position Title</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih / cari Position Title…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
-      </div>
+      <div><label class="lbl" id="lbl-rg-co" for="rg-co">Company</label><div class="sdd" data-sdd="rg-co"><input class="inp" id="rg-co" maxlength="100" autocomplete="off" placeholder="Pilih atau ketik manual Company…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-co" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-co"></div></div></div>
+      <div><label class="lbl" id="lbl-rg-dp" for="rg-dp">Departemen</label><div class="sdd" data-sdd="rg-dp"><input class="inp" id="rg-dp" maxlength="100" autocomplete="off" placeholder="Pilih atau ketik manual Departemen…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-dp" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-dp"></div></div></div>
+      <div><label class="lbl" id="lbl-rg-jb" for="rg-jb">Position Title</label><div class="sdd" data-sdd="rg-jb"><input class="inp" id="rg-jb" maxlength="100" autocomplete="off" placeholder="Pilih atau ketik manual Position Title…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-jb" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-jb"></div></div></div>
+      <p class="mut sm" id="reg-dpjb-hint" style="font-size:11px;line-height:1.4;margin-top:-4px;color:var(--slate)">Bisa memilih dari daftar atau menulis langsung secara manual jika departemen / posisi belum ada di pilihan.</p>
       <div><label class="lbl" id="lbl-rg-lv" for="rg-lv">Level</label><div class="sdd" data-sdd="rg-lv"><input class="inp" id="rg-lv" maxlength="50" autocomplete="off" placeholder="Pilih Level (opsional, otomatis terisi sesuai posisi)…"><button type="button" class="sdd-b" data-a="sdd" data-v="rg-lv" tabindex="-1" aria-label="Buka pilihan"><span class="mi">expand_more</span></button><div class="sdd-m" id="dd-rg-lv"></div></div></div>
       <div class="err" id="re-reg"></div>
       <button type="button" class="btn p w" id="rb" data-a="reg"><span class="mi">how_to_reg</span> Simpan &amp; Masuk ke Portal</button>
@@ -1416,7 +1415,7 @@ const I18N={
     err_nik_no_letter:"ID Karyawan / NIK harus memuat huruf dan angka (contoh: MCC-260156, PGP260062). Jika hanya angka tanpa huruf, minimal 10 digit ke atas (khusus Nomor HP atau Nomor KTP).",
     err_nik_no_digit:"ID Karyawan / NIK harus memuat huruf dan angka (tidak bisa hanya huruf). Contoh: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
     err_nik_invalid:"ID Karyawan / NIK harus memuat kombinasi huruf dan angka, atau nomor HP/KTP (>10 digit).",
-    reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Position Title",reg_lvl:"Level",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",
+    reg_title:"Pendaftaran Peserta Baru",reg_sub:"Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.",reg_cancel:"Batal",reg_id:"ID Karyawan / NIK",reg_name:"Nama Lengkap",reg_comp:"Company",reg_dept:"Departemen",reg_pos:"Position Title",reg_lvl:"Level",reg_auto:"Terisi Otomatis",reg_btn:"Simpan & Masuk ke Portal",reg_co_ph:"Pilih atau ketik manual Company…",reg_dp_ph:"Pilih atau ketik manual Departemen…",reg_jb_ph:"Pilih atau ketik manual Position Title…",reg_dpjb_hint:"Bisa memilih dari daftar atau menulis langsung secara manual jika departemen / posisi belum ada di pilihan.",
     kpi_done:"Selesai",kpi_comp:"Kompetensi",kpi_avg:"Rata-rata",kpi_cert:"Sertifikat",active_exam:"Ujian Aktif",continue_btn:"Lanjutkan",sched_running:"Sedang Berjalan",sched_done:"Sudah Berjalan",sched_upcoming:"Akan Berjalan",today:"Hari Ini",
     mod_all:"Semua",mod_title:"Katalog Modul",min:"mnt",qs_cnt:"soal",pass_std:"Lulus",pin_btn:"Masukkan PIN",start_btn:"Mulai",passed:"LULUS",not_passed:"BELUM LULUS",
     brief_title:"Data Pelaksanaan Training",trainer:"Nama Trainer",time_start:"Jam Mulai",time_end:"Jam Selesai",btn_start_exam:"Mulai Ujian",hint:"Petunjuk",doubt:"Ragu",prev:"Sebelumnya",next:"Lanjut",review:"Tinjau",review_title:"Tinjau Jawaban",time_left:"Sisa Waktu",answered:"Terjawab",unanswered:"Kosong",score:"Skor",progress:"Progres",all_answered:"Semua soal terjawab.",unanswered_warn:"soal belum dijawab",doubt_warn:"soal ditandai ragu",tap_number_tip:"Ketuk nomor untuk kembali ke soal.",to_feedback_btn:"Lanjut Isi Training Feedback",back_to_exam:"Kembali ke Soal",
@@ -1433,7 +1432,7 @@ const I18N={
     err_nik_no_letter:"Employee ID / NIK must contain letters and numbers (e.g. MCC-260156, PGP260062). Numbers-only must be at least 10 digits (for Phone Number or KTP Number).",
     err_nik_no_digit:"Employee ID / NIK must contain letters and numbers (cannot be letters only). Example: MCC-260156, PGP260062, EL CV 2035361, CHS-26002.",
     err_nik_invalid:"Employee ID / NIK must contain both letters and numbers, or phone/KTP number (>10 digits).",
-    reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position Title",reg_lvl:"Level",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",
+    reg_title:"New Participant Registration",reg_sub:"Complete the following form to activate your assessment account.",reg_cancel:"Cancel",reg_id:"Employee ID / NIK",reg_name:"Full Name",reg_comp:"Company",reg_dept:"Department",reg_pos:"Position Title",reg_lvl:"Level",reg_auto:"Auto-filled",reg_btn:"Save & Enter Portal",reg_co_ph:"Select or type Company…",reg_dp_ph:"Select or type Department…",reg_jb_ph:"Select or type Position Title…",reg_dpjb_hint:"Select from the list or type manually if your department / position is not listed.",
     kpi_done:"Completed",kpi_comp:"Competency",kpi_avg:"Average",kpi_cert:"Certificates",active_exam:"Active Exam",continue_btn:"Continue",sched_running:"In Progress",sched_done:"Finished",sched_upcoming:"Upcoming",today:"Today",
     mod_all:"All",mod_title:"Modules Catalog",min:"mins",qs_cnt:"questions",pass_std:"Pass",pin_btn:"Enter PIN",start_btn:"Start",passed:"PASSED",not_passed:"NOT PASSED",
     brief_title:"Training Session Data",trainer:"Trainer Name",time_start:"Start Time",time_end:"End Time",btn_start_exam:"Start Exam",hint:"Hint",doubt:"Doubt",prev:"Previous",next:"Next",review:"Review",review_title:"Review Answers",time_left:"Time Remaining",answered:"Answered",unanswered:"Empty",score:"Score",progress:"Progress",all_answered:"All questions answered.",unanswered_warn:"questions unanswered",doubt_warn:"questions marked doubt",tap_number_tip:"Tap question number to return to it.",to_feedback_btn:"Proceed to Training Feedback",back_to_exam:"Back to Questions",
@@ -1450,7 +1449,7 @@ const I18N={
     err_nik_no_letter:"员工工号 / NIK 必须包含字母和数字（例：MCC-260156, PGP260062）。若为纯数字，需在10位以上（仅限手机号或身份证号）。",
     err_nik_no_digit:"员工工号 / NIK 必须包含字母和数字（不能仅为纯字母）。正确示例：MCC-260156, PGP260062, EL CV 2035361, CHS-26002。",
     err_nik_invalid:"员工工号 / NIK 必须包含字母与数字，或10位以上手机号/身份证号。",
-    reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称 (Position Title)",reg_lvl:"职级 (Level)",reg_auto:"自动填入",reg_btn:"保存并进入系统",
+    reg_title:"新学员注册",reg_sub:"请完善以下信息以激活您的评估账户。",reg_cancel:"取消",reg_id:"员工工号 / NIK",reg_name:"学员姓名",reg_comp:"所属公司",reg_dept:"所属部门",reg_pos:"职位名称 (Position Title)",reg_lvl:"职级 (Level)",reg_auto:"自动填入",reg_btn:"保存并进入系统",reg_co_ph:"选择或手动输入公司…",reg_dp_ph:"选择或手动输入部门…",reg_jb_ph:"选择或手动输入职位名称…",reg_dpjb_hint:"可从列表选择；若列表暂无，可直接手动输入部门或职位名称。",
     kpi_done:"已完成",kpi_comp:"胜任达标",kpi_avg:"平均分",kpi_cert:"获得证书",active_exam:"进行中的考试",continue_btn:"继续答题",sched_running:"进行中",sched_done:"已结束",sched_upcoming:"即将开始",today:"今天",
     mod_all:"全部",mod_title:"评估模块目录",min:"分钟",qs_cnt:"题",pass_std:"及格线",pin_btn:"输入PIN码",start_btn:"开始",passed:"合格",not_passed:"未合格",
     brief_title:"培训实施信息",trainer:"讲师姓名",time_start:"开始时间",time_end:"结束时间",btn_start_exam:"开始答题",hint:"提示",doubt:"标记存疑",prev:"上一题",next:"下一题",review:"检查",review_title:"检查答卷",time_left:"剩余时间",answered:"已答",unanswered:"未答",score:"得分",progress:"答题进度",all_answered:"所有题目均已完成答题。",unanswered_warn:"道题目未作答",doubt_warn:"道题目标记存疑",tap_number_tip:"轻触题号可直接跳转返回该题。",to_feedback_btn:"前往填写培训评估反馈",back_to_exam:"返回题目界面",
@@ -2220,6 +2219,20 @@ function getAbsenManualSuggestions(){
   });
   return out;
 }
+function sddCustomOpt(id,q,tag){
+  const curL=S.lang||'id';
+  const useLbl=curL==='zh'?'使用输入':curL==='en'?'Use':'Gunakan';
+  const badge=tag||(curL==='zh'?'手动输入':curL==='en'?'Manual Input':'Tulis Manual');
+  return`<button type="button" class="sdd-i on" data-a="sddPick" data-v="${e(id)}|${e(q)}"><span class="mi" style="font-size:16px;color:var(--p);flex:none">edit_note</span><span class="g" style="min-width:0;line-height:1.35;word-break:break-word">${useLbl}: &ldquo;${e(q)}&rdquo;</span><span class="chip gold" style="font-size:9.5px;flex:none">${e(badge)}</span></button>`;
+}
+function inferLevelFromPosition(val){
+  const lvEl=$('#rg-lv');
+  if(!lvEl||!val)return;
+  const dpK=normDeptKey($('#rg-dp')?.value||''),pK=normPosKey(val);
+  const mRow=(S.jsxcomp||[]).find(r=>(!dpK||normDeptKey(r.Department)===dpK)&&(normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK))||(S.jsxcomp||[]).find(r=>normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK);
+  const inferred=(mRow&&mRow.Level)||LEVEL_CANON[normLevelToken(val)]||'';
+  if(inferred)lvEl.value=inferred;
+}
 function renderSdd(id,q=''){
   const box=document.querySelector(`[data-sdd="${id}"]`),menu=$('#dd-'+id),inp=$('#'+id);
   if(!box||!menu)return;
@@ -2229,26 +2242,34 @@ function renderSdd(id,q=''){
     box.classList.add('open');
     return;
   }
+  const curL=S.lang||'id';
   if(id==='absen-manual-nama'){
     const list=getAbsenManualSuggestions();
     const f=q?list.filter(x=>up(x.Name).includes(up(q))):list;
     const shown=f.slice(0,80);
     const exact=q&&list.some(x=>up(x.Name)===up(q));
-    const customOpt=(q&&!exact)?`<button type="button" class="sdd-i on" data-a="sddPick" data-v="absen-manual-nama|${e(q)}"><span class="mi" style="font-size:16px;color:var(--p)">add_circle</span><span class="g ell">Gunakan: "${e(q)}"</span><span class="chip gold" style="font-size:9.5px;flex:none">Tulis Sendiri</span></button>`:'';
+    const customOpt=(q&&!exact)?sddCustomOpt('absen-manual-nama',q,curL==='zh'?'手动输入':curL==='en'?'Custom':'Tulis Sendiri'):'';
     const itemsHtml=shown.map(x=>`<button type="button" class="sdd-i ${up(inp?.value)===up(x.Name)?'on':''}" data-a="sddPick" data-v="absen-manual-nama|${e(x.Name)}"><span class="g ell">${e(x.Name)}</span><span class="chip ${x.src==='Terjadwal'?'ok':'gy'}" style="font-size:9.5px;flex:none">${e(x.src)}</span></button>`).join('');
     menu.innerHTML=(customOpt+itemsHtml)||(list.length?`<div class="sdd-e">Nama training siap digunakan — lanjutkan isi tanggal &amp; trainer.</div>`:`<div class="sdd-e">Belum ada sugesti — langsung ketik nama training yang berjalan.</div>`);
     box.classList.add('open');
     return;
   }
-  const list=SDD[id]?.()||[],f=q?list.filter(x=>up((x.No||'')+' '+(x.Name||x.val||x.Nama_Trainer||x.Company||'')).includes(up(q))):list;
+  const list=SDD[id]?.()||[];
+  const itemVal=x=>String(x.Name||x.val||x.Nama_Trainer||x.Company||'').trim();
+  const f=q?list.filter(x=>up((x.No||'')+' '+itemVal(x)).includes(up(q))):list;
   const MAX_SDD=120;
   const shown=f.slice(0,MAX_SDD);
-  menu.innerHTML=shown.length?(shown.map(x=>{
-    const v=x.Name||x.val||x.Nama_Trainer||x.Company||'';
+  const allowManual=['rg-co','rg-dp','rg-jb','bt-tr','absen-tr','sim-jn'].includes(id);
+  const exact=q&&list.some(x=>up(itemVal(x))===up(q));
+  const customOpt=(allowManual&&q&&!exact)?sddCustomOpt(id,q):'';
+  const itemsHtml=shown.map(x=>{
+    const v=itemVal(x);
     return`<button type="button" class="sdd-i ${up(inp?.value)===up(v)?'on':''}" data-a="sddPick" data-v="${e(id)}|${e(v)}">
       <span class="g ell">${e(v)}</span>
     </button>`;
-  }).join('')+(f.length>MAX_SDD?`<div class="sdd-e" style="border-top:1px solid var(--ln)">Menampilkan ${MAX_SDD} dari ${f.length} opsi — ketik untuk mencari lebih spesifik.</div>`:'')):`<div class="sdd-e">${list.length?'Tidak ada hasil yang cocok.':'Belum ada daftar — silakan ketik langsung.'}</div>`;
+  }).join('');
+  const tailNote=(shown.length&&f.length>MAX_SDD)?`<div class="sdd-e" style="border-top:1px solid var(--ln)">Menampilkan ${MAX_SDD} dari ${f.length} opsi — ketik untuk mencari lebih spesifik.</div>`:'';
+  menu.innerHTML=(customOpt+itemsHtml+tailNote)||`<div class="sdd-e">${list.length?'Tidak ada di daftar — ketik manual lalu lanjutkan.':'Belum ada daftar — silakan ketik langsung.'}</div>`;
   box.classList.add('open');
 }
 function fillDl(){
@@ -2535,7 +2556,8 @@ function go(v,skipRender){
   if(v==='matriks'){S.pt='mat';v='profile'}
   if(v==='riwayat'){S.pt='his';v='profile'}
   if(v==='exam'&&!S.ex){openPin('');return}
-  if(v==='exam'&&S.ex?.timeUp){v='feedback'}
+  if(v==='exam'&&S.ex?.timeUp){v=isPreTest(S.ex)?'review':'feedback'}
+  if(v==='feedback'&&isPreTest(S.ex)){v='review'}
   const focus=['exam','review','feedback','brief','result'].includes(v);
   document.body.classList.toggle('nonav',v==='login'||focus);
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
@@ -2563,6 +2585,10 @@ function rLogin(){
   if($('#lbl-rg-dp'))$('#lbl-rg-dp').textContent=t('reg_dept');
   if($('#lbl-rg-jb'))$('#lbl-rg-jb').textContent=t('reg_pos');
   if($('#lbl-rg-lv'))$('#lbl-rg-lv').textContent=t('reg_lvl');
+  if($('#rg-co'))$('#rg-co').placeholder=t('reg_co_ph');
+  if($('#rg-dp'))$('#rg-dp').placeholder=t('reg_dp_ph');
+  if($('#rg-jb'))$('#rg-jb').placeholder=t('reg_jb_ph');
+  if($('#reg-dpjb-hint'))$('#reg-dpjb-hint').textContent=t('reg_dpjb_hint');
   if($('#rb'))$('#rb').innerHTML=`<span class="mi">how_to_reg</span> ${t('reg_btn')}`;
   $('#le')?.classList.remove('on');
   const raw=($('#li')?.value||'').trim();
@@ -3723,6 +3749,7 @@ async function start(){
   }catch(x){showErr('#be',x.message);b.disabled=false;b.innerHTML=t('btn_start_exam')+' '+mi('play_arrow')}
 }
 const save=()=>{try{localStorage.setItem('mgr_exam',JSON.stringify(S.ex))}catch{}};
+const isPreTest=x=>/^pre(?:\b|[\s_-]*test)/i.test(String(x?.jenis_tes||x?.tr?.jenis_tes||'').trim());
 function isFbDone(fb){
   if(!fb)return false;
   return FB_QS.every(([k])=>fb[k]>=1&&fb[k]<=5)&&cleanInp(fb.e1,500).length>0&&cleanInp(fb.e2,500).length>0;
@@ -3734,7 +3761,8 @@ function tick(){
   if(s===300||s===60)toast(s===300?'Sisa waktu 5 menit.':'Sisa waktu 1 menit!');
   if(s<=0){
     clearInterval(tick.id);S.ex.timeUp=true;save();
-    if(isFbDone(S.ex.fb)){toast('Waktu habis — jawaban dikirim otomatis.');go('feedback');submit()}
+    if(isPreTest(S.ex)){toast('Waktu habis — jawaban Pre Test dikirim otomatis.');go('review');submit()}
+    else if(isFbDone(S.ex.fb)){toast('Waktu habis — jawaban dikirim otomatis.');go('feedback');submit()}
     else{toast('Waktu ujian habis — silakan isi Training Feedback sebelum mengirim.');go('feedback')}
   }
 }
@@ -3742,7 +3770,7 @@ function tick(){
 /* ---------- exam ---------- */
 function rExam(){
   const x=S.ex;if(!x)return;
-  if(left()<=0){x.timeUp=true;save();go('feedback');return}
+  if(left()<=0){x.timeUp=true;save();if(isPreTest(x)){go('review');submit()}else{go('feedback')}return}
   if(!tick.id||!S.tk){S.tk=1;clearInterval(tick.id);tick.id=setInterval(tick,1000)}
   const q=x.qs[x.i],n=x.qs.length,a=Object.keys(x.ans).length,L=['A','B','C','D'];
   const foto=okUrl(q.Foto_Kasus_URL),vid=okUrl(q.Video_Kasus_URL);
@@ -3880,7 +3908,7 @@ function rReview(){
     </div>
   </div>`:''}
 
-  <button class="btn p w" data-a="go" data-v="feedback">${t('to_feedback_btn')} ${mi('arrow_forward')}</button>
+  ${isPreTest(x)?`<div class="err" id="fe-rev"></div><button class="btn p w" id="sb-rev" data-a="submit">${mi('send')} ${curL==='zh'?'提交前测答案':curL==='en'?'Submit Pre-Test Answers':'Kirim Jawaban Pre Test'}</button>`:`<button class="btn p w" data-a="go" data-v="feedback">${t('to_feedback_btn')} ${mi('arrow_forward')}</button>`}
   ${!x.timeUp?`<button class="btn tonal w" data-a="go" data-v="exam">${mi('arrow_back')} ${t('back_to_exam')}</button>`:''}`;
 }
 
@@ -3988,39 +4016,44 @@ function rFeedback(){
 async function submit(){
   if(S.busy||!S.ex)return;
   syncFbText();
-  const x=S.ex,fb=x.fb||{};
-  const missQ=FB_QS.find(([k])=>!(fb[k]>=1&&fb[k]<=5));
-  if(missQ){
-    if(S.v!=='feedback')go('feedback');
-    const idx=FB_QS.indexOf(missQ)+1;
-    const curL=S.lang||'id';
-    const qLabel=FB_QS_I18N[curL]?.[idx-1]?.[0]||missQ[1];
-    const msg=curL==='zh'?`请在第 ${idx} 题评分 (★ 1–5)：${qLabel}`:curL==='en'?`Please select a star rating (1–5) for #${idx}: ${qLabel}.`:`Mohon pilih skala bintang (1–5) pada nomor ${idx}: ${missQ[1]}.`;
-    showErr('#fe',msg);
-    $('#fb-box-'+missQ[0])?.scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
-  const e1=cleanInp(fb.e1,500),e2=cleanInp(fb.e2,500);
-  if(!e1||!e2){
-    if(S.v!=='feedback')go('feedback');
-    const curL=S.lang||'id';
-    const msg=curL==='zh'?'请先填写完整的培训反馈问答。':curL==='en'?'Please fill in both feedback essay questions before submitting.':'Mohon isi kedua pertanyaan essay feedback pelatihan terlebih dahulu.';
-    showErr('#fe',msg);
-    (!e1?$('#fb-e1'):$('#fb-e2'))?.focus();
-    return;
+  const x=S.ex,fb=x.fb||{},skipFb=isPreTest(x);
+  const curL=S.lang||'id';
+  const errSel=(S.v==='review'&&$('#fe-rev'))?'#fe-rev':'#fe';
+  if(!skipFb){
+    const missQ=FB_QS.find(([k])=>!(fb[k]>=1&&fb[k]<=5));
+    if(missQ){
+      if(S.v!=='feedback')go('feedback');
+      const idx=FB_QS.indexOf(missQ)+1;
+      const qLabel=FB_QS_I18N[curL]?.[idx-1]?.[0]||missQ[1];
+      const msg=curL==='zh'?`请在第 ${idx} 题评分 (★ 1–5)：${qLabel}`:curL==='en'?`Please select a star rating (1–5) for #${idx}: ${qLabel}.`:`Mohon pilih skala bintang (1–5) pada nomor ${idx}: ${missQ[1]}.`;
+      showErr('#fe',msg);
+      $('#fb-box-'+missQ[0])?.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    const e1=cleanInp(fb.e1,500),e2=cleanInp(fb.e2,500);
+    if(!e1||!e2){
+      if(S.v!=='feedback')go('feedback');
+      const msg=curL==='zh'?'请先填写完整的培训反馈问答。':curL==='en'?'Please fill in both feedback essay questions before submitting.':'Mohon isi kedua pertanyaan essay feedback pelatihan terlebih dahulu.';
+      showErr('#fe',msg);
+      (!e1?$('#fb-e1'):$('#fb-e2'))?.focus();
+      return;
+    }
   }
   const validUser=S.emp&&key(S.emp)&&String(key(S.emp)).trim().length>=3&&S.emp.Nama_Lengkap;
-  if(!validUser){showErr('#fe','Data akun peserta tidak lengkap. Ujian tidak dapat dikirim tanpa NIK valid.');return}
-  S.busy=true;const b=$('#sb');
-  const curL=S.lang||'id';
+  if(!validUser){showErr(errSel,'Data akun peserta tidak lengkap. Ujian tidak dapat dikirim tanpa NIK valid.');return}
+  S.busy=true;const b=(S.v==='review'&&$('#sb-rev'))?$('#sb-rev'):($('#sb')||$('#sb-rev'));
   if(b){b.disabled=true;b.textContent=curL==='zh'?'提交中…':curL==='en'?'Submitting…':'Mengirim…'}
-  $('#fe')?.classList.remove('on');
+  $(errSel)?.classList.remove('on');
   const tr=x.tr||{};
   const trSpec=tr.specialist||(tr.nama?findTrainer(tr.nama)?.Specialist:'')||'';
   const jenisTes=cleanInp(x.jenis_tes||tr.jenis_tes||'Post Test',30);
-  const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2,Jenis_Tes:jenisTes};
-  FB_QS.forEach(([k,,,col])=>{fbData[k]=fb[k];fbData[col]=fb[k]});
-  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(empDp(S.emp),100),jabatan:cleanInp(empJb(S.emp),100),position_title:cleanInp(empJb(S.emp),100),level:cleanInp(empLvl(S.emp),50),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans,feedback:fbData};
+  const payload={action:'submit_exam',id_ujian:cleanInp(x.uid||'',40),kode_pin:cleanInp(x.pin,20),jenis_tes:jenisTes,Jenis_Tes:jenisTes,id_karyawan:cleanInp(x.nik,50),nama_karyawan:cleanInp(S.emp.Nama_Lengkap,100),company:cleanInp(empCo(S.emp),100),nama_company:cleanInp(empCo(S.emp),100),departemen:cleanInp(empDp(S.emp),100),jabatan:cleanInp(empJb(S.emp),100),position_title:cleanInp(empJb(S.emp),100),level:cleanInp(empLvl(S.emp),50),id_modul:cleanInp(x.ses.ID_Modul,50),nama_trainer:cleanInp(tr.nama||'',100),trainer_name:cleanInp(tr.nama||'',100),specialist:cleanInp(trSpec,100),specialist_trainer:cleanInp(trSpec,100),jam_mulai_training:cleanInp(tr.mulai||'',10),jam_berakhir_training:cleanInp(tr.selesai||'',10),sisa_waktu:fmt(left()),jawaban:x.ans};
+  if(!skipFb){
+    const e1=cleanInp(fb.e1,500),e2=cleanInp(fb.e2,500);
+    const fbData={e1,e2,Perlu_Ditingkatkan:e1,Sudah_Bagus:e2,Jenis_Tes:jenisTes};
+    FB_QS.forEach(([k,,,col])=>{fbData[k]=fb[k];fbData[col]=fb[k]});
+    payload.feedback=fbData;
+  }
   try{
     const j=await po(payload,3);
     if(j.status!=='success')throw new Error(j.message);
@@ -4033,9 +4066,10 @@ async function submit(){
     showResult(res,mod);refresh();
   }catch(er){
     try{localStorage.setItem('mgr_pending_sub',JSON.stringify(payload))}catch{}
-    const curL=S.lang||'id';
-    const tip=curL==='zh'?' — 您的答案与反馈已锁定保存在本地设备，请点击重试。':curL==='en'?' — Your answers & feedback are locked locally. Tap retry to resubmit.':' — Jawaban & Feedback Anda sudah dikunci di perangkat. Ketuk Kirim Ulang.';
-    showErr('#fe',(er.message||(curL==='zh'?'网络连接不稳定':curL==='en'?'Connection unstable':'Koneksi tidak stabil'))+tip);
+    const tip=skipFb
+      ?(curL==='zh'?' — 您的答案已锁定保存在本地设备，请点击重试。':curL==='en'?' — Your answers are locked locally. Tap retry to resubmit.':' — Jawaban Anda sudah dikunci di perangkat. Ketuk Kirim Ulang.')
+      :(curL==='zh'?' — 您的答案与反馈已锁定保存在本地设备，请点击重试。':curL==='en'?' — Your answers & feedback are locked locally. Tap retry to resubmit.':' — Jawaban & Feedback Anda sudah dikunci di perangkat. Ketuk Kirim Ulang.');
+    showErr(errSel,(er.message||(curL==='zh'?'网络连接不稳定':curL==='en'?'Connection unstable':'Koneksi tidak stabil'))+tip);
     if(b){b.disabled=false;b.innerHTML=mi('send')+' '+(curL==='zh'?'重新提交':curL==='en'?'Retry Submission':'Kirim Ulang')}
   }
   S.busy=false;
@@ -4804,7 +4838,7 @@ const A={
   pickJenisTes:v=>{if(!S.pend)S.pend={};S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--slate)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--slate)'}},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),absenMode:v=>setAbsenMode(v),absenToManual:()=>{const cur=cleanInp($('#absen-agenda')?.value,150);setAbsenMode('manual');if(cur&&$('#absen-manual-nama'))$('#absen-manual-nama').value=cur;setTimeout(()=>{const el=$('#absen-manual-nama');el?.focus();renderSdd('absen-manual-nama',el?.value?.trim()||'')},50)},pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
   sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
-  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='rg-jb'){const lvEl=$('#rg-lv');if(lvEl){const dpK=normDeptKey($('#rg-dp')?.value||''),pK=normPosKey(val),mRow=(S.jsxcomp||[]).find(r=>(!dpK||normDeptKey(r.Department)===dpK)&&(normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK))||(S.jsxcomp||[]).find(r=>normPosKey(r['Job Title'])===pK||normPosKey(r['Clear Position'])===pK);const inferred=(mRow&&mRow.Level)||LEVEL_CANON[normLevelToken(val)]||'';if(inferred)lvEl.value=inferred}}if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
+  sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='rg-jb')inferLevelFromPosition(val);if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
   pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50)},
   pickSimTime:v=>{saveSimInputs();S.simTime=v;if($('#sim-time'))$('#sim-time').value=v;$('#se-sim')?.classList.remove('on');rSim()},
   lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},hisFlt:v=>{S.hisFlt=v;rProfile()},cert,ans,submit,tts,lang:v=>setLang(v),
@@ -4824,6 +4858,8 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='fb-e1'||ev.target.id==='fb-e2'){syncFbText();$('#fe')?.classList.remove('on')}
   if(ev.target.id==='sim-jn'){S.simJn=ev.target.value;$('#se-sim')?.classList.remove('on')}
   if(ev.target.id==='sim-mat-other'){S.simMatOther=ev.target.value;$('#se-sim')?.classList.remove('on')}
+  if(ev.target.id==='rg-jb'){inferLevelFromPosition(ev.target.value)}
+  if(ev.target.id==='rg-dp'||ev.target.id==='rg-jb'||ev.target.id==='rg-co'||ev.target.id==='rg-nm'||ev.target.id==='rg-id'){$('#re-reg')?.classList.remove('on')}
   if(ev.target.id==='sim-time'){S.simTime=ev.target.value;$('#se-sim')?.classList.remove('on')}
   if(ev.target.id==='absen-agenda'){$('#ae-absen')?.classList.remove('on');renderAbsenAgendaList(ev.target.value.trim())}
   if(ev.target.id==='absen-manual-nama'){$('#ae-absen')?.classList.remove('on')}
@@ -4876,7 +4912,15 @@ $('#lf').addEventListener('submit',async ev=>{
 });
 $('#li').addEventListener('input',rLogin);
 $('#pi').addEventListener('keydown',ev=>ev.key==='Enter'&&verify());
-document.addEventListener('keydown',ev=>{if(S.v!=='exam'||!S.ex||/INPUT|TEXTAREA/.test(ev.target.tagName))return;const k=ev.key.toUpperCase();if('ABCD'.includes(k)&&k.length===1)ans(k);if(ev.key==='ArrowRight')A.next();if(ev.key==='ArrowLeft'&&S.ex.i)A.prev()});
+document.addEventListener('keydown',ev=>{
+  if(ev.target.closest('.sdd')&&(ev.key==='Enter'||ev.key==='Escape')){
+    if(ev.key==='Enter')ev.preventDefault();
+    document.querySelectorAll('.sdd.open').forEach(x=>x.classList.remove('open'));
+    if(ev.target.id==='rg-jb')inferLevelFromPosition(ev.target.value);
+    return;
+  }
+  if(S.v!=='exam'||!S.ex||/INPUT|TEXTAREA/.test(ev.target.tagName))return;const k=ev.key.toUpperCase();if('ABCD'.includes(k)&&k.length===1)ans(k);if(ev.key==='ArrowRight')A.next();if(ev.key==='ArrowLeft'&&S.ex.i)A.prev();
+});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.ex&&S.v==='exam'){S.ex.tabs++;save()}else if(!document.hidden&&S.ex&&S.v==='exam'&&S.ex.tabs)toast('Anda meninggalkan halaman ujian ('+S.ex.tabs+'×). Tetap fokus pada soal.')});
 addEventListener('beforeunload',ev=>{if(S.ex&&['exam','review','feedback'].includes(S.v)){ev.preventDefault();ev.returnValue=''}});
 setInterval(()=>{if(S.v==='review'&&S.ex&&$('#rt'))$('#rt').textContent=fmt(left())},1000);
