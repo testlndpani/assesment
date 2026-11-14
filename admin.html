@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <script defer src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <style>
     :root {
       /* Aureus Light & Slate Executive Palette */
@@ -1370,6 +1371,84 @@
       border-color: var(--gold-accent);
     }
 
+    /* Mode ringkas (compact) agar tidak terlalu banyak teks sebelum di-unhide */
+    tr.group-dropdown-row.compact td {
+      padding: 9px 14px !important;
+    }
+
+    tr.group-dropdown-row.compact .group-dropdown-inner {
+      gap: 10px;
+      align-items: center;
+    }
+
+    tr.group-dropdown-row.compact .group-dropdown-left {
+      align-items: center;
+      gap: 10px;
+    }
+
+    tr.group-dropdown-row.compact .group-chevron-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      margin-top: 0;
+    }
+
+    tr.group-dropdown-row.compact .group-chevron-btn .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    tr.group-dropdown-row.compact .group-title-line {
+      font-size: 13.5px;
+      font-weight: 700;
+      gap: 6px;
+    }
+
+    tr.group-dropdown-row.compact:not(.open) .group-meta-line,
+    tr.group-dropdown-row.compact:not(.open) .group-names-preview {
+      display: none;
+    }
+
+    tr.group-dropdown-row.compact .btn-group-toggle {
+      padding: 4px 10px;
+      font-size: 11px;
+    }
+
+    .kpi-strip-compact {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-mini {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .kpi-mini .lbl {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    .kpi-mini .val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink-primary);
+    }
+
+    @media (max-width: 768px) {
+      .kpi-strip-compact {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     tr.group-child-row {
       background: #ffffff;
       animation: fadeSlideRow 0.15s ease-out;
@@ -2033,9 +2112,9 @@
                   <span class="material-symbols-outlined">person_add</span>
                   <span>Tambah Manpower</span>
                 </button>
-                <button class="btn btn-outline" onclick="exportSheetCsv('Hasil_Asesmen')">
+                <button class="btn btn-outline" onclick="exportSheetExcel('Hasil_Asesmen')">
                   <span class="material-symbols-outlined">download</span>
-                  <span>Export Hasil Asesmen (CSV)</span>
+                  <span>Export Hasil Asesmen (Excel)</span>
                 </button>
               </div>
             </div>
@@ -2145,6 +2224,10 @@
                   <p>Atur pertanyaan pilihan ganda A/B/C/D, kunci jawaban, media studi kasus, dan petunjuk (hint)</p>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <button class="btn btn-outline btn-sm" id="btn-toggle-soal-opsi" onclick="toggleShowSoalOpsi()">
+                    <span class="material-symbols-outlined">unfold_more</span>
+                    <span id="label-toggle-soal-opsi">Tampilkan Opsi A-D</span>
+                  </button>
                   <button class="btn btn-outline btn-sm" id="btn-toggle-kunci" onclick="toggleShowKunci()">
                     <span class="material-symbols-outlined">visibility</span>
                     <span id="label-toggle-kunci">Tampilkan Kunci</span>
@@ -2153,9 +2236,9 @@
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Import CSV/TSV</span>
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Bank_Soal')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Bank_Soal')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openSoalModal()">
                     <span class="material-symbols-outlined">add</span>
@@ -2187,15 +2270,29 @@
                 </select>
               </div>
 
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 0 8px">
+                <div id="soal-group-summary" style="font-size:12.5px;color:var(--ink-muted);font-weight:600">Memuat kelompok modul soal…</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <button type="button" class="btn btn-outline btn-sm" onclick="expandAllTableGroups('soal', true)">
+                    <span class="material-symbols-outlined">unfold_more</span>
+                    <span>Buka Semua Modul</span>
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="expandAllTableGroups('soal', false)">
+                    <span class="material-symbols-outlined">unfold_less</span>
+                    <span>Tutup Semua Modul</span>
+                  </button>
+                </div>
+              </div>
+
               <div class="table-wrap">
                 <table class="data-table">
                   <thead>
                     <tr>
-                      <th style="width:90px">ID & Urut</th>
-                      <th style="width:150px">Modul & Topik</th>
-                      <th>Pertanyaan & Pilihan Jawaban (A / B / C / D)</th>
-                      <th style="width:95px">Kunci</th>
-                      <th style="width:120px;text-align:right">Aksi</th>
+                      <th style="width:95px">ID &amp; Urut</th>
+                      <th style="width:170px">Modul &amp; Topik</th>
+                      <th>Pertanyaan &amp; Opsi Jawaban (Hide / Unhide)</th>
+                      <th style="width:105px">Kunci</th>
+                      <th style="width:145px;text-align:right">Aksi</th>
                     </tr>
                   </thead>
                   <tbody id="soal-tbody"></tbody>
@@ -2214,9 +2311,9 @@
                   <p>Konfigurasi nama modul (ID/EN/ZH), durasi default, jumlah soal default, dan passing grade</p>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Katalog_Modul')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Katalog_Modul')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openModulModal()">
                     <span class="material-symbols-outlined">add</span>
@@ -2274,9 +2371,9 @@
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Import CSV/TSV</span>
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Jadwal_PIN')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Jadwal_PIN')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openPinModal()">
                     <span class="material-symbols-outlined">add_circle</span>
@@ -2315,7 +2412,7 @@
                       <th>Jenis Tes</th>
                       <th>Modul & Batch</th>
                       <th>Tanggal & Jam Akses</th>
-                      <th>Durasi & Soal</th>
+                      <th>Durasi, Soal & Batas Tes</th>
                       <th>Trainer Pengampu</th>
                       <th>Partisipan</th>
                       <th>Status Sesi</th>
@@ -2341,9 +2438,9 @@
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Import Jadwal (CSV/TSV)</span>
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Jadwal_Import')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Jadwal_Import')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openJadwalImportModal()">
                     <span class="material-symbols-outlined">add</span>
@@ -2395,57 +2492,52 @@
           <div class="subtab-bar">
             <button class="subtab-btn active" id="subtab-btn-hasil" onclick="switchSubtab('hasil', 'hasil-asesmen')">
               <span class="material-symbols-outlined">workspace_premium</span>
-              <span>Hasil Asesmen & Absensi (<span id="subtab-count-hasil">0</span>)</span>
+              <span>Asesmen (<span id="subtab-count-hasil">0</span>)</span>
             </button>
             <button class="subtab-btn" id="subtab-btn-simulator" onclick="switchSubtab('simulator', 'hasil-asesmen')">
               <span class="material-symbols-outlined">precision_manufacturing</span>
-              <span>Hasil Simulator (<span id="subtab-count-simulator">0</span>)</span>
+              <span>Simulator (<span id="subtab-count-simulator">0</span>)</span>
             </button>
             <button class="subtab-btn" id="subtab-btn-feedback" onclick="switchSubtab('feedback', 'hasil-asesmen')">
               <span class="material-symbols-outlined">reviews</span>
-              <span>Evaluasi & Feedback (<span id="subtab-count-feedback">0</span>)</span>
+              <span>Evaluasi (<span id="subtab-count-feedback">0</span>)</span>
             </button>
           </div>
 
           <!-- SUBTAB 4A: HASIL ASESMEN -->
           <div id="subview-hasil">
-            <div class="kpi-grid" style="margin-bottom:18px">
-              <div class="kpi-card" style="padding:14px 18px">
-                <span class="kpi-label">Data Terfilter</span>
-                <div class="kpi-value" style="font-size:22px" id="hasil-stat-count">0</div>
-                <div class="kpi-sub" id="hasil-stat-sub">Semua rekaman</div>
+            <div class="kpi-strip-compact">
+              <div class="kpi-mini">
+                <span class="lbl">Data Terfilter</span>
+                <span class="val tabular" id="hasil-stat-count">0</span>
               </div>
-              <div class="kpi-card" style="padding:14px 18px">
-                <span class="kpi-label">Lulus Ujian</span>
-                <div class="kpi-value" style="font-size:22px;color:var(--emerald-text)" id="hasil-stat-pass">0</div>
-                <div class="kpi-sub" id="hasil-stat-passrate">Pass Rate: 0%</div>
+              <div class="kpi-mini">
+                <span class="lbl">Lulus (<span id="hasil-stat-passrate">0%</span>)</span>
+                <span class="val tabular" style="color:var(--emerald-text)" id="hasil-stat-pass">0</span>
               </div>
-              <div class="kpi-card" style="padding:14px 18px">
-                <span class="kpi-label">Belum Lulus / Remedial</span>
-                <div class="kpi-value" style="font-size:22px;color:var(--crimson-text)" id="hasil-stat-fail">0</div>
-                <div class="kpi-sub" id="hasil-stat-absen">Hanya Absen: 0</div>
+              <div class="kpi-mini">
+                <span class="lbl">Belum Lulus</span>
+                <span class="val tabular" style="color:var(--crimson-text)" id="hasil-stat-fail">0</span>
               </div>
-              <div class="kpi-card" style="padding:14px 18px">
-                <span class="kpi-label">Rata-Rata Skor Ujian</span>
-                <div class="kpi-value" style="font-size:22px;color:var(--gold-primary)" id="hasil-stat-avg">0.0</div>
-                <div class="kpi-sub" id="hasil-stat-minmax">Min: 0 • Max: 0</div>
+              <div class="kpi-mini">
+                <span class="lbl">Rata-Rata Skor</span>
+                <span class="val tabular" style="color:var(--gold-primary)" id="hasil-stat-avg">0.0</span>
               </div>
             </div>
 
             <div class="card">
               <div class="card-header">
                 <div class="card-title-group">
-                  <h2><span class="material-symbols-outlined" style="color:var(--gold-primary)">workspace_premium</span> Rekapitulasi Nilai Asesmen & Presensi (`Hasil_Asesmen`)</h2>
-                  <p>Filter berdasarkan modul, jenis tes, kelulusan, departemen, tanggal, atau cetak sertifikat</p>
+                  <h2><span class="material-symbols-outlined" style="color:var(--gold-primary)">workspace_premium</span> Hasil Asesmen &amp; Presensi</h2>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-outline btn-sm" onclick="exportFilteredHasilCsv()">
+                  <button class="btn btn-outline btn-sm" onclick="exportFilteredHasilExcel()">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export Data Terfilter (CSV)</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openHasilModal()">
                     <span class="material-symbols-outlined">add</span>
-                    <span>Input Hasil / Presensi Manual</span>
+                    <span>Input Manual</span>
                   </button>
                 </div>
               </div>
@@ -2453,35 +2545,35 @@
               <div class="filter-bar">
                 <div class="search-box">
                   <span class="material-symbols-outlined">search</span>
-                  <input type="text" class="input" id="filter-hasil-search" placeholder="Cari Nama Karyawan, NIK/ID, Kode PIN, Modul, atau No Sertifikat..." oninput="renderHasilAsesmen()" />
+                  <input type="text" class="input" id="filter-hasil-search" placeholder="Cari nama, NIK, PIN, modul..." oninput="renderHasilAsesmen()" />
                 </div>
                 <select class="select filter-select" id="filter-hasil-groupby" onchange="renderHasilAsesmen()" style="font-weight:700;border-color:var(--gold-accent);background:var(--gold-soft);color:var(--gold-primary)">
-                  <option value="sesi">📂 Kelompok Dropdown: Per Sesi (Modul + PIN + Tanggal)</option>
-                  <option value="modul">📂 Kelompok Dropdown: Per Modul Pelatihan</option>
-                  <option value="pin">📂 Kelompok Dropdown: Per Kode PIN & Jenis Tes</option>
-                  <option value="tanggal">📂 Kelompok Dropdown: Per Tanggal Ujian</option>
-                  <option value="company">📂 Kelompok Dropdown: Per Company & Departemen</option>
-                  <option value="trainer">📂 Kelompok Dropdown: Per Trainer / Instruktur</option>
-                  <option value="flat">📄 Tampilan Baris Biasa (Tanpa Kelompok)</option>
+                  <option value="sesi">Grup: Per Sesi</option>
+                  <option value="modul">Grup: Per Modul</option>
+                  <option value="pin">Grup: Per Kode PIN</option>
+                  <option value="tanggal">Grup: Per Tanggal</option>
+                  <option value="company">Grup: Departemen</option>
+                  <option value="trainer">Grup: Trainer</option>
+                  <option value="flat">Semua Baris</option>
                 </select>
                 <div class="group-control-strip" id="hasil-group-controls">
-                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('hasil', true)" title="Buka semua kelompok untuk melihat nama peserta">
+                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('hasil', true)" title="Buka semua kelompok">
                     <span class="material-symbols-outlined" style="font-size:15px">unfold_more</span>
-                    <span>Buka Semua</span>
+                    <span>Buka</span>
                   </button>
-                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('hasil', false)" title="Ringkaskan / tutup semua kelompok">
+                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('hasil', false)" title="Tutup semua kelompok">
                     <span class="material-symbols-outlined" style="font-size:15px">unfold_less</span>
-                    <span>Ringkas Semua</span>
+                    <span>Tutup</span>
                   </button>
                 </div>
                 <select class="select filter-select" id="filter-hasil-modul" onchange="renderHasilAsesmen()">
-                  <option value="">Semua Modul / Agenda</option>
+                  <option value="">Semua Modul</option>
                 </select>
                 <select class="select filter-select" id="filter-hasil-jenis" onchange="renderHasilAsesmen()">
-                  <option value="">Semua Jenis Tes</option>
+                  <option value="">Semua Jenis</option>
                   <option value="Post Test">Post Test</option>
                   <option value="Pre Test">Pre Test</option>
-                  <option value="Tanpa Test">Tanpa Test (Absen)</option>
+                  <option value="Tanpa Test">Absen</option>
                 </select>
                 <select class="select filter-select" id="filter-hasil-status" onchange="renderHasilAsesmen()">
                   <option value="">Semua Status</option>
@@ -2490,7 +2582,12 @@
                   <option value="Hanya Absen">Hanya Absen</option>
                 </select>
                 <select class="select filter-select" id="filter-hasil-dept" onchange="renderHasilAsesmen()">
-                  <option value="">Semua Departemen</option>
+                  <option value="">Semua Dept</option>
+                </select>
+                <select class="select filter-select" id="filter-hasil-dedupe" onchange="renderHasilAsesmen()" title="Aturan nilai ganda pada training & tanggal yang sama">
+                  <option value="best_day" selected>Nilai Terbesar (Unik)</option>
+                  <option value="best_type">Nilai Terbesar (Pre/Post)</option>
+                  <option value="all">Semua Percobaan</option>
                 </select>
               </div>
 
@@ -2498,13 +2595,13 @@
                 <table class="data-table">
                   <thead>
                     <tr>
-                      <th>Waktu & ID Ujian</th>
-                      <th>Peserta & NIK</th>
-                      <th>Company & Departemen</th>
-                      <th>Modul & Jenis Tes</th>
-                      <th>PIN & Trainer</th>
+                      <th>Waktu &amp; ID</th>
+                      <th>Peserta &amp; NIK</th>
+                      <th>Company &amp; Dept</th>
+                      <th>Modul &amp; Jenis</th>
+                      <th>PIN &amp; Trainer</th>
                       <th>Benar</th>
-                      <th>Skor Akhir</th>
+                      <th>Skor</th>
                       <th>Status</th>
                       <th style="text-align:right">Aksi</th>
                     </tr>
@@ -2521,33 +2618,32 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title-group">
-                  <h2><span class="material-symbols-outlined" style="color:var(--gold-primary)">precision_manufacturing</span> Log Praktik Simulator (`Hasil_Simulator`)</h2>
-                  <p>Rekaman jam terbang dan materi latihan simulator alat berat peserta</p>
+                  <h2><span class="material-symbols-outlined" style="color:var(--gold-primary)">precision_manufacturing</span> Log Praktik Simulator</h2>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Hasil_Simulator')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Hasil_Simulator')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openSimulatorModal()">
                     <span class="material-symbols-outlined">add</span>
-                    <span>Tambah Log Simulator</span>
+                    <span>Tambah Log</span>
                   </button>
                 </div>
               </div>
               <div class="filter-bar">
                 <div class="search-box">
                   <span class="material-symbols-outlined">search</span>
-                  <input type="text" class="input" id="filter-sim-search" placeholder="Cari nama karyawan, NIK, jenis simulator, atau materi..." oninput="renderHasilSimulator()" />
+                  <input type="text" class="input" id="filter-sim-search" placeholder="Cari nama, NIK, simulator..." oninput="renderHasilSimulator()" />
                 </div>
                 <select class="select filter-select" id="filter-sim-groupby" onchange="renderHasilSimulator()" style="font-weight:700;border-color:var(--gold-accent);background:var(--gold-soft);color:var(--gold-primary)">
-                  <option value="jenis_tgl">📂 Kelompok Dropdown: Simulator & Tanggal</option>
-                  <option value="jenis">📂 Kelompok Dropdown: Per Jenis Simulator</option>
-                  <option value="flat">📄 Tampilan Baris Biasa</option>
+                  <option value="jenis_tgl">Grup: Simulator &amp; Tgl</option>
+                  <option value="jenis">Grup: Jenis Simulator</option>
+                  <option value="flat">Semua Baris</option>
                 </select>
                 <div class="group-control-strip">
-                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('sim', true)">Buka Semua</button>
-                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('sim', false)">Ringkas Semua</button>
+                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('sim', true)">Buka</button>
+                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('sim', false)">Tutup</button>
                 </div>
               </div>
               <div class="table-wrap">
@@ -2559,7 +2655,7 @@
                       <th>Nama Karyawan</th>
                       <th>Jenis Simulator</th>
                       <th>Materi Simulator</th>
-                      <th>Durasi / Waktu</th>
+                      <th>Durasi</th>
                       <th style="text-align:right">Aksi</th>
                     </tr>
                   </thead>
@@ -2574,46 +2670,45 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-title-group">
-                  <h2><span class="material-symbols-outlined" style="color:var(--gold-primary)">reviews</span> Evaluasi Pelatihan & Penilaian Trainer (`Training_Feedback`)</h2>
-                  <p>Rekap penilaian 10 parameter bintang (1–5) dan masukan esai peserta terhadap modul & trainer</p>
+                  <h2><span class="material-symbols-outlined" style="color:var(--gold-primary)">reviews</span> Evaluasi &amp; Feedback</h2>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Training_Feedback')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Training_Feedback')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export Evaluasi (CSV)</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openFeedbackModal(-1)">
                     <span class="material-symbols-outlined">add</span>
-                    <span>Tambah Evaluasi Manual</span>
+                    <span>Tambah Evaluasi</span>
                   </button>
                 </div>
               </div>
               <div class="filter-bar">
                 <div class="search-box">
                   <span class="material-symbols-outlined">search</span>
-                  <input type="text" class="input" id="filter-fb-search" placeholder="Cari nama trainer, modul, peserta, atau isi ulasan..." oninput="renderTrainingFeedback()" />
+                  <input type="text" class="input" id="filter-fb-search" placeholder="Cari trainer, modul, peserta..." oninput="renderTrainingFeedback()" />
                 </div>
                 <select class="select filter-select" id="filter-fb-groupby" onchange="renderTrainingFeedback()" style="font-weight:700;border-color:var(--gold-accent);background:var(--gold-soft);color:var(--gold-primary)">
-                  <option value="sesi">📂 Kelompok Dropdown: Per Modul & PIN</option>
-                  <option value="trainer">📂 Kelompok Dropdown: Per Trainer</option>
-                  <option value="flat">📄 Tampilan Baris Biasa</option>
+                  <option value="sesi">Grup: Modul &amp; PIN</option>
+                  <option value="trainer">Grup: Per Trainer</option>
+                  <option value="flat">Semua Baris</option>
                 </select>
                 <div class="group-control-strip">
-                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('fb', true)">Buka Semua</button>
-                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('fb', false)">Ringkas Semua</button>
+                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('fb', true)">Buka</button>
+                  <button type="button" class="btn btn-outline btn-sm" style="padding:4px 8px;font-size:11px" onclick="expandAllTableGroups('fb', false)">Tutup</button>
                 </div>
               </div>
               <div class="table-wrap">
                 <table class="data-table">
                   <thead>
                     <tr>
-                      <th>Waktu & PIN</th>
-                      <th>Peserta & Departemen</th>
-                      <th>Modul & Trainer</th>
-                      <th>Rata-Rata Rating</th>
-                      <th>Hal yang Sudah Bagus</th>
+                      <th>Waktu &amp; PIN</th>
+                      <th>Peserta &amp; Dept</th>
+                      <th>Modul &amp; Trainer</th>
+                      <th>Rating</th>
+                      <th>Sudah Bagus</th>
                       <th>Perlu Ditingkatkan</th>
-                      <th style="text-align:right">Aksi CRUD</th>
+                      <th style="text-align:right">Aksi</th>
                     </tr>
                   </thead>
                   <tbody id="feedback-tbody"></tbody>
@@ -2651,9 +2746,9 @@
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Import Manpower (CSV/TSV)</span>
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Data_Karyawan')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Data_Karyawan')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openKaryawanModal()">
                     <span class="material-symbols-outlined">person_add</span>
@@ -2719,9 +2814,9 @@
                   <p>Peserta yang mendaftar mandiri melalui portal ujian/absensi dan dapat dipromosikan ke Data_Karyawan</p>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('New_Register')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('New_Register')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openNewRegModal(-1)">
                     <span class="material-symbols-outlined">person_add</span>
@@ -2785,9 +2880,9 @@
                   <p>Kelola akun trainer resmi beserta statistik sesi mengajar, kelulusan peserta, dan rating evaluasi</p>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap">
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('Trainer_Name')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('Trainer_Name')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openTrainerModal()">
                     <span class="material-symbols-outlined">person_add</span>
@@ -2828,9 +2923,9 @@
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Import CSV/TSV</span>
                   </button>
-                  <button class="btn btn-outline btn-sm" onclick="exportSheetCsv('JSxCOMP')">
+                  <button class="btn btn-outline btn-sm" onclick="exportSheetExcel('JSxCOMP')">
                     <span class="material-symbols-outlined">download</span>
-                    <span>Export CSV</span>
+                    <span>Export Excel</span>
                   </button>
                   <button class="btn btn-primary btn-sm" onclick="openJsxCompModal()">
                     <span class="material-symbols-outlined">add</span>
@@ -2960,9 +3055,9 @@
                   <span class="material-symbols-outlined">upload_file</span>
                   <span>Import CSV/TSV</span>
                 </button>
-                <button class="btn btn-outline btn-sm" onclick="exportSheetCsv(UI_STATE.explorerSheet)">
+                <button class="btn btn-outline btn-sm" onclick="exportSheetExcel(UI_STATE.explorerSheet)">
                   <span class="material-symbols-outlined">download</span>
-                  <span>Export CSV</span>
+                  <span>Export Excel</span>
                 </button>
                 <button class="btn btn-primary btn-sm" onclick="openUniversalCrudModal(UI_STATE.explorerSheet, -1, 'create')">
                   <span class="material-symbols-outlined">add_circle</span>
@@ -3086,6 +3181,8 @@
     const UI_STATE = {
       activeView: 'dashboard',
       showKunci: true,
+      soalShowOptions: false,
+      expandedSoalItems: {},
       pageSoal: 1,
       pageHasil: 1,
       pageKaryawan: 1,
@@ -3095,8 +3192,8 @@
       explorerSheet: 'Bank_Soal',
       pageSize: 25,
       lastFilteredHasil: [],
-      expandedGroups: { hasil: {}, sim: {}, fb: {}, kar: {}, dash: {} },
-      groupCache: { hasil: {}, sim: {}, fb: {}, kar: {}, dash: {} }
+      expandedGroups: { hasil: {}, sim: {}, fb: {}, kar: {}, dash: {}, soal: {} },
+      groupCache: { hasil: {}, sim: {}, fb: {}, kar: {}, dash: {}, soal: {} }
     };
 
     const SHEET_PRIMARY_KEYS = {
@@ -3120,7 +3217,7 @@
     const SHEET_DEFAULT_COLUMNS = {
       Katalog_Modul: ['ID_Modul', 'Label_Modul', 'Nama_Modul', 'Nama_Modul_EN', 'Nama_Modul_ZH', 'Tingkat', 'Badge_Kategori', 'Ikon_UI', 'Durasi_Default', 'Jml_Soal_Default', 'Passing_Grade', 'Penyelenggara'],
       Bank_Soal: ['ID_Soal', 'ID_Modul', 'No_Urut', 'Tag_Topik', 'Tingkat', 'Pertanyaan', 'Foto_Kasus_URL', 'Video_Kasus_URL', 'Judul_Media_Kasus', 'Label_Alert_Media', 'Opsi_A', 'Opsi_B', 'Opsi_C', 'Opsi_D', 'Kunci', 'Hint_Petunjuk', 'Info_Konteks_Kanan'],
-      Jadwal_PIN: ['Kode_PIN', 'ID_Modul', 'Nama_Modul', 'Batch_Sesi', 'Tanggal', 'Jam_Mulai', 'Jam_Selesai', 'Durasi_Menit', 'Jml_Soal', 'Acak_Soal', 'Trainer', 'Status', 'Jenis_Tes'],
+      Jadwal_PIN: ['Kode_PIN', 'ID_Modul', 'Nama_Modul', 'Batch_Sesi', 'Tanggal', 'Jam_Mulai', 'Jam_Selesai', 'Durasi_Menit', 'Jml_Soal', 'Batas_Pre_Test', 'Batas_Post_Test', 'Acak_Soal', 'Trainer', 'Status', 'Jenis_Tes'],
       Jadwal_Import: ['ID_Jadwal', 'START', 'END', 'Duration_Day', 'Duration_Hour', 'Start Hour', 'AGENDA', 'PIC', 'ROOM', 'BATCH', 'Kuota', 'Sisa Kuota', 'STATUS', 'Deskripsi_Pelatihan'],
       Hasil_Asesmen: ['ID_Ujian', 'Timestamp_Submit', 'Kode_PIN', 'Jenis_Tes', 'Batch_Sesi', 'ID_Karyawan', 'Nama_Karyawan', 'Company', 'Departemen', 'Jabatan', 'Level', 'ID_Modul', 'Nama_Modul_Sertifikat', 'Penyelenggara', 'Nama_Trainer', 'Specialist', 'Jam_Mulai_Training', 'Jam_Berakhir_Training', 'Terjawab', 'Benar', 'Skor_Akhir', 'Status_Lulus', 'Sisa_Waktu', 'Jawaban_Peserta_JSON', 'No_Sertifikat'],
       Hasil_Simulator: ['Timestamp_Submit', 'ID_Karyawan', 'Nama_Karyawan', 'Jenis_Simulator', 'Materi_Simulator', 'Waktu_Simulator'],
@@ -3144,6 +3241,23 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+    }
+
+    function parseTimestampParts(raw) {
+      const s = String(raw || '').trim();
+      if (!s || s === '-') return { date: '-', time: '' };
+      const m = s.match(/^(\d{4}-\d{2}-\d{2}|\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4})[T\s]+(\d{1,2}:\d{2}(?::\d{2})?)/);
+      if (m) return { date: m[1], time: m[2] };
+      return { date: s, time: '' };
+    }
+
+    function splitTimestampHtml(raw, inline = false) {
+      const { date, time } = parseTimestampParts(raw);
+      if (!time) return `<span>${esc(date)}</span>`;
+      if (inline) {
+        return `<span style="display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap"><span>${esc(date)}</span><span style="padding:1px 6px;border-radius:5px;background:#f1f5f9;color:var(--ink-secondary);font-size:11px;font-weight:700">${esc(time)}</span></span>`;
+      }
+      return `<div style="display:inline-flex;flex-direction:column;gap:2px;line-height:1.25"><span style="font-weight:600;color:var(--ink-primary)">${esc(date)}</span><span style="font-size:11px;font-weight:600;color:var(--ink-muted)">${esc(time)}</span></div>`;
     }
 
     function showToast(msg, type = 'success', duration = 4200) {
@@ -3555,7 +3669,7 @@
       'dashboard': ['Dashboard Eksekutif L&D', 'Ikhtisar real-time Bank Soal, PIN Sesi, Hasil Asesmen, Manpower & Evaluasi Trainer'],
       'bank-soal': ['Manajemen Bank Soal & Katalog Modul (CRUD)', 'Create, Read, Update/Edit, Duplicate & Delete butir soal pilihan ganda dan modul'],
       'pin-jadwal': ['Manajemen Kode PIN & Jadwal Pelatihan (CRUD)', 'Create, Read, Update/Edit, Duplicate & Delete PIN sesi ujian dan jadwal tahunan'],
-      'hasil-asesmen': ['Rekapitulasi Hasil Asesmen, Simulator & Evaluasi (CRUD)', 'Create, Read, Update/Edit, Cetak Sertifikat & Delete hasil ujian, simulator, dan evaluasi'],
+      'hasil-asesmen': ['Hasil Asesmen, Simulator & Evaluasi', 'Kelola hasil ujian, log simulator, dan evaluasi pelatihan'],
       'manpower': ['Manajemen Manpower & Pendaftar Baru (CRUD)', 'Create, Read, Update/Edit, Tautkan NFC, Promosi & Delete karyawan PT Merdeka Gold Resources Tbk'],
       'trainer-master': ['Direktori Trainer, Matriks Kompetensi & Master Data (CRUD)', 'Create, Read, Update/Edit & Delete instruktur L&D, pemetaan JSxCOMP, dan master dropdown'],
       'crud-explorer': ['Universal CRUD Studio — 15 Sheet Database Explorer', 'Antarmuka Create, Read, Update, Edit, Duplicate & Delete menyeluruh untuk seluruh 15 Sheet']
@@ -3907,7 +4021,7 @@
           return `
             <tr class="group-child-row">
               <td class="tabular" style="font-size:12px;color:var(--ink-muted)">
-                <span class="participant-num-badge">${idx + 1}</span>${esc(h.Timestamp_Submit || '-')}
+                <div style="display:flex;align-items:center;gap:6px"><span class="participant-num-badge">${idx + 1}</span>${splitTimestampHtml(h.Timestamp_Submit, false)}</div>
               </td>
               <td>
                 <div style="font-weight:700;font-size:12px">${esc(h.ID_Ujian || '-')}</div>
@@ -3944,13 +4058,126 @@
       renderBankSoal();
     }
 
+    function toggleShowSoalOpsi() {
+      UI_STATE.soalShowOptions = !UI_STATE.soalShowOptions;
+      const lbl = document.getElementById('label-toggle-soal-opsi');
+      const btn = document.getElementById('btn-toggle-soal-opsi');
+      if (lbl) lbl.textContent = UI_STATE.soalShowOptions ? 'Sembunyikan Opsi A-D' : 'Tampilkan Opsi A-D';
+      const ico = btn?.querySelector('.material-symbols-outlined');
+      if (ico) ico.textContent = UI_STATE.soalShowOptions ? 'unfold_less' : 'unfold_more';
+      renderBankSoal();
+    }
+
+    function toggleSingleSoalOpsi(soalKey) {
+      if (!UI_STATE.expandedSoalItems) UI_STATE.expandedSoalItems = {};
+      UI_STATE.expandedSoalItems[soalKey] = !UI_STATE.expandedSoalItems[soalKey];
+      renderBankSoal();
+    }
+
+    function resolveBankModuleLabel(rawModId) {
+      const id = String(rawModId || '').trim() || 'TANPA-MODUL';
+      const upId = id.toUpperCase();
+      const kat = (DB.Katalog_Modul || []).find(m =>
+        String(m.ID_Modul || '').trim().toUpperCase() === upId ||
+        String(m.Nama_Modul || '').trim().toUpperCase() === upId
+      );
+      if (kat) {
+        const nm = String(kat.Nama_Modul || kat.ID_Modul || '').trim();
+        return (nm && nm.toUpperCase() !== upId) ? `${id} — ${nm}` : id;
+      }
+      if (typeof normalizeAdminModKey === 'function') {
+        const canonical = normalizeAdminModKey(id);
+        const matchCanon = (DB.Katalog_Modul || []).find(m => normalizeAdminModKey(m.ID_Modul || m.Nama_Modul) === canonical);
+        if (matchCanon && matchCanon.Nama_Modul && String(matchCanon.Nama_Modul).toUpperCase() !== upId) {
+          return `${id} — ${matchCanon.Nama_Modul}`;
+        }
+      }
+      return id;
+    }
+
+    function renderSoalRowHtml(s, numIndex = null) {
+      const kunci = String(s.Kunci || '').trim().toUpperCase();
+      const opts = [
+        { k: 'A', v: s.Opsi_A },
+        { k: 'B', v: s.Opsi_B },
+        { k: 'C', v: s.Opsi_C },
+        { k: 'D', v: s.Opsi_D }
+      ];
+      const hasMedia = Boolean(s.Foto_Kasus_URL || s.Video_Kasus_URL);
+      const soalKey = String(s.ID_Soal || ('ROW_' + s._row_index));
+      const isOpsiOpen = Boolean(UI_STATE.soalShowOptions || (UI_STATE.expandedSoalItems && UI_STATE.expandedSoalItems[soalKey]));
+      return `
+        <tr class="${numIndex !== null ? 'group-child-row' : ''}">
+          <td class="tabular">
+            <div style="display:flex;align-items:center;gap:6px">
+              ${numIndex !== null ? `<span class="participant-num-badge">${numIndex}</span>` : ''}
+              <div>
+                <div style="font-weight:800;color:var(--ink-primary)">${esc(s.ID_Soal || '-')}</div>
+                <span class="badge badge-slate">No. ${esc(s.No_Urut || '-')}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="badge badge-gold">${esc(s.ID_Modul || '-')}</span>
+            <div style="font-weight:600;margin-top:4px;font-size:12px">${esc(s.Tag_Topik || '-')}</div>
+            <div style="font-size:11px;color:var(--ink-muted)">Tingkat: ${esc(s.Tingkat || 'Dasar')}</div>
+          </td>
+          <td>
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+              <div style="font-weight:600;color:var(--ink-primary);line-height:1.45;flex:1">${esc(s.Pertanyaan)}</div>
+              <button type="button" class="btn-crud read" style="flex-shrink:0;padding:3px 8px;font-size:11px" onclick="toggleSingleSoalOpsi('${esc(soalKey)}')" title="${isOpsiOpen ? 'Sembunyikan Pilihan Jawaban' : 'Tampilkan Pilihan Jawaban'}">
+                <span class="material-symbols-outlined" style="font-size:14px">${isOpsiOpen ? 'expand_less' : 'expand_more'}</span>
+                <span>${isOpsiOpen ? 'Tutup Opsi' : 'Opsi A-D'}</span>
+              </button>
+            </div>
+            ${hasMedia ? `<div style="margin-top:4px"><span class="badge badge-blue"><span class="material-symbols-outlined" style="font-size:13px">perm_media</span> Media: ${esc(s.Judul_Media_Kasus || s.Foto_Kasus_URL || s.Video_Kasus_URL)}</span></div>` : ''}
+            ${isOpsiOpen ? `
+              <div class="soal-options-grid">
+                ${opts.map(o => `
+                  <div class="soal-opt-pill ${UI_STATE.showKunci && kunci === o.k ? 'is-key' : ''}">
+                    <span class="opt-letter">${o.k}</span>
+                    <span>${esc(o.v || '-')}</span>
+                  </div>
+                `).join('')}
+              </div>
+              ${s.Hint_Petunjuk ? `<div style="margin-top:6px;font-size:11.5px;color:var(--ink-muted)">💡 <b>Hint:</b> ${esc(s.Hint_Petunjuk)}</div>` : ''}
+            ` : ''}
+          </td>
+          <td class="tabular">
+            ${UI_STATE.showKunci
+              ? `<select class="select" style="padding:4px 8px;font-size:12px;font-weight:800;width:auto;background:var(--emerald-bg);color:var(--emerald-text);border-color:var(--emerald-border)" title="Quick Edit Kunci Jawaban" onchange="quickUpdateSoalKunci('${esc(s.ID_Soal)}', ${s._row_index}, this.value)">
+                   ${['A', 'B', 'C', 'D'].map(k => `<option value="${k}" ${kunci === k ? 'selected' : ''}>Kunci: ${k}</option>`).join('')}
+                 </select>`
+              : `<span class="badge badge-slate">Tersembunyi</span>`}
+          </td>
+          <td style="text-align:right;white-space:nowrap">
+            <div class="crud-action-group">
+              <button class="btn-crud read" title="Read / Lihat Detail Soal" onclick="openUniversalDetailModal('Bank_Soal', ${s._row_index})">
+                <span class="material-symbols-outlined">visibility</span><span>Detail</span>
+              </button>
+              <button class="btn-crud edit" title="Update / Edit Soal" onclick="openSoalModal('${esc(s.ID_Soal)}', ${s._row_index})">
+                <span class="material-symbols-outlined">edit</span><span>Edit</span>
+              </button>
+              <button class="btn-crud copy" title="Duplicate / Gandakan Soal" onclick="duplicateSheetRow('Bank_Soal', ${s._row_index})">
+                <span class="material-symbols-outlined">content_copy</span>
+              </button>
+              <button class="btn-crud del" title="Delete / Hapus Soal" onclick="deleteRowFromSheet('Bank_Soal', 'ID_Soal', '${esc(s.ID_Soal)}', ${s._row_index}, '${esc(s.ID_Soal)}')">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+
     function renderBankSoal() {
       const q = (document.getElementById('filter-soal-search')?.value || '').trim().toLowerCase();
       const fMod = (document.getElementById('filter-soal-modul')?.value || '').trim().toUpperCase();
       const fTingkat = (document.getElementById('filter-soal-tingkat')?.value || '').trim().toLowerCase();
       const fKunci = (document.getElementById('filter-soal-kunci')?.value || '').trim().toUpperCase();
 
-      const filtered = (DB.Bank_Soal || []).filter(s => {
+      const validRows = (DB.Bank_Soal || []).filter(s => s && (String(s.ID_Soal || '').trim() || String(s.Pertanyaan || '').trim()));
+      const filtered = validRows.filter(s => {
         if (fMod && String(s.ID_Modul || '').trim().toUpperCase() !== fMod) return false;
         if (fTingkat && String(s.Tingkat || '').trim().toLowerCase() !== fTingkat) return false;
         if (fKunci && String(s.Kunci || '').trim().toUpperCase() !== fKunci) return false;
@@ -3961,74 +4188,89 @@
         return true;
       });
 
-      const total = filtered.length;
-      const maxPage = Math.max(1, Math.ceil(total / UI_STATE.pageSize));
-      if (UI_STATE.pageSoal > maxPage) UI_STATE.pageSoal = 1;
-      const start = (UI_STATE.pageSoal - 1) * UI_STATE.pageSize;
-      const pageItems = filtered.slice(start, start + UI_STATE.pageSize);
+      // Kelompokkan berdasarkan ID_Modul agar rapi & bisa Hide/Unhide per kelompok modul
+      const groupMap = {};
+      filtered.forEach(s => {
+        const modId = String(s.ID_Modul || '').trim() || 'TANPA-MODUL';
+        const gid = 'SOALMOD_' + modId.toUpperCase();
+        if (!groupMap[gid]) {
+          groupMap[gid] = {
+            id: gid,
+            modId,
+            title: resolveBankModuleLabel(modId),
+            items: []
+          };
+        }
+        groupMap[gid].items.push(s);
+      });
 
+      const allGroups = Object.values(groupMap).sort((a, b) => a.title.localeCompare(b.title));
+      allGroups.forEach(g => {
+        g.items.sort((a, b) => (parseInt(a.No_Urut, 10) || 0) - (parseInt(b.No_Urut, 10) || 0) || String(a.ID_Soal || '').localeCompare(String(b.ID_Soal || '')));
+      });
+
+      UI_STATE.groupCache.soal = {};
+      allGroups.forEach(g => { UI_STATE.groupCache.soal[g.id] = g; });
+
+      const summaryEl = document.getElementById('soal-group-summary');
+      if (summaryEl) {
+        summaryEl.innerHTML = `Total <b>${filtered.length}</b> butir soal dalam <b>${allGroups.length}</b> kelompok modul (klik baris modul untuk buka/tutup)`;
+      }
+
+      const groupPageSize = 15;
+      const totalGroups = allGroups.length;
+      const maxPage = Math.max(1, Math.ceil(totalGroups / groupPageSize));
+      if (UI_STATE.pageSoal > maxPage) UI_STATE.pageSoal = 1;
+      const pageGroups = allGroups.slice((UI_STATE.pageSoal - 1) * groupPageSize, UI_STATE.pageSoal * groupPageSize);
+
+      const hasFilter = Boolean(q || fMod || fTingkat || fKunci);
       const tbody = document.getElementById('soal-tbody');
-      tbody.innerHTML = pageItems.length ? pageItems.map(s => {
-        const kunci = String(s.Kunci || '').trim().toUpperCase();
-        const opts = [
-          { k: 'A', v: s.Opsi_A },
-          { k: 'B', v: s.Opsi_B },
-          { k: 'C', v: s.Opsi_C },
-          { k: 'D', v: s.Opsi_D }
-        ];
-        const hasMedia = Boolean(s.Foto_Kasus_URL || s.Video_Kasus_URL);
-        return `
-          <tr>
-            <td class="tabular">
-              <div style="font-weight:800;color:var(--ink-primary)">${esc(s.ID_Soal)}</div>
-              <span class="badge badge-slate">No. ${esc(s.No_Urut || '-')}</span>
-            </td>
-            <td>
-              <span class="badge badge-gold">${esc(s.ID_Modul)}</span>
-              <div style="font-weight:600;margin-top:4px;font-size:12px">${esc(s.Tag_Topik || '-')}</div>
-              <div style="font-size:11px;color:var(--ink-muted)">Tingkat: ${esc(s.Tingkat || 'Dasar')}</div>
-            </td>
-            <td>
-              <div style="font-weight:600;color:var(--ink-primary);line-height:1.45">${esc(s.Pertanyaan)}</div>
-              ${hasMedia ? `<div style="margin-top:4px"><span class="badge badge-blue"><span class="material-symbols-outlined" style="font-size:13px">perm_media</span> Media: ${esc(s.Judul_Media_Kasus || s.Foto_Kasus_URL || s.Video_Kasus_URL)}</span></div>` : ''}
-              <div class="soal-options-grid">
-                ${opts.map(o => `
-                  <div class="soal-opt-pill ${UI_STATE.showKunci && kunci === o.k ? 'is-key' : ''}">
-                    <span class="opt-letter">${o.k}</span>
-                    <span>${esc(o.v || '-')}</span>
+      tbody.innerHTML = pageGroups.length ? pageGroups.map(g => {
+        const hasExplicitState = UI_STATE.expandedGroups.soal && typeof UI_STATE.expandedGroups.soal[g.id] === 'boolean';
+        const isOpen = hasExplicitState ? UI_STATE.expandedGroups.soal[g.id] : hasFilter;
+        const tingkats = [...new Set(g.items.map(x => String(x.Tingkat || 'Dasar').trim()).filter(Boolean))];
+        const topics = [...new Set(g.items.map(x => String(x.Tag_Topik || '').trim()).filter(Boolean))].slice(0, 3);
+
+        const headerHtml = `
+          <tr class="group-dropdown-row compact ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('soal', '${esc(g.id)}')">
+            <td colspan="5">
+              <div class="group-dropdown-inner">
+                <div class="group-dropdown-left">
+                  <span class="group-chevron-btn" title="${isOpen ? 'Tutup Kelompok Modul' : 'Buka Kelompok Modul'}">
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </span>
+                  <div class="group-info-main">
+                    <div class="group-title-line">
+                      <span>${esc(g.title)}</span>
+                      <span class="badge badge-gold">${esc(g.modId)}</span>
+                    </div>
+                    ${topics.length ? `<div class="group-meta-line"><span>Topik: ${esc(topics.join(', '))}</span></div>` : ''}
                   </div>
-                `).join('')}
-              </div>
-              ${s.Hint_Petunjuk ? `<div style="margin-top:6px;font-size:11.5px;color:var(--ink-muted)">💡 <b>Hint:</b> ${esc(s.Hint_Petunjuk)}</div>` : ''}
-            </td>
-            <td class="tabular">
-              ${UI_STATE.showKunci
-                ? `<select class="select" style="padding:4px 8px;font-size:12px;font-weight:800;width:auto;background:var(--emerald-bg);color:var(--emerald-text);border-color:var(--emerald-border)" title="Quick Edit Kunci Jawaban" onchange="quickUpdateSoalKunci('${esc(s.ID_Soal)}', ${s._row_index}, this.value)">
-                     ${['A', 'B', 'C', 'D'].map(k => `<option value="${k}" ${kunci === k ? 'selected' : ''}>Kunci: ${k}</option>`).join('')}
-                   </select>`
-                : `<span class="badge badge-slate">Tersembunyi</span>`}
-            </td>
-            <td style="text-align:right;white-space:nowrap">
-              <div class="crud-action-group">
-                <button class="btn-crud read" title="Read / Lihat Detail Soal" onclick="openUniversalDetailModal('Bank_Soal', ${s._row_index})">
-                  <span class="material-symbols-outlined">visibility</span><span>Detail</span>
-                </button>
-                <button class="btn-crud edit" title="Update / Edit Soal" onclick="openSoalModal('${esc(s.ID_Soal)}', ${s._row_index})">
-                  <span class="material-symbols-outlined">edit</span><span>Edit</span>
-                </button>
-                <button class="btn-crud copy" title="Duplicate / Gandakan Soal" onclick="duplicateSheetRow('Bank_Soal', ${s._row_index})">
-                  <span class="material-symbols-outlined">content_copy</span>
-                </button>
-                <button class="btn-crud del" title="Delete / Hapus Soal" onclick="deleteRowFromSheet('Bank_Soal', 'ID_Soal', '${esc(s.ID_Soal)}', ${s._row_index}, '${esc(s.ID_Soal)}')">
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
+                </div>
+                <div class="group-dropdown-right">
+                  <span class="badge badge-blue">${g.items.length} Soal</span>
+                  ${tingkats.length ? `<span class="badge badge-slate">${esc(tingkats.join(' / '))}</span>` : ''}
+                  <button type="button" class="btn-crud edit" title="Tambah Soal di Modul Ini" onclick="event.stopPropagation(); openSoalModal('', -1, '${esc(g.modId)}')">
+                    <span class="material-symbols-outlined">add</span><span>Tambah</span>
+                  </button>
+                  <button type="button" class="btn-crud copy" title="Download Excel Modul Ini" onclick="event.stopPropagation(); exportGroupExcel('soal', '${esc(g.id)}')">
+                    <span class="material-symbols-outlined">download</span>
+                  </button>
+                  <button type="button" class="btn-group-toggle" onclick="event.stopPropagation(); toggleTableGroup('soal', '${esc(g.id)}')">
+                    <span class="material-symbols-outlined" style="font-size:15px">${isOpen ? 'expand_less' : 'expand_more'}</span>
+                    <span>${isOpen ? 'Tutup' : 'Buka'}</span>
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
         `;
+
+        const childrenHtml = isOpen ? g.items.map((s, idx) => renderSoalRowHtml(s, idx + 1)).join('') : '';
+        return headerHtml + childrenHtml;
       }).join('') : `<tr><td colspan="5" class="empty-state">Tidak ada butir soal yang cocok dengan filter.</td></tr>`;
 
-      renderPagination('soal-pagination', total, UI_STATE.pageSoal, maxPage, p => { UI_STATE.pageSoal = p; renderBankSoal(); });
+      renderPagination('soal-pagination', totalGroups, UI_STATE.pageSoal, maxPage, p => { UI_STATE.pageSoal = p; renderBankSoal(); });
     }
 
     async function quickUpdateSoalKunci(idSoal, rowIdx, newKunci) {
@@ -4038,12 +4280,12 @@
       await saveRowToSheet('Bank_Soal', updated, 'ID_Soal', idSoal, rowIdx, 'upsert');
     }
 
-    function openSoalModal(idSoal = '', rowIdx = -1) {
+    function openSoalModal(idSoal = '', rowIdx = -1, prefillMod = '') {
       const existing = idSoal
         ? (DB.Bank_Soal || []).find(s => String(s.ID_Soal) === String(idSoal)) || (DB.Bank_Soal || [])[rowIdx]
         : null;
       const moduls = DB.Katalog_Modul || [];
-      const defaultMod = existing ? existing.ID_Modul : (document.getElementById('filter-soal-modul')?.value || (moduls[0] && moduls[0].ID_Modul) || 'MOD-01');
+      const defaultMod = existing ? existing.ID_Modul : (prefillMod || document.getElementById('filter-soal-modul')?.value || (moduls[0] && moduls[0].ID_Modul) || 'MOD-01');
       const modQuestions = (DB.Bank_Soal || []).filter(q => String(q.ID_Modul || '').toUpperCase() === String(defaultMod).toUpperCase());
       const nextNo = existing ? existing.No_Urut : (modQuestions.length + 1);
       const nextId = existing ? existing.ID_Soal : ('Q-' + String(defaultMod).replace(/[^A-Z0-9]/gi, '').slice(-4).toUpperCase() + '-' + String(nextNo).padStart(2, '0'));
@@ -4301,6 +4543,8 @@
         const badgeCls = st === 'AKTIF' ? 'badge-emerald' : st === 'TERJADWAL' ? 'badge-blue' : st === 'SELESAI' ? 'badge-amber' : 'badge-crimson';
         const pesertaCount = (DB.Hasil_Asesmen || []).filter(h => String(h.Kode_PIN || '').trim().toUpperCase() === pinCode).length;
         const isPre = /pre/i.test(String(p.Jenis_Tes || ''));
+        const batasPre = p.Batas_Pre_Test ?? p.Batas_Pretest ?? p.Max_Pre_Test ?? 1;
+        const batasPost = p.Batas_Post_Test ?? p.Batas_Posttest ?? p.Max_Post_Test ?? 2;
 
         return `
           <tr>
@@ -4323,7 +4567,11 @@
             </td>
             <td class="tabular">
               <div><b>${esc(p.Durasi_Menit || 30)}</b> mnt • <b>${esc(p.Jml_Soal || 10)}</b> soal</div>
-              <div style="font-size:11px;color:var(--ink-muted)">Acak: ${esc(p.Acak_Soal || 'YA')}</div>
+              <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:4px">
+                <span class="badge badge-blue" style="padding:1px 7px;font-size:10px" title="Maksimal pengerjaan Pre-Test per peserta">Pre: ${esc(batasPre)}x</span>
+                <span class="badge badge-gold" style="padding:1px 7px;font-size:10px" title="Maksimal pengerjaan Post-Test per peserta">Post: ${esc(batasPost)}x</span>
+                <span style="font-size:11px;color:var(--ink-muted)">• Acak: ${esc(p.Acak_Soal || 'YA')}</span>
+              </div>
             </td>
             <td>${esc(p.Trainer || '-')}</td>
             <td class="tabular"><b>${pesertaCount}</b> submit</td>
@@ -4366,6 +4614,8 @@
     function copyPinBroadcast(pinCode) {
       const p = (DB.Jadwal_PIN || []).find(r => String(r.Kode_PIN || '').toUpperCase() === pinCode);
       if (!p) return;
+      const batasPre = p.Batas_Pre_Test ?? p.Batas_Pretest ?? p.Max_Pre_Test ?? 1;
+      const batasPost = p.Batas_Post_Test ?? p.Batas_Posttest ?? p.Max_Post_Test ?? 2;
       const portalUrl = window.location.href.replace(/admin\.html.*$/i, 'index.html');
       const text = [
         '📌 *INFORMASI SESI ASESMEN L&D — PT MERDEKA GOLD RESOURCES TBK*',
@@ -4374,6 +4624,7 @@
         '• *Kode PIN Akses:* ' + p.Kode_PIN,
         '• *Batch / Tanggal:* ' + (p.Batch_Sesi || '-') + ' (' + (p.Tanggal || '-') + ' | ' + (p.Jam_Mulai || '08:00') + ' - ' + (p.Jam_Selesai || '17:00') + ')',
         '• *Durasi & Soal:* ' + (p.Durasi_Menit || 30) + ' Menit / ' + (p.Jml_Soal || 10) + ' Soal',
+        '• *Batas Pengerjaan:* Pre-Test maks. ' + batasPre + 'x | Post-Test maks. ' + batasPost + 'x',
         '• *Trainer:* ' + (p.Trainer || '-'),
         '🔗 *Link Portal Ujian:* ' + portalUrl
       ].join('\n');
@@ -4388,6 +4639,8 @@
       const randPin = 'MGR' + Math.floor(100 + Math.random() * 900);
       const defMod = existing ? existing.ID_Modul : (moduls[0]?.ID_Modul || 'MOD-01');
       const modObj = moduls.find(m => m.ID_Modul === defMod) || {};
+      const defBatasPre = existing ? (existing.Batas_Pre_Test ?? existing.Batas_Pretest ?? existing.Max_Pre_Test ?? 1) : 1;
+      const defBatasPost = existing ? (existing.Batas_Post_Test ?? existing.Batas_Posttest ?? existing.Max_Post_Test ?? 2) : 2;
 
       openCrudModal({
         title: existing ? 'Edit Sesi Kode PIN (' + esc(existing.Kode_PIN) + ')' : 'Buat Sesi Kode PIN Baru (`Jadwal_PIN`)',
@@ -4441,13 +4694,27 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Durasi Ujian (Menit) & Jumlah Soal</label>
+              <label class="form-label">Durasi Ujian (Menit) & Jumlah Soal (` + '`Jml_Soal`' + `)</label>
               <div style="display:flex;gap:8px">
                 <input type="number" class="input" id="f-pin-durasi" value="${esc(existing?.Durasi_Menit || modObj.Durasi_Default || 30)}" placeholder="Menit" />
                 <input type="number" class="input" id="f-pin-jml" value="${esc(existing?.Jml_Soal || modObj.Jml_Soal_Default || 10)}" placeholder="Jml Soal" />
               </div>
             </div>
             <div class="form-group">
+              <label class="form-label">Batas Pre-Test & Post-Test (` + '`Batas_Pre_Test` / `Batas_Post_Test`' + `)</label>
+              <div style="display:flex;gap:8px">
+                <div style="flex:1;position:relative">
+                  <input type="number" min="0" max="20" class="input" id="f-pin-batas-pre" value="${esc(defBatasPre)}" title="Maksimal berapa kali peserta boleh mengerjakan Pre-Test (default: 1)" />
+                  <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:var(--blue-text);pointer-events:none">x Pre</span>
+                </div>
+                <div style="flex:1;position:relative">
+                  <input type="number" min="0" max="20" class="input" id="f-pin-batas-post" value="${esc(defBatasPost)}" title="Maksimal berapa kali peserta boleh mengerjakan Post-Test (default: 2)" />
+                  <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:var(--gold-primary);pointer-events:none">x Post</span>
+                </div>
+              </div>
+              <span class="form-hint">Di samping Jml_Soal pada Sheet Jadwal_PIN (Default: Pre 1x, Post 2x)</span>
+            </div>
+            <div class="form-group col-span-2">
               <label class="form-label">Acak Urutan Soal (` + '`Acak_Soal`' + `)</label>
               <select class="select" id="f-pin-acak">
                 <option value="YA" ${(existing?.Acak_Soal || 'YA').toUpperCase() === 'YA' ? 'selected' : ''}>YA (Urutan Soal Diacak)</option>
@@ -4470,6 +4737,8 @@
             Jam_Selesai: document.getElementById('f-pin-selesai').value.trim(),
             Durasi_Menit: document.getElementById('f-pin-durasi').value.trim(),
             Jml_Soal: document.getElementById('f-pin-jml').value.trim(),
+            Batas_Pre_Test: document.getElementById('f-pin-batas-pre').value.trim() || '1',
+            Batas_Post_Test: document.getElementById('f-pin-batas-post').value.trim() || '2',
             Acak_Soal: document.getElementById('f-pin-acak').value.trim(),
             Trainer: document.getElementById('f-pin-trainer').value.trim(),
             Status: document.getElementById('f-pin-status').value.trim(),
@@ -4682,6 +4951,7 @@
       else if (tableKey === 'fb') renderTrainingFeedback();
       else if (tableKey === 'kar') renderManpower();
       else if (tableKey === 'dash') renderDashboard();
+      else if (tableKey === 'soal') renderBankSoal();
     }
 
     function expandAllTableGroups(tableKey, isOpen) {
@@ -4695,6 +4965,7 @@
       else if (tableKey === 'fb') renderTrainingFeedback();
       else if (tableKey === 'kar') renderManpower();
       else if (tableKey === 'dash') renderDashboard();
+      else if (tableKey === 'soal') renderBankSoal();
     }
 
     function openGroupPeopleModal(tableKey, groupId) {
@@ -4713,7 +4984,7 @@
         const status = item.Status_Lulus || item.Level || item.Jenis_Simulator || 'Tercatat';
         const stUpper = String(status).toUpperCase();
         const badgeCls = stUpper === 'LULUS' ? 'badge-emerald' : stUpper === 'BELUM LULUS' ? 'badge-crimson' : 'badge-blue';
-        const sheetName = tableKey === 'sim' ? 'Hasil_Simulator' : tableKey === 'fb' ? 'Training_Feedback' : tableKey === 'kar' ? 'Data_Karyawan' : 'Hasil_Asesmen';
+        const sheetName = tableKey === 'soal' ? 'Bank_Soal' : tableKey === 'sim' ? 'Hasil_Simulator' : tableKey === 'fb' ? 'Training_Feedback' : tableKey === 'kar' ? 'Data_Karyawan' : 'Hasil_Asesmen';
 
         return `
           <tr class="group-modal-person-row" data-search="${esc([nama, nik, comp, dept, jab, status, skor].join(' ').toLowerCase())}">
@@ -4726,7 +4997,7 @@
               <div style="font-weight:600">${esc(dept)}</div>
               <div style="font-size:11.5px;color:var(--ink-muted)">${esc(comp)}</div>
             </td>
-            <td class="tabular" style="font-size:12px;color:var(--ink-muted)">${esc(waktu)}</td>
+            <td class="tabular" style="font-size:12px;color:var(--ink-muted)">${splitTimestampHtml(waktu, false)}</td>
             <td class="tabular" style="font-weight:800;font-size:15px">${esc(skor)}</td>
             <td><span class="badge ${badgeCls}">${esc(status)}</span></td>
             <td style="text-align:right;white-space:nowrap">
@@ -4747,7 +5018,7 @@
       openCrudModal({
         title: 'Daftar Detail Peserta — ' + esc(g.title || groupId) + ' (' + items.length + ' Orang)',
         large: true,
-        saveText: 'Export CSV Kelompok Ini',
+        saveText: 'Export Excel Kelompok Ini',
         bodyHtml: `
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:12px 16px;background:var(--bg-subtle);border-radius:12px;margin-bottom:14px;border:1px solid var(--border-soft)">
             <div>
@@ -4783,7 +5054,7 @@
           </div>
         `,
         onSave: () => {
-          exportGroupCsv(tableKey, groupId);
+          exportGroupExcel(tableKey, groupId);
         }
       });
     }
@@ -4796,34 +5067,115 @@
       });
     }
 
-    function exportGroupCsv(tableKey, groupId) {
+    function exportGroupExcel(tableKey, groupId) {
       const g = (UI_STATE.groupCache[tableKey] || {})[groupId];
       if (!g || !g.items || !g.items.length) return;
-      const sheetName = tableKey === 'sim' ? 'Hasil_Simulator' : tableKey === 'fb' ? 'Training_Feedback' : tableKey === 'kar' ? 'Data_Karyawan' : 'Hasil_Asesmen';
+      const sheetName = tableKey === 'soal' ? 'Bank_Soal' : tableKey === 'sim' ? 'Hasil_Simulator' : tableKey === 'fb' ? 'Training_Feedback' : tableKey === 'kar' ? 'Data_Karyawan' : 'Hasil_Asesmen';
       const cols = getSheetColumns(sheetName);
-      const lines = [
-        cols.map(c => `"${String(c).replace(/"/g, '""')}"`).join(','),
-        ...g.items.map(r => cols.map(c => `"${String(r[c] ?? '').replace(/"/g, '""')}"`).join(','))
-      ];
-      const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
       const safeName = String(g.title || groupId).replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 40);
-      a.download = `${sheetName}_${safeName}_${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click();
-      showToast('CSV Kelompok (' + g.items.length + ' orang) berhasil diunduh.', 'success');
+      const filename = `${sheetName}_${safeName}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+      downloadExcelFromObjects(filename, g.items, sheetName, cols);
+    }
+    const exportGroupCsv = exportGroupExcel;
+
+    const ADMIN_MOD_CANONICAL = [
+      ['MOD-BFI', 'BASIC FIRST AID TRAINING', 'FIRST AID', 'P3K', 'BFI'],
+      ['MOD-RC', 'CRITICAL RISK MANAGEMENT (CRM) - PERIKSA', 'RISK CONTROL', 'CRM', 'PERIKSA'],
+      ['MOD-ROM', 'BASELINE RISK & OPPORTUNITY ASSESSMENT (BROA)', 'BROA', 'RISK & OPPORTUNITY', 'ROM'],
+      ['MOD-OHSE', 'HAZARDOUS MATERIAL & WASTE MANAGEMENT TRAINING', 'HAZARD AWARENESS* (RADIASI, CHEMICAL)', 'OHSE', 'LIMBAH'],
+      ['MOD-HT', 'HAND INJURY PREVENTION AWARENESS', 'HAND TOOLS', 'TOOLS']
+    ];
+
+    function normalizeAdminModKey(rawMod) {
+      const m = String(rawMod || '').trim().toUpperCase();
+      if (!m) return '';
+      for (const grp of ADMIN_MOD_CANONICAL) {
+        if (grp.some(alias => m === alias || m.includes(alias) || alias.includes(m))) {
+          return grp[0];
+        }
+      }
+      return m;
+    }
+
+    function normalizeAdminDateKey(h) {
+      const raw = String(h.Tanggal_Training || h.Tanggal || h.Timestamp_Submit || '').trim().split(/[T\s]+/)[0];
+      if (!raw) return '';
+      if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+      const dmy = raw.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+      if (dmy) return `${dmy[3]}-${dmy[2].padStart(2, '0')}-${dmy[1].padStart(2, '0')}`;
+      return raw;
+    }
+
+    function dedupeBestHasilRows(rows, mode = 'best_day') {
+      if (!Array.isArray(rows) || !rows.length || mode === 'all') return rows || [];
+      const map = new Map();
+
+      const getRank = h => {
+        const st = String(h.Status_Lulus || '').trim().toUpperCase();
+        const pin = String(h.Kode_PIN || '').trim().toUpperCase();
+        return (st === 'HANYA ABSEN' || pin === 'ABSEN') ? 0 : 1;
+      };
+
+      const isBetter = (cand, cur) => {
+        const rc = getRank(cand), rk = getRank(cur);
+        if (rc !== rk) return rc > rk;
+        const sc = parseFloat(cand.Skor_Akhir) || 0, sk = parseFloat(cur.Skor_Akhir) || 0;
+        if (sc !== sk) return sc > sk;
+        const lc = String(cand.Status_Lulus || '').trim().toUpperCase() === 'LULUS' ? 1 : 0;
+        const lk = String(cur.Status_Lulus || '').trim().toUpperCase() === 'LULUS' ? 1 : 0;
+        if (lc !== lk) return lc > lk;
+        const bc = parseFloat(cand.Benar) || 0, bk = parseFloat(cur.Benar) || 0;
+        if (bc !== bk) return bc > bk;
+        return String(cand.Timestamp_Submit || '') > String(cur.Timestamp_Submit || '');
+      };
+
+      rows.forEach(h => {
+        const empKey = String(h.ID_Karyawan || h.Nama_Karyawan || '').trim().toLowerCase();
+        const modKey = normalizeAdminModKey(h.ID_Modul || h.Nama_Modul_Sertifikat);
+        const tglKey = normalizeAdminDateKey(h);
+        if (!empKey || !modKey || !tglKey) {
+          map.set('__RAW_' + (h.ID_Ujian || '') + '_' + map.size, { best: h, count: parseInt(h.Attempt_Count, 10) || 1 });
+          return;
+        }
+        let key = `${empKey}||${modKey}||${tglKey}`;
+        if (mode === 'best_type') {
+          const jt = String(h.Jenis_Tes || '').trim().toUpperCase();
+          const st = String(h.Status_Lulus || '').trim().toUpperCase();
+          const typeCat = (st === 'HANYA ABSEN' || String(h.Kode_PIN || '').toUpperCase() === 'ABSEN')
+            ? 'ABSEN'
+            : (/^PRE/i.test(jt) ? 'PRE' : 'POST');
+          key += `||${typeCat}`;
+        }
+
+        const prev = map.get(key);
+        const curAtt = parseInt(h.Attempt_Count, 10) || 1;
+        if (!prev) {
+          map.set(key, { best: h, count: curAtt });
+        } else {
+          const nextCount = Math.max(prev.count + 1, curAtt);
+          const winner = isBetter(h, prev.best) ? h : prev.best;
+          map.set(key, { best: winner, count: nextCount });
+        }
+      });
+
+      return Array.from(map.values()).map(entry => {
+        if (entry.count > 1) return Object.assign({}, entry.best, { _mergedAttempts: entry.count });
+        return entry.best;
+      });
     }
 
     function renderHasilRowHtml(h, numIndex = null) {
       const st = String(h.Status_Lulus || '').toUpperCase();
       const badgeCls = st === 'LULUS' ? 'badge-emerald' : st === 'BELUM LULUS' ? 'badge-crimson' : 'badge-blue';
+      const attBadge = (h._mergedAttempts || parseInt(h.Attempt_Count, 10) || 1);
       return `
         <tr class="${numIndex !== null ? 'group-child-row' : ''}">
           <td class="tabular">
             <div style="font-weight:700">
               ${numIndex !== null ? `<span class="participant-num-badge">${numIndex}</span>` : ''}${esc(h.ID_Ujian || '-')}
+              ${attBadge > 1 ? `<span class="badge badge-gold" style="font-size:10px;padding:1px 6px;margin-left:4px" title="Diambil nilai terbesar dari ${attBadge}x percobaan/update">${attBadge}x</span>` : ''}
             </div>
-            <div style="font-size:11.5px;color:var(--ink-muted)">${esc(h.Timestamp_Submit || '-')}</div>
+            <div style="font-size:11.5px;color:var(--ink-muted);margin-top:2px">${splitTimestampHtml(h.Timestamp_Submit, true)}</div>
           </td>
           <td>
             <div style="font-weight:700">${esc(h.Nama_Karyawan || '-')}</div>
@@ -4877,11 +5229,14 @@
       const fJenis = (document.getElementById('filter-hasil-jenis')?.value || '').trim().toLowerCase();
       const fStatus = (document.getElementById('filter-hasil-status')?.value || '').trim().toLowerCase();
       const fDept = (document.getElementById('filter-hasil-dept')?.value || '').trim().toLowerCase();
+      const dedupeMode = document.getElementById('filter-hasil-dedupe')?.value || 'best_day';
 
       const ctrlStrip = document.getElementById('hasil-group-controls');
       if (ctrlStrip) ctrlStrip.style.display = groupBy === 'flat' ? 'none' : 'inline-flex';
 
-      const filtered = (DB.Hasil_Asesmen || []).slice().reverse().filter(h => {
+      const baseRows = dedupeBestHasilRows((DB.Hasil_Asesmen || []).slice().reverse(), dedupeMode);
+
+      const filtered = baseRows.filter(h => {
         if (fMod) {
           const hm = String(h.ID_Modul || '').toLowerCase();
           const hms = String(h.Nama_Modul_Sertifikat || '').toLowerCase();
@@ -4909,13 +5264,14 @@
       const maxS = scores.length ? Math.max(...scores) : 0;
       const rate = filtered.length ? Math.round((passCount / filtered.length) * 100) : 0;
 
-      document.getElementById('hasil-stat-count').textContent = filtered.length.toLocaleString('id-ID');
-      document.getElementById('hasil-stat-pass').textContent = passCount.toLocaleString('id-ID');
-      document.getElementById('hasil-stat-passrate').textContent = 'Pass Rate: ' + rate + '%';
-      document.getElementById('hasil-stat-fail').textContent = failCount.toLocaleString('id-ID');
-      document.getElementById('hasil-stat-absen').textContent = 'Hanya Absen: ' + absenCount;
-      document.getElementById('hasil-stat-avg').textContent = avg;
-      document.getElementById('hasil-stat-minmax').textContent = 'Min: ' + minS + ' • Max: ' + maxS;
+      const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+      setTxt('hasil-stat-count', filtered.length.toLocaleString('id-ID'));
+      setTxt('hasil-stat-pass', passCount.toLocaleString('id-ID'));
+      setTxt('hasil-stat-passrate', rate + '%');
+      setTxt('hasil-stat-fail', failCount.toLocaleString('id-ID'));
+      setTxt('hasil-stat-absen', 'Hanya Absen: ' + absenCount);
+      setTxt('hasil-stat-avg', avg);
+      setTxt('hasil-stat-minmax', 'Min: ' + minS + ' • Max: ' + maxS);
 
       const tbody = document.getElementById('hasil-tbody');
 
@@ -4957,12 +5313,12 @@
           gKey = 'PIN||' + pinCode + '||' + jenisTes.toLowerCase();
           gTitle = `PIN: ${pinCode} — ${modTitle}`;
           gSubtitle = `Trainer: ${trainer} • Tanggal: ${tgl}`;
-          badgesHtml = `<span class="badge badge-slate">${esc(jenisTes)}</span><span class="badge badge-blue">📅 ${esc(tgl)}</span>`;
+          badgesHtml = `<span class="badge badge-slate">${esc(jenisTes)}</span><span class="badge badge-blue">${esc(tgl)}</span>`;
         } else if (groupBy === 'tanggal') {
           gKey = 'TGL||' + tgl;
           gTitle = `Tanggal Ujian: ${tgl}`;
           gSubtitle = `Modul Terakhir: ${modTitle} • PIN: ${pinCode}`;
-          badgesHtml = `<span class="badge badge-blue">📅 ${esc(tgl)}</span>`;
+          badgesHtml = `<span class="badge badge-blue">${esc(tgl)}</span>`;
         } else if (groupBy === 'company') {
           gKey = 'COMP||' + comp.toLowerCase() + '||' + dept.toLowerCase();
           gTitle = `${comp}${dept && dept !== '-' ? ' — ' + dept : ''}`;
@@ -4981,7 +5337,7 @@
           badgesHtml = `
             <span class="badge badge-slate">${esc(jenisTes)}</span>
             <span class="badge badge-gold">PIN: ${esc(pinCode)}</span>
-            <span class="badge badge-blue">📅 ${esc(tgl)}</span>
+            <span class="badge badge-blue">${esc(tgl)}</span>
           `;
         }
 
@@ -5020,15 +5376,14 @@
       tbody.innerHTML = pageGroups.length ? pageGroups.map(g => {
         const hasExplicitState = UI_STATE.expandedGroups.hasil && typeof UI_STATE.expandedGroups.hasil[g.id] === 'boolean';
         const isOpen = hasExplicitState ? UI_STATE.expandedGroups.hasil[g.id] : Boolean(q);
-        const namesPreview = buildNamePreviewHtml(g.items.map(x => x.Nama_Karyawan), 4);
         const passRate = g.items.length ? Math.round((g.passCnt / g.items.length) * 100) : 0;
 
         const headerHtml = `
-          <tr class="group-dropdown-row ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('hasil', '${esc(g.id)}')">
+          <tr class="group-dropdown-row compact ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('hasil', '${esc(g.id)}')">
             <td colspan="9">
               <div class="group-dropdown-inner">
                 <div class="group-dropdown-left">
-                  <span class="group-chevron-btn" title="${isOpen ? 'Tutup daftar peserta' : 'Buka daftar peserta'}">
+                  <span class="group-chevron-btn" title="${isOpen ? 'Tutup' : 'Buka'}">
                     <span class="material-symbols-outlined">expand_more</span>
                   </span>
                   <div class="group-info-main">
@@ -5036,29 +5391,24 @@
                       <span>${esc(g.title)}</span>
                       ${g.badgesHtml}
                     </div>
-                    <div class="group-meta-line">
-                      <span>${esc(g.subtitle)}</span>
-                    </div>
-                    <div class="group-names-preview">
-                      <span>👥 Daftar Peserta:</span>
-                      ${namesPreview}
-                    </div>
+                    ${isOpen ? `<div class="group-meta-line"><span>${esc(g.subtitle)} • Rata-rata: <b>${g.avgSc}</b></span></div>` : ''}
                   </div>
                 </div>
                 <div class="group-dropdown-right">
-                  <span class="badge badge-blue"><span class="material-symbols-outlined" style="font-size:13px">groups</span> ${g.items.length} Peserta</span>
-                  <span class="badge badge-emerald">✓ ${g.passCnt} Lulus (${passRate}%)</span>
-                  ${g.failCnt > 0 ? `<span class="badge badge-crimson">✕ ${g.failCnt} Belum Lulus</span>` : ''}
-                  <span class="badge badge-gold">Rata-rata: ${g.avgSc}</span>
+                  <span class="badge badge-blue">${g.items.length} Peserta</span>
+                  <span class="badge badge-emerald">${g.passCnt} Lulus (${passRate}%)</span>
+                  ${isOpen && g.failCnt > 0 ? `<span class="badge badge-crimson">${g.failCnt} Belum Lulus</span>` : ''}
+                  ${isOpen ? `
+                    <button type="button" class="btn-crud read" title="Pop-up Daftar Nama" onclick="event.stopPropagation(); openGroupPeopleModal('hasil', '${esc(g.id)}')">
+                      <span class="material-symbols-outlined">list_alt</span>
+                    </button>
+                    <button type="button" class="btn-crud copy" title="Download Excel Kelompok" onclick="event.stopPropagation(); exportGroupExcel('hasil', '${esc(g.id)}')">
+                      <span class="material-symbols-outlined">download</span>
+                    </button>
+                  ` : ''}
                   <button type="button" class="btn-group-toggle" onclick="event.stopPropagation(); toggleTableGroup('hasil', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined" style="font-size:16px">${isOpen ? 'expand_less' : 'expand_more'}</span>
-                    <span>${isOpen ? 'Tutup Detail Nama' : 'Lihat Detail Nama (' + g.items.length + ')'}</span>
-                  </button>
-                  <button type="button" class="btn-crud read" title="Buka Pop-up Daftar Nama Peserta Kelompok Ini" onclick="event.stopPropagation(); openGroupPeopleModal('hasil', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined">list_alt</span><span>Pop-up Nama</span>
-                  </button>
-                  <button type="button" class="btn-crud copy" title="Download CSV Kelompok Ini" onclick="event.stopPropagation(); exportGroupCsv('hasil', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined">download</span>
+                    <span class="material-symbols-outlined" style="font-size:15px">${isOpen ? 'expand_less' : 'expand_more'}</span>
+                    <span>${isOpen ? 'Tutup' : 'Buka'}</span>
                   </button>
                 </div>
               </div>
@@ -5235,7 +5585,7 @@
     function renderSimulatorRowHtml(s, numIndex = null) {
       return `
         <tr class="${numIndex !== null ? 'group-child-row' : ''}">
-          <td class="tabular">${numIndex !== null ? `<span class="participant-num-badge">${numIndex}</span>` : ''}${esc(s.Timestamp_Submit || '-')}</td>
+          <td class="tabular">${numIndex !== null ? `<div style="display:flex;align-items:center;gap:6px"><span class="participant-num-badge">${numIndex}</span>${splitTimestampHtml(s.Timestamp_Submit, false)}</div>` : splitTimestampHtml(s.Timestamp_Submit, false)}</td>
           <td class="tabular"><code>${esc(s.ID_Karyawan || '-')}</code></td>
           <td style="font-weight:700">${esc(s.Nama_Karyawan || '-')}</td>
           <td><span class="badge badge-gold">${esc(s.Jenis_Simulator || '-')}</span></td>
@@ -5304,10 +5654,9 @@
         const hasExplicit = UI_STATE.expandedGroups.sim && typeof UI_STATE.expandedGroups.sim[g.id] === 'boolean';
         const isOpen = hasExplicit ? UI_STATE.expandedGroups.sim[g.id] : Boolean(q);
         const totalMin = g.items.reduce((acc, x) => acc + (parseFloat(x.Waktu_Simulator) || 0), 0);
-        const namesPreview = buildNamePreviewHtml(g.items.map(x => x.Nama_Karyawan), 4);
 
         const headerHtml = `
-          <tr class="group-dropdown-row ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('sim', '${esc(g.id)}')">
+          <tr class="group-dropdown-row compact ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('sim', '${esc(g.id)}')">
             <td colspan="7">
               <div class="group-dropdown-inner">
                 <div class="group-dropdown-left">
@@ -5315,25 +5664,22 @@
                   <div class="group-info-main">
                     <div class="group-title-line">
                       <span>${esc(g.title)}</span>
-                      <span class="badge badge-gold">${esc(g.jenis)}</span>
-                      <span class="badge badge-blue">📅 ${esc(g.tgl)}</span>
+                      <span class="badge badge-blue">${esc(g.tgl)}</span>
                     </div>
-                    <div class="group-meta-line"><span>${esc(g.subtitle)}</span></div>
-                    <div class="group-names-preview">
-                      <span>👥 Peserta Simulator:</span>
-                      ${namesPreview}
-                    </div>
+                    ${isOpen ? `<div class="group-meta-line"><span>${esc(g.subtitle)}</span></div>` : ''}
                   </div>
                 </div>
                 <div class="group-dropdown-right">
-                  <span class="badge badge-blue"><span class="material-symbols-outlined" style="font-size:13px">groups</span> ${g.items.length} Peserta</span>
-                  <span class="badge badge-emerald">⏱ Total: ${totalMin} Menit</span>
+                  <span class="badge badge-blue">${g.items.length} Peserta</span>
+                  <span class="badge badge-emerald">${totalMin} Menit</span>
+                  ${isOpen ? `
+                    <button type="button" class="btn-crud read" title="Pop-up Daftar Nama" onclick="event.stopPropagation(); openGroupPeopleModal('sim', '${esc(g.id)}')">
+                      <span class="material-symbols-outlined">list_alt</span>
+                    </button>
+                  ` : ''}
                   <button type="button" class="btn-group-toggle" onclick="event.stopPropagation(); toggleTableGroup('sim', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined" style="font-size:16px">${isOpen ? 'expand_less' : 'expand_more'}</span>
-                    <span>${isOpen ? 'Tutup Detail Nama' : 'Lihat Detail Nama (' + g.items.length + ')'}</span>
-                  </button>
-                  <button type="button" class="btn-crud read" onclick="event.stopPropagation(); openGroupPeopleModal('sim', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined">list_alt</span><span>Pop-up Nama</span>
+                    <span class="material-symbols-outlined" style="font-size:15px">${isOpen ? 'expand_less' : 'expand_more'}</span>
+                    <span>${isOpen ? 'Tutup' : 'Buka'}</span>
                   </button>
                 </div>
               </div>
@@ -5401,7 +5747,7 @@
       return `
         <tr class="${numIndex !== null ? 'group-child-row' : ''}">
           <td class="tabular">
-            <div>${numIndex !== null ? `<span class="participant-num-badge">${numIndex}</span>` : ''}${esc(f.Timestamp_Submit || '-')}</div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${numIndex !== null ? `<span class="participant-num-badge">${numIndex}</span>` : ''}${splitTimestampHtml(f.Timestamp_Submit, true)}</div>
             <span class="badge badge-gold">${esc(f.Kode_PIN || '-')}</span>
           </td>
           <td>
@@ -5483,10 +5829,9 @@
       tbody.innerHTML = allGroups.length ? allGroups.map(g => {
         const hasExplicit = UI_STATE.expandedGroups.fb && typeof UI_STATE.expandedGroups.fb[g.id] === 'boolean';
         const isOpen = hasExplicit ? UI_STATE.expandedGroups.fb[g.id] : Boolean(q);
-        const namesPreview = buildNamePreviewHtml(g.items.map(x => x.Nama_Karyawan), 4);
 
         const headerHtml = `
-          <tr class="group-dropdown-row ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('fb', '${esc(g.id)}')">
+          <tr class="group-dropdown-row compact ${isOpen ? 'open' : ''}" onclick="toggleTableGroup('fb', '${esc(g.id)}')">
             <td colspan="7">
               <div class="group-dropdown-inner">
                 <div class="group-dropdown-left">
@@ -5496,22 +5841,20 @@
                       <span>${esc(g.title)}</span>
                       <span class="badge badge-gold">PIN: ${esc(g.pin)}</span>
                     </div>
-                    <div class="group-meta-line"><span>${esc(g.subtitle)}</span></div>
-                    <div class="group-names-preview">
-                      <span>👥 Responden Evaluasi:</span>
-                      ${namesPreview}
-                    </div>
+                    ${isOpen ? `<div class="group-meta-line"><span>${esc(g.subtitle)}</span></div>` : ''}
                   </div>
                 </div>
                 <div class="group-dropdown-right">
-                  <span class="badge badge-blue"><span class="material-symbols-outlined" style="font-size:13px">groups</span> ${g.items.length} Responden</span>
-                  <span class="badge badge-emerald">Rata-rata: ${g.avgSc}</span>
+                  <span class="badge badge-blue">${g.items.length} Responden</span>
+                  <span class="badge badge-emerald">${g.avgSc}</span>
+                  ${isOpen ? `
+                    <button type="button" class="btn-crud read" title="Pop-up Daftar Nama" onclick="event.stopPropagation(); openGroupPeopleModal('fb', '${esc(g.id)}')">
+                      <span class="material-symbols-outlined">list_alt</span>
+                    </button>
+                  ` : ''}
                   <button type="button" class="btn-group-toggle" onclick="event.stopPropagation(); toggleTableGroup('fb', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined" style="font-size:16px">${isOpen ? 'expand_less' : 'expand_more'}</span>
-                    <span>${isOpen ? 'Tutup Detail Nama' : 'Lihat Detail Nama (' + g.items.length + ')'}</span>
-                  </button>
-                  <button type="button" class="btn-crud read" onclick="event.stopPropagation(); openGroupPeopleModal('fb', '${esc(g.id)}')">
-                    <span class="material-symbols-outlined">list_alt</span><span>Pop-up Nama</span>
+                    <span class="material-symbols-outlined" style="font-size:15px">${isOpen ? 'expand_less' : 'expand_more'}</span>
+                    <span>${isOpen ? 'Tutup' : 'Buka'}</span>
                   </button>
                 </div>
               </div>
@@ -5907,11 +6250,11 @@
           <h4 style="margin-bottom:8px">1. Riwayat Ujian & Presensi Peserta (` + '`Hasil_Asesmen`' + `)</h4>
           <div class="table-wrap" style="margin-bottom:18px">
             <table class="data-table">
-              <thead><tr><th>Tanggal</th><th>Modul / Agenda</th><th>Jenis Tes</th><th>Skor</th><th>Status</th><th>No Sertifikat</th></tr></thead>
+              <thead><tr><th>Tanggal &amp; Jam</th><th>Modul / Agenda</th><th>Jenis Tes</th><th>Skor</th><th>Status</th><th>No Sertifikat</th></tr></thead>
               <tbody>
                 ${empHasil.length ? empHasil.map(h => `
                   <tr>
-                    <td class="tabular">${esc((h.Timestamp_Submit || '').slice(0, 16))}</td>
+                    <td class="tabular">${splitTimestampHtml(h.Timestamp_Submit, false)}</td>
                     <td style="font-weight:600">${esc(h.Nama_Modul_Sertifikat || h.ID_Modul)}</td>
                     <td>${esc(h.Jenis_Tes)}</td>
                     <td class="tabular"><b>${esc(h.Skor_Akhir)}</b></td>
@@ -5958,7 +6301,7 @@
       const tbody = document.getElementById('newreg-tbody');
       tbody.innerHTML = filtered.length ? filtered.map(n => `
         <tr>
-          <td class="tabular">${esc(n.Timestamp_Register || '-')}</td>
+          <td class="tabular">${splitTimestampHtml(n.Timestamp_Register, false)}</td>
           <td class="tabular"><code>${esc(n.ID_Karyawan || '-')}</code></td>
           <td style="font-weight:700">${esc(n.Nama_Lengkap || '-')}</td>
           <td>${esc(n.Company || '-')}</td>
@@ -6404,6 +6747,10 @@
               <td class="tabular" style="color:var(--ink-muted);font-weight:700">${rIdx + 1}</td>
               ${displayCols.map(c => {
                 const val = String(r[c] ?? '');
+                const isTs = /^\d{4}-\d{2}-\d{2}[T\s]+\d{1,2}:\d{2}/.test(val.trim());
+                if (isTs) {
+                  return `<td class="tabular">${c === pk ? `<b style="color:var(--ink-primary)">${splitTimestampHtml(val, false)}</b>` : splitTimestampHtml(val, false)}</td>`;
+                }
                 const shortVal = val.length > 85 ? val.slice(0, 85) + '…' : val;
                 return `<td>${c === pk ? `<b style="color:var(--ink-primary)">${esc(shortVal || '-')}</b>` : esc(shortVal || '-')}</td>`;
               }).join('')}
@@ -6468,12 +6815,16 @@
           </div>
           <table class="detail-kv-table">
             <tbody>
-              ${cols.map(c => `
+              ${cols.map(c => {
+                const rawVal = rec[c] !== undefined && rec[c] !== '' ? String(rec[c]) : '-';
+                const isTs = /^\d{4}-\d{2}-\d{2}[T\s]+\d{1,2}:\d{2}/.test(rawVal.trim());
+                return `
                 <tr>
                   <th>${esc(c)}</th>
-                  <td>${esc(rec[c] !== undefined && rec[c] !== '' ? rec[c] : '-')}</td>
+                  <td>${isTs ? splitTimestampHtml(rawVal, true) : esc(rawVal)}</td>
                 </tr>
-              `).join('')}
+              `;
+              }).join('')}
             </tbody>
           </table>
         `,
@@ -6600,43 +6951,262 @@
       });
     }
 
-    /* ================= EXPORT CSV ================= */
-    function downloadCsvFromObjects(filename, rows) {
+    /* ================= EXPORT EXCEL (.XLSX) ================= */
+    function sanitizeExcelSheetName(name) {
+      const cleaned = String(name || 'Data').replace(/[\\/?*\[\]:]/g, ' ').trim();
+      return (cleaned || 'Data').slice(0, 31);
+    }
+
+    function escapeXmlText(val) {
+      return String(val ?? '')
+        .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    function excelColRef(colIdx, rowIdx) {
+      let n = colIdx + 1;
+      let col = '';
+      while (n > 0) {
+        const rem = (n - 1) % 26;
+        col = String.fromCharCode(65 + rem) + col;
+        n = Math.floor((n - 1) / 26);
+      }
+      return col + rowIdx;
+    }
+
+    function crc32Bytes(bytes) {
+      if (!crc32Bytes.table) {
+        const tbl = new Uint32Array(256);
+        for (let i = 0; i < 256; i++) {
+          let c = i;
+          for (let j = 0; j < 8; j++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+          tbl[i] = c >>> 0;
+        }
+        crc32Bytes.table = tbl;
+      }
+      let crc = 0xFFFFFFFF;
+      for (let i = 0; i < bytes.length; i++) {
+        crc = crc32Bytes.table[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
+      }
+      return (crc ^ 0xFFFFFFFF) >>> 0;
+    }
+
+    function buildZipStoreBlob(entries, mimeType) {
+      const enc = new TextEncoder();
+      const localParts = [];
+      const centralParts = [];
+      let offset = 0;
+      const now = new Date();
+      const dosTime = ((now.getHours() & 31) << 11) | ((now.getMinutes() & 63) << 5) | ((now.getSeconds() >> 1) & 31);
+      const dosDate = (((Math.max(1980, now.getFullYear()) - 1980) & 127) << 9) | (((now.getMonth() + 1) & 15) << 5) | (now.getDate() & 31);
+
+      entries.forEach(ent => {
+        const nameBytes = enc.encode(ent.name);
+        const dataBytes = enc.encode(ent.content);
+        const crc = crc32Bytes(dataBytes);
+        const lfh = new Uint8Array(30 + nameBytes.length);
+        const lv = new DataView(lfh.buffer);
+        lv.setUint32(0, 0x04034B50, true);
+        lv.setUint16(4, 20, true);
+        lv.setUint16(6, 0x0800, true);
+        lv.setUint16(8, 0, true);
+        lv.setUint16(10, dosTime, true);
+        lv.setUint16(12, dosDate, true);
+        lv.setUint32(14, crc, true);
+        lv.setUint32(18, dataBytes.length, true);
+        lv.setUint32(22, dataBytes.length, true);
+        lv.setUint16(26, nameBytes.length, true);
+        lv.setUint16(28, 0, true);
+        lfh.set(nameBytes, 30);
+
+        const cdh = new Uint8Array(46 + nameBytes.length);
+        const cv = new DataView(cdh.buffer);
+        cv.setUint32(0, 0x02014B50, true);
+        cv.setUint16(4, 20, true);
+        cv.setUint16(6, 20, true);
+        cv.setUint16(8, 0x0800, true);
+        cv.setUint16(10, 0, true);
+        cv.setUint16(12, dosTime, true);
+        cv.setUint16(14, dosDate, true);
+        cv.setUint32(16, crc, true);
+        cv.setUint32(20, dataBytes.length, true);
+        cv.setUint32(24, dataBytes.length, true);
+        cv.setUint16(28, nameBytes.length, true);
+        cv.setUint16(30, 0, true);
+        cv.setUint16(32, 0, true);
+        cv.setUint16(34, 0, true);
+        cv.setUint16(36, 0, true);
+        cv.setUint32(38, 0, true);
+        cv.setUint32(42, offset, true);
+        cdh.set(nameBytes, 46);
+
+        localParts.push(lfh, dataBytes);
+        centralParts.push(cdh);
+        offset += lfh.length + dataBytes.length;
+      });
+
+      const cdSize = centralParts.reduce((s, p) => s + p.length, 0);
+      const eocd = new Uint8Array(22);
+      const ev = new DataView(eocd.buffer);
+      ev.setUint32(0, 0x06054B50, true);
+      ev.setUint16(4, 0, true);
+      ev.setUint16(6, 0, true);
+      ev.setUint16(8, entries.length, true);
+      ev.setUint16(10, entries.length, true);
+      ev.setUint32(12, cdSize, true);
+      ev.setUint32(16, offset, true);
+      ev.setUint16(20, 0, true);
+
+      return new Blob([...localParts, ...centralParts, eocd], { type: mimeType });
+    }
+
+    function buildMinimalXlsxBlob(headers, rows, sheetTabName) {
+      const tab = escapeXmlText(sanitizeExcelSheetName(sheetTabName));
+      const colsXml = headers.map((h, i) => {
+        let maxLen = String(h || '').length;
+        for (let r = 0; r < Math.min(rows.length, 150); r++) {
+          const l = String(rows[r][h] ?? '').length;
+          if (l > maxLen) maxLen = l;
+        }
+        const width = Math.min(48, Math.max(12, maxLen + 4));
+        return `<col min="${i + 1}" max="${i + 1}" width="${width}" customWidth="1"/>`;
+      }).join('');
+
+      const headerRowXml = `<row r="1">${headers.map((h, cIdx) => `<c r="${excelColRef(cIdx, 1)}" s="1" t="inlineStr"><is><t>${escapeXmlText(h)}</t></is></c>`).join('')}</row>`;
+      const dataRowsXml = rows.map((rowObj, rIdx) => {
+        const rowNum = rIdx + 2;
+        const cells = headers.map((h, cIdx) => {
+          const raw = rowObj[h];
+          const str = raw === null || raw === undefined ? '' : String(raw);
+          const ref = excelColRef(cIdx, rowNum);
+          const isSafeNum = /^-?\d+(?:\.\d+)?$/.test(str) && !/^0\d+/.test(str) && str.length <= 14;
+          if (isSafeNum) {
+            return `<c r="${ref}"><v>${str}</v></c>`;
+          }
+          return `<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${escapeXmlText(str)}</t></is></c>`;
+        }).join('');
+        return `<row r="${rowNum}">${cells}</row>`;
+      }).join('');
+
+      const entries = [
+        {
+          name: '[Content_Types].xml',
+          content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'
+        },
+        {
+          name: '_rels/.rels',
+          content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'
+        },
+        {
+          name: 'xl/workbook.xml',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="${tab}" sheetId="1" r:id="rId1"/></sheets></workbook>`
+        },
+        {
+          name: 'xl/_rels/workbook.xml.rels',
+          content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'
+        },
+        {
+          name: 'xl/styles.xml',
+          content: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs></styleSheet>'
+        },
+        {
+          name: 'xl/worksheets/sheet1.xml',
+          content: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>${colsXml}</cols><sheetData>${headerRowXml}${dataRowsXml}</sheetData></worksheet>`
+        }
+      ];
+      return buildZipStoreBlob(entries, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }
+
+    function collectExcelHeaders(rows, preferredCols) {
+      const seen = new Set();
+      const headers = [];
+      (preferredCols || []).forEach(c => {
+        if (c && c !== '_row_index' && !seen.has(c)) {
+          seen.add(c);
+          headers.push(c);
+        }
+      });
+      rows.forEach(r => {
+        if (!r || typeof r !== 'object') return;
+        Object.keys(r).forEach(k => {
+          if (k && k !== '_row_index' && !seen.has(k)) {
+            seen.add(k);
+            headers.push(k);
+          }
+        });
+      });
+      return headers;
+    }
+
+    function downloadExcelFromObjects(filename, rows, sheetTabName = 'Data', preferredCols = null) {
       if (!rows || !rows.length) {
         showToast('Tidak ada data untuk di-export.', 'warn');
         return;
       }
-      const headers = Object.keys(rows[0]).filter(k => k !== '_row_index');
-      const csvLines = [
-        headers.join(','),
-        ...rows.map(r => headers.map(h => {
-          const val = r[h] === null || r[h] === undefined ? '' : String(r[h]);
-          return '"' + val.replace(/"/g, '""') + '"';
-        }).join(','))
-      ];
-      const blob = new Blob(['\uFEFF' + csvLines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+      const xlsxName = String(filename || 'Export').replace(/\.(csv|xlsx|xls)$/i, '') + '.xlsx';
+      const headers = collectExcelHeaders(rows, preferredCols);
+      const cleanRows = rows.map(r => {
+        const obj = {};
+        headers.forEach(h => {
+          obj[h] = (r && r[h] !== undefined && r[h] !== null) ? r[h] : '';
+        });
+        return obj;
+      });
+      const safeTab = sanitizeExcelSheetName(sheetTabName || xlsxName.replace(/\.xlsx$/i, ''));
+
+      if (typeof XLSX !== 'undefined' && XLSX.utils && XLSX.writeFile) {
+        try {
+          const ws = XLSX.utils.json_to_sheet(cleanRows, { header: headers });
+          ws['!cols'] = headers.map(h => {
+            let maxLen = String(h || '').length;
+            for (let i = 0; i < Math.min(cleanRows.length, 150); i++) {
+              const l = String(cleanRows[i][h] ?? '').length;
+              if (l > maxLen) maxLen = l;
+            }
+            return { wch: Math.min(48, Math.max(12, maxLen + 3)) };
+          });
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, safeTab);
+          XLSX.writeFile(wb, xlsxName);
+          showToast('File Excel ' + xlsxName + ' (' + cleanRows.length + ' baris) berhasil diunduh.', 'success');
+          return;
+        } catch (err) {
+          console.warn('SheetJS export fallback to built-in OOXML:', err);
+        }
+      }
+
+      const blob = buildMinimalXlsxBlob(headers, cleanRows, safeTab);
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = filename;
+      a.download = xlsxName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast('File ' + filename + ' (' + rows.length + ' baris) berhasil diunduh.', 'success');
+      showToast('File Excel ' + xlsxName + ' (' + cleanRows.length + ' baris) berhasil diunduh.', 'success');
     }
+    const downloadCsvFromObjects = downloadExcelFromObjects;
 
-    function exportSheetCsv(sheetName) {
+    function exportSheetExcel(sheetName) {
       const rows = DB[sheetName] || [];
+      const cols = getSheetColumns(sheetName);
       const dateStr = new Date().toISOString().slice(0, 10);
-      downloadCsvFromObjects(sheetName + '_' + dateStr + '.csv', rows);
+      downloadExcelFromObjects(sheetName + '_' + dateStr + '.xlsx', rows, sheetName, cols);
     }
+    const exportSheetCsv = exportSheetExcel;
 
-    function exportFilteredHasilCsv() {
+    function exportFilteredHasilExcel() {
       const rows = UI_STATE.lastFilteredHasil.length ? UI_STATE.lastFilteredHasil : (DB.Hasil_Asesmen || []);
+      const cols = getSheetColumns('Hasil_Asesmen');
       const dateStr = new Date().toISOString().slice(0, 10);
-      downloadCsvFromObjects('Hasil_Asesmen_Filtered_' + dateStr + '.csv', rows);
+      downloadExcelFromObjects('Hasil_Asesmen_Filtered_' + dateStr + '.xlsx', rows, 'Hasil_Asesmen', cols);
     }
+    const exportFilteredHasilCsv = exportFilteredHasilExcel;
 
     /* ================= BULK IMPORT CSV / TSV MODAL ================= */
     function openBulkImportModal(sheetName) {
