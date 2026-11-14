@@ -5280,7 +5280,7 @@
         const jenis = String(s.Jenis_Simulator || 'Simulator Umum').trim();
         const tgl = String(s.Timestamp_Submit || '').slice(0, 10) || '-';
         const materi = String(s.Materi_Simulator || '-').trim();
-        const gKey = groupBy === 'jenis' ? ('SIM||' + jenis.toLowerCase()) : ('SIMTGL||' + jenis.toLowerCase() + '||' + tgl);
+        let gKey = groupBy === 'jenis' ? ('SIM||' + jenis.toLowerCase()) : ('SIMTGL||' + jenis.toLowerCase() + '||' + tgl);
         const gTitle = groupBy === 'jenis' ? `Simulator: ${jenis}` : `${jenis} (${tgl})`;
         gKey = gKey.replace(/['"\\<>]/g, '_');
         if (!groupsMap.has(gKey)) {
@@ -5456,7 +5456,7 @@
         const mod = String(f.Nama_Modul || f.ID_Modul || 'Modul Pelatihan').trim();
         const pin = String(f.Kode_PIN || '-').trim().toUpperCase();
         const trainer = String(f.Nama_Trainer || '-').trim();
-        const gKey = groupBy === 'trainer' ? ('FBTRN||' + trainer.toLowerCase()) : ('FBSESI||' + mod.toLowerCase() + '||' + pin);
+        let gKey = groupBy === 'trainer' ? ('FBTRN||' + trainer.toLowerCase()) : ('FBSESI||' + mod.toLowerCase() + '||' + pin);
         const gTitle = groupBy === 'trainer' ? `Trainer: ${trainer}` : mod;
         gKey = gKey.replace(/['"\\<>]/g, '_');
         if (!groupsMap.has(gKey)) {
