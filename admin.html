@@ -1045,6 +1045,27 @@
       max-width: 980px;
     }
 
+
+    /* ===== REVIEW JAWABAN PESERTA ===== */
+    .jr-summary{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+    .jr-chip{padding:6px 12px;border-radius:10px;font-size:12.5px;font-weight:700;border:1px solid var(--gold-border);background:var(--gold-soft);color:var(--gold-primary)}
+    .jr-chip.ok{background:var(--emerald-bg);color:var(--emerald-text);border-color:var(--emerald-border)}
+    .jr-chip.bad{background:var(--crimson-bg);color:var(--crimson-text);border-color:var(--crimson-border)}
+    .jr-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+    .jr-filter .btn.active{background:var(--gold-soft);border-color:var(--gold-primary);color:var(--gold-primary);font-weight:800}
+    .jr-item{border:1px solid var(--gold-border);border-radius:12px;padding:12px 14px;margin-bottom:10px;background:#fff}
+    .jr-item.salah{border-left:5px solid #dc2626}
+    .jr-item.kosong{border-left:5px solid #d97706}
+    .jr-item.benar{border-left:5px solid #16a34a}
+    .jr-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:6px}
+    .jr-q{font-weight:700;line-height:1.45}
+    .jr-opt{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:8px;margin-top:5px;border:1px solid transparent;font-size:13px}
+    .jr-opt b{min-width:18px}
+    .jr-opt.is-key{background:var(--emerald-bg);border-color:var(--emerald-border);color:var(--emerald-text)}
+    .jr-opt.is-wrong{background:var(--crimson-bg);border-color:var(--crimson-border);color:var(--crimson-text)}
+    .jr-tag{margin-left:auto;font-size:10.5px;font-weight:800;white-space:nowrap}
+    .jr-note{font-size:12px;color:var(--ink-muted);margin-top:8px}
+
     @keyframes modalPop {
       from { opacity: 0; transform: translateY(12px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -5204,6 +5225,9 @@
               <button class="btn-crud read" title="Read / Detail Lengkap" onclick="openUniversalDetailModal('Hasil_Asesmen', ${h._row_index})">
                 <span class="material-symbols-outlined">visibility</span><span>Detail</span>
               </button>
+              <button class="btn-crud read" title="Lihat Jawaban Peserta & Soal yang Salah" onclick="openJawabanReview(${h._row_index})">
+                <span class="material-symbols-outlined">fact_check</span><span>Jawaban</span>
+              </button>
               <button class="btn-crud copy" title="Cetak Sertifikat" onclick="previewCertificate('${esc(h.ID_Ujian)}', ${h._row_index})">
                 <span class="material-symbols-outlined">workspace_premium</span><span>Sertifikat</span>
               </button>
@@ -5220,6 +5244,132 @@
           </td>
         </tr>
       `;
+    }
+
+
+    /* ============================================================================
+     * REVIEW JAWABAN PESERTA: tampilkan jawaban peserta vs kunci, tandai yang salah
+     * Sumber: Hasil_Asesmen.Jawaban_Peserta_JSON ({ID_Soal: 'A'|'B'|'C'|'D'}) + Bank_Soal
+     * ============================================================================ */
+    function parseJawabanJson(raw) {
+      try {
+        const o = (raw && typeof raw === 'object') ? raw : JSON.parse(String(raw || '{}'));
+        return (o && typeof o === 'object') ? o : {};
+      } catch (e) { return {}; }
+    }
+
+    function buildJawabanReview(h) {
+      const ans = parseJawabanJson(h.Jawaban_Peserta_JSON);
+      const bank = DB.Bank_Soal || [];
+      const byId = {};
+      bank.forEach(q => { byId[String(q.ID_Soal || '').trim()] = q; });
+      const modId = String(h.ID_Modul || '').trim().toUpperCase();
+      const modQs = bank.filter(q => String(q.ID_Modul || '').trim().toUpperCase() === modId);
+
+      const pin = (DB.Jadwal_PIN || []).find(p => String(p.Kode_PIN || '').trim().toUpperCase() === String(h.Kode_PIN || '').trim().toUpperCase()
+        && String(p.ID_Modul || '').trim().toUpperCase() === modId);
+      const limit = pin ? parseInt(pin.Jml_Soal, 10) : NaN;
+      // Jika soal diacak & dibatasi (Jml_Soal < total bank), soal yang tidak dijawab tidak bisa dipastikan ikut tampil
+      const canListUnanswered = !(limit > 0 && limit < modQs.length);
+
+      const items = [];
+      Object.keys(ans).forEach(id => {
+        const q = byId[id];
+        const pick = String(ans[id] || '').trim().toUpperCase();
+        const key = q ? String(q.Kunci || '').trim().toUpperCase() : '';
+        items.push({ id, q, pick, key, status: !q ? 'kosong' : (key && pick === key ? 'benar' : 'salah'), missing: !q });
+      });
+      if (canListUnanswered) {
+        modQs.forEach(q => {
+          const id = String(q.ID_Soal || '').trim();
+          if (!(id in ans)) items.push({ id, q, pick: '', key: String(q.Kunci || '').trim().toUpperCase(), status: 'kosong' });
+        });
+      }
+      items.sort((a, b) => (parseInt(a.q && a.q.No_Urut, 10) || 9999) - (parseInt(b.q && b.q.No_Urut, 10) || 9999));
+      return { items, canListUnanswered, hasAnswers: Object.keys(ans).length > 0 };
+    }
+
+    function filterJawabanReview(mode) {
+      document.querySelectorAll('#jr-list .jr-item').forEach(el => {
+        el.style.display = (mode === 'all' || el.dataset.status === mode) ? '' : 'none';
+      });
+      document.querySelectorAll('#jr-filter .btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    }
+
+    function openJawabanReview(rowIdx) {
+      const h = (DB.Hasil_Asesmen || [])[rowIdx];
+      if (!h) { showToast('Data hasil tidak ditemukan.', 'warn'); return; }
+      const { items, canListUnanswered, hasAnswers } = buildJawabanReview(h);
+      const nBenar = items.filter(i => i.status === 'benar').length;
+      const nSalah = items.filter(i => i.status === 'salah').length;
+      const nKosong = items.filter(i => i.status === 'kosong').length;
+
+      let body = `
+        <div style="margin-bottom:10px">
+          <div style="font-weight:800;font-size:15px">${esc(h.Nama_Karyawan || '-')} <span style="font-weight:500;color:var(--ink-muted)">(${esc(h.ID_Karyawan || '-')})</span></div>
+          <div style="font-size:12.5px;color:var(--ink-muted)">${esc(h.Nama_Modul_Sertifikat || h.ID_Modul || '-')} • ${esc(h.Jenis_Tes || '-')} • PIN ${esc(h.Kode_PIN || '-')} • Skor <b>${esc(h.Skor_Akhir || '0')}</b> (${esc(h.Status_Lulus || '-')})</div>
+        </div>`;
+
+      if (!hasAnswers) {
+        body += `<div class="empty-state" style="padding:24px">Tidak ada data jawaban tersimpan untuk baris ini (kemungkinan presensi tanpa test, atau data lama sebelum jawaban disimpan).</div>`;
+      } else {
+        body += `
+        <div class="jr-summary">
+          <span class="jr-chip ok">✓ Benar: ${nBenar}</span>
+          <span class="jr-chip bad">✕ Salah: ${nSalah}</span>
+          <span class="jr-chip">○ Tidak dijawab: ${nKosong}</span>
+          <span class="jr-chip">Tercatat di sheet: ${esc(h.Benar || '0')} benar / ${esc(h.Terjawab || '0')} terjawab</span>
+        </div>
+        <div class="jr-filter" id="jr-filter">
+          <button class="btn btn-outline btn-sm active" data-mode="all" onclick="filterJawabanReview('all')">Semua (${items.length})</button>
+          <button class="btn btn-outline btn-sm" data-mode="salah" onclick="filterJawabanReview('salah')">Salah saja (${nSalah})</button>
+          <button class="btn btn-outline btn-sm" data-mode="kosong" onclick="filterJawabanReview('kosong')">Tidak dijawab (${nKosong})</button>
+          <button class="btn btn-outline btn-sm" data-mode="benar" onclick="filterJawabanReview('benar')">Benar saja (${nBenar})</button>
+        </div>
+        <div id="jr-list">`;
+
+        items.forEach((it, idx) => {
+          const q = it.q || {};
+          const tag = it.status === 'benar' ? '<span class="badge badge-emerald">✓ Benar</span>'
+            : it.status === 'salah' ? '<span class="badge badge-crimson">✕ Salah</span>'
+            : '<span class="badge badge-gold">○ Tidak dijawab</span>';
+          let opts = '';
+          if (it.missing) {
+            opts = `<div class="jr-note">Soal <code>${esc(it.id)}</code> tidak ditemukan di Bank_Soal (mungkin sudah dihapus). Jawaban peserta: <b>${esc(it.pick || '-')}</b></div>`;
+          } else {
+            ['A', 'B', 'C', 'D'].forEach(L => {
+              const txt = q['Opsi_' + L];
+              if (txt === undefined || txt === null || String(txt).trim() === '') return;
+              const isKey = it.key === L;
+              const isPick = it.pick === L;
+              const cls = isKey ? 'is-key' : (isPick ? 'is-wrong' : '');
+              const mark = isKey && isPick ? 'Jawaban peserta = Kunci' : isKey ? 'Kunci jawaban' : isPick ? 'Jawaban peserta' : '';
+              opts += `<div class="jr-opt ${cls}"><b>${L}.</b><span>${esc(txt)}</span><span class="jr-tag">${mark}</span></div>`;
+            });
+          }
+          body += `
+          <div class="jr-item ${it.status}" data-status="${it.status}">
+            <div class="jr-head">
+              <div class="jr-q"><span style="color:var(--ink-muted)">${esc(q.No_Urut || (idx + 1))}.</span> ${esc(q.Pertanyaan || '(teks soal tidak tersedia)')}</div>
+              ${tag}
+            </div>
+            ${q.Tag_Topik ? `<div style="font-size:11px;color:var(--ink-muted)">Topik: ${esc(q.Tag_Topik)} • <code>${esc(it.id)}</code></div>` : ''}
+            ${opts}
+          </div>`;
+        });
+        body += `</div>`;
+        if (!canListUnanswered) {
+          body += `<div class="jr-note">Catatan: jumlah soal pada PIN ini dibatasi (Jml_Soal) dari bank soal yang lebih besar, sehingga soal yang tidak dijawab tidak dapat dipastikan ikut tampil. Hanya soal yang dijawab peserta yang ditampilkan.</div>`;
+        }
+      }
+
+      openCrudModal({
+        title: 'Review Jawaban Peserta',
+        bodyHtml: body,
+        large: true,
+        saveText: 'Tutup',
+        onSave: closeCrudModal
+      });
     }
 
     function renderHasilAsesmen() {
