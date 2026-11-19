@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f8f9ff">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -138,7 +138,7 @@ header{
   gap:6px;
   min-height:32px;
   padding:4px 11px;
-  border-radius:99px;
+  border-radius:10px;
   background:var(--sf);
   border:1px solid var(--ln-strong);
   box-shadow:var(--sh);
@@ -160,7 +160,7 @@ header{
   align-items:center;
   background:var(--sf2);
   border:1px solid var(--ln);
-  border-radius:99px;
+  border-radius:10px;
   padding:2px;
   gap:2px;
   flex:none;
@@ -168,7 +168,7 @@ header{
 .l-btn{
   height:24px;
   padding:0 7px;
-  border-radius:99px;
+  border-radius:8px;
   font-size:10.5px;
   font-weight:800;
   color:var(--slate);
@@ -185,7 +185,7 @@ header{
 .hdr-nfc-btn{
   height:32px;
   padding:0 10px;
-  border-radius:99px;
+  border-radius:10px;
   border:1px solid rgba(184,149,72,.55);
   background:var(--pf);
   color:var(--p2);
@@ -1026,6 +1026,95 @@ ul.rules b{color:var(--ink)}
   .cert,.cert *{visibility:visible}
   .cert{position:fixed;inset:0;margin:auto;height:fit-content;box-shadow:none!important}
 }
+
+/* ============================================================
+   MOBILE SIZING REFINEMENTS (override terakhir, aman dihapus)
+   - input 16px (cegah auto-zoom iOS), tap target >= 40px
+   - lantai ukuran font (inline style ikut terkoreksi)
+   - header muat di 320-360px, sheet/dialog aman di layar pendek
+   ============================================================ */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+img,video,canvas{max-width:100%}
+.card,.sheet,.hero,.hero-dark,.item,.mod-card{overflow-wrap:break-word}
+.sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+@media(max-width:600px){
+  /* Form: 16px mencegah iOS memperbesar layar saat fokus */
+  input.inp,select.inp,textarea,.ta,.inp{font-size:16px!important}
+  .inp{height:48px}
+  textarea.inp,.ta{min-height:96px}
+  .inp::placeholder{font-size:13px}
+  .sdd-i{min-height:44px;font-size:14px}
+  .sdd-i small{font-size:12px}
+  #o-absen .sdd-m{max-height:200px}
+
+  /* Header: kontrol lebih mudah disentuh */
+  .l-btn{height:30px;line-height:30px;padding:0 8px;font-size:12px}
+  .lang-switch{padding:2px}
+  .hdr-nfc-btn{height:36px;padding:0 10px;font-size:12px}
+  .pill{min-height:36px;font-size:12px;max-width:96px;padding:4px 10px}
+  .logo-img{height:22px;max-width:92px}
+  .login-logo{height:30px;max-width:160px}
+
+  /* Teks: lantai ukuran agar terbaca di layar kecil */
+  .lbl,.sm{font-size:12px}
+  .mut{font-size:13px}
+  .sec-title{font-size:11.5px}
+  .kpi small{font-size:11px}
+  .chip{font-size:11.5px;padding:4px 10px}
+  .toast{font-size:13px;max-width:calc(100vw - 24px);white-space:normal;text-align:center;border-radius:18px}
+  ul.rules{font-size:14px}
+  [style*="font-size:9.5px"],[style*="font-size:10px"],[style*="font-size:10.5px"]{font-size:11px!important}
+  [style*="font-size:11px"],[style*="font-size:11.5px"]{font-size:12px!important}
+
+  /* Tombol & navigasi */
+  .btn{font-size:14px}
+  .btn.s{min-height:40px;font-size:13px}
+  nav button{min-height:52px;font-size:11px}
+  .st-b{min-height:52px;font-size:13px}
+  .map{gap:6px}
+  .map button{height:46px}
+
+  /* Soal ujian */
+  .q{font-size:16px}
+  .opt{font-size:14.5px;min-height:54px}
+  .dock .btn{min-height:48px}
+
+  /* Dialog / bottom sheet */
+  .sheet{max-height:92dvh;padding:12px 14px calc(16px + env(safe-area-inset-bottom))}
+}
+
+@media(max-width:380px){
+  header{padding:6px 8px}
+  .hdr-in,.hdr-brand{gap:6px}
+  .logo-img{height:19px;max-width:72px}
+  .l-btn{padding:0 6px}
+  .hdr-nfc-btn{width:36px;padding:0;justify-content:center}
+  .hdr-nfc-btn span:last-child{display:none}
+  .pill{max-width:76px}
+  main{padding-left:10px;padding-right:10px}
+  .card{padding:12px}
+  #lg-h1{font-size:21px!important}
+  .amb-pair .ava.amb-ava{width:38px;height:38px}
+}
+@media(max-width:340px){
+  .kpis:not([style*="grid-template-columns"]){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .map{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .login-brand .lang-switch{display:none}
+}
+
+/* Layar pendek (HP landscape / keyboard terbuka) */
+@media(max-height:560px){
+  main{padding-top:10px}
+  .sheet,#o-nfc .sheet,#o-absen .sheet{max-height:100dvh;height:auto;min-height:0}
+  .nfc-pulse{width:68px;height:68px;margin:6px auto}
+  nav button{min-height:44px}
+}
+
+/* Perangkat sentuh (termasuk HP landscape): cegah auto-zoom iOS */
+@media(hover:none) and (pointer:coarse){
+  input.inp,select.inp,textarea,.ta{font-size:16px!important}
+}
 </style>
 </head>
 <body class="nonav">
@@ -1033,7 +1122,7 @@ ul.rules b{color:var(--ink)}
   <div class="hdr-brand">
     <img class="logo-img" data-logo alt="Merdeka Gold Resources">
     <span class="hdr-sep" aria-hidden="true"></span>
-    <div class="hdr-sub"><b>Aureus Portal</b><small>L&amp;D Assessment &amp; Talent</small></div>
+    <div class="hdr-sub"><b>Assessment Portal</b><small>L&amp;D Assessment &amp; Talent</small></div>
   </div>
   <div class="row" style="gap:6px">
     <div class="lang-switch" id="hdr-lang"><button type="button" class="l-btn on" data-a="lang" data-v="id">ID</button><button type="button" class="l-btn" data-a="lang" data-v="en">EN</button><button type="button" class="l-btn" data-a="lang" data-v="zh">中文</button></div>
@@ -1554,6 +1643,8 @@ const DURASI_SIM_OPTS=[
   {val:'120 Menit',id:'120 Menit (2 Jam)',en:'120 Mins (2 Hr)',zh:'120分钟 (2小时)'}
 ];
 const S={emp:null,mat:[],jsxcomp:[],matCat:[],his:[],hisSim:[],modul:[],katalogDb:[],sesi:[],kar:[],bank:[],trainer:[],company:[],dept:[],jabatan:[],sim:[],jadwalImport:[],selectedAbsen:null,absenMode:'jadwal',simJn:'',simMat:'',simMatOther:'',simTime:'',ex:null,lv:'ALL',mf:'all',pt:'mat',matSearch:'',hisSearch:'',hisFlt:'all',modSearch:'',pend:null,busy:false,isTrainer:false,trainerInfo:null,trainerPins:[],trainerHasil:[],trFilterMod:'RUNNING',trFilterSt:'ALL',trFilterTes:'ALL',trSearch:'',trShowAll:false,_trDashTs:0,_trPinFormOpen:false,_katalogLoaded:false,_bankLoaded:false,_katalogPromise:null,_bankPromise:null,_jsxPromise:null,lang:localStorage.getItem('mgr_lang')||'id'};
+const IS_TOUCH=window.matchMedia&&matchMedia('(hover:none) and (pointer:coarse)').matches;
+const afocus=el=>{if(el&&!IS_TOUCH)el.focus()};
 const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const parseTsParts=raw=>{
   const s=String(raw||'').trim();
@@ -2336,27 +2427,27 @@ function openReg(q){
     if(/\s/.test(val)&&!/\d/.test(val)){
       if($('#rg-nm'))$('#rg-nm').value=val;
       if(tag)tag.style.display='none';
-      $('#rg-id')?.focus();
+      afocus($('#rg-id'));
     }else{
       const vCheck=valNik(val);
       if(vCheck.ok){
         if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
         if(tag)tag.style.display='inline-flex';
-        $('#rg-nm')?.focus();
+        afocus($('#rg-nm'));
       }else if(vCheck.code==='no_letter'){
         if($('#rg-id'))$('#rg-id').value=val;
         if(tag)tag.style.display='none';
         showErr('#re-reg',vCheck.msg);
-        $('#rg-id')?.focus();
+        afocus($('#rg-id'));
       }else{
         if($('#rg-id'))$('#rg-id').value=val.toUpperCase();
         if(tag)tag.style.display='none';
-        $('#rg-id')?.focus();
+        afocus($('#rg-id'));
       }
     }
   }else{
     if(tag)tag.style.display='none';
-    $('#rg-id')?.focus();
+    afocus($('#rg-id'));
   }
   setTimeout(()=>{box?.scrollIntoView({behavior:'smooth',block:'start'})},60);
 }
@@ -2366,7 +2457,7 @@ function closeReg(){
   if(btn)btn.style.display='';
   if(tag)tag.style.display='none';
   $('#le')?.classList.remove('on');
-  $('#li')?.focus();
+  afocus($('#li'));
 }
 async function regEmp(){
   $('#re-reg')?.classList.remove('on');$('#le')?.classList.remove('on');
@@ -2970,7 +3061,7 @@ function onTrPickModul(modId){
   const inpId=$('#tr-pin-mod-id'),inpNm=$('#tr-pin-mod-nama'),inpJml=$('#tr-pin-jml'),inpDur=$('#tr-pin-durasi');
   if(modId==='__CUSTOM__'){
     setTrModInputsMode(true);
-    if(inpId){inpId.value='';inpId.focus()}
+    if(inpId){inpId.value='';afocus(inpId)}
     if(inpNm){inpNm.value=''}
     updateTrPinBankStatus('');
     return;
@@ -4022,7 +4113,7 @@ function openPin(id){
   const m=S.modul.find(x=>up(x.ID_Modul)===up(id))||S.sesi.find(x=>up(x.ID_Modul)===up(id))||S.mat.find(x=>up(x.ID_Modul)===up(id));S.pend={id:id||'',jenisTes:''};
   $('#pt').textContent=m?(mText(m,'Nama_Modul')||m.Nama_Kompetensi):t('pin_modal_title');$('#ps').textContent=m?'Modul '+m.ID_Modul:'';$('#pi').value='';$('#pe').classList.remove('on');
   if($('#pb'))$('#pb').innerHTML=`${t('pin_verify')} <span class="mi">arrow_forward</span>`;
-  $('#o-pin').classList.add('on');setTimeout(()=>$('#pi').focus(),150);
+  $('#o-pin').classList.add('on');setTimeout(()=>afocus($('#pi')),150);
 }
 function parseHmMins(str){
   const m=String(str||'').trim().replace('.',':').match(/(\d{1,2}):(\d{2})/);
@@ -5013,7 +5104,7 @@ function openNfcModal(mode='assess'){
   $('#o-nfc')?.classList.add('on');
   setTimeout(()=>{
     const wedge=$('#nfc-wedge-input');
-    if(wedge){wedge.value='';wedge.focus()}
+    if(wedge){wedge.value='';afocus(wedge)}
   },80);
   startWebNfc();
 }
@@ -5065,7 +5156,7 @@ function resetNfcScan(){
       'Menunggu Tempelan Kartu NFC (USB / Manual)';
     $('#nfc-guide-txt').textContent='Tempelkan kartu pada USB NFC Reader komputer ini, atau masukkan NIK / UID kartu secara manual.';
   }
-  setTimeout(()=>$('#nfc-wedge-input')?.focus(),50);
+  setTimeout(()=>afocus($('#nfc-wedge-input')),50);
 }
 
 function showNfcErr(msg){
@@ -5208,7 +5299,7 @@ function showNfcUnlinked(uid){
   }
   $('#nfc-link-nik').value='';
   $('#nfc-link-err').classList.remove('on');
-  setTimeout(()=>$('#nfc-link-nik')?.focus(),60);
+  setTimeout(()=>afocus($('#nfc-link-nik')),60);
 }
 
 async function saveNfcLink(){
@@ -5472,9 +5563,9 @@ const A={
   trRefresh:async()=>{toast('Memuat ulang data trainer, katalog & bank soal…');S._trDashTs=0;await Promise.all([loadTrainerDashboardData(true),loadKatalogModulFromDb(true),loadBankSoalList(true)]);toast('Data trainer & katalog database berhasil diperbarui!')},
   pickJenisTes:v=>{if(!S.pend)S.pend={};const ses=S.pend.ses||{},maxL=getPinAttemptLimit(ses,v),usedL=countPinUserAttempts(ses,v);if(maxL>0&&usedL>=maxL){showErr('#be',`Batas pengerjaan ${v} untuk Kode PIN "${S.pend.pin||ses.Kode_PIN||''}" adalah maksimal ${maxL} kali (Anda sudah mengerjakan ${usedL} kali).${v==='Pre Test'?' Silakan pilih Post Test.':''}`);return}S.pend.jenisTes=v;$('#be')?.classList.remove('on');const bPre=$('#jt-pre'),bPost=$('#jt-post');if(bPre){bPre.classList.toggle('on',v==='Pre Test');const ic=bPre.querySelector('.mi');if(ic)ic.style.color=v==='Pre Test'?'var(--p)':'var(--slate)'}if(bPost){bPost.classList.toggle('on',v==='Post Test');const ic=bPost.querySelector('.mi');if(ic)ic.style.color=v==='Post Test'?'var(--ok)':'var(--slate)'}},
   pick:async v=>{if(await login(v))go('home')},openReg:v=>openReg(v||$('#li')?.value),openRegWith:v=>{showGuide('#le',`NIK "${v}" Belum Terdaftar`,'Silakan lengkapi formulir di bawah ini untuk mendaftar. NIK Anda sudah terisi otomatis.');openReg(v)},closeReg:()=>closeReg(),reg:regEmp,subSim,openAbsen:()=>openAbsen(),absenMode:v=>setAbsenMode(v),absenToManual:()=>{const cur=cleanInp($('#absen-agenda')?.value,150);setAbsenMode('manual');if(cur&&$('#absen-manual-nama'))$('#absen-manual-nama').value=cur;setTimeout(()=>{const el=$('#absen-manual-nama');el?.focus();renderSdd('absen-manual-nama',el?.value?.trim()||'')},50)},pickAbsen:v=>pickAbsen(v),absenAll:()=>{S.absenAll=true;renderAbsenAgendaList($('#absen-agenda')?.value?.trim()||'')},submitAbsen:()=>submitAbsen(),pin:v=>openPin(v),verify,start,close:v=>$('#'+v).classList.remove('on'),
-  sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');$('#'+id)?.focus()}},
+  sdd:id=>{const box=document.querySelector(`[data-sdd="${id}"]`);if(box?.classList.contains('open'))box.classList.remove('open');else{renderSdd(id,'');afocus($('#'+id))}},
   sddPick:v=>{const [id,...rest]=v.split('|'),val=rest.join('|'),inp=$('#'+id);if(inp)inp.value=val;if(id==='rg-jb')inferLevelFromPosition(val);if(id==='sim-jn')S.simJn=val;if(id==='bt-tr'||id==='absen-tr')updateTrainerSpecUI(id,val);document.querySelector(`[data-sdd="${id}"]`)?.classList.remove('open');$('#re-reg')?.classList.remove('on');$('#be')?.classList.remove('on');$('#se-sim')?.classList.remove('on');$('#ae-absen')?.classList.remove('on');if(id==='sim-jn'&&S.v==='sim')rSim()},
-  pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50)},
+  pickSimMat:v=>{saveSimInputs();S.simMat=v;$('#se-sim')?.classList.remove('on');rSim();if(v==='Lainnya')setTimeout(()=>afocus($('#sim-mat-other')),50)},
   pickSimTime:v=>{saveSimInputs();S.simTime=v;if($('#sim-time'))$('#sim-time').value=v;$('#se-sim')?.classList.remove('on');rSim()},
   lv:v=>{S.lv=v;rModules()},pt:v=>{S.pt=v;rProfile();updNav('profile')},mf:v=>{S.mf=v;rProfile()},hisFlt:v=>{S.hisFlt=v;rProfile()},cert,ans,submit,tts,lang:v=>setLang(v),
   rateFb:v=>{if(!S.ex)return;syncFbText();const [k,n]=String(v||'').split('|');S.ex.fb=S.ex.fb||{};S.ex.fb[k]=parseInt(n,10)||0;save();const st=$('#main').scrollTop;rFeedback();$('#main').scrollTop=st},
@@ -5517,14 +5608,14 @@ document.addEventListener('change',ev=>{
     $('#ae-absen')?.classList.remove('on');
     const cw=$('#absen-ind-custom-wrap');
     if(cw)cw.style.display=val==='__CUSTOM__'?'block':'none';
-    if(val==='__CUSTOM__')setTimeout(()=>$('#absen-ind-custom')?.focus(),50);
+    if(val==='__CUSTOM__')setTimeout(()=>afocus($('#absen-ind-custom')),50);
   }
   if(ev.target.id==='sim-mat'){
     S.simMat=ev.target.value;
     $('#se-sim')?.classList.remove('on');
     const wrap=$('#sim-mat-other-wrap');
     if(wrap)wrap.style.display=S.simMat==='Lainnya'?'block':'none';
-    if(S.simMat==='Lainnya')setTimeout(()=>$('#sim-mat-other')?.focus(),50);
+    if(S.simMat==='Lainnya')setTimeout(()=>afocus($('#sim-mat-other')),50);
   }
   if(ev.target.id==='sim-time'){
     S.simTime=ev.target.value;
