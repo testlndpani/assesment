@@ -1,0 +1,58 @@
+# ============================================================================
+# MAPPING SPREADSHEET & API - PORTAL ASESMEN PT MERDEKA GOLD RESOURCES TBK
+# ============================================================================
+
+SPREADSHEET_URL = https://docs.google.com/spreadsheets/d/114CzkEdLASq3EhLtTcVCoIejHVkWGSfQBG4d0thp8ew/edit?usp=sharing
+SPREADSHEET_ID  = 114CzkEdLASq3EhLtTcVCoIejHVkWGSfQBG4d0thp8ew
+WEB_APP_URL     = https://script.google.com/macros/s/AKfycbx9GlWqt-K5VLmS4vZQA3JhrQtXOHzSp6LNxgOxTOGoUmLgBdvnU8WkVbyWQliXTqkVsQ/exec
+
+# ----------------------------------------------------------------------------
+# DAFTAR NAMA SHEET (TAB) & KOLOMNYA
+# ----------------------------------------------------------------------------
+SHEET_KARYAWAN = Data_Karyawan
+# Kolom Data_Karyawan: nik_KTP (A), ID_Karyawan (B), Nama_Lengkap (C), Departemen (D), Company (E), Position Title / Position Tittle (F, kompatibel Jabatan), Level (G, kompatibel Status_Level), Badge_K3 (H), Target_Promosi (I), Foto_URL (J), NFC_UID (Kolom K - format angka desimal misal 1628476279)
+
+SHEET_MATRIKS  = JSxCOMP
+# Kolom JSxCOMP (Rule-based Competency Matrix): Department, Section, Job Title, Clear Position, Level, Kategori (Mandatory / Non-Mandatory), Internal/External, Nama Training
+# Fallback / Katalog Opsional: Matriks_Kompetensi (KODE KOMPETENSI PANI, KODE KOMPETENSI MDKA, NAMA KOMPETENSI, JENIS KOMPETENSI, TYPE TRAINING, PENYELIA, DURASI TRAINING, MASA BERLAKU / TAHUN) — kompatibel juga jika berisi ID_Karyawan per baris.
+
+SHEET_MODUL    = Katalog_Modul
+# Kolom Katalog_Modul: ID_Modul, Label_Modul, Nama_Modul, Tingkat, Badge_Kategori, Ikon_UI, Durasi_Default, Jml_Soal_Default, Passing_Grade, Penyelenggara
+
+SHEET_PIN      = Jadwal_PIN
+# Kolom Jadwal_PIN: Kode_PIN, ID_Modul, Nama_Modul, Batch_Sesi, Tanggal, Jam_Mulai, Jam_Selesai, Durasi_Menit, Jml_Soal, Batas_Pre_Test (default: 1), Batas_Post_Test (default: 2), Acak_Soal, Trainer, Status, Jenis_Tes (opsional: Pre Test / Post Test untuk auto-select di halaman briefing)
+
+SHEET_SOAL     = Bank_Soal
+# Kolom Bank_Soal: ID_Soal, ID_Modul, No_Urut, Tag_Topik, Tingkat, Pertanyaan, Foto_Kasus_URL, Video_Kasus_URL, Judul_Media_Kasus, Label_Alert_Media, Opsi_A, Opsi_B, Opsi_C, Opsi_D, Kunci, Hint_Petunjuk, Info_Konteks_Kanan
+
+SHEET_HASIL    = Hasil_Asesmen
+# Kolom Hasil_Asesmen: ID_Ujian, Timestamp_Submit, Kode_PIN, Batch_Sesi, ID_Karyawan, Nama_Karyawan, ID_Modul, Nama_Modul_Sertifikat, Penyelenggara, Nama_Trainer, Specialist, Jenis_Tes (Pre Test / Post Test / Tanpa Test (Absen)), Jam_Mulai_Training, Jam_Berakhir_Training, Terjawab, Benar, Skor_Akhir, Status_Lulus, Sisa_Waktu, Jawaban_Peserta_JSON, No_Sertifikat, Tanggal_Training
+
+SHEET_TRAINER  = Trainer_Name
+# Kolom Trainer_Name: No, ID_Employee (opsional: ID_Karyawan/NIK seperti PGP260122), Name, Specialist (fallback kompatibel: List_Trainer dengan kolom No, Nama_Trainer)
+# Mode Akses Trainer: Jika peserta yang login memiliki Nama_Lengkap (atau ID_Karyawan/NIK pada kolom No/ID_Karyawan) yang terdaftar di sheet Trainer_Name, sistem mengaktifkan Panel Akses Trainer (endpoint GET action: trainer_dashboard / get_profile + CSV fallback) untuk menampilkan Kode_PIN aktif dari Jadwal_PIN dan rekap nilai seluruh peserta (Pre Test, Post Test, Tanpa Test) dari Hasil_Asesmen.
+
+SHEET_NEW_REGISTER = New_Register
+# Kolom New_Register: Timestamp_Register, ID_Karyawan, Nama_Lengkap, Company (atau Nama_Company), Departemen, Position_Title / Position_Tittle (kompatibel Jabatan), Level (kompatibel Status_Level)
+
+SHEET_COMPANY  = Company
+# Kolom Company: No, Company (atau Nama_Company)
+
+SHEET_DEPARTEMENT = Departement
+# Kolom Departement: No, Departement (atau Departemen / Nama_Departement)
+
+SHEET_JABATAN  = Jabatan
+# Kolom Jabatan: Position Title / Position Tittle (kompatibel No, Jabatan / Nama_Jabatan)
+
+SHEET_JENIS_SIMULATOR = Jenis_Simulator
+# Kolom Jenis_Simulator: No, Jenis_Simulator (atau Nama_Simulator)
+
+SHEET_HASIL_SIMULATOR = Hasil_Simulator
+# Kolom Hasil_Simulator: Timestamp_Submit, ID_Karyawan, Nama_Karyawan, Jenis_Simulator
+
+SHEET_TRAINING_FEEDBACK = Training_Feedback
+# Kolom Training_Feedback: Timestamp_Submit, ID_Ujian, Kode_PIN, ID_Karyawan, Nama_Karyawan, Company, Departemen, Position_Title (atau Jabatan), Level, ID_Modul, Nama_Modul, Nama_Trainer, Specialist, Jenis_Tes, Kesesuaian_Pelatihan, Kualitas_Materi, Metode_Pembelajaran, Fasilitas_Pelatihan, Manfaat_Pelatihan, Penguasaan_Materi, Kemampuan_Komunikasi_Pelatih, Kompetensi_Pemahaman_Pelatih, Keterlibatan_Peserta, Responsivitas_Pelatih, Rata_Rata_Rating, Perlu_Ditingkatkan, Sudah_Bagus
+
+SHEET_JADWAL_IMPORT = Jadwal_Import
+# Kolom Jadwal_Import: ID_Jadwal, START, END, Duration_Day, Duration_Hour, Start Hour, AGENDA, PIC, ROOM, BATCH, Kuota, Sisa Kuota, STATUS, Deskripsi_Pelatihan
+# Endpoint POST (action: submit_absen): Digunakan untuk mencatat presensi/kehadiran training langsung tanpa test/asesmen maupun Khusus Induksi ke Sheet Hasil_Asesmen (Nilai default: 75, Status_Lulus: "Hanya Absen", Kode_PIN: "ABSEN", Jenis_Tes: "Tanpa Test (Absen)" atau "Induksi (Tanpa Test)", nama training/induksi disimpan pada ID_Modul & Nama_Modul_Sertifikat).

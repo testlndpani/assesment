@@ -983,6 +983,8 @@ ul.rules b{color:var(--ink)}
   70%{transform:scale(1.04);box-shadow:0 0 0 20px rgba(184,149,72,0)}
   100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(184,149,72,0)}
 }
+@keyframes nfcSpin{0%{transform:translateY(-50%) rotate(0deg)}100%{transform:translateY(-50%) rotate(360deg)}}
+.spin{animation:nfcSpin .8s linear infinite}
 .comp-bar{height:7px;background:rgba(208,197,178,.35);border-radius:99px;overflow:hidden;margin-top:6px}
 .hero-dark .comp-bar{background:rgba(184,149,72,.20)}
 .comp-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--p));transition:width .4s var(--ease)}
@@ -1167,6 +1169,14 @@ img,video,canvas{max-width:100%}
           <p class="mut sm" id="reg-sub" style="margin-top:3px">Lengkapi data berikut untuk mengaktifkan akun asesmen Anda.</p>
         </div>
         <button type="button" class="btn s tonal" id="reg-close" data-a="closeReg" title="Batal pendaftaran"><span class="mi" style="font-size:16px">close</span> Batal</button>
+      </div>
+      <!-- Banner Tautan Kartu NFC Otomatis -->
+      <div id="reg-nfc-banner" style="display:none;padding:10px 13px;border-radius:10px;background:rgba(184,149,72,.12);border:1px solid rgba(184,149,72,.42);font-size:12px;color:var(--ink);align-items:center;gap:9px">
+        <span class="mi" style="color:var(--p);font-size:22px;flex:none">contactless</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;color:var(--ink)">Kartu NFC Terdeteksi: <code id="reg-nfc-val" class="mono" style="font-size:12.5px;color:var(--p);font-weight:800;background:#fff;padding:1px 6px;border-radius:4px;border:1px solid rgba(184,149,72,.3)">-</code></div>
+          <p class="mut sm" style="margin-top:2px;font-size:11px">Kartu ini akan langsung ditautkan secara otomatis ke profil Anda begitu pendaftaran berhasil disimpan.</p>
+        </div>
       </div>
       <div>
         <label class="lbl" id="lbl-rg-id" for="rg-id">ID Karyawan / NIK <span class="chip ok" id="rg-id-tag" style="display:none;margin-left:4px;font-size:10px;padding:1px 6px">Terisi Otomatis</span></label>
@@ -1410,17 +1420,43 @@ img,video,canvas{max-width:100%}
         <div class="g">
           <b style="font-size:15px;color:var(--wa)">Kartu NFC Belum Terdaftar</b>
           <p class="mut sm" style="margin-top:3px;color:var(--ink)">UID Kartu: <code id="nfc-unlinked-uid" class="mono" style="font-weight:700;background:#ffffff;padding:2px 8px;border-radius:6px;border:1px solid var(--ln-strong)">-</code></p>
-          <p class="mut sm" style="margin-top:5px;font-size:12px">Kode kartu ini belum tersimpan di sheet <code>Data_Karyawan</code> (Kolom I). Anda dapat menautkannya langsung ke salah satu karyawan:</p>
+          <p class="mut sm" style="margin-top:5px;font-size:12px">Kode kartu ini belum tersimpan di database. Anda dapat menautkannya langsung ke akun karyawan yang sudah ada, atau daftar sebagai peserta baru:</p>
         </div>
       </div>
       <div style="margin-top:14px;display:flex;flex-direction:column;gap:9px">
         <label class="lbl" for="nfc-link-nik">Ketik NIK / ID Karyawan Pemilik Kartu:</label>
-        <input class="inp" id="nfc-link-nik" placeholder="Contoh: MCC-260156" autocomplete="off" autocapitalize="characters">
+        <div style="position:relative;width:100%">
+          <input class="inp" id="nfc-link-nik" placeholder="Contoh: MCC-260156" autocomplete="off" autocapitalize="characters" style="padding-right:36px">
+          <span id="nfc-link-spin" class="mi spin" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--p);font-size:18px;pointer-events:none">progress_activity</span>
+        </div>
+
+        <!-- Live Preview Profil Karyawan jika ditemukan -->
+        <div id="nfc-emp-preview" style="display:none;padding:10px 12px;border-radius:8px;background:rgba(21,128,61,.08);border:1px solid rgba(21,128,61,.25)">
+          <div class="row" style="gap:9px;align-items:center">
+            <span class="mi" style="color:var(--ok);font-size:22px;flex:none">verified</span>
+            <div class="g" style="min-width:0">
+              <div class="row" style="gap:6px;align-items:center;flex-wrap:wrap">
+                <b id="nfc-emp-preview-name" style="font-size:13.5px;color:var(--ink)">-</b>
+                <span class="chip ok" style="font-size:10px;padding:1px 6px">Terverifikasi di Database</span>
+              </div>
+              <div id="nfc-emp-preview-dept" class="mut sm" style="font-size:11.5px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">-</div>
+            </div>
+          </div>
+        </div>
+
         <div class="err" id="nfc-link-err"></div>
         <div class="row" style="gap:8px;margin-top:4px">
           <button type="button" class="btn p g" data-a="nfcSaveLink"><span class="mi">link</span> Tautkan Kartu ke Karyawan Ini</button>
           <button type="button" class="btn s tonal" data-a="nfcResetScan">Batal</button>
         </div>
+      </div>
+
+      <!-- Opsi Registrasi Baru jika memang belum ada akun -->
+      <div id="nfc-unlinked-reg-opt" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(133,85,20,.3);display:flex;flex-direction:column;gap:6px">
+        <span class="mut sm" style="font-size:11.5px;color:var(--ink)">Belum punya NIK / belum pernah terdaftar di database perusahaan?</span>
+        <button type="button" class="btn tonal w" id="btn-nfc-to-reg" data-a="nfcOpenRegWithCard" style="font-size:12.5px;padding:8px 12px;color:var(--p);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px">
+          <span class="mi" style="font-size:18px">person_add</span> Daftar Peserta Baru dengan Kartu Ini
+        </button>
       </div>
     </div>
     <!-- 4. State Result -->
@@ -2456,6 +2492,9 @@ function closeReg(){
   if(box)box.style.display='none';
   if(btn)btn.style.display='';
   if(tag)tag.style.display='none';
+  const banner=$('#reg-nfc-banner');
+  if(banner)banner.style.display='none';
+  pendingNfcCard=null;
   $('#le')?.classList.remove('on');
   afocus($('#li'));
 }
@@ -2476,6 +2515,9 @@ async function regEmp(){
   try{const ex=await g({action:'get_profile',id_karyawan:id},1);if(ex&&ex.status==='success'){showErr('#re-reg','NIK '+id+' sudah terdaftar. Tutup form ini lalu masuk dengan NIK tersebut.');return}}catch{}
   const b=$('#rb');if(b){b.disabled=true;b.textContent='Menyimpan ke New_Register…'}
   const emp={ID_Karyawan:id,NIK:id,Nama_Lengkap:nm,Company:co,Nama_Company:co,Departemen:dp,Department:dp,Departement:dp,Jabatan:jb,'Position Title':jb,Position_Title:jb,Position_Tittle:jb,Level:lv,Status_Level:lv};
+  if(pendingNfcCard){
+    emp.NFC_UID=pendingNfcCard;
+  }
   S.emp=emp;S.mat=computeJsxMatrix(emp,[]);S.his=[];
   if(!S.kar.some(k=>up(key(k))===up(id)))S.kar.unshift(emp);
   localStorage.setItem('mgr_nik',id);
@@ -2487,7 +2529,11 @@ async function regEmp(){
   await Promise.all([syncCustomHis(id),syncSimHis(id)]);
   saveCache();
   if(b){b.disabled=false;b.innerHTML='<span class="mi">how_to_reg</span> Simpan &amp; Masuk ke Portal'}
-  toast('Selamat datang! NIK '+id+' berhasil didaftarkan.');
+  const welcomeMsg=pendingNfcCard?`Selamat datang! NIK ${id} & Kartu NFC (${pendingNfcCard}) berhasil diaktifkan.`:`Selamat datang! NIK ${id} berhasil didaftarkan.`;
+  pendingNfcCard=null;
+  const banner=$('#reg-nfc-banner');
+  if(banner)banner.style.display='none';
+  toast(welcomeMsg);
   go('home');
 }
 async function resolveEmpBySheetFallback(q){
@@ -5128,6 +5174,10 @@ function resetNfcScan(){
   $('#nfc-link-err').textContent='';
   if($('#nfc-manual-id'))$('#nfc-manual-id').value='';
   if($('#nfc-link-nik'))$('#nfc-link-nik').value='';
+  clearTimeout(nfcNikLookupTimer);
+  currentPreviewEmp = null;
+  if($('#nfc-emp-preview'))$('#nfc-emp-preview').style.display='none';
+  if($('#nfc-link-spin'))$('#nfc-link-spin').style.display='none';
   
   const curL = S.lang || 'id';
   const isLogMode = nfcMode === 'login';
@@ -5280,6 +5330,85 @@ async function handleNfcScanned(rawKey){
   }
 }
 
+let nfcNikLookupTimer = null;
+let currentPreviewEmp = null;
+let pendingNfcCard = null;
+
+async function checkNfcNikLive(rawVal){
+  const val = String(rawVal||'').trim();
+  const previewBox = $('#nfc-emp-preview');
+  const previewName = $('#nfc-emp-preview-name');
+  const previewDept = $('#nfc-emp-preview-dept');
+  const spin = $('#nfc-link-spin');
+  const errBox = $('#nfc-link-err');
+  
+  if(!val || val.length < 2){
+    if(previewBox) previewBox.style.display = 'none';
+    if(spin) spin.style.display = 'none';
+    if(errBox) errBox.classList.remove('on');
+    currentPreviewEmp = null;
+    return;
+  }
+
+  const valUp = up(val);
+  // 1. Cek dari local cache S.kar terlebih dahulu (respons instan 0ms)
+  let found = (S.kar||[]).find(k => empKeys(k).includes(valUp) || up(key(k)) === valUp);
+  
+  if(found){
+    currentPreviewEmp = found;
+    if(previewName) previewName.textContent = found.Nama_Lengkap || key(found);
+    if(previewDept) previewDept.textContent = [found.Company, found.Departemen, found['Position Title']||found.Jabatan].filter(Boolean).join(' • ') || 'Data Karyawan';
+    if(previewBox) previewBox.style.display = 'block';
+    if(errBox) errBox.classList.remove('on');
+    if(spin) spin.style.display = 'none';
+    return;
+  }
+
+  // 2. Jika tidak ada di cache lokal dan sudah 3+ karakter, cek via server
+  if(val.length >= 3){
+    if(spin) spin.style.display = 'block';
+    try{
+      const res = await g({action:'get_profile', id_karyawan:val}, 1);
+      if(spin) spin.style.display = 'none';
+      if(res && res.status === 'success' && res.data && res.data.profil){
+        const p = res.data.profil;
+        currentPreviewEmp = p;
+        if(previewName) previewName.textContent = p.Nama_Lengkap || key(p);
+        if(previewDept) previewDept.textContent = [p.Company, p.Departemen, p['Position Title']||p.Jabatan].filter(Boolean).join(' • ') || 'Data Karyawan';
+        if(previewBox) previewBox.style.display = 'block';
+        if(errBox) errBox.classList.remove('on');
+      } else {
+        currentPreviewEmp = null;
+        if(previewBox) previewBox.style.display = 'none';
+        if(errBox){
+          errBox.className = 'err on';
+          errBox.innerHTML = `NIK "<b>${e(val)}</b>" belum terdaftar di database.<br><span style="font-size:11px;margin-top:2px;display:block">Jika Anda peserta baru, silakan klik tombol <b>Daftar Peserta Baru dengan Kartu Ini</b> di bawah.</span>`;
+        }
+      }
+    }catch(e){
+      if(spin) spin.style.display = 'none';
+    }
+  }
+}
+
+function openRegWithNfcCard(){
+  const parsed = currentUnlinkedNfc || parseNfcUid($('#nfc-unlinked-uid')?.textContent?.trim());
+  const uidToSave = parsed?.primaryDec || $('#nfc-unlinked-uid')?.textContent?.trim() || '';
+  const typedNik = $('#nfc-link-nik')?.value?.trim() || '';
+  
+  closeNfcModal();
+  pendingNfcCard = uidToSave;
+  
+  const banner = $('#reg-nfc-banner');
+  const bannerVal = $('#reg-nfc-val');
+  if(banner && bannerVal){
+    bannerVal.textContent = uidToSave;
+    banner.style.display = 'flex';
+  }
+  
+  openReg(typedNik);
+}
+
 function showNfcUnlinked(uid){
   $('#nfc-view-scan').style.display='none';
   $('#nfc-view-loading').style.display='none';
@@ -5299,6 +5428,10 @@ function showNfcUnlinked(uid){
   }
   $('#nfc-link-nik').value='';
   $('#nfc-link-err').classList.remove('on');
+  clearTimeout(nfcNikLookupTimer);
+  currentPreviewEmp = null;
+  if($('#nfc-emp-preview')) $('#nfc-emp-preview').style.display='none';
+  if($('#nfc-link-spin')) $('#nfc-link-spin').style.display='none';
   setTimeout(()=>afocus($('#nfc-link-nik')),60);
 }
 
@@ -5319,20 +5452,29 @@ async function saveNfcLink(){
   
   errBox?.classList.remove('on');
   const btn = document.querySelector('[data-a="nfcSaveLink"]');
-  if(btn){btn.disabled=true;btn.textContent='Menyimpan ke Kolom I...'}
+  if(btn){btn.disabled=true;btn.textContent='Menyimpan tautan kartu...'}
 
   try{
     const r = await po({action:'link_nfc', nfc_uid:uidToSave, id_karyawan:nik});
     if(btn){btn.disabled=false;btn.innerHTML='<span class="mi">link</span> Tautkan Kartu ke Karyawan Ini'}
     if(r && r.status === 'success'){
-      toast('Nomor kartu desimal ('+uidToSave+') berhasil disimpan ke Kolom I!');
+      // Update cache lokal S.kar jika ada
+      const matchEmp = (S.kar||[]).find(k => empKeys(k).includes(up(nik)) || up(key(k)) === up(nik));
+      if(matchEmp){
+        matchEmp.NFC_UID = uidToSave;
+        saveCache();
+      }
+      toast('Nomor kartu desimal ('+uidToSave+') berhasil disimpan ke akun!');
       if(nfcMode === 'login'){
         await directNfcLogin(uidToSave);
       } else {
         await handleNfcScanned(uidToSave);
       }
     } else {
-      if(errBox){errBox.className='err on';errBox.textContent=r?.message||'Gagal menautkan kartu ke karyawan.'}
+      if(errBox){
+        errBox.className='err on';
+        errBox.innerHTML=`${e(r?.message||'Gagal menautkan kartu ke karyawan.')}<br><span style="font-size:11px;margin-top:3px;display:block">Belum terdaftar? Silakan gunakan tombol <b>Daftar Peserta Baru dengan Kartu Ini</b> di bawah.</span>`;
+      }
     }
   }catch(err){
     if(btn){btn.disabled=false;btn.innerHTML='<span class="mi">link</span> Tautkan Kartu ke Karyawan Ini'}
@@ -5551,6 +5693,7 @@ const A={
   nfcTab:v=>setNfcTab(v),
   nfcLoginAs:()=>nfcLoginAs(),
   nfcSaveLink:()=>saveNfcLink(),
+  nfcOpenRegWithCard:()=>openRegWithNfcCard(),
   go:v=>go(v),sync:async()=>{await boot(true)},logout:()=>{if(S.ex&&!confirm('Ada ujian yang belum selesai. Tetap ganti akun?'))return;localStorage.removeItem('mgr_nik');localStorage.removeItem('mgr_custom_emp');localStorage.removeItem('mgr_tr_hasil');S.emp=null;S.mat=[];S.his=[];S.hisSim=[];S.isTrainer=false;S.trainerInfo=null;S.trainerPins=[];S.trainerHasil=[];S._trDashLoadedFor='';S._trDashTs=0;S._trPinFormOpen=false;S.trShowAll=false;S.trFilterMod='RUNNING';S.trFilterSt='ALL';S.trFilterTes='ALL';S.trSearch='';S.simJn='';S.simMat='';S.simMatOther='';S.simTime='';S.matSearch='';S.hisSearch='';S.hisFlt='all';S.modSearch='';saveCache();$('#un').textContent=t('masuk');$('#li').value='';if($('#ls'))$('#ls').innerHTML='';if($('#lreg'))$('#lreg').style.display='none';if($('#bt-oreg'))$('#bt-oreg').style.display='';const tag=$('#rg-id-tag');if(tag)tag.style.display='none';$('#le')?.classList.remove('on');go('login')},
   copyPin:v=>{if(!v)return;try{navigator.clipboard.writeText(v)}catch{}if($('#pi'))$('#pi').value=v;toast(`Kode Akses PIN "${v}" berhasil disalin!`)},
   trViewMod:v=>{if(S.v!=='trainer')go('trainer');},
@@ -5599,6 +5742,7 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='his-search'){S.hisSearch=ev.target.value;const w=$('#his-list-wrap');if(w)w.innerHTML=renderRiwayatListHtml()}
   if(ev.target.id==='tr-pin-mod-id'){updateTrPinBankStatus(ev.target.value);$('#tr-pin-err')?.classList.remove('on')}
   if(ev.target.id==='tr-pin-code'||ev.target.id==='tr-pin-mod-nama'||ev.target.id==='tr-pin-tgl'||ev.target.id==='tr-pin-jm'||ev.target.id==='tr-pin-js'){$('#tr-pin-err')?.classList.remove('on')}
+  if(ev.target.id==='nfc-link-nik'){clearTimeout(nfcNikLookupTimer);const v=ev.target.value.trim();nfcNikLookupTimer=setTimeout(()=>checkNfcNikLive(v),250)}
 });
 document.addEventListener('change',ev=>{
   if(ev.target.id==='tr-pin-mod-select'){onTrPickModul(ev.target.value);$('#tr-pin-err')?.classList.remove('on')}
@@ -5642,6 +5786,11 @@ $('#lf').addEventListener('submit',async ev=>{
 $('#li').addEventListener('input',rLogin);
 $('#pi').addEventListener('keydown',ev=>ev.key==='Enter'&&verify());
 document.addEventListener('keydown',ev=>{
+  if(ev.target.id==='nfc-link-nik'&&ev.key==='Enter'){
+    ev.preventDefault();
+    saveNfcLink();
+    return;
+  }
   if(ev.target.closest('.sdd')&&(ev.key==='Enter'||ev.key==='Escape')){
     if(ev.key==='Enter')ev.preventDefault();
     document.querySelectorAll('.sdd.open').forEach(x=>x.classList.remove('open'));
